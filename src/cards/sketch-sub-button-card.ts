@@ -71,13 +71,13 @@ export class SketchSubButtonCard extends BaseSketchCard {
         font-size: 0.9em;
         color: var(--sketch-ink);
         transition: background 0.2s ease, transform 0.15s ease;
-        border-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='30'%3E%3Crect x='1' y='1' width='58' height='28' fill='none' stroke='%23c8c0b0' stroke-width='1' stroke-dasharray='4 2 1 2' stroke-linecap='round'/%3E%3C/svg%3E") 6 stretch;
+        border-style: dashed;
         text-align: left;
       }
       .sub-btn:nth-child(odd) { rotate: -0.3deg; }
       .sub-btn:nth-child(even) { rotate: 0.4deg; }
       .sub-btn:hover {
-        background: rgba(42, 42, 42, 0.05);
+        background: var(--sketch-hover-bg);
         transform: translate(-1px, -1px);
       }
       .sub-btn:active {

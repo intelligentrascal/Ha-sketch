@@ -82,8 +82,8 @@ export class SketchAlarmPanelCard extends BaseSketchCard {
         align-items: center;
         justify-content: center;
       }
-      .key-btn:hover { background: rgba(42, 42, 42, 0.06); }
-      .key-btn:active { background: rgba(42, 42, 42, 0.12); }
+      .key-btn:hover { background: var(--sketch-hover-bg); }
+      .key-btn:active { background: var(--sketch-hover-bg); }
       .key-btn.clear {
         font-size: 0.9em;
         color: var(--sketch-ink-muted);

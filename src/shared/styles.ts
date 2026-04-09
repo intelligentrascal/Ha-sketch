@@ -5,11 +5,11 @@ export const sharedStyles = css`
     --sketch-bg: var(--ha-card-background, #faf7f0);
     --sketch-ink: var(--primary-text-color, #2a2a2a);
     --sketch-ink-muted: var(--secondary-text-color, rgba(42, 42, 42, 0.5));
-    --sketch-ink-light: #e8e0d0;
+    --sketch-ink-light: var(--divider-color, #e8e0d0);
     --sketch-primary: var(--primary-color, #4a6fa5);
-    --sketch-success: #4caf50;
-    --sketch-warning: #ff9800;
-    --sketch-danger: #f44336;
+    --sketch-success: var(--label-badge-green, #4caf50);
+    --sketch-warning: var(--label-badge-yellow, #ff9800);
+    --sketch-danger: var(--label-badge-red, #f44336);
     --sketch-border: var(--divider-color, #2a2a2a);
     --sketch-font: 'Caveat', cursive;
     --sketch-font-body: 'Patrick Hand', 'Caveat', cursive, var(--paper-font-body1_-_font-family, sans-serif);
@@ -18,6 +18,7 @@ export const sharedStyles = css`
       drop-shadow(5px 7px 8px rgba(0, 0, 0, 0.08));
     --sketch-shadow-hover: drop-shadow(4px 5px 0px rgba(0, 0, 0, 0.15))
       drop-shadow(6px 8px 10px rgba(0, 0, 0, 0.1));
+    --sketch-hover-bg: var(--secondary-background-color, rgba(42, 42, 42, 0.06));
 
     display: block;
     font-family: var(--sketch-font-body);
@@ -33,8 +34,8 @@ export const sharedStyles = css`
     filter: var(--sketch-shadow);
     transition: transform 0.3s ease, filter 0.3s ease;
     overflow: visible;
-    border: 2px solid var(--sketch-border);
-    border-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect x='2' y='2' width='96' height='96' fill='none' stroke='%232a2a2a' stroke-width='2' stroke-dasharray='8 3 2 3' stroke-linecap='round'/%3E%3C/svg%3E") 10 stretch;
+    border: 2px dashed var(--sketch-border);
+    border-style: dashed;
     position: relative;
   }
 
@@ -108,18 +109,17 @@ export const sharedStyles = css`
     font-family: var(--sketch-font);
     font-size: 1em;
     background: transparent;
-    border: 2px solid var(--sketch-border);
+    border: 2px dashed var(--sketch-border);
     border-radius: var(--sketch-radius);
     color: var(--sketch-ink);
     padding: 6px 14px;
     cursor: pointer;
     rotate: -0.3deg;
     transition: transform 0.2s ease, background 0.2s ease;
-    border-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='30'%3E%3Crect x='1' y='1' width='58' height='28' fill='none' stroke='%232a2a2a' stroke-width='1.5' stroke-dasharray='6 2 1 2' stroke-linecap='round'/%3E%3C/svg%3E") 6 stretch;
   }
 
   .sketch-btn:hover {
-    background: rgba(42, 42, 42, 0.06);
+    background: var(--sketch-hover-bg);
     transform: translate(-1px, -1px);
   }
 
@@ -129,8 +129,9 @@ export const sharedStyles = css`
 
   .sketch-btn.active {
     background: var(--sketch-primary);
-    color: #fff;
+    color: var(--text-primary-color, #fff);
     border-color: var(--sketch-primary);
+    border-style: solid;
   }
 
   .sketch-slider-container {
@@ -154,7 +155,7 @@ export const sharedStyles = css`
     width: 18px;
     height: 18px;
     background: var(--sketch-primary);
-    border: 2px solid var(--sketch-ink);
+    border: 2px solid var(--sketch-border);
     border-radius: 50%;
     cursor: pointer;
   }
@@ -163,7 +164,7 @@ export const sharedStyles = css`
     width: 18px;
     height: 18px;
     background: var(--sketch-primary);
-    border: 2px solid var(--sketch-ink);
+    border: 2px solid var(--sketch-border);
     border-radius: 50%;
     cursor: pointer;
   }
@@ -215,7 +216,7 @@ export const sharedStyles = css`
 
   .sketch-badge.on {
     background: var(--sketch-success);
-    color: #fff;
+    color: var(--text-primary-color, #fff);
     border-color: var(--sketch-success);
   }
 

@@ -83,7 +83,7 @@ export class SketchCameraCard extends BaseSketchCard {
         padding: 0;
         transition: background 0.2s;
       }
-      .cam-btn:hover { background: rgba(42, 42, 42, 0.06); }
+      .cam-btn:hover { background: var(--sketch-hover-bg); }
       .cam-btn ha-icon { --mdc-icon-size: 18px; }
       .tape-corner {
         position: absolute;

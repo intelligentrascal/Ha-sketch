@@ -41,18 +41,17 @@ export class SketchChipCard extends LitElement {
         gap: 6px;
         padding: 6px 12px;
         background: var(--sketch-bg, #faf7f0);
-        border: 1.5px solid var(--sketch-border, #2a2a2a);
+        border: 1.5px dashed var(--sketch-border);
         border-radius: 20px;
         font-family: var(--sketch-font, 'Caveat', cursive);
         font-size: 0.95em;
         font-weight: 600;
-        color: var(--sketch-ink, #2a2a2a);
+        color: var(--sketch-ink);
         cursor: pointer;
         rotate: -0.4deg;
         transition: transform 0.2s ease, filter 0.2s ease;
         white-space: nowrap;
         filter: drop-shadow(2px 3px 0px rgba(0, 0, 0, 0.1));
-        border-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='30'%3E%3Crect x='1' y='1' width='58' height='28' rx='14' fill='none' stroke='%232a2a2a' stroke-width='1.5' stroke-dasharray='5 2 1 2' stroke-linecap='round'/%3E%3C/svg%3E") 10 stretch;
       }
       .chip:hover {
         transform: translate(-1px, -1px) rotate(-0.8deg);

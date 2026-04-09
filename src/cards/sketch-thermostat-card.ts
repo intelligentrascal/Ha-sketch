@@ -69,7 +69,7 @@ export class SketchThermostatCard extends BaseSketchCard {
         color: var(--sketch-ink);
         transition: background 0.2s;
       }
-      .temp-adjust-btn:hover { background: rgba(42, 42, 42, 0.08); }
+      .temp-adjust-btn:hover { background: var(--sketch-hover-bg); }
       .target-temp {
         font-family: var(--sketch-font);
         font-size: 1.5em;

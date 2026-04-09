@@ -74,7 +74,7 @@ export class SketchMediaPlayerCard extends BaseSketchCard {
         transition: background 0.2s;
         padding: 0;
       }
-      .media-ctrl-btn:hover { background: rgba(42, 42, 42, 0.06); }
+      .media-ctrl-btn:hover { background: var(--sketch-hover-bg); }
       .media-ctrl-btn.play {
         width: 44px;
         height: 44px;

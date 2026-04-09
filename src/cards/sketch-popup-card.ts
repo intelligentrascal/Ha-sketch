@@ -32,7 +32,7 @@ export class SketchPopupCard extends LitElement {
         left: 0;
         right: 0;
         bottom: 0;
-        background: rgba(42, 42, 42, 0.35);
+        background: var(--popup-backdrop-color, rgba(0, 0, 0, 0.35));
         backdrop-filter: blur(3px);
         -webkit-backdrop-filter: blur(3px);
         z-index: 10;
@@ -52,8 +52,8 @@ export class SketchPopupCard extends LitElement {
         left: 50%;
         transform: translateX(-50%) translateY(100%);
         z-index: 11;
-        background: var(--sketch-bg, #faf7f0);
-        border: 2.5px solid var(--sketch-border, #2a2a2a);
+        background: var(--sketch-bg);
+        border: 2.5px dashed var(--sketch-border);
         border-bottom: none;
         border-radius: 12px 12px 0 0;
         max-height: 85vh;
@@ -62,7 +62,6 @@ export class SketchPopupCard extends LitElement {
         transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         rotate: 0deg;
         filter: drop-shadow(0px -4px 12px rgba(0, 0, 0, 0.15));
-        border-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect x='2' y='2' width='96' height='96' rx='10' fill='none' stroke='%232a2a2a' stroke-width='2.5' stroke-dasharray='8 3 2 3' stroke-linecap='round'/%3E%3C/svg%3E") 12 stretch;
       }
       .popup-panel.open {
         transform: translateX(-50%) translateY(0);
@@ -112,7 +111,7 @@ export class SketchPopupCard extends LitElement {
         flex-shrink: 0;
       }
       .popup-close:hover {
-        background: rgba(42, 42, 42, 0.06);
+        background: var(--sketch-hover-bg);
       }
       .popup-close ha-icon {
         --mdc-icon-size: 18px;

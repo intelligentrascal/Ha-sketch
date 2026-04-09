@@ -60,7 +60,7 @@ export class SketchCoverCard extends BaseSketchCard {
         transition: background 0.2s;
         padding: 0;
       }
-      .cover-ctrl-btn:hover { background: rgba(42, 42, 42, 0.06); }
+      .cover-ctrl-btn:hover { background: var(--sketch-hover-bg); }
       .cover-ctrl-btn ha-icon { --mdc-icon-size: 22px; }
       .position-row {
         margin-top: 12px;
