@@ -145,7 +145,7 @@ export class SketchWeatherCard extends BaseSketchCard {
     return html`
       <ha-card>
         <div class="sketch-card-content">
-          <div class="weather-main" @click=${this.handleAction}>
+          <div class="weather-main" @pointerdown=${this.handlePointerDown} @pointerup=${this.handlePointerUp} @pointercancel=${this.handlePointerCancel}>
             <div class="weather-icon-wrap">
               <ha-icon .icon=${this._weatherIconName(condition)}></ha-icon>
             </div>

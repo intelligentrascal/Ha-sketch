@@ -129,7 +129,7 @@ export class SketchCoverCard extends BaseSketchCard {
     return html`
       <ha-card>
         <div class="sketch-card-content">
-          <div class="cover-header" @click=${this.handleAction}>
+          <div class="cover-header" @pointerdown=${this.handlePointerDown} @pointerup=${this.handlePointerUp} @pointercancel=${this.handlePointerCancel}>
             <div class="cover-icon-wrap ${isOpen ? 'open' : ''}">
               <div class="cover-fill" style="height: ${position}%"></div>
               <ha-icon class="sketch-icon" .icon=${this._config.icon || icon}></ha-icon>

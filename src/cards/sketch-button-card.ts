@@ -72,13 +72,19 @@ export class SketchButtonCard extends BaseSketchCard {
     return 3;
   }
 
-  private _handlePress() {
+  private _handlePress(ev: PointerEvent) {
     this._pressing = true;
+    this.handlePointerDown(ev);
   }
 
-  private _handleRelease() {
+  private _handleRelease(ev: PointerEvent) {
     this._pressing = false;
-    this.handleAction();
+    this.handlePointerUp(ev);
+  }
+
+  private _handleCancel() {
+    this._pressing = false;
+    this.handlePointerCancel();
   }
 
   render() {
@@ -94,11 +100,10 @@ export class SketchButtonCard extends BaseSketchCard {
       <ha-card>
         <div
           class="sketch-card-content button-wrap ${this._pressing ? 'pressing' : ''}"
-          @mousedown=${this._handlePress}
-          @mouseup=${this._handleRelease}
-          @mouseleave=${() => (this._pressing = false)}
-          @touchstart=${this._handlePress}
-          @touchend=${this._handleRelease}
+          @pointerdown=${this._handlePress}
+          @pointerup=${this._handleRelease}
+          @pointerleave=${this._handleCancel}
+          @pointercancel=${this._handleCancel}
         >
           ${showIcon
             ? html`

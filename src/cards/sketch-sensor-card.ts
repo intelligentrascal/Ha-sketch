@@ -137,7 +137,7 @@ export class SketchSensorCard extends BaseSketchCard {
     return html`
       <ha-card>
         <div class="sketch-card-content">
-          <div class="sensor-header" @click=${this.handleAction}>
+          <div class="sensor-header" @pointerdown=${this.handlePointerDown} @pointerup=${this.handlePointerUp} @pointercancel=${this.handlePointerCancel}>
             <div class="sensor-icon-wrap">
               <ha-icon class="sketch-icon" .icon=${icon}></ha-icon>
             </div>

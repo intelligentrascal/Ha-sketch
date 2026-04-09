@@ -138,7 +138,7 @@ export class SketchThermostatCard extends BaseSketchCard {
     return html`
       <ha-card>
         <div class="sketch-card-content">
-          <div class="thermo-header" @click=${() => this.fireEvent('hass-more-info', { entityId: this._config.entity })}>
+          <div class="thermo-header" @pointerdown=${this.handlePointerDown} @pointerup=${this.handlePointerUp} @pointercancel=${this.handlePointerCancel}>
             <div class="thermo-icon-wrap ${actionClass}">
               <ha-icon class="sketch-icon" .icon=${'mdi:thermostat'}></ha-icon>
             </div>

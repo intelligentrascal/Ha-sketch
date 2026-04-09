@@ -149,7 +149,7 @@ export class SketchCameraCard extends BaseSketchCard {
   }
 
   private _handleImageClick() {
-    this.fireEvent('hass-more-info', { entityId: this._config.entity });
+    this.executeAction(this._config?.tap_action, 'more-info');
   }
 
   private _handleRefresh() {

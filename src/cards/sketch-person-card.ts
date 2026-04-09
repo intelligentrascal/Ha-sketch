@@ -151,7 +151,7 @@ export class SketchPersonCard extends BaseSketchCard {
     return html`
       <ha-card>
         <div class="sketch-card-content">
-          <div class="person-row" @click=${this.handleAction}>
+          <div class="person-row" @pointerdown=${this.handlePointerDown} @pointerup=${this.handlePointerUp} @pointercancel=${this.handlePointerCancel}>
             ${avatar
               ? html`<img class="person-avatar" src="${avatar}" alt="${name}" />`
               : html`

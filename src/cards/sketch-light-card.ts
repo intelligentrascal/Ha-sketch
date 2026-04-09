@@ -80,12 +80,12 @@ export class SketchLightCard extends BaseSketchCard {
     return 3;
   }
 
-  private get _lightConfig(): LightCardConfig {
-    return this._config as LightCardConfig;
+  protected get defaultTapAction(): string {
+    return 'toggle';
   }
 
-  private _toggleLight() {
-    this.callService('light', 'toggle', { entity_id: this._config.entity });
+  private get _lightConfig(): LightCardConfig {
+    return this._config as LightCardConfig;
   }
 
   private _setBrightness(e: Event) {
@@ -124,7 +124,7 @@ export class SketchLightCard extends BaseSketchCard {
     return html`
       <ha-card>
         <div class="sketch-card-content">
-          <div class="light-header" @click=${this._toggleLight}>
+          <div class="light-header" @pointerdown=${this.handlePointerDown} @pointerup=${this.handlePointerUp} @pointercancel=${this.handlePointerCancel}>
             <div class="light-icon-wrap ${isOn ? 'on' : ''}">
               <ha-icon class="sketch-icon" .icon=${icon}></ha-icon>
             </div>
