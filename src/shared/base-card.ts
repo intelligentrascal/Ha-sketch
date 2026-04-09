@@ -28,6 +28,12 @@ export abstract class BaseSketchCard extends LitElement {
     return this.hass.states[this._config.entity];
   }
 
+  /** Check if entity is unavailable or unknown. */
+  protected isUnavailable(): boolean {
+    const entity = this.getEntity();
+    return !!entity && ['unavailable', 'unknown'].includes(entity.state);
+  }
+
   protected getName(): string {
     if (this._config?.name) return this._config.name;
     const entity = this.getEntity();
@@ -95,6 +101,16 @@ export abstract class BaseSketchCard extends LitElement {
         this.fireEvent('hass-more-info', { entityId: this._config?.entity });
         this.fireEvent('haptic', { type: 'light' });
         break;
+    }
+  }
+
+  updated(changedProps: Map<string, unknown>) {
+    super.updated(changedProps);
+    // Toggle unavailable class on host for CSS styling
+    if (this.isUnavailable()) {
+      this.classList.add('unavailable');
+    } else {
+      this.classList.remove('unavailable');
     }
   }
 

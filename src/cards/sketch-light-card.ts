@@ -115,13 +115,14 @@ export class SketchLightCard extends BaseSketchCard {
       return html`<ha-card><div class="sketch-card-content"><p class="sketch-name">Light not found</p></div></ha-card>`;
     }
 
+    const unavailable = this.isUnavailable();
     const isOn = entity.state === 'on';
     const brightness = entity.attributes.brightness
       ? Math.round((entity.attributes.brightness / 255) * 100)
       : 0;
-    const showBrightness = this._lightConfig.show_brightness !== false && isOn;
+    const showBrightness = this._lightConfig.show_brightness !== false && isOn && !unavailable;
     const showColorTemp =
-      this._lightConfig.show_color_temp !== false &&
+      this._lightConfig.show_color_temp !== false && !unavailable &&
       isOn &&
       entity.attributes.min_mireds !== undefined;
     const icon = this._config.icon || stateIcon(entity);
@@ -135,7 +136,7 @@ export class SketchLightCard extends BaseSketchCard {
             </div>
             <div class="sketch-col">
               <p class="sketch-name">${this.getName()}</p>
-              <p class="sketch-state">${isOn ? `${brightness}%` : 'Off'}</p>
+              <p class="sketch-state">${unavailable ? html`<span class="sketch-unavailable-label">Unavailable</span>` : isOn ? `${brightness}%` : 'Off'}</p>
             </div>
           </div>
           ${showBrightness

@@ -225,6 +225,24 @@ export const sharedStyles = css`
     color: var(--sketch-ink-muted);
   }
 
+  /* Unavailable entity state */
+  :host(.unavailable) ha-card {
+    opacity: 0.55;
+    border-style: dotted;
+  }
+  :host(.unavailable) .sketch-slider,
+  :host(.unavailable) .sketch-btn,
+  :host(.unavailable) button {
+    pointer-events: none;
+    opacity: 0.4;
+  }
+  .sketch-unavailable-label {
+    font-family: var(--sketch-font);
+    font-size: 0.9em;
+    color: var(--sketch-danger);
+    font-style: italic;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     ha-card,
     .sketch-btn {
