@@ -92,6 +92,16 @@ function alarmIcon(state: string): string {
   return map[state] || 'mdi:shield';
 }
 
+/** Check if an entity state represents an "active" condition. */
+export function isEntityActive(state: string): boolean {
+  return ['on', 'open', 'playing', 'home', 'unlocked'].includes(state);
+}
+
+/** Get weather condition icon — exported for use by weather card. */
+export function weatherConditionIcon(condition: string): string {
+  return weatherIcon(condition);
+}
+
 export function formatState(entity: HassEntity): string {
   const state = entity.state;
   const unit = entity.attributes.unit_of_measurement;

@@ -23,7 +23,7 @@ export const sharedStyles = css`
     font-family: var(--sketch-font-body);
   }
 
-  @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Patrick+Hand&display=swap');
+  /* Fonts loaded via <link> tag in document.head (see bottom of this file) */
 
   ha-card {
     background: var(--sketch-bg);

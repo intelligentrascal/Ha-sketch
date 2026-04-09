@@ -1,7 +1,7 @@
 import { html, css, nothing } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { BaseSketchCard } from '../shared/base-card';
-import { stateIcon } from '../shared/utils';
+import { stateIcon, isEntityActive } from '../shared/utils';
 import type { HomeAssistant, CardConfig } from '../shared/types';
 
 @customElement('sketch-button-card')
@@ -91,7 +91,7 @@ export class SketchButtonCard extends BaseSketchCard {
     const entity = this.getEntity();
     const icon = this._config.icon || (entity ? stateIcon(entity) : 'mdi:gesture-tap');
     const name = this.getName() || 'Button';
-    const isActive = entity && ['on', 'open', 'playing', 'home'].includes(entity.state);
+    const isActive = entity && isEntityActive(entity.state);
     const showName = this._config.show_name !== false;
     const showState = this._config.show_state !== false;
     const showIcon = this._config.show_icon !== false;

@@ -1,7 +1,7 @@
 import { html, css, nothing } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { BaseSketchCard } from '../shared/base-card';
-import { stateIcon, formatState, timeAgo } from '../shared/utils';
+import { stateIcon, formatState, timeAgo, isEntityActive } from '../shared/utils';
 import type { HomeAssistant, CardConfig } from '../shared/types';
 
 @customElement('sketch-entity-card')
@@ -68,7 +68,7 @@ export class SketchEntityCard extends BaseSketchCard {
     const showName = this._config.show_name !== false;
     const showState = this._config.show_state !== false;
     const showIcon = this._config.show_icon !== false;
-    const isOn = ['on', 'open', 'playing', 'home', 'unlocked'].includes(entity.state);
+    const isOn = isEntityActive(entity.state);
 
     return html`
       <ha-card>

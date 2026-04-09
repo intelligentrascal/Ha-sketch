@@ -1,7 +1,7 @@
 import { html, css, nothing } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { BaseSketchCard } from '../shared/base-card';
-import { stateIcon } from '../shared/utils';
+import { stateIcon, weatherConditionIcon } from '../shared/utils';
 import type { HomeAssistant, WeatherCardConfig } from '../shared/types';
 
 @customElement('sketch-weather-card')
@@ -105,24 +105,7 @@ export class SketchWeatherCard extends BaseSketchCard {
   }
 
   private _weatherIconName(condition: string): string {
-    const map: Record<string, string> = {
-      'clear-night': 'mdi:weather-night',
-      cloudy: 'mdi:weather-cloudy',
-      fog: 'mdi:weather-fog',
-      hail: 'mdi:weather-hail',
-      lightning: 'mdi:weather-lightning',
-      'lightning-rainy': 'mdi:weather-lightning-rainy',
-      partlycloudy: 'mdi:weather-partly-cloudy',
-      pouring: 'mdi:weather-pouring',
-      rainy: 'mdi:weather-rainy',
-      snowy: 'mdi:weather-snowy',
-      'snowy-rainy': 'mdi:weather-snowy-rainy',
-      sunny: 'mdi:weather-sunny',
-      windy: 'mdi:weather-windy',
-      'windy-variant': 'mdi:weather-windy-variant',
-      exceptional: 'mdi:alert-circle-outline',
-    };
-    return map[condition] || 'mdi:weather-cloudy';
+    return weatherConditionIcon(condition);
   }
 
   render() {

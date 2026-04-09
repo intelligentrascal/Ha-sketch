@@ -1,7 +1,7 @@
 import { html, css, nothing } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { BaseSketchCard } from '../shared/base-card';
-import { stateIcon, formatState } from '../shared/utils';
+import { stateIcon, formatState, isEntityActive } from '../shared/utils';
 import type { HomeAssistant, SubButtonCardConfig, SubButton } from '../shared/types';
 
 @customElement('sketch-sub-button-card')
@@ -200,7 +200,7 @@ export class SketchSubButtonCard extends BaseSketchCard {
     const entity = btn.entity ? this.hass.states[btn.entity] : undefined;
     const icon = btn.icon || (entity ? stateIcon(entity) : 'mdi:circle-small');
     const name = btn.name || (entity?.attributes?.friendly_name) || '';
-    const isActive = entity && ['on', 'open', 'playing', 'home'].includes(entity.state);
+    const isActive = entity && isEntityActive(entity.state);
     const showState = btn.show_state && entity;
 
     return html`
@@ -222,7 +222,7 @@ export class SketchSubButtonCard extends BaseSketchCard {
 
     const icon = this._config.icon || stateIcon(entity);
     const name = this.getName();
-    const isOn = ['on', 'open', 'playing', 'home'].includes(entity.state);
+    const isOn = isEntityActive(entity.state);
     const columns = this._subConfig.columns || 3;
     const collapsible = this._subConfig.collapsible !== false;
 

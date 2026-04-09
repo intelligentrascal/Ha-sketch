@@ -1,7 +1,7 @@
 import { html, css, nothing } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { BaseSketchCard } from '../shared/base-card';
-import { stateIcon, formatState } from '../shared/utils';
+import { stateIcon, formatState, isEntityActive } from '../shared/utils';
 import type { HomeAssistant, TileCardConfig } from '../shared/types';
 
 @customElement('sketch-tile-card')
@@ -119,7 +119,7 @@ export class SketchTileCard extends BaseSketchCard {
     const icon = this._config.icon || stateIcon(entity);
     const name = this.getName();
     const state = formatState(entity);
-    const isOn = ['on', 'open', 'playing', 'home', 'unlocked'].includes(entity.state);
+    const isOn = isEntityActive(entity.state);
     const showIcon = this._tileConfig.hide_icon !== true;
     const toggleable = this._isToggleable();
 
