@@ -73,7 +73,6 @@ export abstract class BaseSketchEditor extends LitElement {
   }
 
   protected _valueChanged(key: string, value: any): void {
-    if (this._config[key] === value) return;
     const newConfig = { ...this._config, [key]: value };
     // Remove undefined/null values
     if (value === undefined || value === null || value === '') {
@@ -83,7 +82,9 @@ export abstract class BaseSketchEditor extends LitElement {
   }
 
   protected _boolChanged(key: string, ev: Event): void {
-    const checked = (ev.target as any).checked;
+    const target = ev.target as any;
+    // ha-switch may use .checked or .selected depending on HA version
+    const checked = target.checked ?? target.selected ?? false;
     this._valueChanged(key, checked);
   }
 
@@ -126,13 +127,23 @@ export abstract class BaseSketchEditor extends LitElement {
 
   /** Render a boolean switch row. */
   protected renderSwitch(label: string, key: string, defaultVal: boolean = true): any {
-    const checked = this._config[key] !== undefined ? this._config[key] : defaultVal;
+    const checked = this._config[key] !== undefined ? !!this._config[key] : defaultVal;
     return html`
       <div class="switch-row">
-        <label>${label}</label>
+        <label @click=${(ev: Event) => {
+          // Click label to toggle — some HA versions don't propagate label clicks
+          const sw = (ev.currentTarget as HTMLElement).parentElement?.querySelector('ha-switch') as any;
+          if (sw) {
+            this._valueChanged(key, !checked);
+          }
+        }}>${label}</label>
         <ha-switch
           .checked=${checked}
-          @change=${(ev: Event) => this._boolChanged(key, ev)}
+          @change=${(ev: Event) => {
+            const target = ev.target as any;
+            const val = target.checked ?? target.selected ?? !checked;
+            this._valueChanged(key, val);
+          }}
         ></ha-switch>
       </div>
     `;

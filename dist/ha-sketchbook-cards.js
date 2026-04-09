@@ -295,7 +295,7 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
     .switch-row label {
       font-size: 14px;
     }
-  `]}setConfig(t){this._config={...t}}_configChanged(t){this._config=t,this.dispatchEvent(new CustomEvent("config-changed",{detail:{config:t},bubbles:!0,composed:!0}))}_valueChanged(t,e){if(this._config[t]===e)return;const i={...this._config,[t]:e};null!=e&&""!==e||delete i[t],this._configChanged(i)}_boolChanged(t,e){const i=e.target.checked;this._valueChanged(t,i)}renderEntityPicker(t,e="entity",i){return W`
+  `]}setConfig(t){this._config={...t}}_configChanged(t){this._config=t,this.dispatchEvent(new CustomEvent("config-changed",{detail:{config:t},bubbles:!0,composed:!0}))}_valueChanged(t,e){const i={...this._config,[t]:e};null!=e&&""!==e||delete i[t],this._configChanged(i)}_boolChanged(t,e){const i=e.target,s=i.checked??i.selected??!1;this._valueChanged(t,s)}renderEntityPicker(t,e="entity",i){return W`
       <ha-entity-picker
         .hass=${this.hass}
         .value=${this._config[e]||""}
@@ -317,12 +317,12 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
         .label=${t}
         @value-changed=${t=>this._valueChanged(e,t.detail.value)}
       ></ha-icon-picker>
-    `}renderSwitch(t,e,i=!0){const s=void 0!==this._config[e]?this._config[e]:i;return W`
+    `}renderSwitch(t,e,i=!0){const s=void 0!==this._config[e]?!!this._config[e]:i;return W`
       <div class="switch-row">
-        <label>${t}</label>
+        <label @click=${t=>{const i=t.currentTarget.parentElement?.querySelector("ha-switch");i&&this._valueChanged(e,!s)}}>${t}</label>
         <ha-switch
           .checked=${s}
-          @change=${t=>this._boolChanged(e,t)}
+          @change=${t=>{const i=t.target,a=i.checked??i.selected??!s;this._valueChanged(e,a)}}
         ></ha-switch>
       </div>
     `}renderNumber(t,e,i,s,a){return W`
