@@ -177,11 +177,17 @@ npm run build        # Production build → dist/ha-sketchbook-cards.js
 
 ### Priority 1 — Critical for HACS Release
 
-1. **Card Editors**: `src/editors/` is empty. Each card needs a visual config editor (`-editor` suffix element) implementing `LovelaceCardEditor` with `ha-form`/`ha-selector`. Register via `static getConfigElement()`. Without these, users must write YAML manually — major adoption barrier.
-2. **Dark Mode**: Cream palette only works on light backgrounds. Detect `hass.themes.darkMode` and switch to a dark sketch palette (e.g., `--sketch-bg: #1e1e1e`, warm-tinted ink colors, light SVG border strokes). Also fix hardcoded `#2a2a2a` in SVG border-image data URIs. Critical for any user with dark theme.
-3. **Unavailable Entity Handling**: Cards don't handle `'unavailable'` / `'unknown'` entity states. A light card with state `'unavailable'` renders as "Off" with no visual distinction. All cards should show a dashed-border "unavailable" state with muted styling + "Unavailable" label.
-4. **GitHub Actions CI**: No automated build/release workflow. Need a workflow that builds on push, creates tagged GitHub Releases with the JS bundle attached (required by HACS).
-5. **Remove Dead Config Options**: 6 declared but unimplemented config properties (`hours_to_show`, `detail`, `camera_view`, `url_path`, `compact`, `time_zone`) silently no-op. Either implement them or remove from types to avoid user confusion.
+1. **Card Editors (Visual Config UI)**: `src/editors/` is empty. Each card needs a visual config editor so users can configure cards without writing YAML. This is the single biggest adoption barrier. See **Card Editor Implementation Plan** section below for full details.
+2. **Automation Actions (hold, double-tap, url)**: `handleAction()` in `base-card.ts:58-81` only handles `tap_action` and only supports `toggle`, `call-service`, `navigate`, and `more-info`. Missing:
+   - `hold_action` — no pointer timing logic (need `pointerdown` timer ~500ms)
+   - `double_tap_action` — no double-tap detection (need tap timer ~250ms window)
+   - `url` action — declared in `ActionConfig` but not in the switch statement
+   - `fireEvent('haptic')` — no tactile feedback on any action
+   - `fireEvent('hass-action')` — should use HA's built-in action handler instead of reimplementing
+3. **Dark Mode**: Cream palette only works on light backgrounds. Detect `hass.themes.darkMode` and switch to a dark sketch palette (e.g., `--sketch-bg: #1e1e1e`, warm-tinted ink colors, light SVG border strokes). Also fix hardcoded `#2a2a2a` in SVG border-image data URIs. Critical for any user with dark theme.
+4. **Unavailable Entity Handling**: Cards don't handle `'unavailable'` / `'unknown'` entity states. A light card with state `'unavailable'` renders as "Off" with no visual distinction. All cards should show a dashed-border "unavailable" state with muted styling + "Unavailable" label.
+5. **GitHub Actions CI**: No automated build/release workflow. Need a workflow that builds on push, creates tagged GitHub Releases with the JS bundle attached (required by HACS).
+6. **Remove Dead Config Options**: 6 declared but unimplemented config properties (`hours_to_show`, `detail`, `camera_view`, `url_path`, `compact`, `time_zone`) silently no-op. Either implement them or remove from types to avoid user confusion.
 
 ### Priority 2 — UX & Robustness
 
@@ -227,6 +233,139 @@ npm run build        # Production build → dist/ha-sketchbook-cards.js
 36. **Card Presets/Templates**: Allow users to define reusable style presets (e.g., "compact", "large", "minimal") that override default sizing/spacing.
 37. **Sketch Intensity Setting**: A global config option to control how "sketchy" cards look — from subtle (slight rotation, light borders) to full sketchbook (heavy rotation, thick dashed borders, paper texture).
 38. **Entity Picture Support**: Cards that show entities with `entity_picture` (person, camera) could use a sketch-styled frame (torn edges, tape corners) consistently.
+
+---
+
+## Card Editor Implementation Plan
+
+Every card needs a `static getConfigElement()` that returns a custom element registered as `sketch-<card>-editor`. HA calls this to render the visual config UI in the dashboard editor. All 18 cards already have `getStubConfig()` but zero have `getConfigElement()`.
+
+### Architecture
+
+```
+src/editors/
+├── base-editor.ts              # Shared LitElement base for all editors
+│                                  - hass property, setConfig(), configChanged() helper
+│                                  - Fires 'config-changed' CustomEvent on every edit
+│                                  - Shared editor styles (sketch font, spacing)
+├── action-editor.ts            # Reusable <sketch-action-editor> for tap/hold/double-tap
+│                                  - Dropdown: toggle | call-service | navigate | more-info | url | none
+│                                  - Conditional fields: service picker, navigation_path, url_path
+├── sketch-entity-card-editor.ts
+├── sketch-button-card-editor.ts
+├── sketch-light-card-editor.ts
+├── ... (one per card)
+└── sketch-separator-card-editor.ts
+```
+
+### Editor Field Mapping per Card
+
+**Cards extending CardConfig (13 cards)** — all share this base editor form:
+| Field | HA Element | Notes |
+|-------|-----------|-------|
+| `entity` | `ha-entity-picker` | Filter by domain where applicable (light.*, climate.*, etc.) |
+| `name` | `ha-textfield` | Optional override of friendly_name |
+| `icon` | `ha-icon-picker` | Optional override of entity icon |
+| `show_name` | `ha-switch` | Default: true |
+| `show_state` | `ha-switch` | Default: true |
+| `show_icon` | `ha-switch` | Default: true |
+| `tap_action` | `<sketch-action-editor>` | Expandable section |
+| `hold_action` | `<sketch-action-editor>` | Expandable section |
+| `double_tap_action` | `<sketch-action-editor>` | Expandable section |
+
+**Card-specific extra fields:**
+
+| Card | Extra Fields | Element |
+|------|-------------|---------|
+| Light | `show_brightness`, `show_color_temp` | `ha-switch` x2 |
+| Thermostat | `show_current_as_primary` | `ha-switch` |
+| Weather | `show_forecast`, `num_forecasts` | `ha-switch`, `ha-textfield` (number) |
+| Sensor | `graph` | `ha-switch` |
+| Media Player | `show_artwork`, `show_source` | `ha-switch` x2 |
+| Cover | `show_position`, `show_tilt` | `ha-switch` x2 |
+| Alarm Panel | `states` | Multi-select checkboxes (arm_home, arm_away, arm_night, arm_custom_bypass) |
+| Person | `show_location`, `show_battery`, `battery_entity` | `ha-switch` x2, `ha-entity-picker` (sensor.*) |
+| Tile | `hide_icon` | `ha-switch` |
+| Camera | `show_controls`, `aspect_ratio` | `ha-switch`, `ha-textfield` |
+| Sub-Button | `columns`, `collapsible`, `sub_buttons[]` | `ha-textfield` (number), `ha-switch`, repeating list editor |
+
+**Standalone cards (5 cards)** — custom editors, no shared base form:
+
+| Card | Fields | Element |
+|------|--------|---------|
+| Clock | `mode`, `show_date`, `show_seconds`, `name` | `ha-select` (analog/digital/both), `ha-switch` x2, `ha-textfield` |
+| Chip | `chips[]` array | Repeating list: each chip gets type dropdown + entity picker + icon + name + tap_action |
+| Popup | `hash`, `name`, `icon`, `auto_close`, `width`, `cards[]` | `ha-textfield` x3, `ha-textfield` (number), card list editor (advanced) |
+| Horizontal Buttons Stack | `style`, `buttons[]` | `ha-select` (fixed/inline), repeating list: name + icon + hash/navigation_path |
+| Separator | `name`, `icon` | `ha-textfield`, `ha-icon-picker` |
+
+### Implementation Order (complexity low → high)
+1. **Base editor + simple cards**: Separator, Clock, Entity, Button, Tile (least fields)
+2. **Toggle-heavy cards**: Light, Cover, Media Player, Sensor, Thermostat, Weather, Person, Camera (boolean toggles + entity picker)
+3. **Alarm Panel**: Multi-select states array
+4. **Action editor component**: Reusable `<sketch-action-editor>` for tap/hold/double-tap
+5. **Array editors**: Sub-Button (sub_buttons[]), Chip (chips[]), Horizontal Buttons Stack (buttons[])
+6. **Popup card editor**: Most complex — needs nested card list editor (may use `ha-code-editor` as fallback for `cards[]`)
+
+### Registration Pattern
+Each card needs this added:
+```typescript
+// In the card file (e.g., sketch-light-card.ts)
+import '../editors/sketch-light-card-editor';
+
+static getConfigElement() {
+  return document.createElement('sketch-light-card-editor');
+}
+```
+
+---
+
+## Automation / Action Handling Plan
+
+### Current State
+`base-card.ts` `handleAction()` (line 58-81) is a basic switch on `tap_action.action`. It only fires on click/tap. 13 cards support action configs but only `tap_action` actually works.
+
+### What Needs to Change
+
+#### 1. Replace custom handleAction() with HA's built-in action handler
+HA provides `fireEvent(this, 'hass-action', { config, action })` which handles all action types natively, including haptic feedback. This is simpler and more reliable than reimplementing.
+
+#### 2. Add pointer event handling for hold + double-tap
+In `base-card.ts`, add a `handleClick(ev, config)` method:
+```
+- pointerdown: start hold timer (500ms)
+- pointerup before 500ms: count as tap
+- pointerup after 500ms: fire hold_action
+- Two taps within 250ms: fire double_tap_action
+- Single tap after 250ms: fire tap_action
+```
+This is the same pattern used by HA's official `handle-click.ts` utility.
+
+#### 3. Wire up all 13 entity-based cards
+Replace direct `@click` handlers that call `handleAction()` or `toggleEntity()` with the new pointer-aware handler. Cards that have their own primary action (light toggle, thermostat +/-) keep those — the hold/double-tap applies to the card header/icon tap area.
+
+#### 4. Haptic feedback
+Add `fireEvent('haptic', 'light')` on tap, `'medium'` on hold, `'success'` on toggle completion.
+
+#### 5. URL action support
+Add missing `case 'url'` to open `config.url_path` in a new tab via `window.open()`.
+
+### Cards Affected
+| Card | Current tap behavior | hold/double-tap target area |
+|------|---------------------|----------------------------|
+| Entity | `handleAction()` → more-info | Entire card |
+| Button | `handleAction()` → toggle | Entire card |
+| Light | `_toggleLight()` on header | Header row (sliders keep own behavior) |
+| Thermostat | `fireEvent('hass-more-info')` on header | Header row |
+| Weather | `handleAction()` | Entire card |
+| Sensor | `handleAction()` | Entire card |
+| Media Player | `handleAction()` | Header/artwork area |
+| Cover | `handleAction()` | Header row (buttons keep own behavior) |
+| Alarm Panel | None (keypad-driven) | Header only |
+| Person | `handleAction()` → more-info | Entire card |
+| Tile | `handleAction()` → more-info | Row (toggle keeps own behavior) |
+| Camera | `handleAction()` → more-info | Image area |
+| Sub-Button | `handleAction()` → more-info | Primary row (sub_buttons have own actions) |
 
 ---
 
