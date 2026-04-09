@@ -134,16 +134,48 @@ npm run build        # Production build → dist/ha-sketchbook-cards.js
 
 ## What's NOT Done Yet (Potential Next Steps)
 
-1. **Card Editors**: `src/editors/` is empty. Each card should have a visual config editor (`-editor` suffix element) implementing `LovelaceCardEditor` with `ha-form`/`ha-selector`. Register via `static getConfigElement()`.
-2. **Real History for Sensor Graph**: Currently uses mock sparkline data. Could subscribe to `recorder/statistics` via `hass.connection.subscribeMessage()`.
-3. **Localization**: No i18n — all strings are English.
-4. **GitHub Actions CI**: No automated build/release workflow. HACS needs tagged GitHub Releases with the JS file attached.
-5. **Card-Mod Theming**: Could add CSS custom properties for users to override sketch colors without card-mod.
-6. **Dark Mode**: The cream palette works best on light backgrounds. Could detect `hass.themes.darkMode` and switch to a dark sketch palette.
-7. **Accessibility**: No ARIA labels on interactive elements.
-8. **Tests**: No tests exist.
-9. **Animations**: Could add sketchbook-ui-style entrance animations (scale-bounce, draw-in effects).
-10. **Additional Cards**: Vacuum, History Graph, Area/Room summary, Battery overview.
+### Priority 1 — Critical for HACS Release
+
+1. **Card Editors**: `src/editors/` is empty. Each card needs a visual config editor (`-editor` suffix element) implementing `LovelaceCardEditor` with `ha-form`/`ha-selector`. Register via `static getConfigElement()`. Without these, users must write YAML manually — major adoption barrier.
+2. **Dark Mode**: Cream palette only works on light backgrounds. Detect `hass.themes.darkMode` and switch to a dark sketch palette (e.g., `--sketch-bg: #1e1e1e`, warm-tinted ink colors). Critical for any user with dark theme.
+3. **Unavailable Entity Handling**: Cards don't handle `'unavailable'` / `'unknown'` entity states. A light card with state `'unavailable'` renders as "Off" with no visual distinction. All cards should show a dashed-border "unavailable" state with muted styling.
+4. **GitHub Actions CI**: No automated build/release workflow. Need a workflow that builds on push, creates tagged GitHub Releases with the JS bundle attached (required by HACS).
+
+### Priority 2 — UX & Robustness
+
+5. **Slider Debouncing**: Light (brightness/color-temp), Cover (position/tilt), and Media Player (volume) sliders fire a service call on every pixel drag — can trigger 100+ calls. Add debounce (~250ms) or switch to `@change` instead of `@input`.
+6. **Hold & Double-Tap Actions**: `base-card.ts` `handleAction()` only handles `tap_action`. Config types already declare `hold_action` and `double_tap_action` but they're ignored. Need pointer timing logic + HA `fireEvent('haptic')`.
+7. **Real Sensor History**: `sketch-sensor-card.ts` generates fake sparkline data with `Math.random()`. Subscribe to `recorder/statistics` via `hass.connection.subscribeMessage()` for real history.
+8. **Service Call Error Feedback**: `base-card.ts` `callService()` is fire-and-forget with no error handling. Add try/catch with a brief visual error indicator (red flash or toast) so users know when actions fail.
+9. **Popup Keyboard Support**: `sketch-popup-card.ts` modal has no ESC-to-close, no focus trapping, and no keyboard navigation. Users on desktop or accessibility tools can't dismiss it without clicking the backdrop.
+10. **Confirmation for Dangerous Actions**: Alarm disarm and cover open trigger immediately on tap. Add optional `confirmation: true` config flag that shows a "Are you sure?" sketch-styled prompt before executing.
+
+### Priority 3 — Polish & Standards
+
+11. **Accessibility (ARIA + Keyboard)**: No ARIA labels on any interactive element. Buttons, sliders, toggles all need `aria-label`, `role`, and keyboard event handlers. Popup needs `role="dialog"` + `aria-modal="true"`. Sliders need `<label for>` association.
+12. **Responsive Sizing**: All cards use fixed `padding: 16px` and fixed button sizes (`width: 52px`). Should use relative units or container queries for better mobile/tablet scaling. Weather forecast overflows on narrow screens.
+13. **`getLayoutOptions()` on All Cards**: No card exposes `getLayoutOptions()` — the HA standard for grid layout hints. Each card should return appropriate `grid_columns` and `grid_rows` based on its config.
+14. **`getCardSize()` Improvements**: Current values are static. Weather card should return 5 with forecast, 3 without. Popup should return 0. Sub-button should vary by number of buttons.
+15. **Card-Mod Theming**: Expose more CSS custom properties (e.g., `--sketch-card-rotate`, `--sketch-shadow-intensity`, `--sketch-border-style`) so users can customize without card-mod.
+16. **Animations**: Add sketchbook-ui-style entrance animations (scale-bounce, draw-in, pencil-stroke reveal). Respect `prefers-reduced-motion` — currently only partially handled (rotation/transitions disabled, but scale transforms and timer animations still run).
+17. **Localization**: No i18n — all UI strings are English. Could use HA's `hass.localize()` for standard strings.
+
+### Priority 4 — Code Quality
+
+18. **Shared Slider Component**: Same slider pattern (label + range input + service call) is duplicated across light, cover, and media-player cards. Extract to a `<sketch-slider>` shared component.
+19. **Centralize Active-State Logic**: "Is entity active?" check (`['on','open','playing','home'].includes(state)`) is copy-pasted in button, sub-button, and tile cards. Move to `utils.ts`.
+20. **Deduplicate Icon Maps**: Weather icon mapping exists in both `utils.ts` (`stateIcon()`) and `sketch-weather-card.ts` (`_weatherIconName()`). Single source of truth.
+21. **Memoize Sparkline SVG**: `sketch-sensor-card.ts` recalculates `Math.min/max` over the history array on every render. Memoize or compute in `updated()`.
+22. **Fix Double Font Loading**: `styles.ts` loads Caveat/Patrick Hand via both `@import` in CSS and a `<link>` tag appended to `document.head`. Remove one.
+23. **Type Safety**: `sketch-popup-card.ts` casts `(window as any).loadCardHelpers()`. Weather forecast typed as `any`. Add proper interfaces.
+24. **Tests**: No tests exist. Start with unit tests for `utils.ts` (pure functions) and snapshot tests for card rendering.
+
+### Priority 5 — Future Cards & Features
+
+25. **Additional Cards**: Vacuum (with map/zones), History Graph (real recorder data), Area/Room summary, Battery overview, Fan card, Lock card, Number/Input card.
+26. **Card Presets/Templates**: Allow users to define reusable style presets (e.g., "compact", "large", "minimal") that override default sizing/spacing.
+27. **Sketch Intensity Setting**: A global config option to control how "sketchy" cards look — from subtle (slight rotation, light borders) to full sketchbook (heavy rotation, thick dashed borders, paper texture).
+28. **Entity Picture Support**: Cards that show entities with `entity_picture` (person, camera) could use a sketch-styled frame (torn edges, tape corners) consistently.
 
 ---
 
