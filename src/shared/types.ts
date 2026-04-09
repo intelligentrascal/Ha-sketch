@@ -57,8 +57,6 @@ export interface WeatherCardConfig extends CardConfig {
 
 export interface SensorCardConfig extends CardConfig {
   graph?: boolean;
-  hours_to_show?: number;
-  detail?: number;
 }
 
 export interface MediaPlayerCardConfig extends CardConfig {
@@ -81,7 +79,6 @@ export interface ClockCardConfig {
   mode?: 'analog' | 'digital' | 'both';
   show_date?: boolean;
   show_seconds?: boolean;
-  time_zone?: string;
 }
 
 export interface ChipCardConfig {
@@ -105,12 +102,10 @@ export interface PersonCardConfig extends CardConfig {
 }
 
 export interface TileCardConfig extends CardConfig {
-  compact?: boolean;
   hide_icon?: boolean;
 }
 
 export interface CameraCardConfig extends CardConfig {
-  camera_view?: 'auto' | 'live';
   show_controls?: boolean;
   aspect_ratio?: string;
 }
