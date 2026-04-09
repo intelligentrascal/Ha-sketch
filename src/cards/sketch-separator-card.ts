@@ -2,6 +2,7 @@ import { html, css, nothing, LitElement, svg } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { sharedStyles } from '../shared/styles';
 import type { SeparatorCardConfig } from '../shared/types';
+import '../editors/sketch-separator-card-editor';
 
 @customElement('sketch-separator-card')
 export class SketchSeparatorCard extends LitElement {
@@ -66,6 +67,10 @@ export class SketchSeparatorCard extends LitElement {
   setConfig(config: SeparatorCardConfig): void {
     if (!config) throw new Error('Invalid configuration');
     this._config = { ...config };
+  }
+
+  static getConfigElement() {
+    return document.createElement('sketch-separator-card-editor');
   }
 
   static getStubConfig() {

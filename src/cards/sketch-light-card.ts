@@ -3,6 +3,7 @@ import { customElement } from 'lit/decorators.js';
 import { BaseSketchCard } from '../shared/base-card';
 import { stateIcon } from '../shared/utils';
 import type { HomeAssistant, LightCardConfig } from '../shared/types';
+import '../editors/sketch-light-card-editor';
 
 @customElement('sketch-light-card')
 export class SketchLightCard extends BaseSketchCard {
@@ -69,6 +70,10 @@ export class SketchLightCard extends BaseSketchCard {
   setConfig(config: LightCardConfig): void {
     if (!config.entity) throw new Error('Please define a light entity');
     super.setConfig(config);
+  }
+
+  static getConfigElement() {
+    return document.createElement('sketch-light-card-editor');
   }
 
   static getStubConfig(hass: HomeAssistant) {

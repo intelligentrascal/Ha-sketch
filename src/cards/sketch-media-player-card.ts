@@ -2,6 +2,7 @@ import { html, css, nothing } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { BaseSketchCard } from '../shared/base-card';
 import type { HomeAssistant, MediaPlayerCardConfig } from '../shared/types';
+import '../editors/sketch-media-player-card-editor';
 
 @customElement('sketch-media-player-card')
 export class SketchMediaPlayerCard extends BaseSketchCard {
@@ -101,6 +102,10 @@ export class SketchMediaPlayerCard extends BaseSketchCard {
   setConfig(config: MediaPlayerCardConfig): void {
     if (!config.entity) throw new Error('Please define a media_player entity');
     super.setConfig(config);
+  }
+
+  static getConfigElement() {
+    return document.createElement('sketch-media-player-card-editor');
   }
 
   static getStubConfig(hass: HomeAssistant) {

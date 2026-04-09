@@ -2,6 +2,7 @@ import { html, css, nothing } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { BaseSketchCard } from '../shared/base-card';
 import type { HomeAssistant, PersonCardConfig } from '../shared/types';
+import '../editors/sketch-person-card-editor';
 
 @customElement('sketch-person-card')
 export class SketchPersonCard extends BaseSketchCard {
@@ -107,6 +108,10 @@ export class SketchPersonCard extends BaseSketchCard {
   setConfig(config: PersonCardConfig): void {
     if (!config.entity) throw new Error('Please define a person entity');
     super.setConfig(config);
+  }
+
+  static getConfigElement() {
+    return document.createElement('sketch-person-card-editor');
   }
 
   static getStubConfig(hass: HomeAssistant) {

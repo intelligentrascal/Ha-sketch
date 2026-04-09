@@ -3,6 +3,7 @@ import { customElement } from 'lit/decorators.js';
 import { BaseSketchCard } from '../shared/base-card';
 import { stateIcon, weatherConditionIcon } from '../shared/utils';
 import type { HomeAssistant, WeatherCardConfig } from '../shared/types';
+import '../editors/sketch-weather-card-editor';
 
 @customElement('sketch-weather-card')
 export class SketchWeatherCard extends BaseSketchCard {
@@ -89,6 +90,10 @@ export class SketchWeatherCard extends BaseSketchCard {
   setConfig(config: WeatherCardConfig): void {
     if (!config.entity) throw new Error('Please define a weather entity');
     super.setConfig(config);
+  }
+
+  static getConfigElement() {
+    return document.createElement('sketch-weather-card-editor');
   }
 
   static getStubConfig(hass: HomeAssistant) {

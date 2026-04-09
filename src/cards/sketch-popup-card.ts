@@ -2,6 +2,7 @@ import { html, css, nothing, LitElement } from 'lit';
 import { customElement, state, property } from 'lit/decorators.js';
 import { sharedStyles } from '../shared/styles';
 import type { HomeAssistant, PopupCardConfig } from '../shared/types';
+import '../editors/sketch-popup-card-editor';
 
 @customElement('sketch-popup-card')
 export class SketchPopupCard extends LitElement {
@@ -166,6 +167,10 @@ export class SketchPopupCard extends LitElement {
     if (!config) throw new Error('Invalid configuration');
     if (!config.hash) throw new Error('Please define a hash (e.g. "kitchen")');
     this._config = { ...config };
+  }
+
+  static getConfigElement() {
+    return document.createElement('sketch-popup-card-editor');
   }
 
   static getStubConfig() {

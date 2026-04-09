@@ -3,6 +3,7 @@ import { customElement, state } from 'lit/decorators.js';
 import { BaseSketchCard } from '../shared/base-card';
 import { stateIcon, isEntityActive } from '../shared/utils';
 import type { HomeAssistant, CardConfig } from '../shared/types';
+import '../editors/sketch-button-card-editor';
 
 @customElement('sketch-button-card')
 export class SketchButtonCard extends BaseSketchCard {
@@ -61,6 +62,10 @@ export class SketchButtonCard extends BaseSketchCard {
 
   setConfig(config: CardConfig): void {
     super.setConfig(config);
+  }
+
+  static getConfigElement() {
+    return document.createElement('sketch-button-card-editor');
   }
 
   static getStubConfig(hass: HomeAssistant) {

@@ -3,6 +3,7 @@ import { customElement } from 'lit/decorators.js';
 import { BaseSketchCard } from '../shared/base-card';
 import { stateIcon, formatState, isEntityActive } from '../shared/utils';
 import type { HomeAssistant, TileCardConfig } from '../shared/types';
+import '../editors/sketch-tile-card-editor';
 
 @customElement('sketch-tile-card')
 export class SketchTileCard extends BaseSketchCard {
@@ -84,6 +85,10 @@ export class SketchTileCard extends BaseSketchCard {
   setConfig(config: TileCardConfig): void {
     if (!config.entity) throw new Error('Please define an entity');
     super.setConfig(config);
+  }
+
+  static getConfigElement() {
+    return document.createElement('sketch-tile-card-editor');
   }
 
   static getStubConfig(hass: HomeAssistant) {

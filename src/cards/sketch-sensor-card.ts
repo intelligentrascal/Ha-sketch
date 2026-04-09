@@ -3,6 +3,7 @@ import { customElement, state } from 'lit/decorators.js';
 import { BaseSketchCard } from '../shared/base-card';
 import { stateIcon } from '../shared/utils';
 import type { HomeAssistant, SensorCardConfig } from '../shared/types';
+import '../editors/sketch-sensor-card-editor';
 
 @customElement('sketch-sensor-card')
 export class SketchSensorCard extends BaseSketchCard {
@@ -57,6 +58,10 @@ export class SketchSensorCard extends BaseSketchCard {
   setConfig(config: SensorCardConfig): void {
     if (!config.entity) throw new Error('Please define a sensor entity');
     super.setConfig(config);
+  }
+
+  static getConfigElement() {
+    return document.createElement('sketch-sensor-card-editor');
   }
 
   static getStubConfig(hass: HomeAssistant) {

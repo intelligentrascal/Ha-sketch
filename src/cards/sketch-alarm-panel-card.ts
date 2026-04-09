@@ -3,6 +3,7 @@ import { customElement, state } from 'lit/decorators.js';
 import { BaseSketchCard } from '../shared/base-card';
 import { stateIcon } from '../shared/utils';
 import type { HomeAssistant, AlarmPanelCardConfig } from '../shared/types';
+import '../editors/sketch-alarm-panel-card-editor';
 
 @customElement('sketch-alarm-panel-card')
 export class SketchAlarmPanelCard extends BaseSketchCard {
@@ -112,6 +113,10 @@ export class SketchAlarmPanelCard extends BaseSketchCard {
   setConfig(config: AlarmPanelCardConfig): void {
     if (!config.entity) throw new Error('Please define an alarm_control_panel entity');
     super.setConfig(config);
+  }
+
+  static getConfigElement() {
+    return document.createElement('sketch-alarm-panel-card-editor');
   }
 
   static getStubConfig(hass: HomeAssistant) {

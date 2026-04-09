@@ -2,6 +2,7 @@ import { html, css, nothing } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { BaseSketchCard } from '../shared/base-card';
 import type { HomeAssistant, CameraCardConfig } from '../shared/types';
+import '../editors/sketch-camera-card-editor';
 
 @customElement('sketch-camera-card')
 export class SketchCameraCard extends BaseSketchCard {
@@ -108,6 +109,10 @@ export class SketchCameraCard extends BaseSketchCard {
   setConfig(config: CameraCardConfig): void {
     if (!config.entity) throw new Error('Please define a camera entity');
     super.setConfig(config);
+  }
+
+  static getConfigElement() {
+    return document.createElement('sketch-camera-card-editor');
   }
 
   static getStubConfig(hass: HomeAssistant) {

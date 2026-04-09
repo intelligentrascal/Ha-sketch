@@ -2,6 +2,7 @@ import { html, css, nothing } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { BaseSketchCard } from '../shared/base-card';
 import type { HomeAssistant, CoverCardConfig } from '../shared/types';
+import '../editors/sketch-cover-card-editor';
 
 @customElement('sketch-cover-card')
 export class SketchCoverCard extends BaseSketchCard {
@@ -78,6 +79,10 @@ export class SketchCoverCard extends BaseSketchCard {
   setConfig(config: CoverCardConfig): void {
     if (!config.entity) throw new Error('Please define a cover entity');
     super.setConfig(config);
+  }
+
+  static getConfigElement() {
+    return document.createElement('sketch-cover-card-editor');
   }
 
   static getStubConfig(hass: HomeAssistant) {

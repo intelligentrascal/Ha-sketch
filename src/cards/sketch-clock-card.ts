@@ -3,6 +3,7 @@ import { customElement, state } from 'lit/decorators.js';
 import { LitElement } from 'lit';
 import { sharedStyles } from '../shared/styles';
 import type { ClockCardConfig } from '../shared/types';
+import '../editors/sketch-clock-card-editor';
 
 @customElement('sketch-clock-card')
 export class SketchClockCard extends LitElement {
@@ -91,6 +92,10 @@ export class SketchClockCard extends LitElement {
   setConfig(config: ClockCardConfig): void {
     if (!config) throw new Error('Invalid configuration');
     this._config = { ...config };
+  }
+
+  static getConfigElement() {
+    return document.createElement('sketch-clock-card-editor');
   }
 
   static getStubConfig() {

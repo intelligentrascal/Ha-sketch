@@ -3,6 +3,7 @@ import { customElement, state, property } from 'lit/decorators.js';
 import { sharedStyles } from '../shared/styles';
 import { stateIcon } from '../shared/utils';
 import type { HomeAssistant, ChipCardConfig, ChipConfig } from '../shared/types';
+import '../editors/sketch-chip-card-editor';
 
 @customElement('sketch-chip-card')
 export class SketchChipCard extends LitElement {
@@ -81,6 +82,10 @@ export class SketchChipCard extends LitElement {
       throw new Error('Please define chips array');
     }
     this._config = { ...config };
+  }
+
+  static getConfigElement() {
+    return document.createElement('sketch-chip-card-editor');
   }
 
   static getStubConfig() {

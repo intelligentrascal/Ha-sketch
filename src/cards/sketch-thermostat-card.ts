@@ -2,6 +2,7 @@ import { html, css, nothing } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { BaseSketchCard } from '../shared/base-card';
 import type { HomeAssistant, ThermostatCardConfig } from '../shared/types';
+import '../editors/sketch-thermostat-card-editor';
 
 @customElement('sketch-thermostat-card')
 export class SketchThermostatCard extends BaseSketchCard {
@@ -89,6 +90,10 @@ export class SketchThermostatCard extends BaseSketchCard {
   setConfig(config: ThermostatCardConfig): void {
     if (!config.entity) throw new Error('Please define a climate entity');
     super.setConfig(config);
+  }
+
+  static getConfigElement() {
+    return document.createElement('sketch-thermostat-card-editor');
   }
 
   static getStubConfig(hass: HomeAssistant) {

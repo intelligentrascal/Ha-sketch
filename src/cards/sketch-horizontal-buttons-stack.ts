@@ -2,6 +2,7 @@ import { html, css, nothing, LitElement } from 'lit';
 import { customElement, state, property } from 'lit/decorators.js';
 import { sharedStyles } from '../shared/styles';
 import type { HomeAssistant, HorizontalButtonsStackConfig, NavButton } from '../shared/types';
+import '../editors/sketch-horizontal-buttons-stack-editor';
 
 @customElement('sketch-horizontal-buttons-stack')
 export class SketchHorizontalButtonsStack extends LitElement {
@@ -149,6 +150,10 @@ export class SketchHorizontalButtonsStack extends LitElement {
       throw new Error('Please define buttons array');
     }
     this._config = { ...config };
+  }
+
+  static getConfigElement() {
+    return document.createElement('sketch-horizontal-buttons-stack-editor');
   }
 
   static getStubConfig() {
