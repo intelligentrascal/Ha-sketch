@@ -81,7 +81,7 @@ export class SketchHorizontalButtonsStackEditor extends BaseSketchEditor {
                 <ha-textfield
                   label="Name"
                   .value=${btn.name || ''}
-                  @input=${(ev: Event) => this._updateButton(i, 'name', (ev.target as any).value)}
+                  @change=${(ev: Event) => this._updateButton(i, 'name', (ev.target as any).value)}
                 ></ha-textfield>
                 <ha-icon-picker
                   .hass=${this.hass}
@@ -92,12 +92,12 @@ export class SketchHorizontalButtonsStackEditor extends BaseSketchEditor {
                 <ha-textfield
                   label="Hash (e.g. kitchen)"
                   .value=${btn.hash || ''}
-                  @input=${(ev: Event) => this._updateButton(i, 'hash', (ev.target as any).value)}
+                  @change=${(ev: Event) => this._updateButton(i, 'hash', (ev.target as any).value)}
                 ></ha-textfield>
                 <ha-textfield
                   label="Navigation Path (e.g. /lovelace/1)"
                   .value=${btn.navigation_path || ''}
-                  @input=${(ev: Event) => this._updateButton(i, 'navigation_path', (ev.target as any).value)}
+                  @change=${(ev: Event) => this._updateButton(i, 'navigation_path', (ev.target as any).value)}
                 ></ha-textfield>
                 <div style="margin-top:8px">
                   <mwc-button dense @click=${() => this._removeButton(i)}>Remove</mwc-button>
@@ -107,7 +107,7 @@ export class SketchHorizontalButtonsStackEditor extends BaseSketchEditor {
           </div>
         `)}
       </div>
-      <mwc-button class="add-btn" @click=${this._addButton}>Add Button</mwc-button>
+      <mwc-button class="add-btn" @click=${() => this._addButton()}>Add Button</mwc-button>
     `;
   }
 }

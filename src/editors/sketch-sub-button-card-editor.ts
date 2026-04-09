@@ -95,7 +95,7 @@ export class SketchSubButtonCardEditor extends BaseSketchEditor {
                 <ha-textfield
                   label="Name"
                   .value=${btn.name || ''}
-                  @input=${(ev: Event) => this._updateSubButton(i, 'name', (ev.target as any).value)}
+                  @change=${(ev: Event) => this._updateSubButton(i, 'name', (ev.target as any).value)}
                 ></ha-textfield>
                 <ha-icon-picker
                   .hass=${this.hass}
@@ -111,7 +111,7 @@ export class SketchSubButtonCardEditor extends BaseSketchEditor {
           </div>
         `)}
       </div>
-      <mwc-button class="add-btn" @click=${this._addSubButton}>Add Sub-Button</mwc-button>
+      <mwc-button class="add-btn" @click=${() => this._addSubButton()}>Add Sub-Button</mwc-button>
     `;
   }
 }

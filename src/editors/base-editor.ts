@@ -13,10 +13,6 @@ export abstract class BaseSketchEditor extends LitElement {
   static styles = [css`
     :host {
       display: block;
-      font-family: var(--paper-font-body1_-_font-family, 'Roboto', sans-serif);
-    }
-    .editor-section {
-      margin-bottom: 16px;
     }
     .editor-section-title {
       font-weight: 500;
@@ -24,36 +20,33 @@ export abstract class BaseSketchEditor extends LitElement {
       margin: 16px 0 8px;
       color: var(--primary-text-color);
     }
-    .editor-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 4px 0;
-    }
-    .editor-row label {
-      flex: 1;
-      font-size: 14px;
-    }
-    ha-textfield,
-    ha-select {
-      width: 100%;
-    }
-    ha-entity-picker {
-      display: block;
-      width: 100%;
-    }
-    ha-icon-picker {
-      display: block;
-      width: 100%;
-    }
     .switch-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 8px 0;
+      cursor: pointer;
     }
-    .switch-row label {
+    .switch-row span {
       font-size: 14px;
+    }
+    ha-textfield {
+      display: block;
+      width: 100%;
+      margin-bottom: 8px;
+    }
+    ha-entity-picker {
+      display: block;
+      margin-bottom: 8px;
+    }
+    ha-icon-picker {
+      display: block;
+      margin-bottom: 8px;
+    }
+    ha-select {
+      display: block;
+      width: 100%;
+      margin-bottom: 8px;
     }
   `];
 
@@ -62,30 +55,23 @@ export abstract class BaseSketchEditor extends LitElement {
   }
 
   protected _configChanged(newConfig: any): void {
-    this._config = newConfig;
-    this.dispatchEvent(
-      new CustomEvent('config-changed', {
-        detail: { config: newConfig },
-        bubbles: true,
-        composed: true,
-      })
-    );
+    this._config = { ...newConfig };
+    const event = new CustomEvent('config-changed', {
+      detail: { config: this._config },
+      bubbles: true,
+      composed: true,
+    });
+    this.dispatchEvent(event);
   }
 
   protected _valueChanged(key: string, value: any): void {
-    const newConfig = { ...this._config, [key]: value };
-    // Remove undefined/null values
+    const newConfig = { ...this._config };
     if (value === undefined || value === null || value === '') {
       delete newConfig[key];
+    } else {
+      newConfig[key] = value;
     }
     this._configChanged(newConfig);
-  }
-
-  protected _boolChanged(key: string, ev: Event): void {
-    const target = ev.target as any;
-    // ha-switch may use .checked or .selected depending on HA version
-    const checked = target.checked ?? target.selected ?? false;
-    this._valueChanged(key, checked);
   }
 
   /** Render an entity picker field. */
@@ -96,7 +82,10 @@ export abstract class BaseSketchEditor extends LitElement {
         .value=${this._config[key] || ''}
         .label=${label}
         .includeDomains=${domainFilter ? [domainFilter] : undefined}
-        @value-changed=${(ev: CustomEvent) => this._valueChanged(key, ev.detail.value)}
+        @value-changed=${(ev: CustomEvent) => {
+          ev.stopPropagation();
+          this._valueChanged(key, ev.detail.value);
+        }}
         allow-custom-entity
       ></ha-entity-picker>
     `;
@@ -108,7 +97,7 @@ export abstract class BaseSketchEditor extends LitElement {
       <ha-textfield
         .label=${label}
         .value=${this._config[key] || ''}
-        @input=${(ev: Event) => this._valueChanged(key, (ev.target as any).value)}
+        @change=${(ev: Event) => this._valueChanged(key, (ev.target as any).value)}
       ></ha-textfield>
     `;
   }
@@ -120,7 +109,10 @@ export abstract class BaseSketchEditor extends LitElement {
         .hass=${this.hass}
         .value=${this._config[key] || ''}
         .label=${label}
-        @value-changed=${(ev: CustomEvent) => this._valueChanged(key, ev.detail.value)}
+        @value-changed=${(ev: CustomEvent) => {
+          ev.stopPropagation();
+          this._valueChanged(key, ev.detail.value);
+        }}
       ></ha-icon-picker>
     `;
   }
@@ -129,22 +121,9 @@ export abstract class BaseSketchEditor extends LitElement {
   protected renderSwitch(label: string, key: string, defaultVal: boolean = true): any {
     const checked = this._config[key] !== undefined ? !!this._config[key] : defaultVal;
     return html`
-      <div class="switch-row">
-        <label @click=${(ev: Event) => {
-          // Click label to toggle — some HA versions don't propagate label clicks
-          const sw = (ev.currentTarget as HTMLElement).parentElement?.querySelector('ha-switch') as any;
-          if (sw) {
-            this._valueChanged(key, !checked);
-          }
-        }}>${label}</label>
-        <ha-switch
-          .checked=${checked}
-          @change=${(ev: Event) => {
-            const target = ev.target as any;
-            const val = target.checked ?? target.selected ?? !checked;
-            this._valueChanged(key, val);
-          }}
-        ></ha-switch>
+      <div class="switch-row" @click=${() => this._valueChanged(key, !checked)}>
+        <span>${label}</span>
+        <ha-switch .checked=${checked}></ha-switch>
       </div>
     `;
   }
@@ -158,7 +137,7 @@ export abstract class BaseSketchEditor extends LitElement {
         .value=${String(this._config[key] ?? defaultVal ?? '')}
         .min=${String(min)}
         .max=${String(max)}
-        @input=${(ev: Event) => {
+        @change=${(ev: Event) => {
           const val = parseInt((ev.target as any).value);
           if (!isNaN(val)) this._valueChanged(key, val);
         }}
@@ -172,7 +151,12 @@ export abstract class BaseSketchEditor extends LitElement {
       <ha-select
         .label=${label}
         .value=${this._config[key] || defaultVal || ''}
-        @selected=${(ev: Event) => this._valueChanged(key, (ev.target as any).value)}
+        @selected=${(ev: CustomEvent) => {
+          const index = ev.detail.index;
+          if (index >= 0 && index < options.length) {
+            this._valueChanged(key, options[index].value);
+          }
+        }}
         @closed=${(ev: Event) => ev.stopPropagation()}
         fixedMenuPosition
         naturalMenuWidth

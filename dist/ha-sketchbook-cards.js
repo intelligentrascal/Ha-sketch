@@ -253,10 +253,6 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
 `,ft=document.createElement("link");ft.rel="stylesheet",ft.href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Patrick+Hand&display=swap",document.head.querySelector('link[href*="Caveat"]')||document.head.appendChild(ft);class bt extends lt{constructor(){super(...arguments),this._holdFired=!1,this._lastTap=0}static{this.styles=[vt]}setConfig(t){if(!t)throw new Error("Invalid configuration");this._config={...t}}getCardSize(){return 3}getEntity(){if(this._config?.entity&&this.hass)return this.hass.states[this._config.entity]}isUnavailable(){const t=this.getEntity();return!!t&&["unavailable","unknown"].includes(t.state)}getName(){if(this._config?.name)return this._config.name;const t=this.getEntity();return t?.attributes?.friendly_name||this._config?.entity||""}getIcon(){if(this._config?.icon)return this._config.icon;const t=this.getEntity();return t?.attributes?.icon||"mdi:help-circle-outline"}callService(t,e,i){this.hass.callService(t,e,i)}toggleEntity(){if(!this._config?.entity)return;const[t]=this._config.entity.split(".");this.callService(t,"toggle",{entity_id:this._config.entity})}fireEvent(t,e){this.dispatchEvent(new CustomEvent(t,{bubbles:!0,composed:!0,detail:e}))}executeAction(t,e="more-info"){switch(t?.action||e){case"toggle":this.toggleEntity(),this.fireEvent("haptic",{type:"success"});break;case"call-service":if(t?.service){const[e,i]=t.service.split(".");this.callService(e,i,t.service_data),this.fireEvent("haptic",{type:"light"})}break;case"navigate":t?.navigation_path&&(window.history.pushState(null,"",t.navigation_path),this.fireEvent("location-changed"),this.fireEvent("haptic",{type:"light"}));break;case"url":t?.url_path&&(window.open(t.url_path,"_blank"),this.fireEvent("haptic",{type:"light"}));break;case"none":break;default:this.fireEvent("hass-more-info",{entityId:this._config?.entity}),this.fireEvent("haptic",{type:"light"})}}updated(t){super.updated(t),this.isUnavailable()?this.classList.add("unavailable"):this.classList.remove("unavailable")}get defaultTapAction(){return"more-info"}handleAction(){this.executeAction(this._config?.tap_action,this.defaultTapAction)}handlePointerDown(t){t.preventDefault(),this._holdFired=!1,this._holdTimer=setTimeout(()=>{this._holdFired=!0,this._config?.hold_action&&(this.executeAction(this._config.hold_action),this.fireEvent("haptic",{type:"medium"}))},500)}handlePointerUp(t){if(t.preventDefault(),this._holdTimer&&(clearTimeout(this._holdTimer),this._holdTimer=void 0),this._holdFired)return;const e=Date.now();this._config?.double_tap_action&&e-this._lastTap<250?(this._dblTapTimer&&(clearTimeout(this._dblTapTimer),this._dblTapTimer=void 0),this._lastTap=0,this.executeAction(this._config.double_tap_action)):(this._lastTap=e,this._config?.double_tap_action?this._dblTapTimer=setTimeout(()=>{this._lastTap=0,this.executeAction(this._config?.tap_action,this.defaultTapAction)},250):this.executeAction(this._config?.tap_action,this.defaultTapAction))}handlePointerCancel(){this._holdTimer&&(clearTimeout(this._holdTimer),this._holdTimer=void 0),this._holdFired=!1}}function yt(t){if(t.attributes.icon)return t.attributes.icon;const e=t.entity_id.split(".")[0],i=t.state;return{light:"on"===i?"mdi:lightbulb":"mdi:lightbulb-outline",switch:"on"===i?"mdi:toggle-switch":"mdi:toggle-switch-off",fan:"mdi:fan",climate:"mdi:thermostat",weather:kt(i),sensor:_t(t),binary_sensor:"on"===i?"mdi:checkbox-marked-circle":"mdi:checkbox-blank-circle-outline",cover:"open"===i?"mdi:window-open":"mdi:window-closed",lock:"locked"===i?"mdi:lock":"mdi:lock-open",media_player:"playing"===i?"mdi:play-circle":"mdi:play-circle-outline",alarm_control_panel:xt(i),camera:"mdi:video",automation:"mdi:robot",script:"mdi:script-text",scene:"mdi:palette",input_boolean:"on"===i?"mdi:check-circle":"mdi:close-circle",person:"mdi:account",device_tracker:"mdi:crosshairs-gps",vacuum:"mdi:robot-vacuum",input_number:"mdi:ray-vertex",input_select:"mdi:format-list-bulleted",timer:"mdi:timer-outline",counter:"mdi:counter",sun:"above_horizon"===i?"mdi:white-balance-sunny":"mdi:weather-night"}[e]||"mdi:help-circle-outline"}function kt(t){return{"clear-night":"mdi:weather-night",cloudy:"mdi:weather-cloudy",fog:"mdi:weather-fog",hail:"mdi:weather-hail",lightning:"mdi:weather-lightning","lightning-rainy":"mdi:weather-lightning-rainy",partlycloudy:"mdi:weather-partly-cloudy",pouring:"mdi:weather-pouring",rainy:"mdi:weather-rainy",snowy:"mdi:weather-snowy","snowy-rainy":"mdi:weather-snowy-rainy",sunny:"mdi:weather-sunny",windy:"mdi:weather-windy","windy-variant":"mdi:weather-windy-variant",exceptional:"mdi:alert-circle-outline"}[t]||"mdi:weather-cloudy"}function _t(t){return{temperature:"mdi:thermometer",humidity:"mdi:water-percent",pressure:"mdi:gauge",power:"mdi:flash",energy:"mdi:lightning-bolt",battery:"mdi:battery",illuminance:"mdi:brightness-6",carbon_dioxide:"mdi:molecule-co2",carbon_monoxide:"mdi:molecule-co",gas:"mdi:gas-cylinder",moisture:"mdi:water",signal_strength:"mdi:wifi",voltage:"mdi:sine-wave",current:"mdi:current-ac"}[t.attributes.device_class]||"mdi:eye"}function xt(t){return{armed_home:"mdi:shield-home",armed_away:"mdi:shield-lock",armed_night:"mdi:shield-moon",armed_vacation:"mdi:shield-airplane",armed_custom_bypass:"mdi:shield-star",disarmed:"mdi:shield-off",triggered:"mdi:bell-ring",pending:"mdi:shield-alert",arming:"mdi:shield-outline"}[t]||"mdi:shield"}function wt(t){return["on","open","playing","home","unlocked"].includes(t)}function $t(t){const e=t.state,i=t.attributes.unit_of_measurement;return i?`${e} ${i}`:e}t([gt({attribute:!1})],bt.prototype,"hass",void 0),t([mt()],bt.prototype,"_config",void 0);class Ct extends lt{constructor(){super(...arguments),this._config={}}static{this.styles=[r`
     :host {
       display: block;
-      font-family: var(--paper-font-body1_-_font-family, 'Roboto', sans-serif);
-    }
-    .editor-section {
-      margin-bottom: 16px;
     }
     .editor-section-title {
       font-weight: 500;
@@ -264,66 +260,60 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
       margin: 16px 0 8px;
       color: var(--primary-text-color);
     }
-    .editor-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 4px 0;
-    }
-    .editor-row label {
-      flex: 1;
-      font-size: 14px;
-    }
-    ha-textfield,
-    ha-select {
-      width: 100%;
-    }
-    ha-entity-picker {
-      display: block;
-      width: 100%;
-    }
-    ha-icon-picker {
-      display: block;
-      width: 100%;
-    }
     .switch-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 8px 0;
+      cursor: pointer;
     }
-    .switch-row label {
+    .switch-row span {
       font-size: 14px;
     }
-  `]}setConfig(t){this._config={...t}}_configChanged(t){this._config=t,this.dispatchEvent(new CustomEvent("config-changed",{detail:{config:t},bubbles:!0,composed:!0}))}_valueChanged(t,e){const i={...this._config,[t]:e};null!=e&&""!==e||delete i[t],this._configChanged(i)}_boolChanged(t,e){const i=e.target,s=i.checked??i.selected??!1;this._valueChanged(t,s)}renderEntityPicker(t,e="entity",i){return W`
+    ha-textfield {
+      display: block;
+      width: 100%;
+      margin-bottom: 8px;
+    }
+    ha-entity-picker {
+      display: block;
+      margin-bottom: 8px;
+    }
+    ha-icon-picker {
+      display: block;
+      margin-bottom: 8px;
+    }
+    ha-select {
+      display: block;
+      width: 100%;
+      margin-bottom: 8px;
+    }
+  `]}setConfig(t){this._config={...t}}_configChanged(t){this._config={...t};const e=new CustomEvent("config-changed",{detail:{config:this._config},bubbles:!0,composed:!0});this.dispatchEvent(e)}_valueChanged(t,e){const i={...this._config};null==e||""===e?delete i[t]:i[t]=e,this._configChanged(i)}renderEntityPicker(t,e="entity",i){return W`
       <ha-entity-picker
         .hass=${this.hass}
         .value=${this._config[e]||""}
         .label=${t}
         .includeDomains=${i?[i]:void 0}
-        @value-changed=${t=>this._valueChanged(e,t.detail.value)}
+        @value-changed=${t=>{t.stopPropagation(),this._valueChanged(e,t.detail.value)}}
         allow-custom-entity
       ></ha-entity-picker>
     `}renderTextField(t,e){return W`
       <ha-textfield
         .label=${t}
         .value=${this._config[e]||""}
-        @input=${t=>this._valueChanged(e,t.target.value)}
+        @change=${t=>this._valueChanged(e,t.target.value)}
       ></ha-textfield>
     `}renderIconPicker(t,e="icon"){return W`
       <ha-icon-picker
         .hass=${this.hass}
         .value=${this._config[e]||""}
         .label=${t}
-        @value-changed=${t=>this._valueChanged(e,t.detail.value)}
+        @value-changed=${t=>{t.stopPropagation(),this._valueChanged(e,t.detail.value)}}
       ></ha-icon-picker>
     `}renderSwitch(t,e,i=!0){const s=void 0!==this._config[e]?!!this._config[e]:i;return W`
-      <div class="switch-row">
-        <label @click=${t=>{const i=t.currentTarget.parentElement?.querySelector("ha-switch");i&&this._valueChanged(e,!s)}}>${t}</label>
-        <ha-switch
-          .checked=${s}
-          @change=${t=>{const i=t.target,a=i.checked??i.selected??!s;this._valueChanged(e,a)}}
-        ></ha-switch>
+      <div class="switch-row" @click=${()=>this._valueChanged(e,!s)}>
+        <span>${t}</span>
+        <ha-switch .checked=${s}></ha-switch>
       </div>
     `}renderNumber(t,e,i,s,a){return W`
       <ha-textfield
@@ -332,13 +322,13 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
         .value=${String(this._config[e]??a??"")}
         .min=${String(i)}
         .max=${String(s)}
-        @input=${t=>{const i=parseInt(t.target.value);isNaN(i)||this._valueChanged(e,i)}}
+        @change=${t=>{const i=parseInt(t.target.value);isNaN(i)||this._valueChanged(e,i)}}
       ></ha-textfield>
     `}renderSelect(t,e,i,s){return W`
       <ha-select
         .label=${t}
         .value=${this._config[e]||s||""}
-        @selected=${t=>this._valueChanged(e,t.target.value)}
+        @selected=${t=>{const s=t.detail.index;s>=0&&s<i.length&&this._valueChanged(e,i[s].value)}}
         @closed=${t=>t.stopPropagation()}
         fixedMenuPosition
         naturalMenuWidth
@@ -1158,12 +1148,9 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
       <div class="editor-section-title">Alarm States</div>
       <div class="states-grid">
         ${Rt.map(e=>W`
-            <div class="switch-row">
-              <label>${e.label}</label>
-              <ha-switch
-                .checked=${t.includes(e.value)}
-                @change=${t=>this._toggleState(e.value,t.target.checked)}
-              ></ha-switch>
+            <div class="switch-row" @click=${()=>this._toggleState(e.value,!t.includes(e.value))}>
+              <span>${e.label}</span>
+              <ha-switch .checked=${t.includes(e.value)}></ha-switch>
             </div>
           `)}
       </div>
@@ -1456,7 +1443,7 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
                 <ha-select
                   label="Type"
                   .value=${t.type||"entity"}
-                  @selected=${t=>this._updateChip(e,"type",t.target.value)}
+                  @selected=${t=>{const i=["entity","action","template"],s=t.detail.index;s>=0&&s<i.length&&this._updateChip(e,"type",i[s])}}
                   @closed=${t=>t.stopPropagation()}
                   fixedMenuPosition
                 >
@@ -1476,7 +1463,7 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
                 <ha-textfield
                   label="Name (optional)"
                   .value=${t.name||""}
-                  @input=${t=>this._updateChip(e,"name",t.target.value)}
+                  @change=${t=>this._updateChip(e,"name",t.target.value)}
                 ></ha-textfield>
                 <ha-icon-picker
                   .hass=${this.hass}
@@ -1488,7 +1475,7 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
                   <ha-textfield
                     label="Content"
                     .value=${t.content||""}
-                    @input=${t=>this._updateChip(e,"content",t.target.value)}
+                    @change=${t=>this._updateChip(e,"content",t.target.value)}
                   ></ha-textfield>
                 `:V}
                 <div style="margin-top:8px">
@@ -1499,7 +1486,7 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
           </div>
         `)}
       </div>
-      <mwc-button class="add-btn" @click=${this._addChip}>Add Chip</mwc-button>
+      <mwc-button class="add-btn" @click=${()=>this._addChip()}>Add Chip</mwc-button>
     `}};t([mt()],Vt.prototype,"_expandedChip",void 0),Vt=t([ht("sketch-chip-card-editor")],Vt);let Kt=class extends lt{static{this.styles=[vt,r`
       :host {
         display: block;
@@ -2150,7 +2137,7 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
                 <ha-textfield
                   label="Name"
                   .value=${t.name||""}
-                  @input=${t=>this._updateButton(e,"name",t.target.value)}
+                  @change=${t=>this._updateButton(e,"name",t.target.value)}
                 ></ha-textfield>
                 <ha-icon-picker
                   .hass=${this.hass}
@@ -2161,12 +2148,12 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
                 <ha-textfield
                   label="Hash (e.g. kitchen)"
                   .value=${t.hash||""}
-                  @input=${t=>this._updateButton(e,"hash",t.target.value)}
+                  @change=${t=>this._updateButton(e,"hash",t.target.value)}
                 ></ha-textfield>
                 <ha-textfield
                   label="Navigation Path (e.g. /lovelace/1)"
                   .value=${t.navigation_path||""}
-                  @input=${t=>this._updateButton(e,"navigation_path",t.target.value)}
+                  @change=${t=>this._updateButton(e,"navigation_path",t.target.value)}
                 ></ha-textfield>
                 <div style="margin-top:8px">
                   <mwc-button dense @click=${()=>this._removeButton(e)}>Remove</mwc-button>
@@ -2176,7 +2163,7 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
           </div>
         `)}
       </div>
-      <mwc-button class="add-btn" @click=${this._addButton}>Add Button</mwc-button>
+      <mwc-button class="add-btn" @click=${()=>this._addButton()}>Add Button</mwc-button>
     `}};t([mt()],se.prototype,"_expandedBtn",void 0),se=t([ht("sketch-horizontal-buttons-stack-editor")],se);let ae=class extends lt{constructor(){super(...arguments),this._activeHash="",this._hashListener=()=>this._updateActiveHash()}static{this.styles=[vt,r`
       :host {
         display: block;
@@ -2389,7 +2376,7 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
                 <ha-textfield
                   label="Name"
                   .value=${t.name||""}
-                  @input=${t=>this._updateSubButton(e,"name",t.target.value)}
+                  @change=${t=>this._updateSubButton(e,"name",t.target.value)}
                 ></ha-textfield>
                 <ha-icon-picker
                   .hass=${this.hass}
@@ -2405,7 +2392,7 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
           </div>
         `)}
       </div>
-      <mwc-button class="add-btn" @click=${this._addSubButton}>Add Sub-Button</mwc-button>
+      <mwc-button class="add-btn" @click=${()=>this._addSubButton()}>Add Sub-Button</mwc-button>
     `}};t([mt()],ne.prototype,"_expandedBtn",void 0),ne=t([ht("sketch-sub-button-card-editor")],ne);let re=class extends bt{constructor(){super(...arguments),this._expanded=!0}static{this.styles=[...super.styles,r`
       .primary-row {
         display: flex;

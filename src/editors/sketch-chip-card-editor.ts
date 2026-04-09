@@ -76,7 +76,11 @@ export class SketchChipCardEditor extends BaseSketchEditor {
                 <ha-select
                   label="Type"
                   .value=${chip.type || 'entity'}
-                  @selected=${(ev: Event) => this._updateChip(i, 'type', (ev.target as any).value)}
+                  @selected=${(ev: CustomEvent) => {
+                    const types = ['entity', 'action', 'template'];
+                    const idx = ev.detail.index;
+                    if (idx >= 0 && idx < types.length) this._updateChip(i, 'type', types[idx]);
+                  }}
                   @closed=${(ev: Event) => ev.stopPropagation()}
                   fixedMenuPosition
                 >
@@ -96,7 +100,7 @@ export class SketchChipCardEditor extends BaseSketchEditor {
                 <ha-textfield
                   label="Name (optional)"
                   .value=${chip.name || ''}
-                  @input=${(ev: Event) => this._updateChip(i, 'name', (ev.target as any).value)}
+                  @change=${(ev: Event) => this._updateChip(i, 'name', (ev.target as any).value)}
                 ></ha-textfield>
                 <ha-icon-picker
                   .hass=${this.hass}
@@ -108,7 +112,7 @@ export class SketchChipCardEditor extends BaseSketchEditor {
                   <ha-textfield
                     label="Content"
                     .value=${chip.content || ''}
-                    @input=${(ev: Event) => this._updateChip(i, 'content', (ev.target as any).value)}
+                    @change=${(ev: Event) => this._updateChip(i, 'content', (ev.target as any).value)}
                   ></ha-textfield>
                 ` : nothing}
                 <div style="margin-top:8px">
@@ -119,7 +123,7 @@ export class SketchChipCardEditor extends BaseSketchEditor {
           </div>
         `)}
       </div>
-      <mwc-button class="add-btn" @click=${this._addChip}>Add Chip</mwc-button>
+      <mwc-button class="add-btn" @click=${() => this._addChip()}>Add Chip</mwc-button>
     `;
   }
 }

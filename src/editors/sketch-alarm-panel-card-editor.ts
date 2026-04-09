@@ -38,12 +38,9 @@ export class SketchAlarmPanelCardEditor extends BaseSketchEditor {
       <div class="states-grid">
         ${ALARM_STATES.map(
           (s) => html`
-            <div class="switch-row">
-              <label>${s.label}</label>
-              <ha-switch
-                .checked=${states.includes(s.value)}
-                @change=${(ev: Event) => this._toggleState(s.value, (ev.target as any).checked)}
-              ></ha-switch>
+            <div class="switch-row" @click=${() => this._toggleState(s.value, !states.includes(s.value))}>
+              <span>${s.label}</span>
+              <ha-switch .checked=${states.includes(s.value)}></ha-switch>
             </div>
           `
         )}
