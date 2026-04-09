@@ -3,6 +3,9 @@ import { BaseSketchEditor, entitySchema } from './base-editor';
 
 @customElement('sketch-button-card-editor')
 export class SketchButtonCardEditor extends BaseSketchEditor {
+  protected get _defaults() {
+    return { show_name: true, show_state: true, show_icon: true };
+  }
   protected get _schema() {
     return [...entitySchema()];
   }

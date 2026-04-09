@@ -3,6 +3,9 @@ import { BaseSketchEditor, entitySchema } from './base-editor';
 
 @customElement('sketch-sensor-card-editor')
 export class SketchSensorCardEditor extends BaseSketchEditor {
+  protected get _defaults() {
+    return { show_name: true, show_state: true, show_icon: true, graph: true };
+  }
   protected get _schema() {
     return [
       ...entitySchema('sensor'),

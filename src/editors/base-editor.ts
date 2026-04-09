@@ -33,16 +33,16 @@ export abstract class BaseSketchEditor extends LitElement {
     }
   `];
 
+  /** Default values for boolean fields. Override in subclass if needed. */
+  protected get _defaults(): Record<string, any> {
+    return {};
+  }
+
   public setConfig(config: any): void {
-    // Apply defaults for boolean fields so ha-form shows correct initial state.
-    // Cards treat undefined booleans as true (e.g., show_name !== false),
-    // so the editor must reflect that by defaulting them to true.
-    this._config = {
-      show_name: true,
-      show_state: true,
-      show_icon: true,
-      ...config,
-    };
+    // Apply defaults so ha-form shows correct initial toggle state.
+    // Cards treat undefined booleans as true (via `!== false`), so the
+    // editor must reflect that.
+    this._config = { ...this._defaults, ...config };
   }
 
   /** Override in subclasses to define the form schema. */
@@ -87,9 +87,13 @@ export abstract class BaseSketchEditor extends LitElement {
     return labels[schema.name] || schema.name;
   };
 
-  /** Matches Mushroom pattern: pass ev.detail.value directly as config. */
+  /** Fire config-changed, preserving fields not in the schema (like type). */
   private _valueChanged = (ev: CustomEvent): void => {
-    fireEvent(this, 'config-changed', { config: ev.detail.value });
+    const newValue = ev.detail.value;
+    // Merge with existing config to preserve fields ha-form doesn't know about
+    // (type, cards[], sub_buttons[], buttons[], chips[], etc.)
+    const config = { ...this._config, ...newValue };
+    fireEvent(this, 'config-changed', { config });
   };
 
   protected render() {
