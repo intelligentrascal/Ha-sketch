@@ -165,7 +165,7 @@ export class SketchSubButtonCard extends BaseSketchCard {
         if (btn.entity) {
           const [domain] = btn.entity.split('.');
           this.callService(domain, 'toggle', { entity_id: btn.entity });
-          this.fireEvent('haptic', { type: 'success' });
+          window.dispatchEvent(new CustomEvent('haptic', { detail: 'success' }));
         }
         break;
       case 'call-service':
@@ -175,7 +175,7 @@ export class SketchSubButtonCard extends BaseSketchCard {
             ...btn.tap_action.service_data,
             ...(btn.entity ? { entity_id: btn.entity } : {}),
           });
-          this.fireEvent('haptic', { type: 'light' });
+          window.dispatchEvent(new CustomEvent('haptic', { detail: 'light' }));
         }
         break;
       case 'more-info':
@@ -187,13 +187,13 @@ export class SketchSubButtonCard extends BaseSketchCard {
         if (btn.tap_action?.navigation_path) {
           window.history.pushState(null, '', btn.tap_action.navigation_path);
           this.fireEvent('location-changed');
-          this.fireEvent('haptic', { type: 'light' });
+          window.dispatchEvent(new CustomEvent('haptic', { detail: 'light' }));
         }
         break;
       case 'url':
         if (btn.tap_action?.url_path) {
           window.open(btn.tap_action.url_path, '_blank');
-          this.fireEvent('haptic', { type: 'light' });
+          window.dispatchEvent(new CustomEvent('haptic', { detail: 'light' }));
         }
         break;
       case 'none':

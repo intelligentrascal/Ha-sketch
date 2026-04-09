@@ -2,23 +2,29 @@ import { LitElement, html, css, nothing } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import type { HomeAssistant } from '../shared/types';
 
+// Match HA's fireEvent exactly: new Event with detail set manually
+function fireEvent(node: HTMLElement, type: string, detail?: any): void {
+  const event = new Event(type, {
+    bubbles: true,
+    cancelable: false,
+    composed: true,
+  });
+  (event as any).detail = detail;
+  node.dispatchEvent(event);
+}
+
 /**
  * Base class for all sketch card editors.
  * Uses ha-form with declarative schemas — the standard HA editor pattern.
+ * Pattern copied from Mushroom cards (the gold standard for HA custom card editors).
  */
 export abstract class BaseSketchEditor extends LitElement {
   @property({ attribute: false }) public hass!: HomeAssistant;
-  @state() protected _config: any = {};
+  @state() protected _config?: any;
 
   static styles = [css`
     :host {
       display: block;
-    }
-    .editor-section-title {
-      font-weight: 500;
-      font-size: 14px;
-      margin: 16px 0 8px;
-      color: var(--primary-text-color);
     }
     .editor-note {
       font-size: 13px;
@@ -27,15 +33,23 @@ export abstract class BaseSketchEditor extends LitElement {
     }
   `];
 
-  setConfig(config: any): void {
-    this._config = { ...config };
+  public setConfig(config: any): void {
+    // Apply defaults for boolean fields so ha-form shows correct initial state.
+    // Cards treat undefined booleans as true (e.g., show_name !== false),
+    // so the editor must reflect that by defaulting them to true.
+    this._config = {
+      show_name: true,
+      show_state: true,
+      show_icon: true,
+      ...config,
+    };
   }
 
   /** Override in subclasses to define the form schema. */
   protected abstract get _schema(): any[];
 
-  /** Override to provide custom label computation. */
-  protected _computeLabel(schema: any): string {
+  /** Arrow function property so `this` is always bound when passed to ha-form. */
+  private _computeLabel = (schema: any): string => {
     const labels: Record<string, string> = {
       entity: 'Entity',
       name: 'Name (optional)',
@@ -69,36 +83,26 @@ export abstract class BaseSketchEditor extends LitElement {
       style: 'Style',
       columns: 'Columns',
       collapsible: 'Collapsible',
-      tap_action: 'Tap Action',
-      hold_action: 'Hold Action',
-      double_tap_action: 'Double Tap Action',
     };
     return labels[schema.name] || schema.name;
-  }
+  };
 
-  protected _valueChanged(ev: CustomEvent): void {
-    ev.stopPropagation();
-    const config = { ...this._config, ...ev.detail.value };
-    // Preserve type field
-    config.type = this._config.type;
-    this._config = config;
-    this.dispatchEvent(
-      new CustomEvent('config-changed', {
-        detail: { config },
-        bubbles: true,
-        composed: true,
-      })
-    );
-  }
+  /** Matches Mushroom pattern: pass ev.detail.value directly as config. */
+  private _valueChanged = (ev: CustomEvent): void => {
+    fireEvent(this, 'config-changed', { config: ev.detail.value });
+  };
 
-  render() {
-    if (!this.hass || !this._config) return nothing;
+  protected render() {
+    if (!this.hass || !this._config) {
+      return nothing;
+    }
+
     return html`
       <ha-form
         .hass=${this.hass}
         .data=${this._config}
         .schema=${this._schema}
-        .computeLabel=${(schema: any) => this._computeLabel(schema)}
+        .computeLabel=${this._computeLabel}
         @value-changed=${this._valueChanged}
       ></ha-form>
     `;
@@ -111,9 +115,10 @@ export function entitySchema(domain?: string): any[] {
     { name: 'entity', selector: { entity: domain ? { domain } : {} } },
     {
       type: 'grid',
+      name: '',
       schema: [
         { name: 'name', selector: { text: {} } },
-        { name: 'icon', selector: { icon: {} } },
+        { name: 'icon', selector: { icon: {} }, context: { icon_entity: 'entity' } },
       ],
     },
     { name: 'show_name', selector: { boolean: {} } },

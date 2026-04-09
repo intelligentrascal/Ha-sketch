@@ -9,6 +9,7 @@ export class SketchPopupCardEditor extends BaseSketchEditor {
       { name: 'hash', selector: { text: {} } },
       {
         type: 'grid',
+        name: '',
         schema: [
           { name: 'name', selector: { text: {} } },
           { name: 'icon', selector: { icon: {} } },

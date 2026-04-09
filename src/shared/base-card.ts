@@ -3,6 +3,11 @@ import { property, state } from 'lit/decorators.js';
 import { sharedStyles } from './styles';
 import type { HomeAssistant, CardConfig, ActionConfig } from './types';
 
+/** Dispatch haptic feedback to the HA companion app. */
+function forwardHaptic(type: string): void {
+  window.dispatchEvent(new CustomEvent('haptic', { detail: type }));
+}
+
 export abstract class BaseSketchCard extends LitElement {
   @property({ attribute: false }) public hass!: HomeAssistant;
   @state() protected _config!: CardConfig;
@@ -72,26 +77,26 @@ export abstract class BaseSketchCard extends LitElement {
     switch (action) {
       case 'toggle':
         this.toggleEntity();
-        this.fireEvent('haptic', { type: 'success' });
+        forwardHaptic('success');
         break;
       case 'call-service':
         if (actionConfig?.service) {
           const [domain, service] = actionConfig.service.split('.');
           this.callService(domain, service, actionConfig.service_data);
-          this.fireEvent('haptic', { type: 'light' });
+          forwardHaptic('light');
         }
         break;
       case 'navigate':
         if (actionConfig?.navigation_path) {
           window.history.pushState(null, '', actionConfig.navigation_path);
           this.fireEvent('location-changed');
-          this.fireEvent('haptic', { type: 'light' });
+          forwardHaptic('light');
         }
         break;
       case 'url':
         if (actionConfig?.url_path) {
           window.open(actionConfig.url_path, '_blank');
-          this.fireEvent('haptic', { type: 'light' });
+          forwardHaptic('light');
         }
         break;
       case 'none':
@@ -99,7 +104,7 @@ export abstract class BaseSketchCard extends LitElement {
       case 'more-info':
       default:
         this.fireEvent('hass-more-info', { entityId: this._config?.entity });
-        this.fireEvent('haptic', { type: 'light' });
+        forwardHaptic('light');
         break;
     }
   }
@@ -128,20 +133,18 @@ export abstract class BaseSketchCard extends LitElement {
    * Pointer-aware action handler supporting tap, hold, and double-tap.
    * Bind to @pointerdown and @pointerup on the target element.
    */
-  protected handlePointerDown(ev: PointerEvent): void {
-    ev.preventDefault();
+  protected handlePointerDown = (_ev: PointerEvent): void => {
     this._holdFired = false;
     this._holdTimer = setTimeout(() => {
       this._holdFired = true;
       if (this._config?.hold_action) {
         this.executeAction(this._config.hold_action);
-        this.fireEvent('haptic', { type: 'medium' });
+        forwardHaptic('medium');
       }
     }, 500);
-  }
+  };
 
-  protected handlePointerUp(ev: PointerEvent): void {
-    ev.preventDefault();
+  protected handlePointerUp = (_ev: PointerEvent): void => {
     if (this._holdTimer) {
       clearTimeout(this._holdTimer);
       this._holdTimer = undefined;
@@ -169,13 +172,13 @@ export abstract class BaseSketchCard extends LitElement {
         this.executeAction(this._config?.tap_action, this.defaultTapAction);
       }
     }
-  }
+  };
 
-  protected handlePointerCancel(): void {
+  protected handlePointerCancel = (): void => {
     if (this._holdTimer) {
       clearTimeout(this._holdTimer);
       this._holdTimer = undefined;
     }
     this._holdFired = false;
-  }
+  };
 }
