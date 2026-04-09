@@ -1,10 +1,9 @@
-import { html } from 'lit';
 import { customElement } from 'lit/decorators.js';
-import { BaseSketchEditor } from './base-editor';
+import { BaseSketchEditor, entitySchema } from './base-editor';
 
 @customElement('sketch-entity-card-editor')
 export class SketchEntityCardEditor extends BaseSketchEditor {
-  render() {
-    return html`${this.renderBaseFields()}`;
+  protected get _schema() {
+    return [...entitySchema()];
   }
 }

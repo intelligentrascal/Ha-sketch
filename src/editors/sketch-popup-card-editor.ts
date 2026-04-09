@@ -1,19 +1,30 @@
-import { html } from 'lit';
 import { customElement } from 'lit/decorators.js';
+import { html, nothing } from 'lit';
 import { BaseSketchEditor } from './base-editor';
 
 @customElement('sketch-popup-card-editor')
 export class SketchPopupCardEditor extends BaseSketchEditor {
+  protected get _schema() {
+    return [
+      { name: 'hash', selector: { text: {} } },
+      {
+        type: 'grid',
+        schema: [
+          { name: 'name', selector: { text: {} } },
+          { name: 'icon', selector: { icon: {} } },
+        ],
+      },
+      { name: 'auto_close', selector: { number: { min: 0, max: 300, mode: 'box' } } },
+      { name: 'width', selector: { text: {} } },
+    ];
+  }
+
   render() {
+    if (!this.hass || !this._config) return nothing;
     return html`
-      ${this.renderTextField('Hash (required, e.g. kitchen)', 'hash')}
-      ${this.renderTextField('Title (optional)', 'name')}
-      ${this.renderIconPicker('Icon (optional)')}
-      ${this.renderNumber('Auto-close (seconds, 0 = off)', 'auto_close', 0, 300)}
-      ${this.renderTextField('Width (e.g. 90%, 500px)', 'width')}
-      <div class="editor-section-title">Child Cards</div>
-      <p style="font-size:13px;color:var(--secondary-text-color)">
-        Configure child cards in YAML mode. Switch to the code editor to add cards.
+      ${super.render()}
+      <p class="editor-note">
+        Configure child cards in YAML mode (code editor).
       </p>
     `;
   }

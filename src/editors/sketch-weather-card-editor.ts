@@ -1,15 +1,13 @@
-import { html } from 'lit';
 import { customElement } from 'lit/decorators.js';
-import { BaseSketchEditor } from './base-editor';
+import { BaseSketchEditor, entitySchema } from './base-editor';
 
 @customElement('sketch-weather-card-editor')
 export class SketchWeatherCardEditor extends BaseSketchEditor {
-  render() {
-    return html`
-      ${this.renderBaseFields('weather')}
-      <div class="editor-section-title">Weather Options</div>
-      ${this.renderSwitch('Show Forecast', 'show_forecast')}
-      ${this.renderNumber('Number of Forecast Days', 'num_forecasts', 1, 7, 5)}
-    `;
+  protected get _schema() {
+    return [
+      ...entitySchema('weather'),
+      { name: 'show_forecast', selector: { boolean: {} } },
+      { name: 'num_forecasts', selector: { number: { min: 1, max: 7, mode: 'box' } } },
+    ];
   }
 }

@@ -1,10 +1,10 @@
-import { LitElement, html, css } from 'lit';
+import { LitElement, html, css, nothing } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import type { HomeAssistant } from '../shared/types';
 
 /**
  * Base class for all sketch card editors.
- * Provides shared hass/config handling and fires 'config-changed' events.
+ * Uses ha-form with declarative schemas — the standard HA editor pattern.
  */
 export abstract class BaseSketchEditor extends LitElement {
   @property({ attribute: false }) public hass!: HomeAssistant;
@@ -20,33 +20,10 @@ export abstract class BaseSketchEditor extends LitElement {
       margin: 16px 0 8px;
       color: var(--primary-text-color);
     }
-    .switch-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+    .editor-note {
+      font-size: 13px;
+      color: var(--secondary-text-color);
       padding: 8px 0;
-      cursor: pointer;
-    }
-    .switch-row span {
-      font-size: 14px;
-    }
-    ha-textfield {
-      display: block;
-      width: 100%;
-      margin-bottom: 8px;
-    }
-    ha-entity-picker {
-      display: block;
-      margin-bottom: 8px;
-    }
-    ha-icon-picker {
-      display: block;
-      margin-bottom: 8px;
-    }
-    ha-select {
-      display: block;
-      width: 100%;
-      margin-bottom: 8px;
     }
   `];
 
@@ -54,132 +31,93 @@ export abstract class BaseSketchEditor extends LitElement {
     this._config = { ...config };
   }
 
-  protected _configChanged(newConfig: any): void {
-    this._config = { ...newConfig };
-    const event = new CustomEvent('config-changed', {
-      detail: { config: this._config },
-      bubbles: true,
-      composed: true,
-    });
-    this.dispatchEvent(event);
+  /** Override in subclasses to define the form schema. */
+  protected abstract get _schema(): any[];
+
+  /** Override to provide custom label computation. */
+  protected _computeLabel(schema: any): string {
+    const labels: Record<string, string> = {
+      entity: 'Entity',
+      name: 'Name (optional)',
+      icon: 'Icon (optional)',
+      show_name: 'Show Name',
+      show_state: 'Show State',
+      show_icon: 'Show Icon',
+      show_brightness: 'Show Brightness Slider',
+      show_color_temp: 'Show Color Temperature',
+      show_current_as_primary: 'Show Current Temp as Primary',
+      show_forecast: 'Show Forecast',
+      num_forecasts: 'Number of Forecast Days',
+      graph: 'Show Graph',
+      show_artwork: 'Show Artwork',
+      show_source: 'Show Source',
+      show_position: 'Show Position Slider',
+      show_tilt: 'Show Tilt Slider',
+      show_location: 'Show Location',
+      show_battery: 'Show Battery',
+      battery_entity: 'Battery Entity',
+      show_controls: 'Show Controls',
+      aspect_ratio: 'Aspect Ratio',
+      hide_icon: 'Hide Icon',
+      states: 'Alarm States',
+      mode: 'Display Mode',
+      show_date: 'Show Date',
+      show_seconds: 'Show Seconds',
+      hash: 'Hash (e.g. kitchen)',
+      auto_close: 'Auto-close (seconds)',
+      width: 'Width (e.g. 90%)',
+      style: 'Style',
+      columns: 'Columns',
+      collapsible: 'Collapsible',
+      tap_action: 'Tap Action',
+      hold_action: 'Hold Action',
+      double_tap_action: 'Double Tap Action',
+    };
+    return labels[schema.name] || schema.name;
   }
 
-  protected _valueChanged(key: string, value: any): void {
-    const newConfig = { ...this._config };
-    if (value === undefined || value === null || value === '') {
-      delete newConfig[key];
-    } else {
-      newConfig[key] = value;
-    }
-    this._configChanged(newConfig);
+  protected _valueChanged(ev: CustomEvent): void {
+    ev.stopPropagation();
+    const config = { ...this._config, ...ev.detail.value };
+    // Preserve type field
+    config.type = this._config.type;
+    this._config = config;
+    this.dispatchEvent(
+      new CustomEvent('config-changed', {
+        detail: { config },
+        bubbles: true,
+        composed: true,
+      })
+    );
   }
 
-  /** Render an entity picker field. */
-  protected renderEntityPicker(label: string, key: string = 'entity', domainFilter?: string): any {
+  render() {
+    if (!this.hass || !this._config) return nothing;
     return html`
-      <ha-entity-picker
+      <ha-form
         .hass=${this.hass}
-        .value=${this._config[key] || ''}
-        .label=${label}
-        .includeDomains=${domainFilter ? [domainFilter] : undefined}
-        @value-changed=${(ev: CustomEvent) => {
-          ev.stopPropagation();
-          this._valueChanged(key, ev.detail.value);
-        }}
-        allow-custom-entity
-      ></ha-entity-picker>
+        .data=${this._config}
+        .schema=${this._schema}
+        .computeLabel=${(schema: any) => this._computeLabel(schema)}
+        @value-changed=${this._valueChanged}
+      ></ha-form>
     `;
   }
+}
 
-  /** Render a text field. */
-  protected renderTextField(label: string, key: string): any {
-    return html`
-      <ha-textfield
-        .label=${label}
-        .value=${this._config[key] || ''}
-        @change=${(ev: Event) => this._valueChanged(key, (ev.target as any).value)}
-      ></ha-textfield>
-    `;
-  }
-
-  /** Render an icon picker. */
-  protected renderIconPicker(label: string, key: string = 'icon'): any {
-    return html`
-      <ha-icon-picker
-        .hass=${this.hass}
-        .value=${this._config[key] || ''}
-        .label=${label}
-        @value-changed=${(ev: CustomEvent) => {
-          ev.stopPropagation();
-          this._valueChanged(key, ev.detail.value);
-        }}
-      ></ha-icon-picker>
-    `;
-  }
-
-  /** Render a boolean switch row. */
-  protected renderSwitch(label: string, key: string, defaultVal: boolean = true): any {
-    const checked = this._config[key] !== undefined ? !!this._config[key] : defaultVal;
-    return html`
-      <div class="switch-row" @click=${() => this._valueChanged(key, !checked)}>
-        <span>${label}</span>
-        <ha-switch .checked=${checked}></ha-switch>
-      </div>
-    `;
-  }
-
-  /** Render a number field. */
-  protected renderNumber(label: string, key: string, min: number, max: number, defaultVal?: number): any {
-    return html`
-      <ha-textfield
-        .label=${label}
-        type="number"
-        .value=${String(this._config[key] ?? defaultVal ?? '')}
-        .min=${String(min)}
-        .max=${String(max)}
-        @change=${(ev: Event) => {
-          const val = parseInt((ev.target as any).value);
-          if (!isNaN(val)) this._valueChanged(key, val);
-        }}
-      ></ha-textfield>
-    `;
-  }
-
-  /** Render a select dropdown. */
-  protected renderSelect(label: string, key: string, options: { value: string; label: string }[], defaultVal?: string): any {
-    return html`
-      <ha-select
-        .label=${label}
-        .value=${this._config[key] || defaultVal || ''}
-        @selected=${(ev: CustomEvent) => {
-          const index = ev.detail.index;
-          if (index >= 0 && index < options.length) {
-            this._valueChanged(key, options[index].value);
-          }
-        }}
-        @closed=${(ev: Event) => ev.stopPropagation()}
-        fixedMenuPosition
-        naturalMenuWidth
-      >
-        ${options.map(
-          (opt) => html`<mwc-list-item .value=${opt.value}>${opt.label}</mwc-list-item>`
-        )}
-      </ha-select>
-    `;
-  }
-
-  /**
-   * Render the common base fields shared by all entity-based cards.
-   * Pass domainFilter (e.g., 'light') to restrict entity picker.
-   */
-  protected renderBaseFields(domainFilter?: string): any {
-    return html`
-      ${this.renderEntityPicker('Entity', 'entity', domainFilter)}
-      ${this.renderTextField('Name (optional)', 'name')}
-      ${this.renderIconPicker('Icon (optional)')}
-      ${this.renderSwitch('Show Name', 'show_name')}
-      ${this.renderSwitch('Show State', 'show_state')}
-      ${this.renderSwitch('Show Icon', 'show_icon')}
-    `;
-  }
+/** Common schema fields for entity-based cards. */
+export function entitySchema(domain?: string): any[] {
+  return [
+    { name: 'entity', selector: { entity: domain ? { domain } : {} } },
+    {
+      type: 'grid',
+      schema: [
+        { name: 'name', selector: { text: {} } },
+        { name: 'icon', selector: { icon: {} } },
+      ],
+    },
+    { name: 'show_name', selector: { boolean: {} } },
+    { name: 'show_state', selector: { boolean: {} } },
+    { name: 'show_icon', selector: { boolean: {} } },
+  ];
 }

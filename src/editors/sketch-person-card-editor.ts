@@ -1,16 +1,14 @@
-import { html } from 'lit';
 import { customElement } from 'lit/decorators.js';
-import { BaseSketchEditor } from './base-editor';
+import { BaseSketchEditor, entitySchema } from './base-editor';
 
 @customElement('sketch-person-card-editor')
 export class SketchPersonCardEditor extends BaseSketchEditor {
-  render() {
-    return html`
-      ${this.renderBaseFields('person')}
-      <div class="editor-section-title">Person Options</div>
-      ${this.renderSwitch('Show Location', 'show_location')}
-      ${this.renderSwitch('Show Battery', 'show_battery')}
-      ${this.renderEntityPicker('Battery Entity (optional)', 'battery_entity', 'sensor')}
-    `;
+  protected get _schema() {
+    return [
+      ...entitySchema('person'),
+      { name: 'show_location', selector: { boolean: {} } },
+      { name: 'show_battery', selector: { boolean: {} } },
+      { name: 'battery_entity', selector: { entity: { domain: 'sensor' } } },
+    ];
   }
 }
