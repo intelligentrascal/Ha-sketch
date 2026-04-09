@@ -152,8 +152,8 @@ export const sharedStyles = css`
   .sketch-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 18px;
-    height: 18px;
+    width: 24px;
+    height: 24px;
     background: var(--sketch-primary);
     border: 2px solid var(--sketch-border);
     border-radius: 50%;
@@ -161,8 +161,8 @@ export const sharedStyles = css`
   }
 
   .sketch-slider::-moz-range-thumb {
-    width: 18px;
-    height: 18px;
+    width: 24px;
+    height: 24px;
     background: var(--sketch-primary);
     border: 2px solid var(--sketch-border);
     border-radius: 50%;

@@ -12,6 +12,9 @@ export class SketchPopupCard extends LitElement {
   @state() private _childCards: HTMLElement[] = [];
 
   private _hashListener = () => this._checkHash();
+  private _keyListener = (ev: KeyboardEvent) => {
+    if (ev.key === 'Escape' && this._open) this._closePopup();
+  };
   private _autoCloseTimer?: number;
 
   static styles = [
@@ -188,12 +191,14 @@ export class SketchPopupCard extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     window.addEventListener('hashchange', this._hashListener);
+    window.addEventListener('keydown', this._keyListener);
     this._checkHash();
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     window.removeEventListener('hashchange', this._hashListener);
+    window.removeEventListener('keydown', this._keyListener);
     this._clearAutoClose();
   }
 
@@ -295,6 +300,8 @@ export class SketchPopupCard extends LitElement {
       ></div>
       <div
         class="popup-panel ${this._open ? 'open' : ''}"
+        role="dialog"
+        aria-modal="true"
         style="width: ${width}; max-width: 500px"
         @click=${(e: Event) => e.stopPropagation()}
       >
