@@ -1,5 +1,6 @@
 {
   "name": "HA Sketchbook Cards",
   "render_readme": true,
-  "filename": "ha-sketchbook-cards.js"
+  "filename": "ha-sketchbook-cards.js",
+  "homeassistant": "2024.1.0"
 }
