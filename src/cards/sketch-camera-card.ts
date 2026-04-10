@@ -171,6 +171,8 @@ export class SketchCameraCard extends BaseSketchCard {
 
     const name = this.getName();
     const showControls = (this._config as CameraCardConfig).show_controls !== false;
+    const showName = this._config.show_name !== false;
+    const showState = this._config.show_state !== false;
     const isIdle = entity.state === 'idle';
 
     return html`
@@ -195,8 +197,8 @@ export class SketchCameraCard extends BaseSketchCard {
                 </div>
               `}
           <div class="camera-overlay">
-            <span class="camera-name">${name}</span>
-            <span class="camera-state">${entity.state}</span>
+            ${showName ? html`<span class="camera-name">${name}</span>` : nothing}
+            ${showState ? html`<span class="camera-state">${entity.state}</span>` : nothing}
           </div>
         </div>
         ${showControls

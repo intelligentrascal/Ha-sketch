@@ -126,17 +126,24 @@ export class SketchLightCard extends BaseSketchCard {
       isOn &&
       entity.attributes.min_mireds !== undefined;
     const icon = this._config.icon || stateIcon(entity);
+    const showName = this._config.show_name !== false;
+    const showState = this._config.show_state !== false;
+    const showIcon = this._config.show_icon !== false;
 
     return html`
       <ha-card>
         <div class="sketch-card-content">
           <div class="light-header" @pointerdown=${this.handlePointerDown} @pointerup=${this.handlePointerUp} @pointercancel=${this.handlePointerCancel}>
-            <div class="light-icon-wrap ${isOn ? 'on' : ''}">
-              <ha-icon class="sketch-icon" .icon=${icon}></ha-icon>
-            </div>
+            ${showIcon
+              ? html`
+                  <div class="light-icon-wrap ${isOn ? 'on' : ''}">
+                    <ha-icon class="sketch-icon" .icon=${icon}></ha-icon>
+                  </div>
+                `
+              : nothing}
             <div class="sketch-col">
-              <p class="sketch-name">${this.getName()}</p>
-              <p class="sketch-state">${unavailable ? html`<span class="sketch-unavailable-label">Unavailable</span>` : isOn ? `${brightness}%` : 'Off'}</p>
+              ${showName ? html`<p class="sketch-name">${this.getName()}</p>` : nothing}
+              ${showState ? html`<p class="sketch-state">${unavailable ? html`<span class="sketch-unavailable-label">Unavailable</span>` : isOn ? `${brightness}%` : 'Off'}</p>` : nothing}
             </div>
           </div>
           ${showBrightness

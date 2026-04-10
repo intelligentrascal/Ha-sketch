@@ -125,7 +125,9 @@ export class SketchTileCard extends BaseSketchCard {
     const name = this.getName();
     const state = formatState(entity);
     const isOn = isEntityActive(entity.state);
-    const showIcon = this._tileConfig.hide_icon !== true;
+    const showIcon = this._tileConfig.hide_icon !== true && this._config.show_icon !== false;
+    const showName = this._config.show_name !== false;
+    const showState = this._config.show_state !== false;
     const toggleable = this._isToggleable();
 
     return html`
@@ -134,14 +136,14 @@ export class SketchTileCard extends BaseSketchCard {
           ${showIcon
             ? html`<ha-icon class="tile-icon ${isOn ? 'on' : 'off'}" .icon=${icon}></ha-icon>`
             : nothing}
-          <span class="tile-name">${name}</span>
+          ${showName ? html`<span class="tile-name">${name}</span>` : nothing}
           ${toggleable
             ? html`
                 <div class="tile-toggle ${isOn ? 'on' : ''}" @click=${this._handleToggle}>
                   <div class="tile-toggle-knob"></div>
                 </div>
               `
-            : html`<span class="tile-state">${state}</span>`}
+            : showState ? html`<span class="tile-state">${state}</span>` : nothing}
         </div>
       </ha-card>
     `;

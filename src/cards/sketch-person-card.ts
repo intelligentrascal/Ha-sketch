@@ -153,19 +153,24 @@ export class SketchPersonCard extends BaseSketchCard {
     const gpsAccuracy = entity.attributes.gps_accuracy;
     const locationIcon = isHome ? 'mdi:home' : 'mdi:map-marker';
 
+    const showName = this._config.show_name !== false;
+    const showIcon = this._config.show_icon !== false;
+
     return html`
       <ha-card>
         <div class="sketch-card-content">
           <div class="person-row" @pointerdown=${this.handlePointerDown} @pointerup=${this.handlePointerUp} @pointercancel=${this.handlePointerCancel}>
-            ${avatar
-              ? html`<img class="person-avatar" src="${avatar}" alt="${name}" />`
-              : html`
-                  <div class="person-avatar-placeholder">
-                    <ha-icon icon="mdi:account"></ha-icon>
-                  </div>
-                `}
+            ${showIcon
+              ? avatar
+                ? html`<img class="person-avatar" src="${avatar}" alt="${name}" />`
+                : html`
+                    <div class="person-avatar-placeholder">
+                      <ha-icon icon="mdi:account"></ha-icon>
+                    </div>
+                  `
+              : nothing}
             <div class="person-info">
-              <p class="sketch-name">${name}</p>
+              ${showName ? html`<p class="sketch-name">${name}</p>` : nothing}
               ${showLocation
                 ? html`
                     <div class="person-location">

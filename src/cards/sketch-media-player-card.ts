@@ -147,11 +147,14 @@ export class SketchMediaPlayerCard extends BaseSketchCard {
     const showArtwork = this._mediaConfig.show_artwork !== false;
     const showSource = this._mediaConfig.show_source !== false;
     const source = entity.attributes.source;
+    const showName = this._config.show_name !== false;
+    const showState = this._config.show_state !== false;
+    const showIcon = this._config.show_icon !== false;
 
     return html`
       <ha-card>
         <div class="sketch-card-content">
-          <p class="sketch-name">${this.getName()}</p>
+          ${showName ? html`<p class="sketch-name">${this.getName()}</p>` : nothing}
           <div class="media-layout">
             ${showArtwork
               ? artwork

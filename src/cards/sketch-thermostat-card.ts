@@ -140,16 +140,24 @@ export class SketchThermostatCard extends BaseSketchCard {
     if (hvacAction === 'heating' || activeMode === 'heat') actionClass = 'heating';
     if (hvacAction === 'cooling' || activeMode === 'cool') actionClass = 'cooling';
 
+    const showName = this._config.show_name !== false;
+    const showState = this._config.show_state !== false;
+    const showIcon = this._config.show_icon !== false;
+
     return html`
       <ha-card>
         <div class="sketch-card-content">
           <div class="thermo-header" @pointerdown=${this.handlePointerDown} @pointerup=${this.handlePointerUp} @pointercancel=${this.handlePointerCancel}>
-            <div class="thermo-icon-wrap ${actionClass}">
-              <ha-icon class="sketch-icon" .icon=${'mdi:thermostat'}></ha-icon>
-            </div>
+            ${showIcon
+              ? html`
+                  <div class="thermo-icon-wrap ${actionClass}">
+                    <ha-icon class="sketch-icon" .icon=${'mdi:thermostat'}></ha-icon>
+                  </div>
+                `
+              : nothing}
             <div class="sketch-col">
-              <p class="sketch-name">${this.getName()}</p>
-              <p class="sketch-state">${activeMode}</p>
+              ${showName ? html`<p class="sketch-name">${this.getName()}</p>` : nothing}
+              ${showState ? html`<p class="sketch-state">${activeMode}</p>` : nothing}
             </div>
           </div>
 

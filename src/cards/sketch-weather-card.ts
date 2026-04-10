@@ -129,14 +129,21 @@ export class SketchWeatherCard extends BaseSketchCard {
     const forecast = entity.attributes.forecast || [];
     const showForecast = this._weatherConfig.show_forecast !== false;
     const numForecasts = this._weatherConfig.num_forecasts || 5;
+    const showName = this._config.show_name !== false;
+    const showIcon = this._config.show_icon !== false;
 
     return html`
       <ha-card>
         <div class="sketch-card-content">
+          ${showName ? html`<p class="sketch-name" style="margin-bottom:8px">${this.getName()}</p>` : nothing}
           <div class="weather-main" @pointerdown=${this.handlePointerDown} @pointerup=${this.handlePointerUp} @pointercancel=${this.handlePointerCancel}>
-            <div class="weather-icon-wrap">
-              <ha-icon .icon=${this._weatherIconName(condition)}></ha-icon>
-            </div>
+            ${showIcon
+              ? html`
+                  <div class="weather-icon-wrap">
+                    <ha-icon .icon=${this._weatherIconName(condition)}></ha-icon>
+                  </div>
+                `
+              : nothing}
             <div>
               <div class="weather-temp">${temp}${unit}</div>
               <div class="weather-condition">${condition.replace(/-/g, ' ')}</div>

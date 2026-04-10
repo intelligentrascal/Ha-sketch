@@ -167,17 +167,24 @@ export class SketchAlarmPanelCard extends BaseSketchCard {
     else if (isTriggered) iconClass = 'triggered';
 
     const states = this._alarmConfig.states || ['arm_home', 'arm_away', 'arm_night'];
+    const showName = this._config.show_name !== false;
+    const showState = this._config.show_state !== false;
+    const showIcon = this._config.show_icon !== false;
 
     return html`
       <ha-card>
         <div class="sketch-card-content">
           <div class="alarm-header">
-            <div class="alarm-icon-wrap ${iconClass}">
-              <ha-icon class="sketch-icon" .icon=${icon}></ha-icon>
-            </div>
+            ${showIcon
+              ? html`
+                  <div class="alarm-icon-wrap ${iconClass}">
+                    <ha-icon class="sketch-icon" .icon=${icon}></ha-icon>
+                  </div>
+                `
+              : nothing}
             <div class="sketch-col">
-              <p class="sketch-name">${this.getName()}</p>
-              <p class="sketch-state">${alarmState.replace(/_/g, ' ')}</p>
+              ${showName ? html`<p class="sketch-name">${this.getName()}</p>` : nothing}
+              ${showState ? html`<p class="sketch-state">${alarmState.replace(/_/g, ' ')}</p>` : nothing}
             </div>
           </div>
 

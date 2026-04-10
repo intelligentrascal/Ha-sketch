@@ -230,17 +230,24 @@ export class SketchSubButtonCard extends BaseSketchCard {
     const isOn = isEntityActive(entity.state);
     const columns = this._subConfig.columns || 3;
     const collapsible = this._subConfig.collapsible !== false;
+    const showName = this._config.show_name !== false;
+    const showState = this._config.show_state !== false;
+    const showIcon = this._config.show_icon !== false;
 
     return html`
       <ha-card>
         <div class="sketch-card-content">
           <div class="primary-row" @click=${collapsible ? this._toggleExpand : undefined} @pointerdown=${collapsible ? undefined : this.handlePointerDown} @pointerup=${collapsible ? undefined : this.handlePointerUp} @pointercancel=${collapsible ? undefined : this.handlePointerCancel}>
-            <div class="primary-icon-wrap ${isOn ? 'on' : ''}">
-              <ha-icon class="sketch-icon" .icon=${icon}></ha-icon>
-            </div>
+            ${showIcon
+              ? html`
+                  <div class="primary-icon-wrap ${isOn ? 'on' : ''}">
+                    <ha-icon class="sketch-icon" .icon=${icon}></ha-icon>
+                  </div>
+                `
+              : nothing}
             <div class="sketch-col">
-              <p class="sketch-name">${name}</p>
-              <p class="sketch-state">${formatState(entity)}</p>
+              ${showName ? html`<p class="sketch-name">${name}</p>` : nothing}
+              ${showState ? html`<p class="sketch-state">${formatState(entity)}</p>` : nothing}
             </div>
             ${collapsible
               ? html`<ha-icon class="expand-chevron ${this._expanded ? 'open' : ''}" icon="mdi:chevron-down"></ha-icon>`

@@ -138,20 +138,31 @@ export class SketchSensorCard extends BaseSketchCard {
     const icon = this._config.icon || stateIcon(entity);
     const unit = entity.attributes.unit_of_measurement || '';
     const showGraph = this._sensorConfig.graph !== false;
+    const showName = this._config.show_name !== false;
+    const showState = this._config.show_state !== false;
+    const showIcon = this._config.show_icon !== false;
 
     return html`
       <ha-card>
         <div class="sketch-card-content">
           <div class="sensor-header" @pointerdown=${this.handlePointerDown} @pointerup=${this.handlePointerUp} @pointercancel=${this.handlePointerCancel}>
-            <div class="sensor-icon-wrap">
-              <ha-icon class="sketch-icon" .icon=${icon}></ha-icon>
-            </div>
+            ${showIcon
+              ? html`
+                  <div class="sensor-icon-wrap">
+                    <ha-icon class="sketch-icon" .icon=${icon}></ha-icon>
+                  </div>
+                `
+              : nothing}
             <div class="sketch-col">
-              <p class="sketch-name">${this.getName()}</p>
-              <div class="sensor-value-row">
-                <span class="sketch-value">${entity.state}</span>
-                ${unit ? html`<span class="sketch-unit">${unit}</span>` : nothing}
-              </div>
+              ${showName ? html`<p class="sketch-name">${this.getName()}</p>` : nothing}
+              ${showState
+                ? html`
+                    <div class="sensor-value-row">
+                      <span class="sketch-value">${entity.state}</span>
+                      ${unit ? html`<span class="sketch-unit">${unit}</span>` : nothing}
+                    </div>
+                  `
+                : nothing}
             </div>
           </div>
           ${showGraph ? this._renderSparkline() : nothing}

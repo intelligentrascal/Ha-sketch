@@ -130,18 +130,25 @@ export class SketchCoverCard extends BaseSketchCard {
     const showPosition = this._coverConfig.show_position !== false && entity.attributes.current_position !== undefined;
     const showTilt = this._coverConfig.show_tilt !== false && tilt !== undefined;
     const icon = isOpen ? 'mdi:window-open-variant' : 'mdi:window-closed-variant';
+    const showName = this._config.show_name !== false;
+    const showState = this._config.show_state !== false;
+    const showIcon = this._config.show_icon !== false;
 
     return html`
       <ha-card>
         <div class="sketch-card-content">
           <div class="cover-header" @pointerdown=${this.handlePointerDown} @pointerup=${this.handlePointerUp} @pointercancel=${this.handlePointerCancel}>
-            <div class="cover-icon-wrap ${isOpen ? 'open' : ''}">
-              <div class="cover-fill" style="height: ${position}%"></div>
-              <ha-icon class="sketch-icon" .icon=${this._config.icon || icon}></ha-icon>
-            </div>
+            ${showIcon
+              ? html`
+                  <div class="cover-icon-wrap ${isOpen ? 'open' : ''}">
+                    <div class="cover-fill" style="height: ${position}%"></div>
+                    <ha-icon class="sketch-icon" .icon=${this._config.icon || icon}></ha-icon>
+                  </div>
+                `
+              : nothing}
             <div class="sketch-col">
-              <p class="sketch-name">${this.getName()}</p>
-              <p class="sketch-state">${entity.state} ${position != null ? `(${position}%)` : ''}</p>
+              ${showName ? html`<p class="sketch-name">${this.getName()}</p>` : nothing}
+              ${showState ? html`<p class="sketch-state">${entity.state} ${position != null ? `(${position}%)` : ''}</p>` : nothing}
             </div>
           </div>
 
