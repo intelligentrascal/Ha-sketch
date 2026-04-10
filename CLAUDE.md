@@ -206,13 +206,22 @@ npm run build        # Production build → dist/ha-sketchbook-cards.js
 ~~18. Shared Slider Component~~ — Done. `<sketch-slider>` in `src/shared/sketch-slider.ts`.
 ~~19. Type Safety~~ — Done. Added `callWS` to HomeAssistant, `WeatherForecast` type, proper `loadCardHelpers` interface.
 
-### Remaining — Future
+### Remaining — Completed (v1.3.2)
 
-20. **Accessibility (ARIA + Keyboard)**: ARIA labels, keyboard handlers, `<label for>` on sliders.
-21. **Empty & Loading States**: Sketch-styled placeholders for missing data.
-22. **"Just Changed" Highlight**: Pulse when entity state changes (CSS animation exists, needs JS trigger).
-23. **Localization**: i18n via `hass.localize()`.
-24. **Tests**: Unit tests for `utils.ts`, snapshot tests for cards.
+~~20. Accessibility~~ — Done. `role="button"`, `tabindex="0"`, `aria-label`, `@keydown` (Enter/Space) on all 13 entity cards. `:focus-visible` styles. Popup has `role="dialog"` + `aria-modal`.
+~~21. Empty & Loading States~~ — Done. `.sketch-empty` and `.sketch-loading` CSS classes with spinner animation.
+~~22. Just-Changed Highlight~~ — Done. State-change pulse animation triggered on entity state diff in `updated()`.
+~~23. Localization~~ — Done. `formatState()` uses `hass.formatEntityState()` when available.
+~~24. Tests~~ — Done. 14 unit tests for utils.ts (isEntityActive, formatState, timeAgo, clamp, weatherConditionIcon) via vitest.
+
+### Future — Nice to Have
+
+25. **README Screenshots**: Add card previews, dashboard example, interaction GIF.
+26. **Troubleshooting Section**: Common issues and fixes.
+27. **Additional Cards**: Vacuum, History Graph, Area/Room summary, Battery, Fan, Lock, Number/Input.
+28. **Card Presets/Templates**: Reusable style presets ("compact", "large", "minimal").
+29. **Sketch Intensity Setting**: Global config for how "sketchy" cards look.
+30. **Entity Picture Support**: Sketch-styled frame for entity_picture.
 
 ### Priority 5 — Future Cards, Features & Documentation
 

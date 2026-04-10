@@ -237,7 +237,7 @@ export class SketchSubButtonCard extends BaseSketchCard {
     return html`
       <ha-card>
         <div class="sketch-card-content">
-          <div class="primary-row" @click=${collapsible ? this._toggleExpand : undefined} @pointerdown=${collapsible ? undefined : this.handlePointerDown} @pointerup=${collapsible ? undefined : this.handlePointerUp} @pointercancel=${collapsible ? undefined : this.handlePointerCancel}>
+          <div class="primary-row" role="button" tabindex="0" aria-label="${this.getName()}" @keydown=${this.handleKeyDown} @click=${collapsible ? this._toggleExpand : undefined} @pointerdown=${collapsible ? undefined : this.handlePointerDown} @pointerup=${collapsible ? undefined : this.handlePointerUp} @pointercancel=${collapsible ? undefined : this.handlePointerCancel}>
             ${showIcon
               ? html`
                   <div class="primary-icon-wrap ${isOn ? 'on' : ''}">

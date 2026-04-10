@@ -109,8 +109,27 @@ export const sharedStyles = css`
   }
 
   .sketch-icon {
-    --mdc-icon-size: 28px;
+    --mdc-icon-size: var(--sketch-icon-md);
     color: var(--sketch-primary);
+  }
+
+  /* Keyboard focus visible indicator */
+  :focus-visible {
+    outline: 2px solid var(--sketch-primary);
+    outline-offset: 2px;
+    border-radius: var(--sketch-radius);
+  }
+
+  /* Accessible slider label association */
+  .sketch-slider-wrap {
+    display: block;
+  }
+  .sketch-slider-wrap label {
+    font-family: var(--sketch-font);
+    font-size: 0.9em;
+    color: var(--sketch-ink-muted);
+    display: block;
+    margin-bottom: 4px;
   }
 
   .sketch-row {
@@ -262,6 +281,43 @@ export const sharedStyles = css`
     font-size: 0.9em;
     color: var(--sketch-danger);
     font-style: italic;
+  }
+
+  /* Empty/loading state placeholders */
+  .sketch-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
+    padding: 16px;
+    color: var(--sketch-ink-muted);
+    font-family: var(--sketch-font);
+    font-style: italic;
+    font-size: 0.9em;
+    min-height: 60px;
+  }
+  .sketch-empty ha-icon {
+    --mdc-icon-size: 32px;
+    opacity: 0.4;
+  }
+  .sketch-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+  .sketch-loading::after {
+    content: '';
+    width: 20px;
+    height: 20px;
+    border: 2px dashed var(--sketch-ink-muted);
+    border-radius: 50%;
+    animation: sketch-spin 1.5s linear infinite;
+    opacity: 0.5;
+  }
+  @keyframes sketch-spin {
+    to { transform: rotate(360deg); }
   }
 
   /* Service call error flash */

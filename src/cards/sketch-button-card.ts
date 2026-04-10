@@ -109,6 +109,10 @@ export class SketchButtonCard extends BaseSketchCard {
       <ha-card>
         <div
           class="sketch-card-content button-wrap ${this._pressing ? 'pressing' : ''}"
+          role="button"
+          tabindex="0"
+          aria-label="${this.getName() || 'Button'}"
+          @keydown=${this.handleKeyDown}
           @pointerdown=${this._handlePress}
           @pointerup=${this._handleRelease}
           @pointerleave=${this._handleCancel}

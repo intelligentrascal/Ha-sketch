@@ -155,7 +155,7 @@ export class SketchMediaPlayerCard extends BaseSketchCard {
       <ha-card>
         <div class="sketch-card-content">
           ${showName ? html`<p class="sketch-name">${this.getName()}</p>` : nothing}
-          <div class="media-layout">
+          <div class="media-layout" role="button" tabindex="0" aria-label="${this.getName()}" @keydown=${this.handleKeyDown}>
             ${showIcon && showArtwork
               ? artwork
                 ? html`<img class="media-artwork" src="${artwork}" alt="artwork" />`

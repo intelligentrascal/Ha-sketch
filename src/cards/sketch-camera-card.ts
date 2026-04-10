@@ -189,12 +189,16 @@ export class SketchCameraCard extends BaseSketchCard {
                   class="camera-img ${this._loading ? 'loading' : ''}"
                   src="${this._imageUrl}"
                   alt="${name}"
+                  role="button"
+                  tabindex="0"
+                  aria-label="${name}"
+                  @keydown=${this.handleKeyDown}
                   @click=${this._handleImageClick}
                   @error=${() => (this._imageUrl = '')}
                 />
               `
             : html`
-                <div class="camera-placeholder" @click=${this._handleImageClick}>
+                <div class="camera-placeholder" role="button" tabindex="0" aria-label="${name}" @keydown=${this.handleKeyDown} @click=${this._handleImageClick}>
                   <ha-icon icon="mdi:video-off-outline"></ha-icon>
                   <span style="font-family:var(--sketch-font);font-size:0.9em">${isIdle ? 'Camera idle' : 'No image'}</span>
                 </div>

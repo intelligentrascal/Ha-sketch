@@ -16,6 +16,7 @@ export abstract class BaseSketchCard extends LitElement {
   private _dblTapTimer?: ReturnType<typeof setTimeout>;
   private _holdFired = false;
   private _lastTap = 0;
+  private _prevState = '';
 
   static styles = [sharedStyles];
 
@@ -130,6 +131,18 @@ export abstract class BaseSketchCard extends LitElement {
       } else if (!unavailable && this.classList.contains('unavailable')) {
         this.classList.remove('unavailable');
       }
+
+      // State-change highlight
+      const entity = this.getEntity();
+      if (entity && this._prevState && entity.state !== this._prevState) {
+        const card = this.shadowRoot?.querySelector('ha-card') as HTMLElement | null;
+        if (card) {
+          card.style.animation = 'none';
+          void card.offsetHeight;
+          card.style.animation = 'sketch-state-pulse 0.6s ease';
+        }
+      }
+      if (entity) this._prevState = entity.state;
     }
   }
 
@@ -143,6 +156,14 @@ export abstract class BaseSketchCard extends LitElement {
   protected get defaultTapAction(): string {
     return 'more-info';
   }
+
+  /** Keyboard handler — Enter/Space triggers tap action. Bind to @keydown on interactive elements. */
+  protected handleKeyDown = (ev: KeyboardEvent): void => {
+    if (ev.key === 'Enter' || ev.key === ' ') {
+      ev.preventDefault();
+      this.executeAction(this._config?.tap_action, this.defaultTapAction);
+    }
+  };
 
   /** Simple tap handler — fires tap_action. Use for backwards compatibility. */
   protected handleAction(): void {

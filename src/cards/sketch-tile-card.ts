@@ -132,7 +132,7 @@ export class SketchTileCard extends BaseSketchCard {
 
     return html`
       <ha-card>
-        <div class="tile-row" @pointerdown=${this.handlePointerDown} @pointerup=${this.handlePointerUp} @pointercancel=${this.handlePointerCancel}>
+        <div class="tile-row" role="button" tabindex="0" aria-label="${this.getName()}" @keydown=${this.handleKeyDown} @pointerdown=${this.handlePointerDown} @pointerup=${this.handlePointerUp} @pointercancel=${this.handlePointerCancel}>
           ${showIcon
             ? html`<ha-icon class="tile-icon ${isOn ? 'on' : 'off'}" .icon=${icon}></ha-icon>`
             : nothing}

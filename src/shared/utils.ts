@@ -102,7 +102,13 @@ export function weatherConditionIcon(condition: string): string {
   return weatherIcon(condition);
 }
 
-export function formatState(entity: HassEntity): string {
+export function formatState(entity: HassEntity, hass?: any): string {
+  // Use HA's built-in state formatting if available (localized)
+  if (hass?.formatEntityState) {
+    try {
+      return hass.formatEntityState(entity);
+    } catch (_e) { /* fall through */ }
+  }
   const state = entity.state;
   const unit = entity.attributes.unit_of_measurement;
   if (unit) return `${state} ${unit}`;
