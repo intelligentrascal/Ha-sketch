@@ -1,4 +1,4 @@
-function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPropertyDescriptor(e,i):s;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)r=Reflect.decorate(t,e,i,s);else for(var o=t.length-1;o>=0;o--)(a=t[o])&&(r=(n<3?a(r):n>3?a(e,i,r):a(e,i))||r);return n>3&&r&&Object.defineProperty(e,i,r),r}"function"==typeof SuppressedError&&SuppressedError;const e=globalThis,i=e.ShadowRoot&&(void 0===e.ShadyCSS||e.ShadyCSS.nativeShadow)&&"adoptedStyleSheets"in Document.prototype&&"replace"in CSSStyleSheet.prototype,s=Symbol(),a=new WeakMap;let n=class{constructor(t,e,i){if(this._$cssResult$=!0,i!==s)throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");this.cssText=t,this.t=e}get styleSheet(){let t=this.o;const e=this.t;if(i&&void 0===t){const i=void 0!==e&&1===e.length;i&&(t=a.get(e)),void 0===t&&((this.o=t=new CSSStyleSheet).replaceSync(this.cssText),i&&a.set(e,t))}return t}toString(){return this.cssText}};const r=(t,...e)=>{const i=1===t.length?t[0]:e.reduce((e,i,s)=>e+(t=>{if(!0===t._$cssResult$)return t.cssText;if("number"==typeof t)return t;throw Error("Value passed to 'css' function must be a 'css' function result: "+t+". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security.")})(i)+t[s+1],t[0]);return new n(i,t,s)},o=i?t=>t:t=>t instanceof CSSStyleSheet?(t=>{let e="";for(const i of t.cssRules)e+=i.cssText;return(t=>new n("string"==typeof t?t:t+"",void 0,s))(e)})(t):t,{is:c,defineProperty:h,getOwnPropertyDescriptor:l,getOwnPropertyNames:d,getOwnPropertySymbols:p,getPrototypeOf:u}=Object,m=globalThis,g=m.trustedTypes,f=g?g.emptyScript:"",v=m.reactiveElementPolyfillSupport,b=(t,e)=>t,_={toAttribute(t,e){switch(e){case Boolean:t=t?f:null;break;case Object:case Array:t=null==t?t:JSON.stringify(t)}return t},fromAttribute(t,e){let i=t;switch(e){case Boolean:i=null!==t;break;case Number:i=null===t?null:Number(t);break;case Object:case Array:try{i=JSON.parse(t)}catch(t){i=null}}return i}},k=(t,e)=>!c(t,e),y={attribute:!0,type:String,converter:_,reflect:!1,useDefault:!1,hasChanged:k};Symbol.metadata??=Symbol("metadata"),m.litPropertyMetadata??=new WeakMap;let w=class extends HTMLElement{static addInitializer(t){this._$Ei(),(this.l??=[]).push(t)}static get observedAttributes(){return this.finalize(),this._$Eh&&[...this._$Eh.keys()]}static createProperty(t,e=y){if(e.state&&(e.attribute=!1),this._$Ei(),this.prototype.hasOwnProperty(t)&&((e=Object.create(e)).wrapped=!0),this.elementProperties.set(t,e),!e.noAccessor){const i=Symbol(),s=this.getPropertyDescriptor(t,i,e);void 0!==s&&h(this.prototype,t,s)}}static getPropertyDescriptor(t,e,i){const{get:s,set:a}=l(this.prototype,t)??{get(){return this[e]},set(t){this[e]=t}};return{get:s,set(e){const n=s?.call(this);a?.call(this,e),this.requestUpdate(t,n,i)},configurable:!0,enumerable:!0}}static getPropertyOptions(t){return this.elementProperties.get(t)??y}static _$Ei(){if(this.hasOwnProperty(b("elementProperties")))return;const t=u(this);t.finalize(),void 0!==t.l&&(this.l=[...t.l]),this.elementProperties=new Map(t.elementProperties)}static finalize(){if(this.hasOwnProperty(b("finalized")))return;if(this.finalized=!0,this._$Ei(),this.hasOwnProperty(b("properties"))){const t=this.properties,e=[...d(t),...p(t)];for(const i of e)this.createProperty(i,t[i])}const t=this[Symbol.metadata];if(null!==t){const e=litPropertyMetadata.get(t);if(void 0!==e)for(const[t,i]of e)this.elementProperties.set(t,i)}this._$Eh=new Map;for(const[t,e]of this.elementProperties){const i=this._$Eu(t,e);void 0!==i&&this._$Eh.set(i,t)}this.elementStyles=this.finalizeStyles(this.styles)}static finalizeStyles(t){const e=[];if(Array.isArray(t)){const i=new Set(t.flat(1/0).reverse());for(const t of i)e.unshift(o(t))}else void 0!==t&&e.push(o(t));return e}static _$Eu(t,e){const i=e.attribute;return!1===i?void 0:"string"==typeof i?i:"string"==typeof t?t.toLowerCase():void 0}constructor(){super(),this._$Ep=void 0,this.isUpdatePending=!1,this.hasUpdated=!1,this._$Em=null,this._$Ev()}_$Ev(){this._$ES=new Promise(t=>this.enableUpdating=t),this._$AL=new Map,this._$E_(),this.requestUpdate(),this.constructor.l?.forEach(t=>t(this))}addController(t){(this._$EO??=new Set).add(t),void 0!==this.renderRoot&&this.isConnected&&t.hostConnected?.()}removeController(t){this._$EO?.delete(t)}_$E_(){const t=new Map,e=this.constructor.elementProperties;for(const i of e.keys())this.hasOwnProperty(i)&&(t.set(i,this[i]),delete this[i]);t.size>0&&(this._$Ep=t)}createRenderRoot(){const t=this.shadowRoot??this.attachShadow(this.constructor.shadowRootOptions);return((t,s)=>{if(i)t.adoptedStyleSheets=s.map(t=>t instanceof CSSStyleSheet?t:t.styleSheet);else for(const i of s){const s=document.createElement("style"),a=e.litNonce;void 0!==a&&s.setAttribute("nonce",a),s.textContent=i.cssText,t.appendChild(s)}})(t,this.constructor.elementStyles),t}connectedCallback(){this.renderRoot??=this.createRenderRoot(),this.enableUpdating(!0),this._$EO?.forEach(t=>t.hostConnected?.())}enableUpdating(t){}disconnectedCallback(){this._$EO?.forEach(t=>t.hostDisconnected?.())}attributeChangedCallback(t,e,i){this._$AK(t,i)}_$ET(t,e){const i=this.constructor.elementProperties.get(t),s=this.constructor._$Eu(t,i);if(void 0!==s&&!0===i.reflect){const a=(void 0!==i.converter?.toAttribute?i.converter:_).toAttribute(e,i.type);this._$Em=t,null==a?this.removeAttribute(s):this.setAttribute(s,a),this._$Em=null}}_$AK(t,e){const i=this.constructor,s=i._$Eh.get(t);if(void 0!==s&&this._$Em!==s){const t=i.getPropertyOptions(s),a="function"==typeof t.converter?{fromAttribute:t.converter}:void 0!==t.converter?.fromAttribute?t.converter:_;this._$Em=s;const n=a.fromAttribute(e,t.type);this[s]=n??this._$Ej?.get(s)??n,this._$Em=null}}requestUpdate(t,e,i,s=!1,a){if(void 0!==t){const n=this.constructor;if(!1===s&&(a=this[t]),i??=n.getPropertyOptions(t),!((i.hasChanged??k)(a,e)||i.useDefault&&i.reflect&&a===this._$Ej?.get(t)&&!this.hasAttribute(n._$Eu(t,i))))return;this.C(t,e,i)}!1===this.isUpdatePending&&(this._$ES=this._$EP())}C(t,e,{useDefault:i,reflect:s,wrapped:a},n){i&&!(this._$Ej??=new Map).has(t)&&(this._$Ej.set(t,n??e??this[t]),!0!==a||void 0!==n)||(this._$AL.has(t)||(this.hasUpdated||i||(e=void 0),this._$AL.set(t,e)),!0===s&&this._$Em!==t&&(this._$Eq??=new Set).add(t))}async _$EP(){this.isUpdatePending=!0;try{await this._$ES}catch(t){Promise.reject(t)}const t=this.scheduleUpdate();return null!=t&&await t,!this.isUpdatePending}scheduleUpdate(){return this.performUpdate()}performUpdate(){if(!this.isUpdatePending)return;if(!this.hasUpdated){if(this.renderRoot??=this.createRenderRoot(),this._$Ep){for(const[t,e]of this._$Ep)this[t]=e;this._$Ep=void 0}const t=this.constructor.elementProperties;if(t.size>0)for(const[e,i]of t){const{wrapped:t}=i,s=this[e];!0!==t||this._$AL.has(e)||void 0===s||this.C(e,void 0,i,s)}}let t=!1;const e=this._$AL;try{t=this.shouldUpdate(e),t?(this.willUpdate(e),this._$EO?.forEach(t=>t.hostUpdate?.()),this.update(e)):this._$EM()}catch(e){throw t=!1,this._$EM(),e}t&&this._$AE(e)}willUpdate(t){}_$AE(t){this._$EO?.forEach(t=>t.hostUpdated?.()),this.hasUpdated||(this.hasUpdated=!0,this.firstUpdated(t)),this.updated(t)}_$EM(){this._$AL=new Map,this.isUpdatePending=!1}get updateComplete(){return this.getUpdateComplete()}getUpdateComplete(){return this._$ES}shouldUpdate(t){return!0}update(t){this._$Eq&&=this._$Eq.forEach(t=>this._$ET(t,this[t])),this._$EM()}updated(t){}firstUpdated(t){}};w.elementStyles=[],w.shadowRootOptions={mode:"open"},w[b("elementProperties")]=new Map,w[b("finalized")]=new Map,v?.({ReactiveElement:w}),(m.reactiveElementVersions??=[]).push("2.1.2");const x=globalThis,$=t=>t,C=x.trustedTypes,S=C?C.createPolicy("lit-html",{createHTML:t=>t}):void 0,E="$lit$",A=`lit$${Math.random().toFixed(9).slice(2)}$`,P="?"+A,z=`<${P}>`,T=document,M=()=>T.createComment(""),j=t=>null===t||"object"!=typeof t&&"function"!=typeof t,H=Array.isArray,U="[ \t\n\f\r]",N=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,O=/-->/g,L=/>/g,D=RegExp(`>|${U}(?:([^\\s"'>=/]+)(${U}*=${U}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`,"g"),I=/'/g,R=/"/g,B=/^(?:script|style|textarea|title)$/i,W=t=>(e,...i)=>({_$litType$:t,strings:e,values:i}),K=W(1),Q=W(2),q=Symbol.for("lit-noChange"),F=Symbol.for("lit-nothing"),V=new WeakMap,Y=T.createTreeWalker(T,129);function Z(t,e){if(!H(t)||!t.hasOwnProperty("raw"))throw Error("invalid template strings array");return void 0!==S?S.createHTML(e):e}const G=(t,e)=>{const i=t.length-1,s=[];let a,n=2===e?"<svg>":3===e?"<math>":"",r=N;for(let e=0;e<i;e++){const i=t[e];let o,c,h=-1,l=0;for(;l<i.length&&(r.lastIndex=l,c=r.exec(i),null!==c);)l=r.lastIndex,r===N?"!--"===c[1]?r=O:void 0!==c[1]?r=L:void 0!==c[2]?(B.test(c[2])&&(a=RegExp("</"+c[2],"g")),r=D):void 0!==c[3]&&(r=D):r===D?">"===c[0]?(r=a??N,h=-1):void 0===c[1]?h=-2:(h=r.lastIndex-c[2].length,o=c[1],r=void 0===c[3]?D:'"'===c[3]?R:I):r===R||r===I?r=D:r===O||r===L?r=N:(r=D,a=void 0);const d=r===D&&t[e+1].startsWith("/>")?" ":"";n+=r===N?i+z:h>=0?(s.push(o),i.slice(0,h)+E+i.slice(h)+A+d):i+A+(-2===h?e:d)}return[Z(t,n+(t[i]||"<?>")+(2===e?"</svg>":3===e?"</math>":"")),s]};class J{constructor({strings:t,_$litType$:e},i){let s;this.parts=[];let a=0,n=0;const r=t.length-1,o=this.parts,[c,h]=G(t,e);if(this.el=J.createElement(c,i),Y.currentNode=this.el.content,2===e||3===e){const t=this.el.content.firstChild;t.replaceWith(...t.childNodes)}for(;null!==(s=Y.nextNode())&&o.length<r;){if(1===s.nodeType){if(s.hasAttributes())for(const t of s.getAttributeNames())if(t.endsWith(E)){const e=h[n++],i=s.getAttribute(t).split(A),r=/([.?@])?(.*)/.exec(e);o.push({type:1,index:a,name:r[2],strings:i,ctor:"."===r[1]?st:"?"===r[1]?at:"@"===r[1]?nt:it}),s.removeAttribute(t)}else t.startsWith(A)&&(o.push({type:6,index:a}),s.removeAttribute(t));if(B.test(s.tagName)){const t=s.textContent.split(A),e=t.length-1;if(e>0){s.textContent=C?C.emptyScript:"";for(let i=0;i<e;i++)s.append(t[i],M()),Y.nextNode(),o.push({type:2,index:++a});s.append(t[e],M())}}}else if(8===s.nodeType)if(s.data===P)o.push({type:2,index:a});else{let t=-1;for(;-1!==(t=s.data.indexOf(A,t+1));)o.push({type:7,index:a}),t+=A.length-1}a++}}static createElement(t,e){const i=T.createElement("template");return i.innerHTML=t,i}}function X(t,e,i=t,s){if(e===q)return e;let a=void 0!==s?i._$Co?.[s]:i._$Cl;const n=j(e)?void 0:e._$litDirective$;return a?.constructor!==n&&(a?._$AO?.(!1),void 0===n?a=void 0:(a=new n(t),a._$AT(t,i,s)),void 0!==s?(i._$Co??=[])[s]=a:i._$Cl=a),void 0!==a&&(e=X(t,a._$AS(t,e.values),a,s)),e}class tt{constructor(t,e){this._$AV=[],this._$AN=void 0,this._$AD=t,this._$AM=e}get parentNode(){return this._$AM.parentNode}get _$AU(){return this._$AM._$AU}u(t){const{el:{content:e},parts:i}=this._$AD,s=(t?.creationScope??T).importNode(e,!0);Y.currentNode=s;let a=Y.nextNode(),n=0,r=0,o=i[0];for(;void 0!==o;){if(n===o.index){let e;2===o.type?e=new et(a,a.nextSibling,this,t):1===o.type?e=new o.ctor(a,o.name,o.strings,this,t):6===o.type&&(e=new rt(a,this,t)),this._$AV.push(e),o=i[++r]}n!==o?.index&&(a=Y.nextNode(),n++)}return Y.currentNode=T,s}p(t){let e=0;for(const i of this._$AV)void 0!==i&&(void 0!==i.strings?(i._$AI(t,i,e),e+=i.strings.length-2):i._$AI(t[e])),e++}}class et{get _$AU(){return this._$AM?._$AU??this._$Cv}constructor(t,e,i,s){this.type=2,this._$AH=F,this._$AN=void 0,this._$AA=t,this._$AB=e,this._$AM=i,this.options=s,this._$Cv=s?.isConnected??!0}get parentNode(){let t=this._$AA.parentNode;const e=this._$AM;return void 0!==e&&11===t?.nodeType&&(t=e.parentNode),t}get startNode(){return this._$AA}get endNode(){return this._$AB}_$AI(t,e=this){t=X(this,t,e),j(t)?t===F||null==t||""===t?(this._$AH!==F&&this._$AR(),this._$AH=F):t!==this._$AH&&t!==q&&this._(t):void 0!==t._$litType$?this.$(t):void 0!==t.nodeType?this.T(t):(t=>H(t)||"function"==typeof t?.[Symbol.iterator])(t)?this.k(t):this._(t)}O(t){return this._$AA.parentNode.insertBefore(t,this._$AB)}T(t){this._$AH!==t&&(this._$AR(),this._$AH=this.O(t))}_(t){this._$AH!==F&&j(this._$AH)?this._$AA.nextSibling.data=t:this.T(T.createTextNode(t)),this._$AH=t}$(t){const{values:e,_$litType$:i}=t,s="number"==typeof i?this._$AC(t):(void 0===i.el&&(i.el=J.createElement(Z(i.h,i.h[0]),this.options)),i);if(this._$AH?._$AD===s)this._$AH.p(e);else{const t=new tt(s,this),i=t.u(this.options);t.p(e),this.T(i),this._$AH=t}}_$AC(t){let e=V.get(t.strings);return void 0===e&&V.set(t.strings,e=new J(t)),e}k(t){H(this._$AH)||(this._$AH=[],this._$AR());const e=this._$AH;let i,s=0;for(const a of t)s===e.length?e.push(i=new et(this.O(M()),this.O(M()),this,this.options)):i=e[s],i._$AI(a),s++;s<e.length&&(this._$AR(i&&i._$AB.nextSibling,s),e.length=s)}_$AR(t=this._$AA.nextSibling,e){for(this._$AP?.(!1,!0,e);t!==this._$AB;){const e=$(t).nextSibling;$(t).remove(),t=e}}setConnected(t){void 0===this._$AM&&(this._$Cv=t,this._$AP?.(t))}}class it{get tagName(){return this.element.tagName}get _$AU(){return this._$AM._$AU}constructor(t,e,i,s,a){this.type=1,this._$AH=F,this._$AN=void 0,this.element=t,this.name=e,this._$AM=s,this.options=a,i.length>2||""!==i[0]||""!==i[1]?(this._$AH=Array(i.length-1).fill(new String),this.strings=i):this._$AH=F}_$AI(t,e=this,i,s){const a=this.strings;let n=!1;if(void 0===a)t=X(this,t,e,0),n=!j(t)||t!==this._$AH&&t!==q,n&&(this._$AH=t);else{const s=t;let r,o;for(t=a[0],r=0;r<a.length-1;r++)o=X(this,s[i+r],e,r),o===q&&(o=this._$AH[r]),n||=!j(o)||o!==this._$AH[r],o===F?t=F:t!==F&&(t+=(o??"")+a[r+1]),this._$AH[r]=o}n&&!s&&this.j(t)}j(t){t===F?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,t??"")}}class st extends it{constructor(){super(...arguments),this.type=3}j(t){this.element[this.name]=t===F?void 0:t}}class at extends it{constructor(){super(...arguments),this.type=4}j(t){this.element.toggleAttribute(this.name,!!t&&t!==F)}}class nt extends it{constructor(t,e,i,s,a){super(t,e,i,s,a),this.type=5}_$AI(t,e=this){if((t=X(this,t,e,0)??F)===q)return;const i=this._$AH,s=t===F&&i!==F||t.capture!==i.capture||t.once!==i.once||t.passive!==i.passive,a=t!==F&&(i===F||s);s&&this.element.removeEventListener(this.name,this,i),a&&this.element.addEventListener(this.name,this,t),this._$AH=t}handleEvent(t){"function"==typeof this._$AH?this._$AH.call(this.options?.host??this.element,t):this._$AH.handleEvent(t)}}class rt{constructor(t,e,i){this.element=t,this.type=6,this._$AN=void 0,this._$AM=e,this.options=i}get _$AU(){return this._$AM._$AU}_$AI(t){X(this,t)}}const ot=x.litHtmlPolyfillSupport;ot?.(J,et),(x.litHtmlVersions??=[]).push("3.3.2");const ct=globalThis;class ht extends w{constructor(){super(...arguments),this.renderOptions={host:this},this._$Do=void 0}createRenderRoot(){const t=super.createRenderRoot();return this.renderOptions.renderBefore??=t.firstChild,t}update(t){const e=this.render();this.hasUpdated||(this.renderOptions.isConnected=this.isConnected),super.update(t),this._$Do=((t,e,i)=>{const s=i?.renderBefore??e;let a=s._$litPart$;if(void 0===a){const t=i?.renderBefore??null;s._$litPart$=a=new et(e.insertBefore(M(),t),t,void 0,i??{})}return a._$AI(t),a})(e,this.renderRoot,this.renderOptions)}connectedCallback(){super.connectedCallback(),this._$Do?.setConnected(!0)}disconnectedCallback(){super.disconnectedCallback(),this._$Do?.setConnected(!1)}render(){return q}}ht._$litElement$=!0,ht.finalized=!0,ct.litElementHydrateSupport?.({LitElement:ht});const lt=ct.litElementPolyfillSupport;lt?.({LitElement:ht}),(ct.litElementVersions??=[]).push("4.2.2");const dt=t=>(e,i)=>{void 0!==i?i.addInitializer(()=>{customElements.define(t,e)}):customElements.define(t,e)},pt={attribute:!0,type:String,converter:_,reflect:!1,hasChanged:k},ut=(t=pt,e,i)=>{const{kind:s,metadata:a}=i;let n=globalThis.litPropertyMetadata.get(a);if(void 0===n&&globalThis.litPropertyMetadata.set(a,n=new Map),"setter"===s&&((t=Object.create(t)).wrapped=!0),n.set(i.name,t),"accessor"===s){const{name:s}=i;return{set(i){const a=e.get.call(this);e.set.call(this,i),this.requestUpdate(s,a,t,!0,i)},init(e){return void 0!==e&&this.C(s,void 0,t,e),e}}}if("setter"===s){const{name:s}=i;return function(i){const a=this[s];e.call(this,i),this.requestUpdate(s,a,t,!0,i)}}throw Error("Unsupported decorator location: "+s)};function mt(t){return(e,i)=>"object"==typeof i?ut(t,e,i):((t,e,i)=>{const s=e.hasOwnProperty(i);return e.constructor.createProperty(i,t),s?Object.getOwnPropertyDescriptor(e,i):void 0})(t,e,i)}function gt(t){return mt({...t,state:!0,attribute:!1})}const ft=r`
+function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPropertyDescriptor(e,i):s;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)r=Reflect.decorate(t,e,i,s);else for(var o=t.length-1;o>=0;o--)(a=t[o])&&(r=(n<3?a(r):n>3?a(e,i,r):a(e,i))||r);return n>3&&r&&Object.defineProperty(e,i,r),r}"function"==typeof SuppressedError&&SuppressedError;const e=globalThis,i=e.ShadowRoot&&(void 0===e.ShadyCSS||e.ShadyCSS.nativeShadow)&&"adoptedStyleSheets"in Document.prototype&&"replace"in CSSStyleSheet.prototype,s=Symbol(),a=new WeakMap;let n=class{constructor(t,e,i){if(this._$cssResult$=!0,i!==s)throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");this.cssText=t,this.t=e}get styleSheet(){let t=this.o;const e=this.t;if(i&&void 0===t){const i=void 0!==e&&1===e.length;i&&(t=a.get(e)),void 0===t&&((this.o=t=new CSSStyleSheet).replaceSync(this.cssText),i&&a.set(e,t))}return t}toString(){return this.cssText}};const r=(t,...e)=>{const i=1===t.length?t[0]:e.reduce((e,i,s)=>e+(t=>{if(!0===t._$cssResult$)return t.cssText;if("number"==typeof t)return t;throw Error("Value passed to 'css' function must be a 'css' function result: "+t+". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security.")})(i)+t[s+1],t[0]);return new n(i,t,s)},o=i?t=>t:t=>t instanceof CSSStyleSheet?(t=>{let e="";for(const i of t.cssRules)e+=i.cssText;return(t=>new n("string"==typeof t?t:t+"",void 0,s))(e)})(t):t,{is:c,defineProperty:l,getOwnPropertyDescriptor:h,getOwnPropertyNames:d,getOwnPropertySymbols:p,getPrototypeOf:u}=Object,m=globalThis,g=m.trustedTypes,f=g?g.emptyScript:"",v=m.reactiveElementPolyfillSupport,b=(t,e)=>t,_={toAttribute(t,e){switch(e){case Boolean:t=t?f:null;break;case Object:case Array:t=null==t?t:JSON.stringify(t)}return t},fromAttribute(t,e){let i=t;switch(e){case Boolean:i=null!==t;break;case Number:i=null===t?null:Number(t);break;case Object:case Array:try{i=JSON.parse(t)}catch(t){i=null}}return i}},k=(t,e)=>!c(t,e),y={attribute:!0,type:String,converter:_,reflect:!1,useDefault:!1,hasChanged:k};Symbol.metadata??=Symbol("metadata"),m.litPropertyMetadata??=new WeakMap;let w=class extends HTMLElement{static addInitializer(t){this._$Ei(),(this.l??=[]).push(t)}static get observedAttributes(){return this.finalize(),this._$Eh&&[...this._$Eh.keys()]}static createProperty(t,e=y){if(e.state&&(e.attribute=!1),this._$Ei(),this.prototype.hasOwnProperty(t)&&((e=Object.create(e)).wrapped=!0),this.elementProperties.set(t,e),!e.noAccessor){const i=Symbol(),s=this.getPropertyDescriptor(t,i,e);void 0!==s&&l(this.prototype,t,s)}}static getPropertyDescriptor(t,e,i){const{get:s,set:a}=h(this.prototype,t)??{get(){return this[e]},set(t){this[e]=t}};return{get:s,set(e){const n=s?.call(this);a?.call(this,e),this.requestUpdate(t,n,i)},configurable:!0,enumerable:!0}}static getPropertyOptions(t){return this.elementProperties.get(t)??y}static _$Ei(){if(this.hasOwnProperty(b("elementProperties")))return;const t=u(this);t.finalize(),void 0!==t.l&&(this.l=[...t.l]),this.elementProperties=new Map(t.elementProperties)}static finalize(){if(this.hasOwnProperty(b("finalized")))return;if(this.finalized=!0,this._$Ei(),this.hasOwnProperty(b("properties"))){const t=this.properties,e=[...d(t),...p(t)];for(const i of e)this.createProperty(i,t[i])}const t=this[Symbol.metadata];if(null!==t){const e=litPropertyMetadata.get(t);if(void 0!==e)for(const[t,i]of e)this.elementProperties.set(t,i)}this._$Eh=new Map;for(const[t,e]of this.elementProperties){const i=this._$Eu(t,e);void 0!==i&&this._$Eh.set(i,t)}this.elementStyles=this.finalizeStyles(this.styles)}static finalizeStyles(t){const e=[];if(Array.isArray(t)){const i=new Set(t.flat(1/0).reverse());for(const t of i)e.unshift(o(t))}else void 0!==t&&e.push(o(t));return e}static _$Eu(t,e){const i=e.attribute;return!1===i?void 0:"string"==typeof i?i:"string"==typeof t?t.toLowerCase():void 0}constructor(){super(),this._$Ep=void 0,this.isUpdatePending=!1,this.hasUpdated=!1,this._$Em=null,this._$Ev()}_$Ev(){this._$ES=new Promise(t=>this.enableUpdating=t),this._$AL=new Map,this._$E_(),this.requestUpdate(),this.constructor.l?.forEach(t=>t(this))}addController(t){(this._$EO??=new Set).add(t),void 0!==this.renderRoot&&this.isConnected&&t.hostConnected?.()}removeController(t){this._$EO?.delete(t)}_$E_(){const t=new Map,e=this.constructor.elementProperties;for(const i of e.keys())this.hasOwnProperty(i)&&(t.set(i,this[i]),delete this[i]);t.size>0&&(this._$Ep=t)}createRenderRoot(){const t=this.shadowRoot??this.attachShadow(this.constructor.shadowRootOptions);return((t,s)=>{if(i)t.adoptedStyleSheets=s.map(t=>t instanceof CSSStyleSheet?t:t.styleSheet);else for(const i of s){const s=document.createElement("style"),a=e.litNonce;void 0!==a&&s.setAttribute("nonce",a),s.textContent=i.cssText,t.appendChild(s)}})(t,this.constructor.elementStyles),t}connectedCallback(){this.renderRoot??=this.createRenderRoot(),this.enableUpdating(!0),this._$EO?.forEach(t=>t.hostConnected?.())}enableUpdating(t){}disconnectedCallback(){this._$EO?.forEach(t=>t.hostDisconnected?.())}attributeChangedCallback(t,e,i){this._$AK(t,i)}_$ET(t,e){const i=this.constructor.elementProperties.get(t),s=this.constructor._$Eu(t,i);if(void 0!==s&&!0===i.reflect){const a=(void 0!==i.converter?.toAttribute?i.converter:_).toAttribute(e,i.type);this._$Em=t,null==a?this.removeAttribute(s):this.setAttribute(s,a),this._$Em=null}}_$AK(t,e){const i=this.constructor,s=i._$Eh.get(t);if(void 0!==s&&this._$Em!==s){const t=i.getPropertyOptions(s),a="function"==typeof t.converter?{fromAttribute:t.converter}:void 0!==t.converter?.fromAttribute?t.converter:_;this._$Em=s;const n=a.fromAttribute(e,t.type);this[s]=n??this._$Ej?.get(s)??n,this._$Em=null}}requestUpdate(t,e,i,s=!1,a){if(void 0!==t){const n=this.constructor;if(!1===s&&(a=this[t]),i??=n.getPropertyOptions(t),!((i.hasChanged??k)(a,e)||i.useDefault&&i.reflect&&a===this._$Ej?.get(t)&&!this.hasAttribute(n._$Eu(t,i))))return;this.C(t,e,i)}!1===this.isUpdatePending&&(this._$ES=this._$EP())}C(t,e,{useDefault:i,reflect:s,wrapped:a},n){i&&!(this._$Ej??=new Map).has(t)&&(this._$Ej.set(t,n??e??this[t]),!0!==a||void 0!==n)||(this._$AL.has(t)||(this.hasUpdated||i||(e=void 0),this._$AL.set(t,e)),!0===s&&this._$Em!==t&&(this._$Eq??=new Set).add(t))}async _$EP(){this.isUpdatePending=!0;try{await this._$ES}catch(t){Promise.reject(t)}const t=this.scheduleUpdate();return null!=t&&await t,!this.isUpdatePending}scheduleUpdate(){return this.performUpdate()}performUpdate(){if(!this.isUpdatePending)return;if(!this.hasUpdated){if(this.renderRoot??=this.createRenderRoot(),this._$Ep){for(const[t,e]of this._$Ep)this[t]=e;this._$Ep=void 0}const t=this.constructor.elementProperties;if(t.size>0)for(const[e,i]of t){const{wrapped:t}=i,s=this[e];!0!==t||this._$AL.has(e)||void 0===s||this.C(e,void 0,i,s)}}let t=!1;const e=this._$AL;try{t=this.shouldUpdate(e),t?(this.willUpdate(e),this._$EO?.forEach(t=>t.hostUpdate?.()),this.update(e)):this._$EM()}catch(e){throw t=!1,this._$EM(),e}t&&this._$AE(e)}willUpdate(t){}_$AE(t){this._$EO?.forEach(t=>t.hostUpdated?.()),this.hasUpdated||(this.hasUpdated=!0,this.firstUpdated(t)),this.updated(t)}_$EM(){this._$AL=new Map,this.isUpdatePending=!1}get updateComplete(){return this.getUpdateComplete()}getUpdateComplete(){return this._$ES}shouldUpdate(t){return!0}update(t){this._$Eq&&=this._$Eq.forEach(t=>this._$ET(t,this[t])),this._$EM()}updated(t){}firstUpdated(t){}};w.elementStyles=[],w.shadowRootOptions={mode:"open"},w[b("elementProperties")]=new Map,w[b("finalized")]=new Map,v?.({ReactiveElement:w}),(m.reactiveElementVersions??=[]).push("2.1.2");const x=globalThis,$=t=>t,C=x.trustedTypes,S=C?C.createPolicy("lit-html",{createHTML:t=>t}):void 0,E="$lit$",A=`lit$${Math.random().toFixed(9).slice(2)}$`,P="?"+A,z=`<${P}>`,T=document,M=()=>T.createComment(""),j=t=>null===t||"object"!=typeof t&&"function"!=typeof t,N=Array.isArray,U="[ \t\n\f\r]",O=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,D=/-->/g,H=/>/g,L=RegExp(`>|${U}(?:([^\\s"'>=/]+)(${U}*=${U}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`,"g"),I=/'/g,R=/"/g,B=/^(?:script|style|textarea|title)$/i,W=t=>(e,...i)=>({_$litType$:t,strings:e,values:i}),K=W(1),Q=W(2),F=Symbol.for("lit-noChange"),q=Symbol.for("lit-nothing"),V=new WeakMap,Y=T.createTreeWalker(T,129);function Z(t,e){if(!N(t)||!t.hasOwnProperty("raw"))throw Error("invalid template strings array");return void 0!==S?S.createHTML(e):e}const G=(t,e)=>{const i=t.length-1,s=[];let a,n=2===e?"<svg>":3===e?"<math>":"",r=O;for(let e=0;e<i;e++){const i=t[e];let o,c,l=-1,h=0;for(;h<i.length&&(r.lastIndex=h,c=r.exec(i),null!==c);)h=r.lastIndex,r===O?"!--"===c[1]?r=D:void 0!==c[1]?r=H:void 0!==c[2]?(B.test(c[2])&&(a=RegExp("</"+c[2],"g")),r=L):void 0!==c[3]&&(r=L):r===L?">"===c[0]?(r=a??O,l=-1):void 0===c[1]?l=-2:(l=r.lastIndex-c[2].length,o=c[1],r=void 0===c[3]?L:'"'===c[3]?R:I):r===R||r===I?r=L:r===D||r===H?r=O:(r=L,a=void 0);const d=r===L&&t[e+1].startsWith("/>")?" ":"";n+=r===O?i+z:l>=0?(s.push(o),i.slice(0,l)+E+i.slice(l)+A+d):i+A+(-2===l?e:d)}return[Z(t,n+(t[i]||"<?>")+(2===e?"</svg>":3===e?"</math>":"")),s]};class J{constructor({strings:t,_$litType$:e},i){let s;this.parts=[];let a=0,n=0;const r=t.length-1,o=this.parts,[c,l]=G(t,e);if(this.el=J.createElement(c,i),Y.currentNode=this.el.content,2===e||3===e){const t=this.el.content.firstChild;t.replaceWith(...t.childNodes)}for(;null!==(s=Y.nextNode())&&o.length<r;){if(1===s.nodeType){if(s.hasAttributes())for(const t of s.getAttributeNames())if(t.endsWith(E)){const e=l[n++],i=s.getAttribute(t).split(A),r=/([.?@])?(.*)/.exec(e);o.push({type:1,index:a,name:r[2],strings:i,ctor:"."===r[1]?st:"?"===r[1]?at:"@"===r[1]?nt:it}),s.removeAttribute(t)}else t.startsWith(A)&&(o.push({type:6,index:a}),s.removeAttribute(t));if(B.test(s.tagName)){const t=s.textContent.split(A),e=t.length-1;if(e>0){s.textContent=C?C.emptyScript:"";for(let i=0;i<e;i++)s.append(t[i],M()),Y.nextNode(),o.push({type:2,index:++a});s.append(t[e],M())}}}else if(8===s.nodeType)if(s.data===P)o.push({type:2,index:a});else{let t=-1;for(;-1!==(t=s.data.indexOf(A,t+1));)o.push({type:7,index:a}),t+=A.length-1}a++}}static createElement(t,e){const i=T.createElement("template");return i.innerHTML=t,i}}function X(t,e,i=t,s){if(e===F)return e;let a=void 0!==s?i._$Co?.[s]:i._$Cl;const n=j(e)?void 0:e._$litDirective$;return a?.constructor!==n&&(a?._$AO?.(!1),void 0===n?a=void 0:(a=new n(t),a._$AT(t,i,s)),void 0!==s?(i._$Co??=[])[s]=a:i._$Cl=a),void 0!==a&&(e=X(t,a._$AS(t,e.values),a,s)),e}class tt{constructor(t,e){this._$AV=[],this._$AN=void 0,this._$AD=t,this._$AM=e}get parentNode(){return this._$AM.parentNode}get _$AU(){return this._$AM._$AU}u(t){const{el:{content:e},parts:i}=this._$AD,s=(t?.creationScope??T).importNode(e,!0);Y.currentNode=s;let a=Y.nextNode(),n=0,r=0,o=i[0];for(;void 0!==o;){if(n===o.index){let e;2===o.type?e=new et(a,a.nextSibling,this,t):1===o.type?e=new o.ctor(a,o.name,o.strings,this,t):6===o.type&&(e=new rt(a,this,t)),this._$AV.push(e),o=i[++r]}n!==o?.index&&(a=Y.nextNode(),n++)}return Y.currentNode=T,s}p(t){let e=0;for(const i of this._$AV)void 0!==i&&(void 0!==i.strings?(i._$AI(t,i,e),e+=i.strings.length-2):i._$AI(t[e])),e++}}class et{get _$AU(){return this._$AM?._$AU??this._$Cv}constructor(t,e,i,s){this.type=2,this._$AH=q,this._$AN=void 0,this._$AA=t,this._$AB=e,this._$AM=i,this.options=s,this._$Cv=s?.isConnected??!0}get parentNode(){let t=this._$AA.parentNode;const e=this._$AM;return void 0!==e&&11===t?.nodeType&&(t=e.parentNode),t}get startNode(){return this._$AA}get endNode(){return this._$AB}_$AI(t,e=this){t=X(this,t,e),j(t)?t===q||null==t||""===t?(this._$AH!==q&&this._$AR(),this._$AH=q):t!==this._$AH&&t!==F&&this._(t):void 0!==t._$litType$?this.$(t):void 0!==t.nodeType?this.T(t):(t=>N(t)||"function"==typeof t?.[Symbol.iterator])(t)?this.k(t):this._(t)}O(t){return this._$AA.parentNode.insertBefore(t,this._$AB)}T(t){this._$AH!==t&&(this._$AR(),this._$AH=this.O(t))}_(t){this._$AH!==q&&j(this._$AH)?this._$AA.nextSibling.data=t:this.T(T.createTextNode(t)),this._$AH=t}$(t){const{values:e,_$litType$:i}=t,s="number"==typeof i?this._$AC(t):(void 0===i.el&&(i.el=J.createElement(Z(i.h,i.h[0]),this.options)),i);if(this._$AH?._$AD===s)this._$AH.p(e);else{const t=new tt(s,this),i=t.u(this.options);t.p(e),this.T(i),this._$AH=t}}_$AC(t){let e=V.get(t.strings);return void 0===e&&V.set(t.strings,e=new J(t)),e}k(t){N(this._$AH)||(this._$AH=[],this._$AR());const e=this._$AH;let i,s=0;for(const a of t)s===e.length?e.push(i=new et(this.O(M()),this.O(M()),this,this.options)):i=e[s],i._$AI(a),s++;s<e.length&&(this._$AR(i&&i._$AB.nextSibling,s),e.length=s)}_$AR(t=this._$AA.nextSibling,e){for(this._$AP?.(!1,!0,e);t!==this._$AB;){const e=$(t).nextSibling;$(t).remove(),t=e}}setConnected(t){void 0===this._$AM&&(this._$Cv=t,this._$AP?.(t))}}class it{get tagName(){return this.element.tagName}get _$AU(){return this._$AM._$AU}constructor(t,e,i,s,a){this.type=1,this._$AH=q,this._$AN=void 0,this.element=t,this.name=e,this._$AM=s,this.options=a,i.length>2||""!==i[0]||""!==i[1]?(this._$AH=Array(i.length-1).fill(new String),this.strings=i):this._$AH=q}_$AI(t,e=this,i,s){const a=this.strings;let n=!1;if(void 0===a)t=X(this,t,e,0),n=!j(t)||t!==this._$AH&&t!==F,n&&(this._$AH=t);else{const s=t;let r,o;for(t=a[0],r=0;r<a.length-1;r++)o=X(this,s[i+r],e,r),o===F&&(o=this._$AH[r]),n||=!j(o)||o!==this._$AH[r],o===q?t=q:t!==q&&(t+=(o??"")+a[r+1]),this._$AH[r]=o}n&&!s&&this.j(t)}j(t){t===q?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,t??"")}}class st extends it{constructor(){super(...arguments),this.type=3}j(t){this.element[this.name]=t===q?void 0:t}}class at extends it{constructor(){super(...arguments),this.type=4}j(t){this.element.toggleAttribute(this.name,!!t&&t!==q)}}class nt extends it{constructor(t,e,i,s,a){super(t,e,i,s,a),this.type=5}_$AI(t,e=this){if((t=X(this,t,e,0)??q)===F)return;const i=this._$AH,s=t===q&&i!==q||t.capture!==i.capture||t.once!==i.once||t.passive!==i.passive,a=t!==q&&(i===q||s);s&&this.element.removeEventListener(this.name,this,i),a&&this.element.addEventListener(this.name,this,t),this._$AH=t}handleEvent(t){"function"==typeof this._$AH?this._$AH.call(this.options?.host??this.element,t):this._$AH.handleEvent(t)}}class rt{constructor(t,e,i){this.element=t,this.type=6,this._$AN=void 0,this._$AM=e,this.options=i}get _$AU(){return this._$AM._$AU}_$AI(t){X(this,t)}}const ot=x.litHtmlPolyfillSupport;ot?.(J,et),(x.litHtmlVersions??=[]).push("3.3.2");const ct=globalThis;class lt extends w{constructor(){super(...arguments),this.renderOptions={host:this},this._$Do=void 0}createRenderRoot(){const t=super.createRenderRoot();return this.renderOptions.renderBefore??=t.firstChild,t}update(t){const e=this.render();this.hasUpdated||(this.renderOptions.isConnected=this.isConnected),super.update(t),this._$Do=((t,e,i)=>{const s=i?.renderBefore??e;let a=s._$litPart$;if(void 0===a){const t=i?.renderBefore??null;s._$litPart$=a=new et(e.insertBefore(M(),t),t,void 0,i??{})}return a._$AI(t),a})(e,this.renderRoot,this.renderOptions)}connectedCallback(){super.connectedCallback(),this._$Do?.setConnected(!0)}disconnectedCallback(){super.disconnectedCallback(),this._$Do?.setConnected(!1)}render(){return F}}lt._$litElement$=!0,lt.finalized=!0,ct.litElementHydrateSupport?.({LitElement:lt});const ht=ct.litElementPolyfillSupport;ht?.({LitElement:lt}),(ct.litElementVersions??=[]).push("4.2.2");const dt=t=>(e,i)=>{void 0!==i?i.addInitializer(()=>{customElements.define(t,e)}):customElements.define(t,e)},pt={attribute:!0,type:String,converter:_,reflect:!1,hasChanged:k},ut=(t=pt,e,i)=>{const{kind:s,metadata:a}=i;let n=globalThis.litPropertyMetadata.get(a);if(void 0===n&&globalThis.litPropertyMetadata.set(a,n=new Map),"setter"===s&&((t=Object.create(t)).wrapped=!0),n.set(i.name,t),"accessor"===s){const{name:s}=i;return{set(i){const a=e.get.call(this);e.set.call(this,i),this.requestUpdate(s,a,t,!0,i)},init(e){return void 0!==e&&this.C(s,void 0,t,e),e}}}if("setter"===s){const{name:s}=i;return function(i){const a=this[s];e.call(this,i),this.requestUpdate(s,a,t,!0,i)}}throw Error("Unsupported decorator location: "+s)};function mt(t){return(e,i)=>"object"==typeof i?ut(t,e,i):((t,e,i)=>{const s=e.hasOwnProperty(i);return e.constructor.createProperty(i,t),s?Object.getOwnPropertyDescriptor(e,i):void 0})(t,e,i)}function gt(t){return mt({...t,state:!0,attribute:!1})}const ft=r`
   :host {
     --sketch-bg: var(--ha-card-background, #faf7f0);
     --sketch-ink: var(--primary-text-color, #2a2a2a);
@@ -362,7 +362,7 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
       display: none;
     }
   }
-`,vt=document.createElement("link");function bt(t){window.dispatchEvent(new CustomEvent("haptic",{detail:t}))}vt.rel="stylesheet",vt.href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Patrick+Hand&display=swap",document.head.querySelector('link[href*="Caveat"]')||document.head.appendChild(vt);class _t extends ht{constructor(){super(...arguments),this._holdFired=!1,this._lastTap=0,this._prevState="",this.handleKeyDown=t=>{"Enter"!==t.key&&" "!==t.key||(t.preventDefault(),this.executeAction(this._config?.tap_action,this.defaultTapAction))},this.handlePointerDown=t=>{this._holdFired=!1,this._holdTimer=setTimeout(()=>{this._holdFired=!0,this._config?.hold_action&&(this.executeAction(this._config.hold_action),bt("medium"))},500)},this.handlePointerUp=t=>{if(this._holdTimer&&(clearTimeout(this._holdTimer),this._holdTimer=void 0),this._holdFired)return;const e=Date.now();this._config?.double_tap_action&&e-this._lastTap<250?(this._dblTapTimer&&(clearTimeout(this._dblTapTimer),this._dblTapTimer=void 0),this._lastTap=0,this.executeAction(this._config.double_tap_action)):(this._lastTap=e,this._config?.double_tap_action?this._dblTapTimer=setTimeout(()=>{this._lastTap=0,this.executeAction(this._config?.tap_action,this.defaultTapAction)},250):this.executeAction(this._config?.tap_action,this.defaultTapAction))},this.handlePointerCancel=()=>{this._holdTimer&&(clearTimeout(this._holdTimer),this._holdTimer=void 0),this._holdFired=!1}}static{this.styles=[ft]}setConfig(t){if(!t)throw new Error("Invalid configuration");this._config={...t}}getCardSize(){return 3}getLayoutOptions(){return{grid_columns:4,grid_rows:this.getCardSize()}}getEntity(){if(this._config?.entity&&this.hass)return this.hass.states[this._config.entity]}isUnavailable(){const t=this.getEntity();return!!t&&["unavailable","unknown"].includes(t.state)}getName(){if(this._config?.name)return this._config.name;const t=this.getEntity();return t?.attributes?.friendly_name||this._config?.entity||""}getIcon(){if(this._config?.icon)return this._config.icon;const t=this.getEntity();return t?.attributes?.icon||"mdi:help-circle-outline"}async callService(t,e,i){try{await this.hass.callService(t,e,i)}catch(t){this.classList.add("sketch-error"),setTimeout(()=>this.classList.remove("sketch-error"),1e3),console.error("Ha-sketch service call failed:",t)}}toggleEntity(){if(!this._config?.entity)return;const[t]=this._config.entity.split(".");this.callService(t,"toggle",{entity_id:this._config.entity})}fireEvent(t,e){this.dispatchEvent(new CustomEvent(t,{bubbles:!0,composed:!0,detail:e}))}executeAction(t,e="more-info"){if(t?.confirmation&&!window.confirm("Are you sure?"))return;switch(t?.action||e){case"toggle":this.toggleEntity(),bt("success");break;case"call-service":if(t?.service){const[e,i]=t.service.split(".");this.callService(e,i,t.service_data),bt("light")}break;case"navigate":t?.navigation_path&&/^\/[a-zA-Z0-9\-_/?#=&.]*$/.test(t.navigation_path)&&(window.history.pushState(null,"",t.navigation_path),this.fireEvent("location-changed"),bt("light"));break;case"url":t?.url_path&&(window.open(t.url_path,"_blank"),bt("light"));break;case"none":break;default:this.fireEvent("hass-more-info",{entityId:this._config?.entity}),bt("light")}}updated(t){if(super.updated(t),t.has("hass")){const t=this.isUnavailable();t&&!this.classList.contains("unavailable")?this.classList.add("unavailable"):!t&&this.classList.contains("unavailable")&&this.classList.remove("unavailable");const e=this.getEntity();if(e&&this._prevState&&e.state!==this._prevState){const t=this.shadowRoot?.querySelector("ha-card");t&&(t.style.animation="none",t.offsetHeight,t.style.animation="sketch-state-pulse 0.6s ease")}e&&(this._prevState=e.state)}}disconnectedCallback(){super.disconnectedCallback(),this._holdTimer&&clearTimeout(this._holdTimer),this._dblTapTimer&&clearTimeout(this._dblTapTimer)}get defaultTapAction(){return"more-info"}handleAction(){this.executeAction(this._config?.tap_action,this.defaultTapAction)}}function kt(t){if(t.attributes.icon)return t.attributes.icon;const e=t.entity_id.split(".")[0],i=t.state;return{light:"on"===i?"mdi:lightbulb":"mdi:lightbulb-outline",switch:"on"===i?"mdi:toggle-switch":"mdi:toggle-switch-off",fan:"mdi:fan",climate:"mdi:thermostat",weather:yt(i),sensor:wt(t),binary_sensor:"on"===i?"mdi:checkbox-marked-circle":"mdi:checkbox-blank-circle-outline",cover:"open"===i?"mdi:window-open":"mdi:window-closed",lock:"locked"===i?"mdi:lock":"mdi:lock-open",media_player:"playing"===i?"mdi:play-circle":"mdi:play-circle-outline",alarm_control_panel:xt(i),camera:"mdi:video",automation:"mdi:robot",script:"mdi:script-text",scene:"mdi:palette",input_boolean:"on"===i?"mdi:check-circle":"mdi:close-circle",person:"mdi:account",device_tracker:"mdi:crosshairs-gps",vacuum:"mdi:robot-vacuum",input_number:"mdi:ray-vertex",input_select:"mdi:format-list-bulleted",timer:"mdi:timer-outline",counter:"mdi:counter",sun:"above_horizon"===i?"mdi:white-balance-sunny":"mdi:weather-night"}[e]||"mdi:help-circle-outline"}function yt(t){return{"clear-night":"mdi:weather-night",cloudy:"mdi:weather-cloudy",fog:"mdi:weather-fog",hail:"mdi:weather-hail",lightning:"mdi:weather-lightning","lightning-rainy":"mdi:weather-lightning-rainy",partlycloudy:"mdi:weather-partly-cloudy",pouring:"mdi:weather-pouring",rainy:"mdi:weather-rainy",snowy:"mdi:weather-snowy","snowy-rainy":"mdi:weather-snowy-rainy",sunny:"mdi:weather-sunny",windy:"mdi:weather-windy","windy-variant":"mdi:weather-windy-variant",exceptional:"mdi:alert-circle-outline"}[t]||"mdi:weather-cloudy"}function wt(t){return{temperature:"mdi:thermometer",humidity:"mdi:water-percent",pressure:"mdi:gauge",power:"mdi:flash",energy:"mdi:lightning-bolt",battery:"mdi:battery",illuminance:"mdi:brightness-6",carbon_dioxide:"mdi:molecule-co2",carbon_monoxide:"mdi:molecule-co",gas:"mdi:gas-cylinder",moisture:"mdi:water",signal_strength:"mdi:wifi",voltage:"mdi:sine-wave",current:"mdi:current-ac"}[t.attributes.device_class]||"mdi:eye"}function xt(t){return{armed_home:"mdi:shield-home",armed_away:"mdi:shield-lock",armed_night:"mdi:shield-moon",armed_vacation:"mdi:shield-airplane",armed_custom_bypass:"mdi:shield-star",disarmed:"mdi:shield-off",triggered:"mdi:bell-ring",pending:"mdi:shield-alert",arming:"mdi:shield-outline"}[t]||"mdi:shield"}function $t(t){return["on","open","playing","home","unlocked"].includes(t)}function Ct(t,e){const i=t.state,s=t.attributes.unit_of_measurement;return s?`${i} ${s}`:i}t([mt({attribute:!1})],_t.prototype,"hass",void 0),t([gt()],_t.prototype,"_config",void 0);class St extends ht{constructor(){super(...arguments),this._computeLabel=t=>({entity:"Entity",name:"Name (optional)",icon:"Icon (optional)",show_name:"Show Name",show_state:"Show State",show_icon:"Show Icon",show_brightness:"Show Brightness Slider",show_color_temp:"Show Color Temperature",show_current_as_primary:"Show Current Temp as Primary",show_forecast:"Show Forecast",num_forecasts:"Number of Forecast Days",graph:"Show Graph",show_artwork:"Show Artwork",show_source:"Show Source",show_position:"Show Position Slider",show_tilt:"Show Tilt Slider",show_location:"Show Location",show_battery:"Show Battery",battery_entity:"Battery Entity",show_controls:"Show Controls",aspect_ratio:"Aspect Ratio",hide_icon:"Hide Icon",states:"Alarm States",mode:"Display Mode",show_date:"Show Date",show_seconds:"Show Seconds",hash:"Hash (e.g. kitchen)",auto_close:"Auto-close (seconds)",width:"Width (e.g. 90%)",style:"Style",columns:"Columns",collapsible:"Collapsible"}[t.name]||t.name),this._valueChanged=t=>{const e=t.detail.value;!function(t,e,i){const s=new Event(e,{bubbles:!0,cancelable:!1,composed:!0});s.detail=i,t.dispatchEvent(s)}(this,"config-changed",{config:{...this._config,...e}})}}static{this.styles=[r`
+`,vt=document.createElement("link");function bt(t){window.dispatchEvent(new CustomEvent("haptic",{detail:t}))}vt.rel="stylesheet",vt.href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Patrick+Hand&display=swap",document.head.querySelector('link[href*="Caveat"]')||document.head.appendChild(vt);class _t extends lt{constructor(){super(...arguments),this._holdFired=!1,this._lastTap=0,this._prevState="",this.handleKeyDown=t=>{"Enter"!==t.key&&" "!==t.key||(t.preventDefault(),this.executeAction(this._config?.tap_action,this.defaultTapAction))},this.handlePointerDown=t=>{this._holdFired=!1,this._holdTimer=setTimeout(()=>{this._holdFired=!0,this._config?.hold_action&&(this.executeAction(this._config.hold_action),bt("medium"))},500)},this.handlePointerUp=t=>{if(this._holdTimer&&(clearTimeout(this._holdTimer),this._holdTimer=void 0),this._holdFired)return;const e=Date.now();this._config?.double_tap_action&&e-this._lastTap<250?(this._dblTapTimer&&(clearTimeout(this._dblTapTimer),this._dblTapTimer=void 0),this._lastTap=0,this.executeAction(this._config.double_tap_action)):(this._lastTap=e,this._config?.double_tap_action?this._dblTapTimer=setTimeout(()=>{this._lastTap=0,this.executeAction(this._config?.tap_action,this.defaultTapAction)},250):this.executeAction(this._config?.tap_action,this.defaultTapAction))},this.handlePointerCancel=()=>{this._holdTimer&&(clearTimeout(this._holdTimer),this._holdTimer=void 0),this._holdFired=!1}}static{this.styles=[ft]}setConfig(t){if(!t)throw new Error("Invalid configuration");this._config={...t}}getCardSize(){return 3}getLayoutOptions(){return{grid_columns:4,grid_rows:this.getCardSize()}}getEntity(){if(this._config?.entity&&this.hass)return this.hass.states[this._config.entity]}isUnavailable(){const t=this.getEntity();return!!t&&["unavailable","unknown"].includes(t.state)}getName(){if(this._config?.name)return this._config.name;const t=this.getEntity();return t?.attributes?.friendly_name||this._config?.entity||""}getIcon(){if(this._config?.icon)return this._config.icon;const t=this.getEntity();return t?.attributes?.icon||"mdi:help-circle-outline"}async callService(t,e,i){try{await this.hass.callService(t,e,i)}catch(t){this.classList.add("sketch-error"),setTimeout(()=>this.classList.remove("sketch-error"),1e3),console.error("Ha-sketch service call failed:",t)}}toggleEntity(){if(!this._config?.entity)return;const[t]=this._config.entity.split(".");this.callService(t,"toggle",{entity_id:this._config.entity})}fireEvent(t,e){this.dispatchEvent(new CustomEvent(t,{bubbles:!0,composed:!0,detail:e}))}executeAction(t,e="more-info"){if(t?.confirmation&&!window.confirm("Are you sure?"))return;switch(t?.action||e){case"toggle":this.toggleEntity(),bt("success");break;case"call-service":if(t?.service){const[e,i]=t.service.split(".");this.callService(e,i,t.service_data),bt("light")}break;case"navigate":t?.navigation_path&&/^\/[a-zA-Z0-9\-_/?#=&.]*$/.test(t.navigation_path)&&(window.history.pushState(null,"",t.navigation_path),this.fireEvent("location-changed"),bt("light"));break;case"url":t?.url_path&&(window.open(t.url_path,"_blank"),bt("light"));break;case"none":break;default:this.fireEvent("hass-more-info",{entityId:this._config?.entity}),bt("light")}}updated(t){if(super.updated(t),t.has("hass")){const t=this.isUnavailable();t&&!this.classList.contains("unavailable")?this.classList.add("unavailable"):!t&&this.classList.contains("unavailable")&&this.classList.remove("unavailable");const e=this.getEntity();if(e&&this._prevState&&e.state!==this._prevState){const t=this.shadowRoot?.querySelector("ha-card");t&&(t.style.animation="none",t.offsetHeight,t.style.animation="sketch-state-pulse 0.6s ease")}e&&(this._prevState=e.state)}}disconnectedCallback(){super.disconnectedCallback(),this._holdTimer&&clearTimeout(this._holdTimer),this._dblTapTimer&&clearTimeout(this._dblTapTimer)}get defaultTapAction(){return"more-info"}handleAction(){this.executeAction(this._config?.tap_action,this.defaultTapAction)}}function kt(t){if(t.attributes.icon)return t.attributes.icon;const e=t.entity_id.split(".")[0],i=t.state;return{light:"on"===i?"mdi:lightbulb":"mdi:lightbulb-outline",switch:"on"===i?"mdi:toggle-switch":"mdi:toggle-switch-off",fan:"mdi:fan",climate:"mdi:thermostat",weather:yt(i),sensor:wt(t),binary_sensor:"on"===i?"mdi:checkbox-marked-circle":"mdi:checkbox-blank-circle-outline",cover:"open"===i?"mdi:window-open":"mdi:window-closed",lock:"locked"===i?"mdi:lock":"mdi:lock-open",media_player:"playing"===i?"mdi:play-circle":"mdi:play-circle-outline",alarm_control_panel:xt(i),camera:"mdi:video",automation:"mdi:robot",script:"mdi:script-text",scene:"mdi:palette",input_boolean:"on"===i?"mdi:check-circle":"mdi:close-circle",person:"mdi:account",device_tracker:"mdi:crosshairs-gps",vacuum:"mdi:robot-vacuum",input_number:"mdi:ray-vertex",input_select:"mdi:format-list-bulleted",timer:"mdi:timer-outline",counter:"mdi:counter",sun:"above_horizon"===i?"mdi:white-balance-sunny":"mdi:weather-night"}[e]||"mdi:help-circle-outline"}function yt(t){return{"clear-night":"mdi:weather-night",cloudy:"mdi:weather-cloudy",fog:"mdi:weather-fog",hail:"mdi:weather-hail",lightning:"mdi:weather-lightning","lightning-rainy":"mdi:weather-lightning-rainy",partlycloudy:"mdi:weather-partly-cloudy",pouring:"mdi:weather-pouring",rainy:"mdi:weather-rainy",snowy:"mdi:weather-snowy","snowy-rainy":"mdi:weather-snowy-rainy",sunny:"mdi:weather-sunny",windy:"mdi:weather-windy","windy-variant":"mdi:weather-windy-variant",exceptional:"mdi:alert-circle-outline"}[t]||"mdi:weather-cloudy"}function wt(t){return{temperature:"mdi:thermometer",humidity:"mdi:water-percent",pressure:"mdi:gauge",power:"mdi:flash",energy:"mdi:lightning-bolt",battery:"mdi:battery",illuminance:"mdi:brightness-6",carbon_dioxide:"mdi:molecule-co2",carbon_monoxide:"mdi:molecule-co",gas:"mdi:gas-cylinder",moisture:"mdi:water",signal_strength:"mdi:wifi",voltage:"mdi:sine-wave",current:"mdi:current-ac"}[t.attributes.device_class]||"mdi:eye"}function xt(t){return{armed_home:"mdi:shield-home",armed_away:"mdi:shield-lock",armed_night:"mdi:shield-moon",armed_vacation:"mdi:shield-airplane",armed_custom_bypass:"mdi:shield-star",disarmed:"mdi:shield-off",triggered:"mdi:bell-ring",pending:"mdi:shield-alert",arming:"mdi:shield-outline"}[t]||"mdi:shield"}function $t(t){return["on","open","playing","home","unlocked"].includes(t)}function Ct(t,e){const i=t.state,s=t.attributes.unit_of_measurement;return s?`${i} ${s}`:i}t([mt({attribute:!1})],_t.prototype,"hass",void 0),t([gt()],_t.prototype,"_config",void 0);class St extends lt{constructor(){super(...arguments),this._computeLabel=t=>({entity:"Entity",name:"Name (optional)",icon:"Icon (optional)",show_name:"Show Name",show_state:"Show State",show_icon:"Show Icon",show_brightness:"Show Brightness Slider",show_color_temp:"Show Color Temperature",show_current_as_primary:"Show Current Temp as Primary",show_forecast:"Show Forecast",num_forecasts:"Number of Forecast Days",graph:"Show Graph",show_artwork:"Show Artwork",show_source:"Show Source",show_position:"Show Position Slider",show_tilt:"Show Tilt Slider",show_location:"Show Location",show_battery:"Show Battery",battery_entity:"Battery Entity",show_controls:"Show Controls",aspect_ratio:"Aspect Ratio",hide_icon:"Hide Icon",states:"Alarm States",mode:"Display Mode",show_date:"Show Date",show_seconds:"Show Seconds",hash:"Hash (e.g. kitchen)",auto_close:"Auto-close (seconds)",width:"Width (e.g. 90%)",style:"Style",columns:"Columns",collapsible:"Collapsible"}[t.name]||t.name),this._valueChanged=t=>{const e=t.detail.value;!function(t,e,i){const s=new Event(e,{bubbles:!0,cancelable:!1,composed:!0});s.detail=i,t.dispatchEvent(s)}(this,"config-changed",{config:{...this._config,...e}})}}static{this.styles=[r`
     :host {
       display: block;
     }
@@ -379,7 +379,7 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
         .computeLabel=${this._computeLabel}
         @value-changed=${this._valueChanged}
       ></ha-form>
-    `:F}}function Et(t){return[{name:"entity",selector:{entity:t?{domain:t}:{}}},{type:"grid",name:"",schema:[{name:"name",selector:{text:{}}},{name:"icon",selector:{icon:{}},context:{icon_entity:"entity"}}]},{name:"show_name",selector:{boolean:{}}},{name:"show_state",selector:{boolean:{}}},{name:"show_icon",selector:{boolean:{}}}]}t([mt({attribute:!1})],St.prototype,"hass",void 0),t([gt()],St.prototype,"_config",void 0);let At=class extends St{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0}}get _schema(){return[...Et()]}};At=t([dt("sketch-entity-card-editor")],At);let Pt=class extends _t{static{this.styles=[...super.styles,r`
+    `:q}}function Et(t){return[{name:"entity",selector:{entity:t?{domain:t}:{}}},{type:"grid",name:"",schema:[{name:"name",selector:{text:{}}},{name:"icon",selector:{icon:{}},context:{icon_entity:"entity"}}]},{name:"show_name",selector:{boolean:{}}},{name:"show_state",selector:{boolean:{}}},{name:"show_icon",selector:{boolean:{}}}]}t([mt({attribute:!1})],St.prototype,"hass",void 0),t([gt()],St.prototype,"_config",void 0);let At=class extends St{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0}}get _schema(){return[...Et()]}};At=t([dt("sketch-entity-card-editor")],At);let Pt=class extends _t{static{this.styles=[...super.styles,r`
       .entity-row {
         display: flex;
         align-items: center;
@@ -418,16 +418,16 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
                   <div class="entity-icon-wrap">
                     <ha-icon class="sketch-icon" .icon=${e}></ha-icon>
                   </div>
-                `:F}
+                `:q}
             <div class="entity-info">
-              ${a?K`<p class="sketch-name">${i}</p>`:F}
+              ${a?K`<p class="sketch-name">${i}</p>`:q}
               <div class="last-changed">${function(t){const e=new Date,i=new Date(t),s=Math.floor((e.getTime()-i.getTime())/1e3);return s<60?"just now":s<3600?`${Math.floor(s/60)}m ago`:s<86400?`${Math.floor(s/3600)}h ago`:`${Math.floor(s/86400)}d ago`}(t.last_changed)}</div>
             </div>
             ${n?K`
                   <div class="entity-state-badge">
                     <span class="sketch-badge ${o?"on":"off"}">${s}</span>
                   </div>
-                `:F}
+                `:q}
           </div>
         </div>
       </ha-card>
@@ -494,9 +494,9 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
                 <div class="button-icon-wrap ${s?"active":""}">
                   <ha-icon class="sketch-icon" .icon=${e}></ha-icon>
                 </div>
-              `:F}
-          ${a?K`<div class="button-label">${i}</div>`:F}
-          ${n&&t?K`<div class="button-state">${t.state}</div>`:F}
+              `:q}
+          ${a?K`<div class="button-label">${i}</div>`:q}
+          ${n&&t?K`<div class="button-state">${t.state}</div>`:q}
         </div>
       </ha-card>
     `}};t([gt()],Tt.prototype,"_pressing",void 0),Tt=t([dt("sketch-button-card")],Tt);let Mt=class extends St{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0,show_brightness:!0,show_color_temp:!0}}get _schema(){return[...Et("light"),{name:"show_brightness",selector:{boolean:{}}},{name:"show_color_temp",selector:{boolean:{}}}]}};Mt=t([dt("sketch-light-card-editor")],Mt);let jt=class extends _t{static{this.styles=[...super.styles,r`
@@ -554,18 +554,18 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
       .ct-slider {
         background: linear-gradient(to right, #ff8a2b, #fff, #90caf9); /* warm(low K) → cool(high K) */
       }
-    `]}setConfig(t){if(!t.entity)throw new Error("Please define a light entity");super.setConfig(t)}static getConfigElement(){return document.createElement("sketch-light-card-editor")}static getStubConfig(t){const e=Object.keys(t.states).filter(t=>t.startsWith("light."));return{entity:e[0]||"light.example"}}getCardSize(){return 3}get defaultTapAction(){return"toggle"}get _lightConfig(){return this._config}_setBrightness(t){const e=parseInt(t.target.value),i=Math.max(1,Math.min(e,100));this.callService("light","turn_on",{entity_id:this._config.entity,brightness:Math.round(i/100*255)})}_setColorTemp(t){const e=parseInt(t.target.value);this.callService("light","turn_on",{entity_id:this._config.entity,color_temp_kelvin:e})}render(){const t=this.getEntity();if(!t)return K`<ha-card><div class="sketch-card-content"><p class="sketch-name">Light not found</p></div></ha-card>`;const e=this.isUnavailable(),i="on"===t.state,s=t.attributes.brightness?Math.round(t.attributes.brightness/255*100):0,a=!1!==this._lightConfig.show_brightness&&i&&!e,n=!1!==this._lightConfig.show_color_temp&&!e&&i&&void 0!==t.attributes.min_color_temp_kelvin,r=this._config.icon||kt(t),o=!1!==this._config.show_name,c=!1!==this._config.show_state,h=!1!==this._config.show_icon;return K`
+    `]}setConfig(t){if(!t.entity)throw new Error("Please define a light entity");super.setConfig(t)}static getConfigElement(){return document.createElement("sketch-light-card-editor")}static getStubConfig(t){const e=Object.keys(t.states).filter(t=>t.startsWith("light."));return{entity:e[0]||"light.example"}}getCardSize(){return 3}get defaultTapAction(){return"toggle"}get _lightConfig(){return this._config}_setBrightness(t){const e=parseInt(t.target.value),i=Math.max(1,Math.min(e,100));this.callService("light","turn_on",{entity_id:this._config.entity,brightness:Math.round(i/100*255)})}_setColorTemp(t){const e=parseInt(t.target.value);this.callService("light","turn_on",{entity_id:this._config.entity,color_temp_kelvin:e})}render(){const t=this.getEntity();if(!t)return K`<ha-card><div class="sketch-card-content"><p class="sketch-name">Light not found</p></div></ha-card>`;const e=this.isUnavailable(),i="on"===t.state,s=t.attributes.brightness?Math.round(t.attributes.brightness/255*100):0,a=!1!==this._lightConfig.show_brightness&&i&&!e,n=!1!==this._lightConfig.show_color_temp&&!e&&i&&void 0!==t.attributes.min_color_temp_kelvin,r=this._config.icon||kt(t),o=!1!==this._config.show_name,c=!1!==this._config.show_state,l=!1!==this._config.show_icon;return K`
       <ha-card>
         <div class="sketch-card-content">
           <div class="light-header" role="button" tabindex="0" aria-label="${this.getName()}" @keydown=${this.handleKeyDown} @pointerdown=${this.handlePointerDown} @pointerup=${this.handlePointerUp} @pointercancel=${this.handlePointerCancel}>
-            ${h?K`
+            ${l?K`
                   <div class="light-icon-wrap ${i?"on":""}">
                     <ha-icon class="sketch-icon" .icon=${r}></ha-icon>
                   </div>
-                `:F}
+                `:q}
             <div class="sketch-col">
-              ${o?K`<p class="sketch-name">${this.getName()}</p>`:F}
-              ${c?K`<p class="sketch-state">${e?K`<span class="sketch-unavailable-label">Unavailable</span>`:i?`${s}%`:"Off"}</p>`:F}
+              ${o?K`<p class="sketch-name">${this.getName()}</p>`:q}
+              ${c?K`<p class="sketch-state">${e?K`<span class="sketch-unavailable-label">Unavailable</span>`:i?`${s}%`:"Off"}</p>`:q}
             </div>
           </div>
           ${a?K`
@@ -583,7 +583,7 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
                     <span class="brightness-value">${s}%</span>
                   </div>
                 </div>
-              `:F}
+              `:q}
           ${n?K`
                 <div class="color-temp-row">
                   <span class="ct-label">&#x2600;</span>
@@ -597,10 +597,10 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
                   />
                   <span class="ct-label">&#x2744;</span>
                 </div>
-              `:F}
+              `:q}
         </div>
       </ha-card>
-    `}};jt=t([dt("sketch-light-card")],jt);let Ht=class extends St{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0,show_current_as_primary:!1}}get _schema(){return[...Et("climate"),{name:"show_current_as_primary",selector:{boolean:{}}}]}};Ht=t([dt("sketch-thermostat-card-editor")],Ht);let Ut=class extends _t{static{this.styles=[...super.styles,r`
+    `}};jt=t([dt("sketch-light-card")],jt);let Nt=class extends St{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0,show_current_as_primary:!1}}get _schema(){return[...Et("climate"),{name:"show_current_as_primary",selector:{boolean:{}}}]}};Nt=t([dt("sketch-thermostat-card-editor")],Nt);let Ut=class extends _t{static{this.styles=[...super.styles,r`
       .thermo-header {
         display: flex;
         align-items: center;
@@ -676,18 +676,18 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
         flex-wrap: wrap;
         margin-top: 8px;
       }
-    `]}setConfig(t){if(!t.entity)throw new Error("Please define a climate entity");super.setConfig(t)}static getConfigElement(){return document.createElement("sketch-thermostat-card-editor")}static getStubConfig(t){const e=Object.keys(t.states).filter(t=>t.startsWith("climate."));return{entity:e[0]||"climate.example"}}getCardSize(){return 4}_adjustTemp(t){const e=this.getEntity();if(!e)return;const i=e.attributes.target_temp_step||.5,s=e.attributes.temperature||20;this.callService("climate","set_temperature",{entity_id:this._config.entity,temperature:s+t*i})}_setMode(t){this.callService("climate","set_hvac_mode",{entity_id:this._config.entity,hvac_mode:t})}render(){const t=this.getEntity();if(!t)return K`<ha-card><div class="sketch-card-content"><p class="sketch-name">Climate not found</p></div></ha-card>`;const e=t.attributes.current_temperature??"--",i=t.attributes.temperature??"--",s=t.attributes.unit_of_measurement||"°",a=t.attributes.hvac_action||t.state,n=t.attributes.hvac_modes||[],r=t.state;let o="";"heating"!==a&&"heat"!==r||(o="heating"),"cooling"!==a&&"cool"!==r||(o="cooling");const c=!1!==this._config.show_name,h=!1!==this._config.show_state,l=!1!==this._config.show_icon;return K`
+    `]}setConfig(t){if(!t.entity)throw new Error("Please define a climate entity");super.setConfig(t)}static getConfigElement(){return document.createElement("sketch-thermostat-card-editor")}static getStubConfig(t){const e=Object.keys(t.states).filter(t=>t.startsWith("climate."));return{entity:e[0]||"climate.example"}}getCardSize(){return 4}_adjustTemp(t){const e=this.getEntity();if(!e)return;const i=e.attributes.target_temp_step||.5,s=e.attributes.temperature||20;this.callService("climate","set_temperature",{entity_id:this._config.entity,temperature:s+t*i})}_setMode(t){this.callService("climate","set_hvac_mode",{entity_id:this._config.entity,hvac_mode:t})}render(){const t=this.getEntity();if(!t)return K`<ha-card><div class="sketch-card-content"><p class="sketch-name">Climate not found</p></div></ha-card>`;const e=t.attributes.current_temperature??"--",i=t.attributes.temperature??"--",s=t.attributes.unit_of_measurement||"°",a=t.attributes.hvac_action||t.state,n=t.attributes.hvac_modes||[],r=t.state;let o="";"heating"!==a&&"heat"!==r||(o="heating"),"cooling"!==a&&"cool"!==r||(o="cooling");const c=!1!==this._config.show_name,l=!1!==this._config.show_state,h=!1!==this._config.show_icon;return K`
       <ha-card>
         <div class="sketch-card-content">
           <div class="thermo-header" role="button" tabindex="0" aria-label="${this.getName()}" @keydown=${this.handleKeyDown} @pointerdown=${this.handlePointerDown} @pointerup=${this.handlePointerUp} @pointercancel=${this.handlePointerCancel}>
-            ${l?K`
+            ${h?K`
                   <div class="thermo-icon-wrap ${o}">
                     <ha-icon class="sketch-icon" .icon=${"mdi:thermostat"}></ha-icon>
                   </div>
-                `:F}
+                `:q}
             <div class="sketch-col">
-              ${c?K`<p class="sketch-name">${this.getName()}</p>`:F}
-              ${h?K`<p class="sketch-state">${r}</p>`:F}
+              ${c?K`<p class="sketch-name">${this.getName()}</p>`:q}
+              ${l?K`<p class="sketch-state">${r}</p>`:q}
             </div>
           </div>
 
@@ -716,10 +716,10 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
                       </button>
                     `)}
                 </div>
-              `:F}
+              `:q}
         </div>
       </ha-card>
-    `}};Ut=t([dt("sketch-thermostat-card")],Ut);let Nt=class extends St{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0,show_forecast:!0,num_forecasts:5}}get _schema(){return[...Et("weather"),{name:"show_forecast",selector:{boolean:{}}},{name:"num_forecasts",selector:{number:{min:1,max:7,mode:"box"}}}]}};Nt=t([dt("sketch-weather-card-editor")],Nt);let Ot=class extends _t{static{this.styles=[...super.styles,r`
+    `}};Ut=t([dt("sketch-thermostat-card")],Ut);let Ot=class extends St{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0,show_forecast:!0,num_forecasts:5}}get _schema(){return[...Et("weather"),{name:"show_forecast",selector:{boolean:{}}},{name:"num_forecasts",selector:{number:{min:1,max:7,mode:"box"}}}]}};Ot=t([dt("sketch-weather-card-editor")],Ot);let Dt=class extends _t{static{this.styles=[...super.styles,r`
       .weather-main {
         display: flex;
         align-items: center;
@@ -794,16 +794,16 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
       }
       .forecast-high { font-weight: 700; }
       .forecast-low { color: var(--sketch-ink-muted); }
-    `]}setConfig(t){if(!t.entity)throw new Error("Please define a weather entity");super.setConfig(t)}static getConfigElement(){return document.createElement("sketch-weather-card-editor")}static getStubConfig(t){const e=Object.keys(t.states).filter(t=>t.startsWith("weather."));return{entity:e[0]||"weather.example"}}getCardSize(){const t=this._config;return!1!==t?.show_forecast?5:3}get _weatherConfig(){return this._config}_weatherIconName(t){return function(t){return yt(t)}(t)}render(){const t=this.getEntity();if(!t)return K`<ha-card><div class="sketch-card-content"><p class="sketch-name">Weather not found</p></div></ha-card>`;const e=t.attributes.temperature??"--",i=t.attributes.temperature_unit||"°",s=t.state,a=t.attributes.humidity,n=t.attributes.wind_speed,r=t.attributes.wind_speed_unit||"km/h",o=t.attributes.pressure,c=t.attributes.forecast||[],h=!1!==this._weatherConfig.show_forecast,l=this._weatherConfig.num_forecasts||5,d=!1!==this._config.show_name,p=!1!==this._config.show_icon;return K`
+    `]}setConfig(t){if(!t.entity)throw new Error("Please define a weather entity");super.setConfig(t)}static getConfigElement(){return document.createElement("sketch-weather-card-editor")}static getStubConfig(t){const e=Object.keys(t.states).filter(t=>t.startsWith("weather."));return{entity:e[0]||"weather.example"}}getCardSize(){const t=this._config;return!1!==t?.show_forecast?5:3}get _weatherConfig(){return this._config}_weatherIconName(t){return function(t){return yt(t)}(t)}render(){const t=this.getEntity();if(!t)return K`<ha-card><div class="sketch-card-content"><p class="sketch-name">Weather not found</p></div></ha-card>`;const e=t.attributes.temperature??"--",i=t.attributes.temperature_unit||"°",s=t.state,a=t.attributes.humidity,n=t.attributes.wind_speed,r=t.attributes.wind_speed_unit||"km/h",o=t.attributes.pressure,c=t.attributes.forecast||[],l=!1!==this._weatherConfig.show_forecast,h=this._weatherConfig.num_forecasts||5,d=!1!==this._config.show_name,p=!1!==this._config.show_icon;return K`
       <ha-card>
         <div class="sketch-card-content">
-          ${d?K`<p class="sketch-name" style="margin-bottom:8px">${this.getName()}</p>`:F}
+          ${d?K`<p class="sketch-name" style="margin-bottom:8px">${this.getName()}</p>`:q}
           <div class="weather-main" role="button" tabindex="0" aria-label="${this.getName()}" @keydown=${this.handleKeyDown} @pointerdown=${this.handlePointerDown} @pointerup=${this.handlePointerUp} @pointercancel=${this.handlePointerCancel}>
             ${p?K`
                   <div class="weather-icon-wrap">
                     <ha-icon .icon=${this._weatherIconName(s)}></ha-icon>
                   </div>
-                `:F}
+                `:q}
             <div>
               <div class="weather-temp">${e}${i}</div>
               <div class="weather-condition">${s.replace(/-/g," ")}</div>
@@ -811,15 +811,15 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
           </div>
 
           <div class="weather-details">
-            ${null!=a?K`<div class="weather-detail"><ha-icon icon="mdi:water-percent"></ha-icon>${a}%</div>`:F}
-            ${null!=n?K`<div class="weather-detail"><ha-icon icon="mdi:weather-windy"></ha-icon>${n} ${r}</div>`:F}
-            ${null!=o?K`<div class="weather-detail"><ha-icon icon="mdi:gauge"></ha-icon>${o} hPa</div>`:F}
+            ${null!=a?K`<div class="weather-detail"><ha-icon icon="mdi:water-percent"></ha-icon>${a}%</div>`:q}
+            ${null!=n?K`<div class="weather-detail"><ha-icon icon="mdi:weather-windy"></ha-icon>${n} ${r}</div>`:q}
+            ${null!=o?K`<div class="weather-detail"><ha-icon icon="mdi:gauge"></ha-icon>${o} hPa</div>`:q}
           </div>
 
-          ${h&&c.length>0?K`
+          ${l&&c.length>0?K`
                 <hr class="sketch-divider" />
                 <div class="forecast-row">
-                  ${c.slice(0,l).map(t=>K`
+                  ${c.slice(0,h).map(t=>K`
                       <div class="forecast-day">
                         <span class="forecast-day-name">
                           ${new Date(t.datetime).toLocaleDateString(void 0,{weekday:"short"})}
@@ -827,15 +827,15 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
                         <ha-icon .icon=${this._weatherIconName(t.condition)}></ha-icon>
                         <div class="forecast-temps">
                           <span class="forecast-high">${t.temperature}\u00b0</span>
-                          ${null!=t.templow?K`<span class="forecast-low"> ${t.templow}\u00b0</span>`:F}
+                          ${null!=t.templow?K`<span class="forecast-low"> ${t.templow}\u00b0</span>`:q}
                         </div>
                       </div>
                     `)}
                 </div>
-              `:F}
+              `:q}
         </div>
       </ha-card>
-    `}};Ot=t([dt("sketch-weather-card")],Ot);let Lt=class extends St{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0,graph:!0}}get _schema(){return[...Et("sensor"),{name:"graph",selector:{boolean:{}}}]}};Lt=t([dt("sketch-sensor-card-editor")],Lt);let Dt=class extends _t{constructor(){super(...arguments),this._history=[],this._historyEntityId=""}static{this.styles=[...super.styles,r`
+    `}};Dt=t([dt("sketch-weather-card")],Dt);let Ht=class extends St{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0,graph:!0}}get _schema(){return[...Et("sensor"),{name:"graph",selector:{boolean:{}}}]}};Ht=t([dt("sketch-sensor-card-editor")],Ht);let Lt=class extends _t{constructor(){super(...arguments),this._history=[],this._historyEntityId=""}static{this.styles=[...super.styles,r`
       .sensor-header {
         display: flex;
         align-items: flex-start;
@@ -897,21 +897,21 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
                   <div class="sensor-icon-wrap">
                     <ha-icon class="sketch-icon" .icon=${e}></ha-icon>
                   </div>
-                `:F}
+                `:q}
             <div class="sketch-col">
-              ${a?K`<p class="sketch-name">${this.getName()}</p>`:F}
+              ${a?K`<p class="sketch-name">${this.getName()}</p>`:q}
               ${n?K`
                     <div class="sensor-value-row">
                       <span class="sketch-value">${t.state}</span>
-                      ${i?K`<span class="sketch-unit">${i}</span>`:F}
+                      ${i?K`<span class="sketch-unit">${i}</span>`:q}
                     </div>
-                  `:F}
+                  `:q}
             </div>
           </div>
-          ${s?this._renderSparkline():F}
+          ${s?this._renderSparkline():q}
         </div>
       </ha-card>
-    `}};t([gt()],Dt.prototype,"_history",void 0),Dt=t([dt("sketch-sensor-card")],Dt);let It=class extends St{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0,show_artwork:!0,show_source:!0}}get _schema(){return[...Et("media_player"),{name:"show_artwork",selector:{boolean:{}}},{name:"show_source",selector:{boolean:{}}}]}};It=t([dt("sketch-media-player-card-editor")],It);let Rt=class extends _t{static{this.styles=[...super.styles,r`
+    `}};t([gt()],Lt.prototype,"_history",void 0),Lt=t([dt("sketch-sensor-card")],Lt);let It=class extends St{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0,show_artwork:!0,show_source:!0}}get _schema(){return[...Et("media_player"),{name:"show_artwork",selector:{boolean:{}}},{name:"show_source",selector:{boolean:{}}}]}};It=t([dt("sketch-media-player-card-editor")],It);let Rt=class extends _t{static{this.styles=[...super.styles,r`
       .media-layout {
         display: flex;
         gap: 14px;
@@ -999,22 +999,22 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
         margin-top: 6px;
         font-style: italic;
       }
-    `]}setConfig(t){if(!t.entity)throw new Error("Please define a media_player entity");super.setConfig(t)}static getConfigElement(){return document.createElement("sketch-media-player-card-editor")}static getStubConfig(t){const e=Object.keys(t.states).filter(t=>t.startsWith("media_player."));return{entity:e[0]||"media_player.example"}}getCardSize(){return 4}get _mediaConfig(){return this._config}_callMediaService(t){this.callService("media_player",t,{entity_id:this._config.entity})}_setVolume(t){const e=Math.max(0,Math.min(parseFloat(t.target.value),100));this.callService("media_player","volume_set",{entity_id:this._config.entity,volume_level:e/100})}render(){const t=this.getEntity();if(!t)return K`<ha-card><div class="sketch-card-content"><p class="sketch-name">Media Player not found</p></div></ha-card>`;const e=t.attributes.media_title||"Nothing playing",i=t.attributes.media_artist||"",s=t.attributes.entity_picture,a="playing"===t.state,n=Math.round(100*(t.attributes.volume_level||0)),r=!1!==this._mediaConfig.show_artwork,o=!1!==this._mediaConfig.show_source,c=t.attributes.source,h=!1!==this._config.show_name,l=!1!==this._config.show_state,d=!1!==this._config.show_icon;return K`
+    `]}setConfig(t){if(!t.entity)throw new Error("Please define a media_player entity");super.setConfig(t)}static getConfigElement(){return document.createElement("sketch-media-player-card-editor")}static getStubConfig(t){const e=Object.keys(t.states).filter(t=>t.startsWith("media_player."));return{entity:e[0]||"media_player.example"}}getCardSize(){return 4}get _mediaConfig(){return this._config}_callMediaService(t){this.callService("media_player",t,{entity_id:this._config.entity})}_setVolume(t){const e=Math.max(0,Math.min(parseFloat(t.target.value),100));this.callService("media_player","volume_set",{entity_id:this._config.entity,volume_level:e/100})}render(){const t=this.getEntity();if(!t)return K`<ha-card><div class="sketch-card-content"><p class="sketch-name">Media Player not found</p></div></ha-card>`;const e=t.attributes.media_title||"Nothing playing",i=t.attributes.media_artist||"",s=t.attributes.entity_picture,a="playing"===t.state,n=Math.round(100*(t.attributes.volume_level||0)),r=!1!==this._mediaConfig.show_artwork,o=!1!==this._mediaConfig.show_source,c=t.attributes.source,l=!1!==this._config.show_name,h=!1!==this._config.show_state,d=!1!==this._config.show_icon;return K`
       <ha-card>
         <div class="sketch-card-content">
-          ${h?K`<p class="sketch-name">${this.getName()}</p>`:F}
+          ${l?K`<p class="sketch-name">${this.getName()}</p>`:q}
           <div class="media-layout" role="button" tabindex="0" aria-label="${this.getName()}" @keydown=${this.handleKeyDown} @pointerdown=${this.handlePointerDown} @pointerup=${this.handlePointerUp} @pointercancel=${this.handlePointerCancel}>
             ${d&&r?s?K`<img class="media-artwork" src="${s}" alt="artwork" />`:K`
                     <div class="media-artwork-placeholder">
                       <ha-icon class="sketch-icon" icon="mdi:music-note"></ha-icon>
                     </div>
-                  `:F}
-            ${l?K`
+                  `:q}
+            ${h?K`
                   <div class="media-info">
                     <div class="media-title">${e}</div>
-                    ${i?K`<div class="media-artist">${i}</div>`:F}
+                    ${i?K`<div class="media-artist">${i}</div>`:q}
                   </div>
-                `:F}
+                `:q}
           </div>
 
           <div class="media-controls">
@@ -1041,7 +1041,7 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
             />
           </div>
 
-          ${o&&c?K`<div class="media-source">Source: ${c}</div>`:F}
+          ${o&&c?K`<div class="media-source">Source: ${c}</div>`:q}
         </div>
       </ha-card>
     `}};Rt=t([dt("sketch-media-player-card")],Rt);let Bt=class extends St{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0,show_position:!0,show_tilt:!0}}get _schema(){return[...Et("cover"),{name:"show_position",selector:{boolean:{}}},{name:"show_tilt",selector:{boolean:{}}}]}};Bt=t([dt("sketch-cover-card-editor")],Bt);let Wt=class extends _t{static{this.styles=[...super.styles,r`
@@ -1109,19 +1109,19 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
       .tilt-row {
         margin-top: 8px;
       }
-    `]}setConfig(t){if(!t.entity)throw new Error("Please define a cover entity");super.setConfig(t)}static getConfigElement(){return document.createElement("sketch-cover-card-editor")}static getStubConfig(t){const e=Object.keys(t.states).filter(t=>t.startsWith("cover."));return{entity:e[0]||"cover.example"}}getCardSize(){return 3}get _coverConfig(){return this._config}_callCoverService(t){this.callService("cover",t,{entity_id:this._config.entity})}_setPosition(t){const e=Math.max(0,Math.min(parseInt(t.target.value),100));this.callService("cover","set_cover_position",{entity_id:this._config.entity,position:e})}_setTilt(t){const e=Math.max(0,Math.min(parseInt(t.target.value),100));this.callService("cover","set_cover_tilt_position",{entity_id:this._config.entity,tilt_position:e})}render(){const t=this.getEntity();if(!t)return K`<ha-card><div class="sketch-card-content"><p class="sketch-name">Cover not found</p></div></ha-card>`;const e="open"===t.state,i=t.attributes.current_position??(e?100:0),s=t.attributes.current_tilt_position,a=!1!==this._coverConfig.show_position&&void 0!==t.attributes.current_position,n=!1!==this._coverConfig.show_tilt&&void 0!==s,r=e?"mdi:window-open-variant":"mdi:window-closed-variant",o=!1!==this._config.show_name,c=!1!==this._config.show_state,h=!1!==this._config.show_icon;return K`
+    `]}setConfig(t){if(!t.entity)throw new Error("Please define a cover entity");super.setConfig(t)}static getConfigElement(){return document.createElement("sketch-cover-card-editor")}static getStubConfig(t){const e=Object.keys(t.states).filter(t=>t.startsWith("cover."));return{entity:e[0]||"cover.example"}}getCardSize(){return 3}get _coverConfig(){return this._config}_callCoverService(t){this.callService("cover",t,{entity_id:this._config.entity})}_setPosition(t){const e=Math.max(0,Math.min(parseInt(t.target.value),100));this.callService("cover","set_cover_position",{entity_id:this._config.entity,position:e})}_setTilt(t){const e=Math.max(0,Math.min(parseInt(t.target.value),100));this.callService("cover","set_cover_tilt_position",{entity_id:this._config.entity,tilt_position:e})}render(){const t=this.getEntity();if(!t)return K`<ha-card><div class="sketch-card-content"><p class="sketch-name">Cover not found</p></div></ha-card>`;const e="open"===t.state,i=t.attributes.current_position??(e?100:0),s=t.attributes.current_tilt_position,a=!1!==this._coverConfig.show_position&&void 0!==t.attributes.current_position,n=!1!==this._coverConfig.show_tilt&&void 0!==s,r=e?"mdi:window-open-variant":"mdi:window-closed-variant",o=!1!==this._config.show_name,c=!1!==this._config.show_state,l=!1!==this._config.show_icon;return K`
       <ha-card>
         <div class="sketch-card-content">
           <div class="cover-header" role="button" tabindex="0" aria-label="${this.getName()}" @keydown=${this.handleKeyDown} @pointerdown=${this.handlePointerDown} @pointerup=${this.handlePointerUp} @pointercancel=${this.handlePointerCancel}>
-            ${h?K`
+            ${l?K`
                   <div class="cover-icon-wrap ${e?"open":""}">
                     <div class="cover-fill" style="height: ${i}%"></div>
                     <ha-icon class="sketch-icon" .icon=${this._config.icon||r}></ha-icon>
                   </div>
-                `:F}
+                `:q}
             <div class="sketch-col">
-              ${o?K`<p class="sketch-name">${this.getName()}</p>`:F}
-              ${c?K`<p class="sketch-state">${t.state} ${null!=i?`(${i}%)`:""}</p>`:F}
+              ${o?K`<p class="sketch-name">${this.getName()}</p>`:q}
+              ${c?K`<p class="sketch-state">${t.state} ${null!=i?`(${i}%)`:""}</p>`:q}
             </div>
           </div>
 
@@ -1152,7 +1152,7 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
                     @change=${this._setPosition}
                   />
                 </div>
-              `:F}
+              `:q}
 
           ${n?K`
                 <div class="tilt-row">
@@ -1169,7 +1169,7 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
                     @change=${this._setTilt}
                   />
                 </div>
-              `:F}
+              `:q}
         </div>
       </ha-card>
     `}};Wt=t([dt("sketch-cover-card")],Wt);let Kt=class extends St{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0,states:["arm_home","arm_away","arm_night"]}}get _schema(){return[...Et("alarm_control_panel"),{name:"states",selector:{select:{multiple:!0,options:[{value:"arm_home",label:"Arm Home"},{value:"arm_away",label:"Arm Away"},{value:"arm_night",label:"Arm Night"},{value:"arm_custom_bypass",label:"Arm Custom"}]}}}]}};Kt=t([dt("sketch-alarm-panel-card-editor")],Kt);let Qt=class extends _t{constructor(){super(...arguments),this._code=""}static{this.styles=[...super.styles,r`
@@ -1268,7 +1268,7 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
         border-color: var(--sketch-danger);
         color: var(--sketch-danger);
       }
-    `]}setConfig(t){if(!t.entity)throw new Error("Please define an alarm_control_panel entity");super.setConfig(t)}static getConfigElement(){return document.createElement("sketch-alarm-panel-card-editor")}static getStubConfig(t){const e=Object.keys(t.states).filter(t=>t.startsWith("alarm_control_panel."));return{entity:e[0]||"alarm_control_panel.example"}}getCardSize(){return 6}get _alarmConfig(){return this._config}_appendKey(t){this._code.length<10&&(this._code+=t)}_clearCode(){this._code=""}_armAlarm(t){this.callService("alarm_control_panel",`alarm_${t}`,{entity_id:this._config.entity,code:this._code||void 0}),this._code=""}render(){const t=this.getEntity();if(!t)return K`<ha-card><div class="sketch-card-content"><p class="sketch-name">Alarm not found</p></div></ha-card>`;const e=t.state,i=e.startsWith("armed"),s="disarmed"===e,a="triggered"===e,n=kt(t),r=t.attributes.code_arm_required||t.attributes.code_format;let o="";i?o="armed":s?o="disarmed":a&&(o="triggered");const c=this._alarmConfig.states||["arm_home","arm_away","arm_night"],h=!1!==this._config.show_name,l=!1!==this._config.show_state,d=!1!==this._config.show_icon;return K`
+    `]}setConfig(t){if(!t.entity)throw new Error("Please define an alarm_control_panel entity");super.setConfig(t)}static getConfigElement(){return document.createElement("sketch-alarm-panel-card-editor")}static getStubConfig(t){const e=Object.keys(t.states).filter(t=>t.startsWith("alarm_control_panel."));return{entity:e[0]||"alarm_control_panel.example"}}getCardSize(){return 6}get _alarmConfig(){return this._config}_appendKey(t){this._code.length<10&&(this._code+=t)}_clearCode(){this._code=""}_armAlarm(t){this.callService("alarm_control_panel",`alarm_${t}`,{entity_id:this._config.entity,code:this._code||void 0}),this._code=""}render(){const t=this.getEntity();if(!t)return K`<ha-card><div class="sketch-card-content"><p class="sketch-name">Alarm not found</p></div></ha-card>`;const e=t.state,i=e.startsWith("armed"),s="disarmed"===e,a="triggered"===e,n=kt(t),r=t.attributes.code_arm_required||t.attributes.code_format;let o="";i?o="armed":s?o="disarmed":a&&(o="triggered");const c=this._alarmConfig.states||["arm_home","arm_away","arm_night"],l=!1!==this._config.show_name,h=!1!==this._config.show_state,d=!1!==this._config.show_icon;return K`
       <ha-card>
         <div class="sketch-card-content">
           <div class="alarm-header" role="button" tabindex="0" aria-label="${this.getName()}" @keydown=${this.handleKeyDown} @pointerdown=${this.handlePointerDown} @pointerup=${this.handlePointerUp} @pointercancel=${this.handlePointerCancel}>
@@ -1276,10 +1276,10 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
                   <div class="alarm-icon-wrap ${o}">
                     <ha-icon class="sketch-icon" .icon=${n}></ha-icon>
                   </div>
-                `:F}
+                `:q}
             <div class="sketch-col">
-              ${h?K`<p class="sketch-name">${this.getName()}</p>`:F}
-              ${l?K`<p class="sketch-state">${e.replace(/_/g," ")}</p>`:F}
+              ${l?K`<p class="sketch-name">${this.getName()}</p>`:q}
+              ${h?K`<p class="sketch-state">${e.replace(/_/g," ")}</p>`:q}
             </div>
           </div>
 
@@ -1293,19 +1293,19 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
                     <ha-icon icon="mdi:backspace-outline" style="--mdc-icon-size:20px"></ha-icon>
                   </button>
                 </div>
-              `:F}
+              `:q}
 
           <div class="action-row">
-            ${i||a?K`<button class="sketch-btn arm-btn disarm" @click=${()=>this._armAlarm("disarm")}>Disarm</button>`:F}
+            ${i||a?K`<button class="sketch-btn arm-btn disarm" @click=${()=>this._armAlarm("disarm")}>Disarm</button>`:q}
             ${s?c.map(t=>K`
                     <button class="sketch-btn arm-btn arm" @click=${()=>this._armAlarm(t)}>
                       ${t.replace("arm_","").replace(/_/g," ")}
                     </button>
-                  `):F}
+                  `):q}
           </div>
         </div>
       </ha-card>
-    `}};t([gt()],Qt.prototype,"_code",void 0),Qt=t([dt("sketch-alarm-panel-card")],Qt);let qt=class extends St{get _defaults(){return{mode:"both",show_date:!0,show_seconds:!0}}get _schema(){return[{name:"name",selector:{text:{}}},{name:"mode",selector:{select:{options:[{value:"both",label:"Analog + Digital"},{value:"analog",label:"Analog Only"},{value:"digital",label:"Digital Only"}],mode:"dropdown"}}},{name:"show_date",selector:{boolean:{}}},{name:"show_seconds",selector:{boolean:{}}}]}};qt=t([dt("sketch-clock-card-editor")],qt);let Ft=class extends ht{constructor(){super(...arguments),this._time=new Date,this._marks=null,this._numbers=null}static{this.styles=[ft,r`
+    `}};t([gt()],Qt.prototype,"_code",void 0),Qt=t([dt("sketch-alarm-panel-card")],Qt);let Ft=class extends St{get _defaults(){return{mode:"both",show_date:!0,show_seconds:!0}}get _schema(){return[{name:"name",selector:{text:{}}},{name:"mode",selector:{select:{options:[{value:"both",label:"Analog + Digital"},{value:"analog",label:"Analog Only"},{value:"digital",label:"Digital Only"}],mode:"dropdown"}}},{name:"show_date",selector:{boolean:{}}},{name:"show_seconds",selector:{boolean:{}}}]}};Ft=t([dt("sketch-clock-card-editor")],Ft);let qt=class extends lt{constructor(){super(...arguments),this._time=new Date,this._marks=null,this._numbers=null}static{this.styles=[ft,r`
       .clock-content {
         display: flex;
         flex-direction: column;
@@ -1378,26 +1378,26 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
         dominant-baseline: central;
         font-weight: 600;
       }
-    `]}setConfig(t){if(!t)throw new Error("Invalid configuration");this._config={...t}}static getConfigElement(){return document.createElement("sketch-clock-card-editor")}static getStubConfig(){return{mode:"both",show_date:!0,show_seconds:!0}}getCardSize(){return 4}getLayoutOptions(){return{grid_columns:4,grid_rows:4}}_ensureStaticMarks(){if(this._marks)return;this._marks=[],this._numbers=[];for(let t=0;t<12;t++){const e=(30*t-90)*Math.PI/180;this._marks.push(Q`<line class="hour-mark" x1=${70+52*Math.cos(e)} y1=${70+52*Math.sin(e)} x2=${70+58*Math.cos(e)} y2=${70+58*Math.sin(e)} />`),this._numbers.push(Q`<text class="clock-number" x=${70+44*Math.cos(e)} y=${70+44*Math.sin(e)}>${0===t?12:t}</text>`)}for(let t=0;t<60;t++){if(t%5==0)continue;const e=(6*t-90)*Math.PI/180;this._marks.push(Q`<line class="minute-mark" x1=${70+58*Math.cos(e)} y1=${70+58*Math.sin(e)} x2=${70+55*Math.cos(e)} y2=${70+55*Math.sin(e)} />`)}}connectedCallback(){super.connectedCallback(),this._tick(),this._timer=window.setInterval(()=>this._tick(),1e3)}disconnectedCallback(){super.disconnectedCallback(),this._timer&&clearInterval(this._timer)}_tick(){this._time=new Date}_renderAnalog(){this._ensureStaticMarks();const t=this._time.getHours()%12,e=this._time.getMinutes(),i=this._time.getSeconds(),s=!1!==this._config.show_seconds,a=70,n=70,r=(t,e)=>{const i=(t-90)*Math.PI/180;return{x:a+Math.cos(i)*e,y:n+Math.sin(i)*e}},o=r(30*(t+e/60),32),c=r(6*(e+i/60),46),h=r(6*i,50);return K`
+    `]}setConfig(t){if(!t)throw new Error("Invalid configuration");this._config={...t}}static getConfigElement(){return document.createElement("sketch-clock-card-editor")}static getStubConfig(){return{mode:"both",show_date:!0,show_seconds:!0}}getCardSize(){return 4}getLayoutOptions(){return{grid_columns:4,grid_rows:4}}_ensureStaticMarks(){if(this._marks)return;this._marks=[],this._numbers=[];for(let t=0;t<12;t++){const e=(30*t-90)*Math.PI/180;this._marks.push(Q`<line class="hour-mark" x1=${70+52*Math.cos(e)} y1=${70+52*Math.sin(e)} x2=${70+58*Math.cos(e)} y2=${70+58*Math.sin(e)} />`),this._numbers.push(Q`<text class="clock-number" x=${70+44*Math.cos(e)} y=${70+44*Math.sin(e)}>${0===t?12:t}</text>`)}for(let t=0;t<60;t++){if(t%5==0)continue;const e=(6*t-90)*Math.PI/180;this._marks.push(Q`<line class="minute-mark" x1=${70+58*Math.cos(e)} y1=${70+58*Math.sin(e)} x2=${70+55*Math.cos(e)} y2=${70+55*Math.sin(e)} />`)}}connectedCallback(){super.connectedCallback(),this._tick(),this._timer=window.setInterval(()=>this._tick(),1e3)}disconnectedCallback(){super.disconnectedCallback(),this._timer&&clearInterval(this._timer)}_tick(){this._time=new Date}_renderAnalog(){this._ensureStaticMarks();const t=this._time.getHours()%12,e=this._time.getMinutes(),i=this._time.getSeconds(),s=!1!==this._config.show_seconds,a=70,n=70,r=(t,e)=>{const i=(t-90)*Math.PI/180;return{x:a+Math.cos(i)*e,y:n+Math.sin(i)*e}},o=r(30*(t+e/60),32),c=r(6*(e+i/60),46),l=r(6*i,50);return K`
       <svg class="analog-clock" viewBox="0 0 140 140">
         <circle class="clock-face" cx=${a} cy=${n} r=${60} />
         ${this._marks}
         ${this._numbers}
         <line class="hour-hand" x1=${a} y1=${n} x2=${o.x} y2=${o.y} />
         <line class="minute-hand" x1=${a} y1=${n} x2=${c.x} y2=${c.y} />
-        ${s?Q`<line class="second-hand" x1=${a} y1=${n} x2=${h.x} y2=${h.y} />`:F}
+        ${s?Q`<line class="second-hand" x1=${a} y1=${n} x2=${l.x} y2=${l.y} />`:q}
         <circle class="clock-center" cx=${a} cy=${n} r="3" />
       </svg>
     `}_renderDigital(){const t=this._time.getHours(),e=this._time.getMinutes(),i=this._time.getSeconds(),s=t=>String(t).padStart(2,"0"),a=!1!==this._config.show_seconds?`${s(t)}:${s(e)}:${s(i)}`:`${s(t)}:${s(e)}`;return K`<div class="digital-time">${a}</div>`}render(){const t=this._config?.mode||"both",e=!1!==this._config?.show_date,i=this._config?.name,s=this._time.toLocaleDateString(void 0,{weekday:"long",year:"numeric",month:"long",day:"numeric"});return K`
       <ha-card>
         <div class="sketch-card-content clock-content">
-          ${i?K`<div class="clock-name">${i}</div>`:F}
-          ${"analog"===t||"both"===t?this._renderAnalog():F}
-          ${"digital"===t||"both"===t?this._renderDigital():F}
-          ${e?K`<div class="digital-date">${s}</div>`:F}
+          ${i?K`<div class="clock-name">${i}</div>`:q}
+          ${"analog"===t||"both"===t?this._renderAnalog():q}
+          ${"digital"===t||"both"===t?this._renderDigital():q}
+          ${e?K`<div class="digital-date">${s}</div>`:q}
         </div>
       </ha-card>
-    `}};t([gt()],Ft.prototype,"_config",void 0),t([gt()],Ft.prototype,"_time",void 0),Ft=t([dt("sketch-clock-card")],Ft);let Vt=class extends ht{constructor(){super(...arguments),this._config={}}static{this.styles=r`
+    `}};t([gt()],qt.prototype,"_config",void 0),t([gt()],qt.prototype,"_time",void 0),qt=t([dt("sketch-clock-card")],qt);let Vt=class extends lt{constructor(){super(...arguments),this._config={}}static{this.styles=r`
     :host { display: block; }
     .editor-note {
       font-size: 13px;
@@ -1409,7 +1409,7 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
         The Chip card requires YAML configuration for its chips array.
         Switch to the code editor to configure chips.
       </p>
-    `}};t([mt({attribute:!1})],Vt.prototype,"hass",void 0),t([gt()],Vt.prototype,"_config",void 0),Vt=t([dt("sketch-chip-card-editor")],Vt);let Yt=class extends ht{static{this.styles=[ft,r`
+    `}};t([mt({attribute:!1})],Vt.prototype,"hass",void 0),t([gt()],Vt.prototype,"_config",void 0),Vt=t([dt("sketch-chip-card-editor")],Vt);let Yt=class extends lt{static{this.styles=[ft,r`
       :host {
         display: block;
       }
@@ -1473,7 +1473,7 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
     `]}setConfig(t){if(!t||!t.chips||!Array.isArray(t.chips))throw new Error("Please define chips array");this._config={...t}}static getConfigElement(){return document.createElement("sketch-chip-card-editor")}static getStubConfig(){return{chips:[{type:"entity",entity:"light.living_room"},{type:"action",icon:"mdi:home",name:"Home",tap_action:{action:"navigate",navigation_path:"/"}}]}}getCardSize(){return 1}getLayoutOptions(){return{grid_columns:4,grid_rows:1}}_handleChipTap(t){switch(t.tap_action?.action||(t.entity?"more-info":"none")){case"toggle":if(t.entity){const[e]=t.entity.split(".");this.hass.callService(e,"toggle",{entity_id:t.entity})}break;case"more-info":t.entity&&this.dispatchEvent(new CustomEvent("hass-more-info",{bubbles:!0,composed:!0,detail:{entityId:t.entity}}));break;case"navigate":t.tap_action?.navigation_path&&(window.history.pushState(null,"",t.tap_action.navigation_path),this.dispatchEvent(new CustomEvent("location-changed",{bubbles:!0,composed:!0})));break;case"call-service":if(t.tap_action?.service){const[e,i]=t.tap_action.service.split(".");this.hass.callService(e,i,t.tap_action.service_data)}}}_renderChip(t){const e=t.entity?this.hass.states[t.entity]:void 0,i=t.icon||(e?kt(e):"mdi:circle"),s=e&&["on","open","playing","home"].includes(e.state);let a=t.name;return!a&&e&&(a=e.attributes.friendly_name||t.entity),"template"===t.type&&t.content&&(a=t.content),K`
       <div class="chip ${s?"on":""}" @click=${()=>this._handleChipTap(t)}>
         <ha-icon .icon=${i}></ha-icon>
-        ${a?K`<span class="chip-label">${a}</span>`:F}
+        ${a?K`<span class="chip-label">${a}</span>`:q}
       </div>
     `}render(){return this._config?.chips?K`
       <ha-card>
@@ -1481,7 +1481,7 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
           ${this._config.chips.map(t=>this._renderChip(t))}
         </div>
       </ha-card>
-    `:F}};t([mt({attribute:!1})],Yt.prototype,"hass",void 0),t([gt()],Yt.prototype,"_config",void 0),Yt=t([dt("sketch-chip-card")],Yt);let Zt=class extends St{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0,show_location:!0,show_battery:!0}}get _schema(){return[...Et("person"),{name:"show_location",selector:{boolean:{}}},{name:"show_battery",selector:{boolean:{}}},{name:"battery_entity",selector:{entity:{domain:"sensor"}}}]}};Zt=t([dt("sketch-person-card-editor")],Zt);let Gt=class extends _t{static{this.styles=[...super.styles,r`
+    `:q}};t([mt({attribute:!1})],Yt.prototype,"hass",void 0),t([gt()],Yt.prototype,"_config",void 0),Yt=t([dt("sketch-chip-card")],Yt);let Zt=class extends St{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0,show_location:!0,show_battery:!0}}get _schema(){return[...Et("person"),{name:"show_location",selector:{boolean:{}}},{name:"show_battery",selector:{boolean:{}}},{name:"battery_entity",selector:{entity:{domain:"sensor"}}}]}};Zt=t([dt("sketch-person-card-editor")],Zt);let Gt=class extends _t{static{this.styles=[...super.styles,r`
       .person-row {
         display: flex;
         align-items: center;
@@ -1575,7 +1575,7 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
         min-width: 32px;
         text-align: right;
       }
-    `]}setConfig(t){if(!t.entity)throw new Error("Please define a person entity");super.setConfig(t)}static getConfigElement(){return document.createElement("sketch-person-card-editor")}static getStubConfig(t){const e=Object.keys(t.states).filter(t=>t.startsWith("person."));return{entity:e[0]||"person.example"}}getCardSize(){return 2}get _personConfig(){return this._config}render(){const t=this.getEntity();if(!t)return K`<ha-card><div class="sketch-card-content"><p class="sketch-name">Person not found</p></div></ha-card>`;const e=this.getName(),i=t.attributes.entity_picture,s="home"===t.state,a="home"===t.state?"Home":"not_home"===t.state?"Away":t.state,n=!1!==this._personConfig.show_location,r=!1!==this._personConfig.show_battery,o=this._personConfig.battery_entity?this.hass.states[this._personConfig.battery_entity]:void 0,c=o?parseInt(o.state):null;let h="high";null!==c&&(c<20?h="low":c<50&&(h="mid"));const l=t.attributes.gps_accuracy,d=s?"mdi:home":"mdi:map-marker",p=!1!==this._config.show_name,u=!1!==this._config.show_state,m=!1!==this._config.show_icon;return K`
+    `]}setConfig(t){if(!t.entity)throw new Error("Please define a person entity");super.setConfig(t)}static getConfigElement(){return document.createElement("sketch-person-card-editor")}static getStubConfig(t){const e=Object.keys(t.states).filter(t=>t.startsWith("person."));return{entity:e[0]||"person.example"}}getCardSize(){return 2}get _personConfig(){return this._config}render(){const t=this.getEntity();if(!t)return K`<ha-card><div class="sketch-card-content"><p class="sketch-name">Person not found</p></div></ha-card>`;const e=this.getName(),i=t.attributes.entity_picture,s="home"===t.state,a="home"===t.state?"Home":"not_home"===t.state?"Away":t.state,n=!1!==this._personConfig.show_location,r=!1!==this._personConfig.show_battery,o=this._personConfig.battery_entity?this.hass.states[this._personConfig.battery_entity]:void 0,c=o?parseInt(o.state):null;let l="high";null!==c&&(c<20?l="low":c<50&&(l="mid"));const h=t.attributes.gps_accuracy,d=s?"mdi:home":"mdi:map-marker",p=!1!==this._config.show_name,u=!1!==this._config.show_state,m=!1!==this._config.show_icon;return K`
       <ha-card>
         <div class="sketch-card-content">
           <div class="person-row" role="button" tabindex="0" aria-label="${this.getName()}" @keydown=${this.handleKeyDown} @pointerdown=${this.handlePointerDown} @pointerup=${this.handlePointerUp} @pointercancel=${this.handlePointerCancel}>
@@ -1583,9 +1583,9 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
                     <div class="person-avatar-placeholder">
                       <ha-icon icon="mdi:account"></ha-icon>
                     </div>
-                  `:F}
+                  `:q}
             <div class="person-info">
-              ${p?K`<p class="sketch-name">${e}</p>`:F}
+              ${p?K`<p class="sketch-name">${e}</p>`:q}
               ${u&&n?K`
                     <div class="person-location">
                       <span class="person-status">
@@ -1593,18 +1593,18 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
                         <ha-icon .icon=${d}></ha-icon>
                         ${a}
                       </span>
-                      ${l?K`<span style="font-size:0.8em">(~${l}m)</span>`:F}
+                      ${h?K`<span style="font-size:0.8em">(~${h}m)</span>`:q}
                     </div>
-                  `:F}
+                  `:q}
               ${u&&r&&null!==c?K`
                     <div class="battery-row">
                       <ha-icon icon="mdi:battery" style="--mdc-icon-size:14px;color:var(--sketch-ink-muted)"></ha-icon>
                       <div class="battery-bar">
-                        <div class="battery-fill ${h}" style="width:${c}%"></div>
+                        <div class="battery-fill ${l}" style="width:${c}%"></div>
                       </div>
                       <span class="battery-text">${c}%</span>
                     </div>
-                  `:F}
+                  `:q}
             </div>
           </div>
         </div>
@@ -1682,13 +1682,13 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
     `]}setConfig(t){if(!t.entity)throw new Error("Please define an entity");super.setConfig(t)}static getConfigElement(){return document.createElement("sketch-tile-card-editor")}static getStubConfig(t){return{entity:Object.keys(t.states)[0]||"light.example"}}getCardSize(){return 1}get _tileConfig(){return this._config}_isToggleable(){if(!this._config?.entity)return!1;const t=this._config.entity.split(".")[0];return["light","switch","fan","input_boolean","automation","script","cover","lock"].includes(t)}_handleToggle(t){t.stopPropagation(),this.toggleEntity()}render(){const t=this.getEntity();if(!t)return K`<ha-card><div class="tile-row"><span class="tile-name">Not found</span></div></ha-card>`;const e=this._config.icon||kt(t),i=this.getName(),s=Ct(t),a=$t(t.state),n=!0!==this._tileConfig.hide_icon&&!1!==this._config.show_icon,r=!1!==this._config.show_name,o=!1!==this._config.show_state,c=this._isToggleable();return K`
       <ha-card>
         <div class="tile-row" role="button" tabindex="0" aria-label="${this.getName()}" @keydown=${this.handleKeyDown} @pointerdown=${this.handlePointerDown} @pointerup=${this.handlePointerUp} @pointercancel=${this.handlePointerCancel}>
-          ${n?K`<ha-icon class="tile-icon ${a?"on":"off"}" .icon=${e}></ha-icon>`:F}
-          ${r?K`<span class="tile-name">${i}</span>`:F}
+          ${n?K`<ha-icon class="tile-icon ${a?"on":"off"}" .icon=${e}></ha-icon>`:q}
+          ${r?K`<span class="tile-name">${i}</span>`:q}
           ${c?K`
                 <div class="tile-toggle ${a?"on":""}" @click=${this._handleToggle}>
                   <div class="tile-toggle-knob"></div>
                 </div>
-              `:o?K`<span class="tile-state">${s}</span>`:F}
+              `:o?K`<span class="tile-state">${s}</span>`:q}
         </div>
       </ha-card>
     `}};Xt=t([dt("sketch-tile-card")],Xt);let te=class extends St{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0,show_controls:!0}}get _schema(){return[...Et("camera"),{name:"show_controls",selector:{boolean:{}}},{name:"aspect_ratio",selector:{text:{}}}]}};te=t([dt("sketch-camera-card-editor")],te);let ee=class extends _t{constructor(){super(...arguments),this._imageUrl="",this._loading=!0}static{this.styles=[...super.styles,r`
@@ -1806,8 +1806,8 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
                 </div>
               `}
           <div class="camera-overlay">
-            ${s?K`<span class="camera-name">${e}</span>`:F}
-            ${a?K`<span class="camera-state">${t.state}</span>`:F}
+            ${s?K`<span class="camera-name">${e}</span>`:q}
+            ${a?K`<span class="camera-state">${t.state}</span>`:q}
           </div>
         </div>
         ${i?K`
@@ -1819,14 +1819,14 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
                   <ha-icon icon="mdi:fullscreen"></ha-icon>
                 </button>
               </div>
-            `:F}
+            `:q}
       </ha-card>
     `}};t([gt()],ee.prototype,"_imageUrl",void 0),t([gt()],ee.prototype,"_loading",void 0),ee=t([dt("sketch-camera-card")],ee);let ie=class extends St{get _schema(){return[{name:"hash",selector:{text:{}}},{type:"grid",name:"",schema:[{name:"name",selector:{text:{}}},{name:"icon",selector:{icon:{}}}]},{name:"auto_close",selector:{number:{min:0,max:300,mode:"box"}}},{name:"width",selector:{text:{}}}]}render(){return this.hass&&this._config?K`
       ${super.render()}
       <p class="editor-note">
         Configure child cards in YAML mode (code editor).
       </p>
-    `:F}};ie=t([dt("sketch-popup-card-editor")],ie);let se=class extends ht{constructor(){super(...arguments),this._open=!1,this._childCards=[],this._hashListener=()=>this._checkHash(),this._keyListener=t=>{"Escape"===t.key&&this._open&&this._closePopup()}}static{this.styles=[ft,r`
+    `:q}};ie=t([dt("sketch-popup-card-editor")],ie);let se=class extends lt{constructor(){super(...arguments),this._open=!1,this._childCards=[],this._hashListener=()=>this._checkHash(),this._keyListener=t=>{"Escape"===t.key&&this._open&&this._closePopup()}}static{this.styles=[ft,r`
       :host {
         display: block;
       }
@@ -1984,8 +1984,8 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
         <div class="popup-handle"></div>
         ${e||i?K`
               <div class="popup-header">
-                ${i?K`<ha-icon .icon=${i}></ha-icon>`:F}
-                ${e?K`<span class="popup-title">${e}</span>`:F}
+                ${i?K`<ha-icon .icon=${i}></ha-icon>`:q}
+                ${e?K`<span class="popup-title">${e}</span>`:q}
                 <button class="popup-close" @click=${this._closePopup}>
                   <ha-icon icon="mdi:close"></ha-icon>
                 </button>
@@ -2002,7 +2002,7 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
           ${this._childCards.map(t=>t)}
         </div>
       </div>
-    `}};t([mt({attribute:!1})],se.prototype,"hass",void 0),t([gt()],se.prototype,"_config",void 0),t([gt()],se.prototype,"_open",void 0),t([gt()],se.prototype,"_childCards",void 0),se=t([dt("sketch-popup-card")],se);let ae=class extends ht{constructor(){super(...arguments),this._config={}}static{this.styles=r`
+    `}};t([mt({attribute:!1})],se.prototype,"hass",void 0),t([gt()],se.prototype,"_config",void 0),t([gt()],se.prototype,"_open",void 0),t([gt()],se.prototype,"_childCards",void 0),se=t([dt("sketch-popup-card")],se);let ae=class extends lt{constructor(){super(...arguments),this._config={}}static{this.styles=r`
     :host { display: block; }
     .editor-note {
       font-size: 13px;
@@ -2014,7 +2014,7 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
         The Horizontal Buttons Stack requires YAML configuration for its buttons array.
         Switch to the code editor to configure buttons.
       </p>
-    `}};t([mt({attribute:!1})],ae.prototype,"hass",void 0),t([gt()],ae.prototype,"_config",void 0),ae=t([dt("sketch-horizontal-buttons-stack-editor")],ae);let ne=class extends ht{constructor(){super(...arguments),this._activeHash="",this._hashListener=()=>this._updateActiveHash()}static{this.styles=[ft,r`
+    `}};t([mt({attribute:!1})],ae.prototype,"hass",void 0),t([gt()],ae.prototype,"_config",void 0),ae=t([dt("sketch-horizontal-buttons-stack-editor")],ae);let ne=class extends lt{constructor(){super(...arguments),this._activeHash="",this._hashListener=()=>this._updateActiveHash()}static{this.styles=[ft,r`
       :host {
         display: block;
       }
@@ -2142,7 +2142,7 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
         right: 0;
         background: linear-gradient(to left, var(--sketch-bg, #faf7f0), transparent);
       }
-    `]}setConfig(t){if(!t||!t.buttons||!Array.isArray(t.buttons))throw new Error("Please define buttons array");this._config={...t}}static getConfigElement(){return document.createElement("sketch-horizontal-buttons-stack-editor")}static getStubConfig(){return{style:"fixed",buttons:[{name:"Home",icon:"mdi:home",hash:"home"},{name:"Lights",icon:"mdi:lightbulb-group",hash:"lights"},{name:"Climate",icon:"mdi:thermostat",hash:"climate"},{name:"Security",icon:"mdi:shield-home",hash:"security"},{name:"Media",icon:"mdi:speaker",hash:"media"}]}}getCardSize(){return 1}getLayoutOptions(){return{grid_columns:4,grid_rows:1}}connectedCallback(){super.connectedCallback(),this._updateActiveHash(),window.addEventListener("hashchange",this._hashListener)}disconnectedCallback(){super.disconnectedCallback(),window.removeEventListener("hashchange",this._hashListener)}_updateActiveHash(){this._activeHash=window.location.hash.replace("#","")}_handleButtonTap(t){t.hash?window.location.hash=t.hash:t.navigation_path&&(window.history.pushState(null,"",t.navigation_path),this.dispatchEvent(new CustomEvent("location-changed",{bubbles:!0,composed:!0})))}_getOrderedButtons(){const t=[...this._config.buttons];return this.hass?t.sort((t,e)=>{if(!t.entity&&!e.entity)return 0;const i=t.entity&&"on"===this.hass.states[t.entity]?.state?1:0;return(e.entity&&"on"===this.hass.states[e.entity]?.state?1:0)-i}):t}render(){if(!this._config?.buttons)return F;const t="inline"!==this._config.style,e=this._getOrderedButtons();return K`
+    `]}setConfig(t){if(!t||!t.buttons||!Array.isArray(t.buttons))throw new Error("Please define buttons array");this._config={...t}}static getConfigElement(){return document.createElement("sketch-horizontal-buttons-stack-editor")}static getStubConfig(){return{style:"fixed",buttons:[{name:"Home",icon:"mdi:home",hash:"home"},{name:"Lights",icon:"mdi:lightbulb-group",hash:"lights"},{name:"Climate",icon:"mdi:thermostat",hash:"climate"},{name:"Security",icon:"mdi:shield-home",hash:"security"},{name:"Media",icon:"mdi:speaker",hash:"media"}]}}getCardSize(){return 1}getLayoutOptions(){return{grid_columns:4,grid_rows:1}}connectedCallback(){super.connectedCallback(),this._updateActiveHash(),window.addEventListener("hashchange",this._hashListener)}disconnectedCallback(){super.disconnectedCallback(),window.removeEventListener("hashchange",this._hashListener)}_updateActiveHash(){this._activeHash=window.location.hash.replace("#","")}_handleButtonTap(t){t.hash?window.location.hash=t.hash:t.navigation_path&&(window.history.pushState(null,"",t.navigation_path),this.dispatchEvent(new CustomEvent("location-changed",{bubbles:!0,composed:!0})))}_getOrderedButtons(){const t=[...this._config.buttons];return this.hass?t.sort((t,e)=>{if(!t.entity&&!e.entity)return 0;const i=t.entity&&"on"===this.hass.states[t.entity]?.state?1:0;return(e.entity&&"on"===this.hass.states[e.entity]?.state?1:0)-i}):t}render(){if(!this._config?.buttons)return q;const t="inline"!==this._config.style,e=this._getOrderedButtons();return K`
       <div class="${t?"nav-fixed":""}">
         <ha-card>
           <div class="torn-edge">
@@ -2172,7 +2172,7 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
       <p class="editor-note">
         Configure sub_buttons in YAML mode (code editor).
       </p>
-    `:F}};re=t([dt("sketch-sub-button-card-editor")],re);let oe=class extends _t{constructor(){super(...arguments),this._expanded=!0}static{this.styles=[...super.styles,r`
+    `:q}};re=t([dt("sketch-sub-button-card-editor")],re);let oe=class extends _t{constructor(){super(...arguments),this._expanded=!0}static{this.styles=[...super.styles,r`
       .primary-row {
         display: flex;
         align-items: center;
@@ -2280,7 +2280,7 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
         <ha-icon .icon=${i}></ha-icon>
         <div class="sub-btn-info">
           <div class="sub-btn-name">${s}</div>
-          ${n?K`<div class="sub-btn-state">${Ct(e)}</div>`:F}
+          ${n?K`<div class="sub-btn-state">${Ct(e)}</div>`:q}
         </div>
       </button>
     `}render(){const t=this.getEntity();if(!t)return K`<ha-card><div class="sketch-card-content"><p class="sketch-name">Entity not found</p></div></ha-card>`;const e=this._config.icon||kt(t),i=this.getName(),s=$t(t.state),a=Math.max(1,Math.min(this._subConfig.columns||3,6)),n=!1!==this._subConfig.collapsible,r=!1!==this._config.show_name,o=!1!==this._config.show_state,c=!1!==this._config.show_icon;return K`
@@ -2291,12 +2291,12 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
                   <div class="primary-icon-wrap ${s?"on":""}">
                     <ha-icon class="sketch-icon" .icon=${e}></ha-icon>
                   </div>
-                `:F}
+                `:q}
             <div class="sketch-col">
-              ${r?K`<p class="sketch-name">${i}</p>`:F}
-              ${o?K`<p class="sketch-state">${Ct(t)}</p>`:F}
+              ${r?K`<p class="sketch-name">${i}</p>`:q}
+              ${o?K`<p class="sketch-state">${Ct(t)}</p>`:q}
             </div>
-            ${n?K`<ha-icon class="expand-chevron ${this._expanded?"open":""}" icon="mdi:chevron-down"></ha-icon>`:F}
+            ${n?K`<ha-icon class="expand-chevron ${this._expanded?"open":""}" icon="mdi:chevron-down"></ha-icon>`:q}
           </div>
           <div
             class="sub-buttons-grid ${this._expanded?"expanded":"collapsed"}"
@@ -2306,7 +2306,7 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
           </div>
         </div>
       </ha-card>
-    `}};t([gt()],oe.prototype,"_expanded",void 0),oe=t([dt("sketch-sub-button-card")],oe);let ce=class extends St{get _schema(){return[{name:"name",selector:{text:{}}},{name:"icon",selector:{icon:{}}}]}};ce=t([dt("sketch-separator-card-editor")],ce);let he=class extends ht{static{this.styles=[ft,r`
+    `}};t([gt()],oe.prototype,"_expanded",void 0),oe=t([dt("sketch-sub-button-card")],oe);let ce=class extends St{get _schema(){return[{name:"name",selector:{text:{}}},{name:"icon",selector:{icon:{}}}]}};ce=t([dt("sketch-separator-card-editor")],ce);let le=class extends lt{static{this.styles=[ft,r`
       :host {
         display: block;
       }
@@ -2366,7 +2366,7 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
           <div class="separator-wrap">
             ${this._renderWavyLine(200)}
             <span class="separator-label">
-              ${e?K`<ha-icon .icon=${e}></ha-icon>`:F}
+              ${e?K`<ha-icon .icon=${e}></ha-icon>`:q}
               ${t||""}
             </span>
             ${this._renderWavyLine(200)}
@@ -2378,4 +2378,184 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
           ${this._renderWavyLine(600)}
         </div>
       </ha-card>
-    `}};t([gt()],he.prototype,"_config",void 0),he=t([dt("sketch-separator-card")],he),window.customCards=window.customCards||[],window.customCards.push({type:"sketch-entity-card",name:"Sketch Entity Card",description:"Hand-drawn style entity state display with icon, name, and state badge",preview:!0},{type:"sketch-button-card",name:"Sketch Button Card",description:"Sketchbook-style button for toggling entities or triggering actions",preview:!0},{type:"sketch-light-card",name:"Sketch Light Card",description:"Light control card with brightness slider in hand-drawn aesthetic",preview:!0},{type:"sketch-thermostat-card",name:"Sketch Thermostat Card",description:"Climate control card with temperature display and HVAC mode selection",preview:!0},{type:"sketch-weather-card",name:"Sketch Weather Card",description:"Current weather conditions and forecast in sketchbook style",preview:!0},{type:"sketch-sensor-card",name:"Sketch Sensor Card",description:"Sensor value display with sparkline graph in hand-drawn look",preview:!0},{type:"sketch-media-player-card",name:"Sketch Media Player Card",description:"Media player controls with artwork display in sketch aesthetic",preview:!0},{type:"sketch-cover-card",name:"Sketch Cover Card",description:"Blinds/cover control with position slider in hand-drawn style",preview:!0},{type:"sketch-alarm-panel-card",name:"Sketch Alarm Panel Card",description:"Alarm system keypad with arm/disarm controls in sketchbook design",preview:!0},{type:"sketch-clock-card",name:"Sketch Clock Card",description:"Analog and digital clock with date display (no entity required)",preview:!0},{type:"sketch-chip-card",name:"Sketch Chip Card",description:"Compact pills for quick actions, scene triggers, and status indicators",preview:!0},{type:"sketch-person-card",name:"Sketch Person Card",description:"Person presence card with avatar, location, and device battery",preview:!0},{type:"sketch-tile-card",name:"Sketch Tile Card",description:"Ultra-compact single-line entity row with toggle for maximum density",preview:!0},{type:"sketch-camera-card",name:"Sketch Camera Card",description:"Camera snapshot display with refresh and fullscreen controls",preview:!0},{type:"sketch-popup-card",name:"Sketch Pop-up Card",description:"Hash-triggered modal overlay for organizing cards in slide-up panels",preview:!1},{type:"sketch-horizontal-buttons-stack",name:"Sketch Horizontal Buttons Stack",description:"Sticky footer navigation bar with scrollable room/view buttons",preview:!0},{type:"sketch-sub-button-card",name:"Sketch Sub-Button Card",description:"Entity card with expandable secondary action button grid",preview:!0},{type:"sketch-separator-card",name:"Sketch Separator Card",description:"Hand-drawn wavy line divider with optional label for organizing cards",preview:!0});console.info("%c SKETCH-CARDS %c v1.3.0 ","background:#faf7f0;color:#2a2a2a;font-weight:bold;font-family:cursive;padding:2px 6px;border:1px solid #2a2a2a;border-radius:2px;","background:#2a2a2a;color:#faf7f0;font-weight:bold;padding:2px 6px;border-radius:2px;");
+    `}};t([gt()],le.prototype,"_config",void 0),le=t([dt("sketch-separator-card")],le);let he=class extends St{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0,show_speed:!0}}get _schema(){return[...Et("fan"),{name:"show_speed",selector:{boolean:{}}}]}};he=t([dt("sketch-fan-card-editor")],he);let de=class extends _t{static{this.styles=[...super.styles,r`
+      .fan-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        cursor: pointer;
+      }
+      .fan-icon-wrap {
+        width: 52px;
+        height: 52px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px dashed var(--sketch-ink-light);
+        border-radius: 50%;
+        transition: all 0.3s ease;
+      }
+      .fan-icon-wrap.on {
+        border-color: var(--sketch-active);
+        border-style: solid;
+        background: rgba(74, 111, 165, 0.1);
+      }
+      .fan-icon-wrap.on ha-icon {
+        color: var(--sketch-active);
+        animation: sketch-fan-spin 1.5s linear infinite;
+      }
+      @keyframes sketch-fan-spin {
+        to { transform: rotate(360deg); }
+      }
+      .speed-row {
+        margin-top: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .speed-value {
+        font-family: var(--sketch-font);
+        font-size: 1em;
+        min-width: 40px;
+        text-align: right;
+        color: var(--sketch-ink-muted);
+      }
+    `]}setConfig(t){if(!t.entity)throw new Error("Please define a fan entity");super.setConfig(t)}get defaultTapAction(){return"toggle"}static getConfigElement(){return document.createElement("sketch-fan-card-editor")}static getStubConfig(t){const e=Object.keys(t.states).filter(t=>t.startsWith("fan."));return{entity:e[0]||"fan.example"}}getCardSize(){return 3}get _fanConfig(){return this._config}_setSpeed(t){const e=Math.max(0,Math.min(parseInt(t.target.value),100));this.callService("fan","set_percentage",{entity_id:this._config.entity,percentage:e})}render(){const t=this.getEntity();if(!t)return K`<ha-card><div class="sketch-card-content"><p class="sketch-name">Fan not found</p></div></ha-card>`;const e=$t(t.state),i=t.attributes.percentage??0,s=!1!==this._config.show_name,a=!1!==this._config.show_state,n=!1!==this._config.show_icon,r=!1!==this._fanConfig.show_speed&&e,o=this._config.icon||"mdi:fan";return K`
+      <ha-card>
+        <div class="sketch-card-content">
+          <div class="fan-header" role="button" tabindex="0" aria-label="${this.getName()}" @keydown=${this.handleKeyDown} @pointerdown=${this.handlePointerDown} @pointerup=${this.handlePointerUp} @pointercancel=${this.handlePointerCancel}>
+            ${n?K`
+                  <div class="fan-icon-wrap ${e?"on":""}">
+                    <ha-icon class="sketch-icon" .icon=${o}></ha-icon>
+                  </div>
+                `:q}
+            <div class="sketch-col">
+              ${s?K`<p class="sketch-name">${this.getName()}</p>`:q}
+              ${a?K`<p class="sketch-state">${e?`${i}%`:"Off"}</p>`:q}
+            </div>
+          </div>
+          ${r?K`
+                <div class="speed-row">
+                  <span class="sketch-label">Speed</span>
+                  <input type="range" class="sketch-slider" min="0" max="100" .value=${String(i)} @change=${this._setSpeed} />
+                  <span class="speed-value">${i}%</span>
+                </div>
+              `:q}
+        </div>
+      </ha-card>
+    `}};de=t([dt("sketch-fan-card")],de);let pe=class extends St{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0}}get _schema(){return[...Et("lock")]}};pe=t([dt("sketch-lock-card-editor")],pe);let ue=class extends _t{static{this.styles=[...super.styles,r`
+      .lock-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        cursor: pointer;
+      }
+      .lock-icon-wrap {
+        width: 52px;
+        height: 52px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px dashed var(--sketch-ink-light);
+        border-radius: 50%;
+        transition: all 0.3s ease;
+      }
+      .lock-icon-wrap.locked {
+        border-color: var(--sketch-success);
+        border-style: solid;
+        background: rgba(76, 175, 80, 0.1);
+      }
+      .lock-icon-wrap.locked ha-icon { color: var(--sketch-success); }
+      .lock-icon-wrap.unlocked {
+        border-color: var(--sketch-warning);
+        border-style: solid;
+        background: rgba(255, 152, 0, 0.1);
+      }
+      .lock-icon-wrap.unlocked ha-icon { color: var(--sketch-warning); }
+      .lock-controls {
+        display: flex;
+        gap: 8px;
+        margin-top: 12px;
+        justify-content: center;
+      }
+    `]}setConfig(t){if(!t.entity)throw new Error("Please define a lock entity");super.setConfig(t)}static getConfigElement(){return document.createElement("sketch-lock-card-editor")}static getStubConfig(t){const e=Object.keys(t.states).filter(t=>t.startsWith("lock."));return{entity:e[0]||"lock.example"}}getCardSize(){return 3}_lock(){this.callService("lock","lock",{entity_id:this._config.entity})}_unlock(){this.callService("lock","unlock",{entity_id:this._config.entity})}render(){const t=this.getEntity();if(!t)return K`<ha-card><div class="sketch-card-content"><p class="sketch-name">Lock not found</p></div></ha-card>`;const e="locked"===t.state,i=!1!==this._config.show_name,s=!1!==this._config.show_state,a=!1!==this._config.show_icon,n=this._config.icon||(e?"mdi:lock":"mdi:lock-open");return K`
+      <ha-card>
+        <div class="sketch-card-content">
+          <div class="lock-header" role="button" tabindex="0" aria-label="${this.getName()}" @keydown=${this.handleKeyDown} @pointerdown=${this.handlePointerDown} @pointerup=${this.handlePointerUp} @pointercancel=${this.handlePointerCancel}>
+            ${a?K`
+                  <div class="lock-icon-wrap ${e?"locked":"unlocked"}">
+                    <ha-icon class="sketch-icon" .icon=${n}></ha-icon>
+                  </div>
+                `:q}
+            <div class="sketch-col">
+              ${i?K`<p class="sketch-name">${this.getName()}</p>`:q}
+              ${s?K`<p class="sketch-state">${e?"Locked":"Unlocked"}</p>`:q}
+            </div>
+          </div>
+          <div class="lock-controls">
+            <button class="sketch-btn ${e?"active":""}" @click=${this._lock}>Lock</button>
+            <button class="sketch-btn ${e?"":"active"}" @click=${this._unlock}>Unlock</button>
+          </div>
+        </div>
+      </ha-card>
+    `}};ue=t([dt("sketch-lock-card")],ue);let me=class extends St{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0,show_slider:!0}}get _schema(){return[...Et(),{name:"show_slider",selector:{boolean:{}}}]}};me=t([dt("sketch-number-card-editor")],me);let ge=class extends _t{static{this.styles=[...super.styles,r`
+      .number-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        cursor: pointer;
+      }
+      .number-icon-wrap {
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1.5px dashed var(--sketch-ink-light);
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+      .number-slider-row {
+        margin-top: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .number-value {
+        font-family: var(--sketch-font);
+        font-size: 1em;
+        min-width: 50px;
+        text-align: right;
+        color: var(--sketch-ink-muted);
+      }
+    `]}setConfig(t){if(!t.entity)throw new Error("Please define a number/input_number entity");super.setConfig(t)}static getConfigElement(){return document.createElement("sketch-number-card-editor")}static getStubConfig(t){const e=Object.keys(t.states).filter(t=>t.startsWith("input_number.")||t.startsWith("number."));return{entity:e[0]||"input_number.example"}}getCardSize(){return 2}_setValue(t){const e=this.getEntity();if(!e)return;const i=e.attributes.min??0,s=e.attributes.max??100,a=parseFloat(t.target.value),n=Math.max(i,Math.min(a,s)),r=this._config.entity.split(".")[0];this.callService(r,"set_value",{entity_id:this._config.entity,value:n})}render(){const t=this.getEntity();if(!t)return K`<ha-card><div class="sketch-card-content"><p class="sketch-name">Number not found</p></div></ha-card>`;const e=parseFloat(t.state)||0,i=t.attributes.min??0,s=t.attributes.max??100,a=t.attributes.step??1,n=t.attributes.unit_of_measurement||"",r=!1!==this._config.show_name,o=!1!==this._config.show_state,c=!1!==this._config.show_icon,l=!1!==this._config.show_slider,h=this._config.icon||"mdi:ray-vertex";return K`
+      <ha-card>
+        <div class="sketch-card-content">
+          <div class="number-header" role="button" tabindex="0" aria-label="${this.getName()}" @keydown=${this.handleKeyDown} @pointerdown=${this.handlePointerDown} @pointerup=${this.handlePointerUp} @pointercancel=${this.handlePointerCancel}>
+            ${c?K`
+                  <div class="number-icon-wrap">
+                    <ha-icon class="sketch-icon" .icon=${h}></ha-icon>
+                  </div>
+                `:q}
+            <div class="sketch-col">
+              ${r?K`<p class="sketch-name">${this.getName()}</p>`:q}
+              ${o?K`<p class="sketch-state">${e}${n?` ${n}`:""}</p>`:q}
+            </div>
+          </div>
+          ${l?K`
+                <div class="number-slider-row">
+                  <input
+                    type="range"
+                    class="sketch-slider"
+                    min=${i}
+                    max=${s}
+                    step=${a}
+                    .value=${String(e)}
+                    @change=${this._setValue}
+                  />
+                  <span class="number-value">${e}${n?` ${n}`:""}</span>
+                </div>
+              `:q}
+        </div>
+      </ha-card>
+    `}};ge=t([dt("sketch-number-card")],ge),window.customCards=window.customCards||[],window.customCards.push({type:"sketch-entity-card",name:"Sketch Entity Card",description:"Hand-drawn style entity state display with icon, name, and state badge",preview:!0},{type:"sketch-button-card",name:"Sketch Button Card",description:"Sketchbook-style button for toggling entities or triggering actions",preview:!0},{type:"sketch-light-card",name:"Sketch Light Card",description:"Light control card with brightness slider in hand-drawn aesthetic",preview:!0},{type:"sketch-thermostat-card",name:"Sketch Thermostat Card",description:"Climate control card with temperature display and HVAC mode selection",preview:!0},{type:"sketch-weather-card",name:"Sketch Weather Card",description:"Current weather conditions and forecast in sketchbook style",preview:!0},{type:"sketch-sensor-card",name:"Sketch Sensor Card",description:"Sensor value display with sparkline graph in hand-drawn look",preview:!0},{type:"sketch-media-player-card",name:"Sketch Media Player Card",description:"Media player controls with artwork display in sketch aesthetic",preview:!0},{type:"sketch-cover-card",name:"Sketch Cover Card",description:"Blinds/cover control with position slider in hand-drawn style",preview:!0},{type:"sketch-alarm-panel-card",name:"Sketch Alarm Panel Card",description:"Alarm system keypad with arm/disarm controls in sketchbook design",preview:!0},{type:"sketch-clock-card",name:"Sketch Clock Card",description:"Analog and digital clock with date display (no entity required)",preview:!0},{type:"sketch-chip-card",name:"Sketch Chip Card",description:"Compact pills for quick actions, scene triggers, and status indicators",preview:!0},{type:"sketch-person-card",name:"Sketch Person Card",description:"Person presence card with avatar, location, and device battery",preview:!0},{type:"sketch-tile-card",name:"Sketch Tile Card",description:"Ultra-compact single-line entity row with toggle for maximum density",preview:!0},{type:"sketch-camera-card",name:"Sketch Camera Card",description:"Camera snapshot display with refresh and fullscreen controls",preview:!0},{type:"sketch-popup-card",name:"Sketch Pop-up Card",description:"Hash-triggered modal overlay for organizing cards in slide-up panels",preview:!1},{type:"sketch-horizontal-buttons-stack",name:"Sketch Horizontal Buttons Stack",description:"Sticky footer navigation bar with scrollable room/view buttons",preview:!0},{type:"sketch-sub-button-card",name:"Sketch Sub-Button Card",description:"Entity card with expandable secondary action button grid",preview:!0},{type:"sketch-separator-card",name:"Sketch Separator Card",description:"Hand-drawn wavy line divider with optional label for organizing cards",preview:!0},{type:"sketch-fan-card",name:"Sketch Fan Card",description:"Fan speed control with spinning icon animation",preview:!0},{type:"sketch-lock-card",name:"Sketch Lock Card",description:"Lock/unlock controls with status indicator",preview:!0},{type:"sketch-number-card",name:"Sketch Number Card",description:"Input number or number entity with value slider",preview:!0});console.info("%c SKETCH-CARDS %c v1.3.0 ","background:#faf7f0;color:#2a2a2a;font-weight:bold;font-family:cursive;padding:2px 6px;border:1px solid #2a2a2a;border-radius:2px;","background:#2a2a2a;color:#faf7f0;font-weight:bold;padding:2px 6px;border-radius:2px;");

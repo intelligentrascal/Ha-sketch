@@ -18,6 +18,9 @@ import './cards/sketch-popup-card';
 import './cards/sketch-horizontal-buttons-stack';
 import './cards/sketch-sub-button-card';
 import './cards/sketch-separator-card';
+import './cards/sketch-fan-card';
+import './cards/sketch-lock-card';
+import './cards/sketch-number-card';
 
 declare global {
   interface Window {
@@ -133,6 +136,24 @@ window.customCards.push(
     type: 'sketch-separator-card',
     name: 'Sketch Separator Card',
     description: 'Hand-drawn wavy line divider with optional label for organizing cards',
+    preview: true,
+  },
+  {
+    type: 'sketch-fan-card',
+    name: 'Sketch Fan Card',
+    description: 'Fan speed control with spinning icon animation',
+    preview: true,
+  },
+  {
+    type: 'sketch-lock-card',
+    name: 'Sketch Lock Card',
+    description: 'Lock/unlock controls with status indicator',
+    preview: true,
+  },
+  {
+    type: 'sketch-number-card',
+    name: 'Sketch Number Card',
+    description: 'Input number or number entity with value slider',
     preview: true,
   }
 );

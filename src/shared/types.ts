@@ -156,6 +156,18 @@ export interface SubButton {
   tap_action?: ActionConfig;
 }
 
+export interface FanCardConfig extends CardConfig {
+  show_speed?: boolean;
+}
+
+export interface LockCardConfig extends CardConfig {
+  show_keypad?: boolean;
+}
+
+export interface NumberCardConfig extends CardConfig {
+  show_slider?: boolean;
+}
+
 export interface SeparatorCardConfig {
   type: string;
   name?: string;

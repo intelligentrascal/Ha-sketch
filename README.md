@@ -275,12 +275,44 @@ icon: mdi:lightbulb
 | `show_seconds` | boolean | `true` | Show seconds hand/digits |
 | `name` | string | none | Optional label above clock |
 
+## Troubleshooting
+
+### Cards don't appear in the card picker
+- Clear your browser cache (Ctrl+Shift+R)
+- Check **Settings > Dashboards > Resources** — the JS file must be registered as type **JavaScript Module**
+- Restart Home Assistant if you just installed via HACS
+
+### Cards show "Custom element doesn't exist"
+- The resource URL is wrong. For manual install: `/local/ha-sketchbook-cards.js`
+- For HACS: the resource is auto-registered — try removing and re-adding the integration
+
+### Cards look broken on dark theme
+- Cards use HA theme variables and adapt automatically. If colors look off, ensure your theme defines `--ha-card-background`, `--primary-text-color`, and `--divider-color`
+
+### Visual editor toggles don't work
+- Make sure you're on Ha-sketch v1.3.0+. Earlier versions had editor bugs
+- If switches still don't respond, try switching to YAML mode and back
+
+### Fonts not loading (plain text instead of handwriting)
+- The Caveat and Patrick Hand fonts load from Google Fonts. Check your network/firewall allows `fonts.googleapis.com`
+- If behind a proxy, the fonts won't load — cards will fall back to system cursive fonts
+
+### Card actions not firing (tap/hold/double-tap)
+- `tap_action` defaults to `more-info` for most cards, `toggle` for light and button cards
+- `hold_action` and `double_tap_action` only fire if explicitly configured
+- For `call-service` action, use format: `service: domain.service_name`
+
+### Sensor sparkline shows generated data
+- Real history requires the `recorder` integration with statistics enabled for your sensor
+- If your sensor doesn't have `state_class` configured, the card falls back to generated data
+
 ## Development
 
 ```bash
 npm install
 npm run dev    # Watch mode
 npm run build  # Production build
+npm test       # Run unit tests
 ```
 
 ## License
