@@ -2,6 +2,7 @@ import { LitElement } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import { sharedStyles } from './styles';
 import type { HomeAssistant, CardConfig, ActionConfig } from './types';
+import { applyAppearance } from './utils';
 
 /** Dispatch haptic feedback to the HA companion app. */
 function forwardHaptic(type: string): void {
@@ -124,6 +125,12 @@ export abstract class BaseSketchCard extends LitElement {
 
   updated(changedProps: Map<string, unknown>) {
     super.updated(changedProps);
+
+    // Apply appearance config as CSS custom properties
+    if (changedProps.has('_config')) {
+      applyAppearance(this, this._config);
+    }
+
     if (changedProps.has('hass')) {
       const unavailable = this.isUnavailable();
       if (unavailable && !this.classList.contains('unavailable')) {

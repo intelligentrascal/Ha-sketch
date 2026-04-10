@@ -1,5 +1,5 @@
 import { customElement } from 'lit/decorators.js';
-import { BaseSketchEditor } from './base-editor';
+import { BaseSketchEditor, appearanceSchema } from './base-editor';
 
 @customElement('sketch-clock-card-editor')
 export class SketchClockCardEditor extends BaseSketchEditor {
@@ -24,6 +24,7 @@ export class SketchClockCardEditor extends BaseSketchEditor {
       },
       { name: 'show_date', selector: { boolean: {} } },
       { name: 'show_seconds', selector: { boolean: {} } },
+      ...appearanceSchema(),
     ];
   }
 }

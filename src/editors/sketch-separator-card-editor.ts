@@ -1,5 +1,5 @@
 import { customElement } from 'lit/decorators.js';
-import { BaseSketchEditor } from './base-editor';
+import { BaseSketchEditor, appearanceSchema } from './base-editor';
 
 @customElement('sketch-separator-card-editor')
 export class SketchSeparatorCardEditor extends BaseSketchEditor {
@@ -7,6 +7,7 @@ export class SketchSeparatorCardEditor extends BaseSketchEditor {
     return [
       { name: 'name', selector: { text: {} } },
       { name: 'icon', selector: { icon: {} } },
+      ...appearanceSchema(),
     ];
   }
 }

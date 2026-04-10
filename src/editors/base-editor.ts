@@ -83,6 +83,12 @@ export abstract class BaseSketchEditor extends LitElement {
       style: 'Style',
       columns: 'Columns',
       collapsible: 'Collapsible',
+      color: 'Accent Color',
+      card_background: 'Card Background',
+      border_color: 'Border Color',
+      border_style: 'Border Style',
+      card_rotation: 'Rotation (e.g. -1deg, 0deg)',
+      hide_corners: 'Hide Corner Marks',
     };
     return labels[schema.name] || schema.name;
   };
@@ -128,5 +134,43 @@ export function entitySchema(domain?: string): any[] {
     { name: 'show_name', selector: { boolean: {} } },
     { name: 'show_state', selector: { boolean: {} } },
     { name: 'show_icon', selector: { boolean: {} } },
+    ...appearanceSchema(),
+  ];
+}
+
+/** Appearance fields for the visual editor. */
+export function appearanceSchema(): any[] {
+  return [
+    {
+      type: 'expandable',
+      title: 'Appearance',
+      schema: [
+        {
+          type: 'grid',
+          name: '',
+          schema: [
+            { name: 'color', selector: { ui_color: {} } },
+            { name: 'card_background', selector: { ui_color: {} } },
+          ],
+        },
+        { name: 'border_color', selector: { ui_color: {} } },
+        {
+          name: 'border_style',
+          selector: {
+            select: {
+              options: [
+                { value: 'dashed', label: 'Dashed (default)' },
+                { value: 'solid', label: 'Solid' },
+                { value: 'dotted', label: 'Dotted' },
+                { value: 'none', label: 'None' },
+              ],
+              mode: 'dropdown',
+            },
+          },
+        },
+        { name: 'card_rotation', selector: { text: {} } },
+        { name: 'hide_corners', selector: { boolean: {} } },
+      ],
+    },
   ];
 }
