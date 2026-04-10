@@ -1,6 +1,7 @@
 export interface HomeAssistant {
   states: Record<string, HassEntity>;
   callService(domain: string, service: string, data?: Record<string, any>): Promise<void>;
+  callWS(msg: Record<string, any>): Promise<any>;
   themes: { darkMode: boolean };
   language: string;
   localize(key: string, ...args: any[]): string;
@@ -9,6 +10,13 @@ export interface HomeAssistant {
   connection: {
     subscribeMessage(callback: (msg: any) => void, msg: Record<string, any>): Promise<() => void>;
   };
+}
+
+export interface WeatherForecast {
+  datetime: string;
+  condition: string;
+  temperature: number;
+  templow?: number;
 }
 
 export interface HassEntity {

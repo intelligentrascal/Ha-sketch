@@ -2,7 +2,7 @@ import { html, css, nothing } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { BaseSketchCard } from '../shared/base-card';
 import { stateIcon, weatherConditionIcon } from '../shared/utils';
-import type { HomeAssistant, WeatherCardConfig } from '../shared/types';
+import type { HomeAssistant, WeatherCardConfig, WeatherForecast } from '../shared/types';
 import '../editors/sketch-weather-card-editor';
 
 @customElement('sketch-weather-card')
@@ -168,7 +168,7 @@ export class SketchWeatherCard extends BaseSketchCard {
                 <hr class="sketch-divider" />
                 <div class="forecast-row">
                   ${forecast.slice(0, numForecasts).map(
-                    (day: any) => html`
+                    (day: WeatherForecast) => html`
                       <div class="forecast-day">
                         <span class="forecast-day-name">
                           ${new Date(day.datetime).toLocaleDateString(undefined, { weekday: 'short' })}

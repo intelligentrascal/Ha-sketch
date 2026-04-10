@@ -4,6 +4,16 @@ import { sharedStyles } from '../shared/styles';
 import type { HomeAssistant, PopupCardConfig } from '../shared/types';
 import '../editors/sketch-popup-card-editor';
 
+interface CardHelpers {
+  createCardElement(config: any): HTMLElement;
+}
+
+declare global {
+  interface Window {
+    loadCardHelpers?(): Promise<CardHelpers>;
+  }
+}
+
 @customElement('sketch-popup-card')
 export class SketchPopupCard extends LitElement {
   @property({ attribute: false }) public hass!: HomeAssistant;
@@ -255,13 +265,13 @@ export class SketchPopupCard extends LitElement {
     }
 
     try {
-      const helpers = await (window as any).loadCardHelpers();
+      const helpers = await window.loadCardHelpers!();
       const cards: HTMLElement[] = [];
 
       for (const cardConfig of this._config.cards) {
         try {
           const card = await helpers.createCardElement(cardConfig);
-          card.hass = this.hass;
+          (card as any).hass = this.hass;
           cards.push(card);
         } catch {
           // If card creation fails, show error placeholder
@@ -283,7 +293,7 @@ export class SketchPopupCard extends LitElement {
     super.updated(changedProps);
     if (changedProps.has('hass') && this._childCards.length > 0) {
       this._childCards.forEach((card: any) => {
-        if (card.hass !== undefined) card.hass = this.hass;
+        if ((card as any).hass !== undefined) (card as any).hass = this.hass;
       });
     }
   }

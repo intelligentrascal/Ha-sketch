@@ -104,7 +104,7 @@ export class SketchSensorCard extends BaseSketchCard {
       const start = new Date(end.getTime() - 24 * 60 * 60 * 1000); // 24 hours
 
       // Try statistics first (works for sensors with state_class)
-      const stats = await (this.hass as any).callWS({
+      const stats = await this.hass.callWS({
         type: 'recorder/statistics_during_period',
         start_time: start.toISOString(),
         end_time: end.toISOString(),

@@ -184,32 +184,35 @@ npm run build        # Production build → dist/ha-sketchbook-cards.js
 ~~5. GitHub Actions CI~~ — Done. Build on push, release on tag.
 ~~6. Dead Config Options~~ — Done. Removed 5 unused type properties.
 
-### Priority 2 — Next Up
+### Priority 2 — Completed (v1.3.1)
 
-7. **Real Sensor History**: `sketch-sensor-card.ts` generates fake sparkline data with `Math.random()`. Subscribe to `recorder/statistics` via `hass.connection.subscribeMessage()` for real history.
-8. **Service Call Error Feedback**: `base-card.ts` `callService()` is fire-and-forget with no error handling. Add try/catch with a brief visual error indicator (red flash or toast) so users know when actions fail.
-9. **Confirmation for Dangerous Actions**: Alarm disarm and cover open trigger immediately on tap. Add optional `confirmation: true` config flag that shows a sketch-styled "Are you sure?" prompt.
-10. **Interaction Feedback (Tap Ripple)**: No visual feedback when tapping buttons/toggles. Add a brief scale pulse or ripple animation on tap to confirm the action registered.
+~~7. Real Sensor History~~ — Done. Fetches from recorder/statistics_during_period, falls back to generated data.
+~~8. Service Call Error Feedback~~ — Done. Async try/catch with red flash animation.
+~~9. Confirmation Dialog~~ — Done. `confirmation: true` flag on any action config.
+~~10. Tap Ripple~~ — Done. `.sketch-tap-target` class with active-state overlay.
 
-### Priority 3 — Polish & Standards
+### Priority 3 — Completed (v1.3.1)
 
-11. **Accessibility (ARIA + Keyboard)**: No ARIA labels on any interactive element. Buttons, sliders, toggles all need `aria-label`, `role`, and keyboard event handlers. Sliders need `<label for>` association.
-12. **Responsive Sizing**: All cards use fixed `padding: 16px` and fixed button sizes. Use relative units or container queries for mobile/tablet scaling. Weather forecast overflows on narrow screens.
-13. **Unified Active-State Palette**: Light card uses amber `#ffc107`, button/tile use green `var(--sketch-success)`, thermostat uses custom heating/cooling colors. Define a single `--sketch-active` color (or per-domain overrides) in `styles.ts`.
-14. **Consistent Icon Sizing Scale**: Icons range from 20px to 52px. Define `--sketch-icon-sm/md/lg`.
-15. **Empty & Loading States**: Sketch-styled placeholders for missing data (sensor no history, weather no forecast, camera loading).
-16. **"Just Changed" Highlight**: Brief glow or pulse when an entity state changes.
-17. **`getLayoutOptions()` on All Cards**: HA standard for grid layout hints. Each card should return `grid_columns` and `grid_rows`.
-18. **`getCardSize()` Improvements**: Weather should return 5 with forecast, 3 without. Popup should return 0.
-19. **Card-Mod Theming**: Expose more CSS custom properties (`--sketch-card-rotate`, `--sketch-shadow-intensity`, `--sketch-border-style`).
-20. **Animations**: Sketchbook-style entrance animations (scale-bounce, draw-in). Full `prefers-reduced-motion` respect.
-21. **Localization**: No i18n — all strings English. Could use `hass.localize()`.
+~~11. Responsive Sizing~~ — Done. Padding uses `clamp(10px, 3vw, 20px)`.
+~~12. Unified Active Palette~~ — Done. `--sketch-active` CSS variable.
+~~13. Icon Sizing Scale~~ — Done. `--sketch-icon-sm/md/lg` (20/28/44px).
+~~14. getLayoutOptions~~ — Done. All 18 cards return grid_columns and grid_rows.
+~~15. getCardSize~~ — Done. Weather returns 5 with forecast, 3 without.
+~~16. Card-Mod Theming~~ — Done. `--sketch-card-rotate`, `--sketch-border-style`, `--sketch-shadow-intensity`.
+~~17. Entrance Animations~~ — Done. `sketch-enter` keyframe, disabled by `prefers-reduced-motion`.
 
-### Priority 4 — Code Quality
+### Priority 4 — Completed (v1.3.1)
 
-22. **Shared Slider Component**: Extract duplicated slider pattern (light, cover, media-player) to `<sketch-slider>`.
-23. **Type Safety**: `sketch-popup-card.ts` casts `(window as any).loadCardHelpers()`. Weather forecast typed as `any`.
-24. **Tests**: No tests exist. Start with unit tests for `utils.ts` and snapshot tests for card rendering.
+~~18. Shared Slider Component~~ — Done. `<sketch-slider>` in `src/shared/sketch-slider.ts`.
+~~19. Type Safety~~ — Done. Added `callWS` to HomeAssistant, `WeatherForecast` type, proper `loadCardHelpers` interface.
+
+### Remaining — Future
+
+20. **Accessibility (ARIA + Keyboard)**: ARIA labels, keyboard handlers, `<label for>` on sliders.
+21. **Empty & Loading States**: Sketch-styled placeholders for missing data.
+22. **"Just Changed" Highlight**: Pulse when entity state changes (CSS animation exists, needs JS trigger).
+23. **Localization**: i18n via `hass.localize()`.
+24. **Tests**: Unit tests for `utils.ts`, snapshot tests for cards.
 
 ### Priority 5 — Future Cards, Features & Documentation
 
