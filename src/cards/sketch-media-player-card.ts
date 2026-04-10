@@ -156,7 +156,7 @@ export class SketchMediaPlayerCard extends BaseSketchCard {
         <div class="sketch-card-content">
           ${showName ? html`<p class="sketch-name">${this.getName()}</p>` : nothing}
           <div class="media-layout">
-            ${showArtwork
+            ${showIcon && showArtwork
               ? artwork
                 ? html`<img class="media-artwork" src="${artwork}" alt="artwork" />`
                 : html`
@@ -165,10 +165,14 @@ export class SketchMediaPlayerCard extends BaseSketchCard {
                     </div>
                   `
               : nothing}
-            <div class="media-info">
-              <div class="media-title">${title}</div>
-              ${artist ? html`<div class="media-artist">${artist}</div>` : nothing}
-            </div>
+            ${showState
+              ? html`
+                  <div class="media-info">
+                    <div class="media-title">${title}</div>
+                    ${artist ? html`<div class="media-artist">${artist}</div>` : nothing}
+                  </div>
+                `
+              : nothing}
           </div>
 
           <div class="media-controls">

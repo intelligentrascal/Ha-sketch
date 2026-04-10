@@ -154,6 +154,7 @@ export class SketchPersonCard extends BaseSketchCard {
     const locationIcon = isHome ? 'mdi:home' : 'mdi:map-marker';
 
     const showName = this._config.show_name !== false;
+    const showState = this._config.show_state !== false;
     const showIcon = this._config.show_icon !== false;
 
     return html`
@@ -171,7 +172,7 @@ export class SketchPersonCard extends BaseSketchCard {
               : nothing}
             <div class="person-info">
               ${showName ? html`<p class="sketch-name">${name}</p>` : nothing}
-              ${showLocation
+              ${showState && showLocation
                 ? html`
                     <div class="person-location">
                       <span class="person-status">
@@ -183,7 +184,7 @@ export class SketchPersonCard extends BaseSketchCard {
                     </div>
                   `
                 : nothing}
-              ${showBattery && batteryLevel !== null
+              ${showState && showBattery && batteryLevel !== null
                 ? html`
                     <div class="battery-row">
                       <ha-icon icon="mdi:battery" style="--mdc-icon-size:14px;color:var(--sketch-ink-muted)"></ha-icon>

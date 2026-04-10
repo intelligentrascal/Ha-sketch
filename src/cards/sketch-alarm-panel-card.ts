@@ -174,7 +174,7 @@ export class SketchAlarmPanelCard extends BaseSketchCard {
     return html`
       <ha-card>
         <div class="sketch-card-content">
-          <div class="alarm-header">
+          <div class="alarm-header" @pointerdown=${this.handlePointerDown} @pointerup=${this.handlePointerUp} @pointercancel=${this.handlePointerCancel}>
             ${showIcon
               ? html`
                   <div class="alarm-icon-wrap ${iconClass}">

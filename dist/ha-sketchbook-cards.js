@@ -365,7 +365,7 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
         color: var(--sketch-ink-muted);
         margin-top: 2px;
       }
-    `]}setConfig(t){super.setConfig(t)}static getConfigElement(){return document.createElement("sketch-button-card-editor")}static getStubConfig(t){const e=Object.keys(t.states).filter(t=>t.startsWith("light.")||t.startsWith("switch."));return{entity:e[0]||"light.example",tap_action:{action:"toggle"}}}getCardSize(){return 3}_handlePress(t){this._pressing=!0,this.handlePointerDown(t)}_handleRelease(t){this._pressing=!1,this.handlePointerUp(t)}_handleCancel(){this._pressing=!1,this.handlePointerCancel()}render(){const t=this.getEntity(),e=this._config.icon||(t?kt(t):"mdi:gesture-tap"),i=this.getName()||"Button",s=t&&$t(t.state),a=!1!==this._config.show_name,n=!1!==this._config.show_state,r=!1!==this._config.show_icon;return Q`
+    `]}setConfig(t){super.setConfig(t)}get defaultTapAction(){return"toggle"}static getConfigElement(){return document.createElement("sketch-button-card-editor")}static getStubConfig(t){const e=Object.keys(t.states).filter(t=>t.startsWith("light.")||t.startsWith("switch."));return{entity:e[0]||"light.example",tap_action:{action:"toggle"}}}getCardSize(){return 3}_handlePress(t){this._pressing=!0,this.handlePointerDown(t)}_handleRelease(t){this._pressing=!1,this.handlePointerUp(t)}_handleCancel(){this._pressing=!1,this.handlePointerCancel()}render(){const t=this.getEntity(),e=this._config.icon||(t?kt(t):"mdi:gesture-tap"),i=this.getName()||"Button",s=t&&$t(t.state),a=!1!==this._config.show_name,n=!1!==this._config.show_state,r=!1!==this._config.show_icon;return Q`
       <ha-card>
         <div
           class="sketch-card-content button-wrap ${this._pressing?"pressing":""}"
@@ -876,20 +876,22 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
         margin-top: 6px;
         font-style: italic;
       }
-    `]}setConfig(t){if(!t.entity)throw new Error("Please define a media_player entity");super.setConfig(t)}static getConfigElement(){return document.createElement("sketch-media-player-card-editor")}static getStubConfig(t){const e=Object.keys(t.states).filter(t=>t.startsWith("media_player."));return{entity:e[0]||"media_player.example"}}getCardSize(){return 4}get _mediaConfig(){return this._config}_callMediaService(t){this.callService("media_player",t,{entity_id:this._config.entity})}_setVolume(t){const e=parseFloat(t.target.value);this.callService("media_player","volume_set",{entity_id:this._config.entity,volume_level:e/100})}render(){const t=this.getEntity();if(!t)return Q`<ha-card><div class="sketch-card-content"><p class="sketch-name">Media Player not found</p></div></ha-card>`;const e=t.attributes.media_title||"Nothing playing",i=t.attributes.media_artist||"",s=t.attributes.entity_picture,a="playing"===t.state,n=Math.round(100*(t.attributes.volume_level||0)),r=!1!==this._mediaConfig.show_artwork,o=!1!==this._mediaConfig.show_source,c=t.attributes.source,l=!1!==this._config.show_name;return this._config.show_state,this._config.show_icon,Q`
+    `]}setConfig(t){if(!t.entity)throw new Error("Please define a media_player entity");super.setConfig(t)}static getConfigElement(){return document.createElement("sketch-media-player-card-editor")}static getStubConfig(t){const e=Object.keys(t.states).filter(t=>t.startsWith("media_player."));return{entity:e[0]||"media_player.example"}}getCardSize(){return 4}get _mediaConfig(){return this._config}_callMediaService(t){this.callService("media_player",t,{entity_id:this._config.entity})}_setVolume(t){const e=parseFloat(t.target.value);this.callService("media_player","volume_set",{entity_id:this._config.entity,volume_level:e/100})}render(){const t=this.getEntity();if(!t)return Q`<ha-card><div class="sketch-card-content"><p class="sketch-name">Media Player not found</p></div></ha-card>`;const e=t.attributes.media_title||"Nothing playing",i=t.attributes.media_artist||"",s=t.attributes.entity_picture,a="playing"===t.state,n=Math.round(100*(t.attributes.volume_level||0)),r=!1!==this._mediaConfig.show_artwork,o=!1!==this._mediaConfig.show_source,c=t.attributes.source,l=!1!==this._config.show_name,h=!1!==this._config.show_state,d=!1!==this._config.show_icon;return Q`
       <ha-card>
         <div class="sketch-card-content">
           ${l?Q`<p class="sketch-name">${this.getName()}</p>`:V}
           <div class="media-layout">
-            ${r?s?Q`<img class="media-artwork" src="${s}" alt="artwork" />`:Q`
+            ${d&&r?s?Q`<img class="media-artwork" src="${s}" alt="artwork" />`:Q`
                     <div class="media-artwork-placeholder">
                       <ha-icon class="sketch-icon" icon="mdi:music-note"></ha-icon>
                     </div>
                   `:V}
-            <div class="media-info">
-              <div class="media-title">${e}</div>
-              ${i?Q`<div class="media-artist">${i}</div>`:V}
-            </div>
+            ${h?Q`
+                  <div class="media-info">
+                    <div class="media-title">${e}</div>
+                    ${i?Q`<div class="media-artist">${i}</div>`:V}
+                  </div>
+                `:V}
           </div>
 
           <div class="media-controls">
@@ -1146,7 +1148,7 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
     `]}setConfig(t){if(!t.entity)throw new Error("Please define an alarm_control_panel entity");super.setConfig(t)}static getConfigElement(){return document.createElement("sketch-alarm-panel-card-editor")}static getStubConfig(t){const e=Object.keys(t.states).filter(t=>t.startsWith("alarm_control_panel."));return{entity:e[0]||"alarm_control_panel.example"}}getCardSize(){return 6}get _alarmConfig(){return this._config}_appendKey(t){this._code.length<10&&(this._code+=t)}_clearCode(){this._code=""}_armAlarm(t){this.callService("alarm_control_panel",`alarm_${t}`,{entity_id:this._config.entity,code:this._code||void 0}),this._code=""}render(){const t=this.getEntity();if(!t)return Q`<ha-card><div class="sketch-card-content"><p class="sketch-name">Alarm not found</p></div></ha-card>`;const e=t.state,i=e.startsWith("armed"),s="disarmed"===e,a="triggered"===e,n=kt(t),r=t.attributes.code_arm_required||t.attributes.code_format;let o="";i?o="armed":s?o="disarmed":a&&(o="triggered");const c=this._alarmConfig.states||["arm_home","arm_away","arm_night"],l=!1!==this._config.show_name,h=!1!==this._config.show_state,d=!1!==this._config.show_icon;return Q`
       <ha-card>
         <div class="sketch-card-content">
-          <div class="alarm-header">
+          <div class="alarm-header" @pointerdown=${this.handlePointerDown} @pointerup=${this.handlePointerUp} @pointercancel=${this.handlePointerCancel}>
             ${d?Q`
                   <div class="alarm-icon-wrap ${o}">
                     <ha-icon class="sketch-icon" .icon=${n}></ha-icon>
@@ -1471,18 +1473,18 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
         min-width: 32px;
         text-align: right;
       }
-    `]}setConfig(t){if(!t.entity)throw new Error("Please define a person entity");super.setConfig(t)}static getConfigElement(){return document.createElement("sketch-person-card-editor")}static getStubConfig(t){const e=Object.keys(t.states).filter(t=>t.startsWith("person."));return{entity:e[0]||"person.example"}}getCardSize(){return 2}get _personConfig(){return this._config}render(){const t=this.getEntity();if(!t)return Q`<ha-card><div class="sketch-card-content"><p class="sketch-name">Person not found</p></div></ha-card>`;const e=this.getName(),i=t.attributes.entity_picture,s="home"===t.state,a="home"===t.state?"Home":"not_home"===t.state?"Away":t.state,n=!1!==this._personConfig.show_location,r=!1!==this._personConfig.show_battery,o=this._personConfig.battery_entity?this.hass.states[this._personConfig.battery_entity]:void 0,c=o?parseInt(o.state):null;let l="high";null!==c&&(c<20?l="low":c<50&&(l="mid"));const h=t.attributes.gps_accuracy,d=s?"mdi:home":"mdi:map-marker",p=!1!==this._config.show_name,u=!1!==this._config.show_icon;return Q`
+    `]}setConfig(t){if(!t.entity)throw new Error("Please define a person entity");super.setConfig(t)}static getConfigElement(){return document.createElement("sketch-person-card-editor")}static getStubConfig(t){const e=Object.keys(t.states).filter(t=>t.startsWith("person."));return{entity:e[0]||"person.example"}}getCardSize(){return 2}get _personConfig(){return this._config}render(){const t=this.getEntity();if(!t)return Q`<ha-card><div class="sketch-card-content"><p class="sketch-name">Person not found</p></div></ha-card>`;const e=this.getName(),i=t.attributes.entity_picture,s="home"===t.state,a="home"===t.state?"Home":"not_home"===t.state?"Away":t.state,n=!1!==this._personConfig.show_location,r=!1!==this._personConfig.show_battery,o=this._personConfig.battery_entity?this.hass.states[this._personConfig.battery_entity]:void 0,c=o?parseInt(o.state):null;let l="high";null!==c&&(c<20?l="low":c<50&&(l="mid"));const h=t.attributes.gps_accuracy,d=s?"mdi:home":"mdi:map-marker",p=!1!==this._config.show_name,u=!1!==this._config.show_state,m=!1!==this._config.show_icon;return Q`
       <ha-card>
         <div class="sketch-card-content">
           <div class="person-row" @pointerdown=${this.handlePointerDown} @pointerup=${this.handlePointerUp} @pointercancel=${this.handlePointerCancel}>
-            ${u?i?Q`<img class="person-avatar" src="${i}" alt="${e}" />`:Q`
+            ${m?i?Q`<img class="person-avatar" src="${i}" alt="${e}" />`:Q`
                     <div class="person-avatar-placeholder">
                       <ha-icon icon="mdi:account"></ha-icon>
                     </div>
                   `:V}
             <div class="person-info">
               ${p?Q`<p class="sketch-name">${e}</p>`:V}
-              ${n?Q`
+              ${u&&n?Q`
                     <div class="person-location">
                       <span class="person-status">
                         <span class="status-dot ${s?"home":"away"}"></span>
@@ -1492,7 +1494,7 @@ function t(t,e,i,s){var a,n=arguments.length,r=n<3?e:null===s?s=Object.getOwnPro
                       ${h?Q`<span style="font-size:0.8em">(~${h}m)</span>`:V}
                     </div>
                   `:V}
-              ${r&&null!==c?Q`
+              ${u&&r&&null!==c?Q`
                     <div class="battery-row">
                       <ha-icon icon="mdi:battery" style="--mdc-icon-size:14px;color:var(--sketch-ink-muted)"></ha-icon>
                       <div class="battery-bar">

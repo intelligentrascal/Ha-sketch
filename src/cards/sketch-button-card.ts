@@ -64,6 +64,10 @@ export class SketchButtonCard extends BaseSketchCard {
     super.setConfig(config);
   }
 
+  protected get defaultTapAction(): string {
+    return 'toggle';
+  }
+
   static getConfigElement() {
     return document.createElement('sketch-button-card-editor');
   }
