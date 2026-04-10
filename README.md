@@ -275,6 +275,100 @@ icon: mdi:lightbulb
 | `show_seconds` | boolean | `true` | Show seconds hand/digits |
 | `name` | string | none | Optional label above clock |
 
+## Customizing Appearance
+
+Every card exposes CSS custom properties you can override per-card using [card-mod](https://github.com/thomasloven/lovelace-card-mod) or globally via your HA theme.
+
+### Per-Card Styling (card-mod)
+
+```yaml
+type: custom:sketch-light-card
+entity: light.bedroom
+card_mod:
+  style: |
+    :host {
+      --sketch-card-rotate: 0deg;          /* no rotation */
+      --sketch-border-style: solid;        /* solid instead of dashed */
+      --sketch-border-width: 1px;          /* thinner border */
+      --sketch-border-color: #888;         /* custom border color */
+      --sketch-card-bg: #f0f0f0;           /* custom background */
+      --sketch-corner-opacity: 0;          /* hide corner marks */
+      --sketch-radius: 8px;                /* rounder corners */
+    }
+```
+
+### Available CSS Custom Properties
+
+| Property | Default | Description |
+|----------|---------|-------------|
+| `--sketch-card-rotate` | `-0.5deg` | Card rotation. Set `0deg` for straight cards |
+| `--sketch-border-style` | `dashed` | Border style: `dashed`, `solid`, `dotted`, or `none` |
+| `--sketch-border-width` | `2px` | Border thickness. Set `0` to remove borders |
+| `--sketch-border-color` | theme divider | Border color |
+| `--sketch-card-bg` | theme card bg | Card background color |
+| `--sketch-corner-opacity` | `0.3` | Corner mark visibility. Set `0` to hide |
+| `--sketch-radius` | `2px` | Border radius |
+| `--sketch-shadow-opacity` | `0.12` | Shadow strength. Set `0` for no shadow |
+| `--sketch-ink` | theme text | Primary text color |
+| `--sketch-ink-muted` | theme secondary | Muted text color |
+| `--sketch-primary` | theme primary | Accent color (icons, sliders, active states) |
+| `--sketch-active` | `--sketch-primary` | Active/on state color |
+| `--sketch-font` | `Caveat` | Heading font family |
+| `--sketch-font-body` | `Patrick Hand` | Body font family |
+| `--sketch-icon-sm` | `20px` | Small icon size |
+| `--sketch-icon-md` | `28px` | Medium icon size (default) |
+| `--sketch-icon-lg` | `44px` | Large icon size |
+
+### Global Theme Override
+
+Apply to all sketch cards at once via your HA theme (`configuration.yaml`):
+
+```yaml
+frontend:
+  themes:
+    sketch-minimal:
+      sketch-card-rotate: "0deg"
+      sketch-border-style: "solid"
+      sketch-border-width: "1px"
+      sketch-corner-opacity: "0"
+```
+
+### Preset Examples
+
+**Minimal (clean, no sketch effect):**
+```yaml
+card_mod:
+  style: |
+    :host {
+      --sketch-card-rotate: 0deg;
+      --sketch-border-style: solid;
+      --sketch-border-width: 1px;
+      --sketch-corner-opacity: 0;
+    }
+```
+
+**Heavy sketch (more hand-drawn):**
+```yaml
+card_mod:
+  style: |
+    :host {
+      --sketch-card-rotate: -1.2deg;
+      --sketch-border-style: dashed;
+      --sketch-border-width: 3px;
+      --sketch-corner-opacity: 0.5;
+    }
+```
+
+**No borders (floating):**
+```yaml
+card_mod:
+  style: |
+    :host {
+      --sketch-border-width: 0;
+      --sketch-corner-opacity: 0;
+    }
+```
+
 ## Troubleshooting
 
 ### Cards don't appear in the card picker

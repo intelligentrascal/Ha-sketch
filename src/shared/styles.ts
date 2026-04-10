@@ -30,8 +30,12 @@ export const sharedStyles = css`
 
     /* Card-mod overridable properties */
     --sketch-card-rotate: -0.5deg;
-    --sketch-shadow-intensity: 1;
     --sketch-border-style: dashed;
+    --sketch-border-width: 2px;
+    --sketch-border-color: var(--sketch-border);
+    --sketch-card-bg: var(--sketch-bg);
+    --sketch-corner-opacity: 0.3;
+    --sketch-shadow-opacity: 0.12;
 
     display: block;
     font-family: var(--sketch-font-body);
@@ -40,14 +44,14 @@ export const sharedStyles = css`
   /* Fonts loaded via <link> tag in document.head (see bottom of this file) */
 
   ha-card {
-    background: var(--sketch-bg);
+    background: var(--sketch-card-bg);
     color: var(--sketch-ink);
     border-radius: var(--sketch-radius);
     rotate: var(--sketch-card-rotate);
     filter: var(--sketch-shadow);
     transition: transform 0.3s ease, filter 0.3s ease;
     overflow: visible;
-    border: 2px var(--sketch-border-style) var(--sketch-border);
+    border: var(--sketch-border-width) var(--sketch-border-style) var(--sketch-border-color);
     position: relative;
   }
 
@@ -79,17 +83,17 @@ export const sharedStyles = css`
     height: 12px;
     border-color: var(--sketch-ink-muted);
     border-style: solid;
-    opacity: 0.3;
+    opacity: var(--sketch-corner-opacity);
   }
   .sketch-card-content::before {
     top: 4px;
     left: 4px;
-    border-width: 2px 0 0 2px;
+    border-width: var(--sketch-border-width) 0 0 var(--sketch-border-width);
   }
   .sketch-card-content::after {
     bottom: 4px;
     right: 4px;
-    border-width: 0 2px 2px 0;
+    border-width: 0 var(--sketch-border-width) var(--sketch-border-width) 0;
   }
 
   .sketch-name {
@@ -149,7 +153,7 @@ export const sharedStyles = css`
     font-family: var(--sketch-font);
     font-size: 1em;
     background: transparent;
-    border: 2px dashed var(--sketch-border);
+    border: var(--sketch-border-width) var(--sketch-border-style) var(--sketch-border-color);
     border-radius: var(--sketch-radius);
     color: var(--sketch-ink);
     padding: 6px 14px;
