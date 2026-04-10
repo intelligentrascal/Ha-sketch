@@ -81,6 +81,10 @@ export class SketchSeparatorCard extends LitElement {
     return 1;
   }
 
+  getLayoutOptions() {
+    return { grid_columns: 4, grid_rows: 1 };
+  }
+
   private _renderWavyLine(width = 200) {
     // Generate a hand-drawn wavy line path
     const h = 4;

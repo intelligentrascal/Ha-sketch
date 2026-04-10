@@ -188,6 +188,10 @@ export class SketchPopupCard extends LitElement {
     return 0; // Takes no space on dashboard
   }
 
+  getLayoutOptions() {
+    return { grid_columns: 4, grid_rows: 0 };
+  }
+
   connectedCallback() {
     super.connectedCallback();
     window.addEventListener('hashchange', this._hashListener);

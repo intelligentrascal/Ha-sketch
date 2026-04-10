@@ -20,6 +20,19 @@ export const sharedStyles = css`
       drop-shadow(6px 8px 10px rgba(0, 0, 0, 0.1));
     --sketch-hover-bg: var(--secondary-background-color, rgba(42, 42, 42, 0.06));
 
+    /* Active state — unified across all cards (overridable via card-mod) */
+    --sketch-active: var(--sketch-primary);
+
+    /* Icon sizing scale */
+    --sketch-icon-sm: 20px;
+    --sketch-icon-md: 28px;
+    --sketch-icon-lg: 44px;
+
+    /* Card-mod overridable properties */
+    --sketch-card-rotate: -0.5deg;
+    --sketch-shadow-intensity: 1;
+    --sketch-border-style: dashed;
+
     display: block;
     font-family: var(--sketch-font-body);
   }
@@ -30,13 +43,21 @@ export const sharedStyles = css`
     background: var(--sketch-bg);
     color: var(--sketch-ink);
     border-radius: var(--sketch-radius);
-    rotate: -0.5deg;
+    rotate: var(--sketch-card-rotate);
     filter: var(--sketch-shadow);
     transition: transform 0.3s ease, filter 0.3s ease;
     overflow: visible;
-    border: 2px dashed var(--sketch-border);
-    border-style: dashed;
+    border: 2px var(--sketch-border-style) var(--sketch-border);
     position: relative;
+  }
+
+  /* Entrance animation */
+  ha-card {
+    animation: sketch-enter 0.3s ease both;
+  }
+  @keyframes sketch-enter {
+    from { opacity: 0; transform: translateY(8px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
   }
 
   ha-card:hover {
@@ -45,7 +66,7 @@ export const sharedStyles = css`
   }
 
   .sketch-card-content {
-    padding: 16px;
+    padding: clamp(10px, 3vw, 20px);
     position: relative;
   }
 
@@ -243,13 +264,48 @@ export const sharedStyles = css`
     font-style: italic;
   }
 
+  /* Service call error flash */
+  :host(.sketch-error) ha-card {
+    animation: sketch-error-flash 0.6s ease;
+  }
+  @keyframes sketch-error-flash {
+    0%, 100% { box-shadow: none; }
+    30% { box-shadow: 0 0 0 2px var(--sketch-danger); }
+  }
+
+  /* Tap ripple feedback */
+  .sketch-tap-target {
+    position: relative;
+    overflow: hidden;
+  }
+  .sketch-tap-target:active::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--sketch-ink);
+    opacity: 0.06;
+    border-radius: inherit;
+    pointer-events: none;
+  }
+
+  /* State-change highlight animation */
+  @keyframes sketch-state-pulse {
+    0% { box-shadow: 0 0 0 0 var(--sketch-primary); }
+    50% { box-shadow: 0 0 0 4px transparent; }
+    100% { box-shadow: 0 0 0 0 transparent; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     ha-card,
     .sketch-btn {
       transition: none;
+      animation: none;
     }
     ha-card {
       rotate: 0deg;
+    }
+    .sketch-tap-target:active::after {
+      display: none;
     }
   }
 `;

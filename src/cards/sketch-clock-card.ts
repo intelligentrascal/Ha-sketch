@@ -106,6 +106,10 @@ export class SketchClockCard extends LitElement {
     return 4;
   }
 
+  getLayoutOptions() {
+    return { grid_columns: 4, grid_rows: 4 };
+  }
+
   // Static clock marks — computed once, never change
   private _marks: any[] | null = null;
   private _numbers: any[] | null = null;

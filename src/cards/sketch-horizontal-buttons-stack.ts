@@ -173,6 +173,10 @@ export class SketchHorizontalButtonsStack extends LitElement {
     return 1;
   }
 
+  getLayoutOptions() {
+    return { grid_columns: 4, grid_rows: 1 };
+  }
+
   connectedCallback() {
     super.connectedCallback();
     this._updateActiveHash();

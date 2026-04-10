@@ -28,6 +28,10 @@ export abstract class BaseSketchCard extends LitElement {
     return 3;
   }
 
+  getLayoutOptions() {
+    return { grid_columns: 4, grid_rows: this.getCardSize() };
+  }
+
   protected getEntity() {
     if (!this._config?.entity || !this.hass) return undefined;
     return this.hass.states[this._config.entity];
@@ -51,8 +55,15 @@ export abstract class BaseSketchCard extends LitElement {
     return entity?.attributes?.icon || 'mdi:help-circle-outline';
   }
 
-  protected callService(domain: string, service: string, data?: Record<string, any>): void {
-    this.hass.callService(domain, service, data);
+  protected async callService(domain: string, service: string, data?: Record<string, any>): Promise<void> {
+    try {
+      await this.hass.callService(domain, service, data);
+    } catch (err) {
+      // Brief red flash to indicate error
+      this.classList.add('sketch-error');
+      setTimeout(() => this.classList.remove('sketch-error'), 1000);
+      console.error('Ha-sketch service call failed:', err);
+    }
   }
 
   protected toggleEntity(): void {
@@ -73,6 +84,7 @@ export abstract class BaseSketchCard extends LitElement {
 
   /** Execute a specific action config (tap, hold, or double-tap). */
   protected executeAction(actionConfig: ActionConfig | undefined, defaultAction: string = 'more-info'): void {
+    if ((actionConfig as any)?.confirmation && !window.confirm('Are you sure?')) return;
     const action = actionConfig?.action || defaultAction;
     switch (action) {
       case 'toggle':

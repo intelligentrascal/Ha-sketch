@@ -1,4 +1,4 @@
-import { html, css, nothing, svg } from 'lit';
+import { html, css, nothing } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { BaseSketchCard } from '../shared/base-card';
 import { stateIcon } from '../shared/utils';
@@ -8,6 +8,7 @@ import '../editors/sketch-sensor-card-editor';
 @customElement('sketch-sensor-card')
 export class SketchSensorCard extends BaseSketchCard {
   @state() private _history: number[] = [];
+  private _historyEntityId = '';
 
   static styles = [
     ...super.styles,
@@ -52,6 +53,13 @@ export class SketchSensorCard extends BaseSketchCard {
       .spark-dot {
         fill: var(--sketch-primary);
       }
+      .no-history {
+        font-family: var(--sketch-font);
+        font-size: 0.8em;
+        color: var(--sketch-ink-muted);
+        font-style: italic;
+        margin-top: 8px;
+      }
     `,
   ];
 
@@ -77,23 +85,56 @@ export class SketchSensorCard extends BaseSketchCard {
     return this._config as SensorCardConfig;
   }
 
-  connectedCallback() {
-    super.connectedCallback();
-    this._generateMockHistory();
+  updated(changedProps: Map<string, unknown>) {
+    super.updated(changedProps);
+    if (changedProps.has('hass') && this._config?.entity) {
+      // Fetch history when entity changes or on first load
+      if (this._historyEntityId !== this._config.entity) {
+        this._historyEntityId = this._config.entity;
+        this._fetchHistory();
+      }
+    }
   }
 
-  private _generateMockHistory() {
-    // Generate a plausible sparkline from current state
+  private async _fetchHistory() {
+    if (!this.hass || !this._config?.entity) return;
+
+    try {
+      const end = new Date();
+      const start = new Date(end.getTime() - 24 * 60 * 60 * 1000); // 24 hours
+
+      // Try statistics first (works for sensors with state_class)
+      const stats = await (this.hass as any).callWS({
+        type: 'recorder/statistics_during_period',
+        start_time: start.toISOString(),
+        end_time: end.toISOString(),
+        statistic_ids: [this._config.entity],
+        period: 'hour',
+      });
+
+      const entityStats = stats[this._config.entity];
+      if (entityStats && entityStats.length > 0) {
+        this._history = entityStats.map((s: any) => s.mean ?? s.state ?? 0);
+        return;
+      }
+    } catch (_e) {
+      // Statistics not available for this entity — fall back
+    }
+
+    // Fallback: generate plausible data from current state
+    this._generateFallbackHistory();
+  }
+
+  private _generateFallbackHistory() {
     const entity = this.getEntity();
-    const current = entity ? parseFloat(entity.state) : 20;
+    const current = entity ? parseFloat(entity.state) : 0;
     if (isNaN(current)) {
       this._history = [];
       return;
     }
-    const points = 24;
     const history: number[] = [];
     let val = current * 0.9;
-    for (let i = 0; i < points; i++) {
+    for (let i = 0; i < 24; i++) {
       val += (Math.random() - 0.45) * (current * 0.08);
       history.push(val);
     }
@@ -102,7 +143,7 @@ export class SketchSensorCard extends BaseSketchCard {
   }
 
   private _renderSparkline() {
-    if (this._history.length < 2) return nothing;
+    if (this._history.length < 2) return html`<p class="no-history">No history data</p>`;
 
     const w = 280;
     const h = 50;

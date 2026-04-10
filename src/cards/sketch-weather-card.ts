@@ -102,7 +102,8 @@ export class SketchWeatherCard extends BaseSketchCard {
   }
 
   getCardSize() {
-    return 4;
+    const config = this._config as any;
+    return config?.show_forecast !== false ? 5 : 3;
   }
 
   private get _weatherConfig(): WeatherCardConfig {

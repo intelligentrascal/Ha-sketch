@@ -100,6 +100,10 @@ export class SketchChipCard extends LitElement {
     return 1;
   }
 
+  getLayoutOptions() {
+    return { grid_columns: 4, grid_rows: 1 };
+  }
+
   private _handleChipTap(chip: ChipConfig) {
     const action = chip.tap_action?.action || (chip.entity ? 'more-info' : 'none');
     switch (action) {
