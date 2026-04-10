@@ -283,6 +283,15 @@ export const sharedStyles = css`
     font-style: italic;
   }
 
+  /* Entity picture frame — sketch-styled torn-edge look */
+  .sketch-entity-picture {
+    border: 2.5px var(--sketch-border-style) var(--sketch-border);
+    border-radius: var(--sketch-radius);
+    rotate: 1deg;
+    filter: drop-shadow(2px 3px 0px rgba(0, 0, 0, 0.1));
+    object-fit: cover;
+  }
+
   /* Empty/loading state placeholders */
   .sketch-empty {
     display: flex;

@@ -1,6 +1,6 @@
 ## HA Sketchbook Cards
 
-A collection of **18** hand-drawn, sketchbook-style custom cards for Home Assistant dashboards.
+A collection of **21** hand-drawn, sketchbook-style custom cards for Home Assistant dashboards.
 
 Inspired by [sketchbook-ui](https://github.com/SarthakRawat-1/sketchbook-ui), these cards bring a unique notebook aesthetic to your smart home dashboard with:
 
@@ -29,5 +29,8 @@ Inspired by [sketchbook-ui](https://github.com/SarthakRawat-1/sketchbook-ui), th
 - **Separator Card** - Visual divider with optional label
 - **Sub-Button Card** - Entity with expandable action buttons
 - **Tile Card** - Compact tile-style entity row
+- **Fan Card** - Fan speed control with spinning icon
+- **Lock Card** - Lock/unlock with status indicator
+- **Number Card** - Input number with value slider
 
 All cards integrate with Home Assistant themes and respect your dashboard color settings.

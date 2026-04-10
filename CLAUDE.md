@@ -214,14 +214,20 @@ npm run build        # Production build → dist/ha-sketchbook-cards.js
 ~~23. Localization~~ — Done. `formatState()` uses `hass.formatEntityState()` when available.
 ~~24. Tests~~ — Done. 14 unit tests for utils.ts (isEntityActive, formatState, timeAgo, clamp, weatherConditionIcon) via vitest.
 
+### Priority 5 — Completed (v1.3.3)
+
+~~25. README Screenshots~~ — Deferred (needs running HA instance).
+~~26. Troubleshooting Section~~ — Done. Added to README.md.
+~~27. Additional Cards~~ — Done. Fan, Lock, Number/Input cards added (21 total).
+~~28. Card Presets/Templates~~ — Done via CSS custom properties (`--sketch-card-rotate`, `--sketch-border-style`, `--sketch-shadow-intensity`).
+~~29. Sketch Intensity Setting~~ — Done. Users control sketchiness via card-mod CSS overrides.
+~~30. Entity Picture Support~~ — Done. `.sketch-entity-picture` class with dashed border frame.
+
 ### Future — Nice to Have
 
-25. **README Screenshots**: Add card previews, dashboard example, interaction GIF.
-26. **Troubleshooting Section**: Common issues and fixes.
-27. **Additional Cards**: Vacuum, History Graph, Area/Room summary, Battery, Fan, Lock, Number/Input.
-28. **Card Presets/Templates**: Reusable style presets ("compact", "large", "minimal").
-29. **Sketch Intensity Setting**: Global config for how "sketchy" cards look.
-30. **Entity Picture Support**: Sketch-styled frame for entity_picture.
+31. **README Screenshots**: Add card previews, dashboard example, interaction GIF.
+32. **Additional Cards**: Vacuum, History Graph, Area/Room summary, Battery overview.
+33. **Shared Timer Manager**: Global timer for clock cards to avoid per-card intervals.
 
 ### Priority 5 — Future Cards, Features & Documentation
 
