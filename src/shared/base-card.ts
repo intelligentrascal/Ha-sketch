@@ -111,12 +111,20 @@ export abstract class BaseSketchCard extends LitElement {
 
   updated(changedProps: Map<string, unknown>) {
     super.updated(changedProps);
-    // Toggle unavailable class on host for CSS styling
-    if (this.isUnavailable()) {
-      this.classList.add('unavailable');
-    } else {
-      this.classList.remove('unavailable');
+    if (changedProps.has('hass')) {
+      const unavailable = this.isUnavailable();
+      if (unavailable && !this.classList.contains('unavailable')) {
+        this.classList.add('unavailable');
+      } else if (!unavailable && this.classList.contains('unavailable')) {
+        this.classList.remove('unavailable');
+      }
     }
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    if (this._holdTimer) clearTimeout(this._holdTimer);
+    if (this._dblTapTimer) clearTimeout(this._dblTapTimer);
   }
 
   /** Override in subclasses to change the default tap action (e.g., 'toggle' for lights/buttons). */

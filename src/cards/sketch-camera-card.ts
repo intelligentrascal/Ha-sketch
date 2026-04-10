@@ -9,6 +9,7 @@ export class SketchCameraCard extends BaseSketchCard {
   @state() private _imageUrl = '';
   @state() private _loading = true;
   private _refreshTimer?: number;
+  private _loadingTimer?: number;
 
   static styles = [
     ...super.styles,
@@ -133,15 +134,16 @@ export class SketchCameraCard extends BaseSketchCard {
   disconnectedCallback() {
     super.disconnectedCallback();
     if (this._refreshTimer) clearInterval(this._refreshTimer);
+    if (this._loadingTimer) clearTimeout(this._loadingTimer);
   }
 
   private _updateImage() {
     const entity = this.getEntity();
     if (!entity) return;
 
-    const entityPicture = entity.attributes.entity_picture;
-    if (entityPicture) {
-      this._imageUrl = entityPicture;
+    const newUrl = entity.attributes.entity_picture;
+    if (newUrl && newUrl !== this._imageUrl) {
+      this._imageUrl = newUrl;
       this._loading = false;
     }
   }
@@ -160,7 +162,8 @@ export class SketchCameraCard extends BaseSketchCard {
   private _handleRefresh() {
     this._loading = true;
     this._updateImage();
-    setTimeout(() => (this._loading = false), 500);
+    if (this._loadingTimer) clearTimeout(this._loadingTimer);
+    this._loadingTimer = window.setTimeout(() => (this._loading = false), 500);
   }
 
   render() {

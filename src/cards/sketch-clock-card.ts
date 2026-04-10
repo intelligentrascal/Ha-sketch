@@ -106,6 +106,28 @@ export class SketchClockCard extends LitElement {
     return 4;
   }
 
+  // Static clock marks — computed once, never change
+  private _marks: any[] | null = null;
+  private _numbers: any[] | null = null;
+
+  private _ensureStaticMarks() {
+    if (this._marks) return;
+    const cx = 70, cy = 70, r = 60;
+    this._marks = [];
+    this._numbers = [];
+    for (let i = 0; i < 12; i++) {
+      const angle = i * 30;
+      const rad = ((angle - 90) * Math.PI) / 180;
+      this._marks.push(svg`<line class="hour-mark" x1=${cx + Math.cos(rad) * (r - 8)} y1=${cy + Math.sin(rad) * (r - 8)} x2=${cx + Math.cos(rad) * (r - 2)} y2=${cy + Math.sin(rad) * (r - 2)} />`);
+      this._numbers.push(svg`<text class="clock-number" x=${cx + Math.cos(rad) * (r - 16)} y=${cy + Math.sin(rad) * (r - 16)}>${i === 0 ? 12 : i}</text>`);
+    }
+    for (let i = 0; i < 60; i++) {
+      if (i % 5 === 0) continue;
+      const rad = ((i * 6 - 90) * Math.PI) / 180;
+      this._marks.push(svg`<line class="minute-mark" x1=${cx + Math.cos(rad) * (r - 2)} y1=${cy + Math.sin(rad) * (r - 2)} x2=${cx + Math.cos(rad) * (r - 5)} y2=${cy + Math.sin(rad) * (r - 5)} />`);
+    }
+  }
+
   connectedCallback() {
     super.connectedCallback();
     this._tick();
@@ -122,15 +144,11 @@ export class SketchClockCard extends LitElement {
   }
 
   private _renderAnalog() {
+    this._ensureStaticMarks();
     const h = this._time.getHours() % 12;
     const m = this._time.getMinutes();
     const s = this._time.getSeconds();
     const showSeconds = this._config.show_seconds !== false;
-
-    const hourAngle = (h + m / 60) * 30;
-    const minuteAngle = (m + s / 60) * 6;
-    const secondAngle = s * 6;
-
     const cx = 70, cy = 70, r = 60;
 
     const handEnd = (angle: number, length: number) => {
@@ -138,56 +156,15 @@ export class SketchClockCard extends LitElement {
       return { x: cx + Math.cos(rad) * length, y: cy + Math.sin(rad) * length };
     };
 
-    const hourEnd = handEnd(hourAngle, 32);
-    const minuteEnd = handEnd(minuteAngle, 46);
-    const secondEnd = handEnd(secondAngle, 50);
-
-    // Hour marks and numbers
-    const marks: any[] = [];
-    const numbers: any[] = [];
-    for (let i = 0; i < 12; i++) {
-      const angle = i * 30;
-      const outerR = r - 2;
-      const innerR = r - 8;
-      const numR = r - 16;
-      const rad = ((angle - 90) * Math.PI) / 180;
-      marks.push(svg`
-        <line
-          class="hour-mark"
-          x1=${cx + Math.cos(rad) * innerR}
-          y1=${cy + Math.sin(rad) * innerR}
-          x2=${cx + Math.cos(rad) * outerR}
-          y2=${cy + Math.sin(rad) * outerR}
-        />
-      `);
-      numbers.push(svg`
-        <text class="clock-number"
-          x=${cx + Math.cos(rad) * numR}
-          y=${cy + Math.sin(rad) * numR}
-        >${i === 0 ? 12 : i}</text>
-      `);
-    }
-
-    for (let i = 0; i < 60; i++) {
-      if (i % 5 === 0) continue;
-      const angle = i * 6;
-      const rad = ((angle - 90) * Math.PI) / 180;
-      marks.push(svg`
-        <line
-          class="minute-mark"
-          x1=${cx + Math.cos(rad) * (r - 2)}
-          y1=${cy + Math.sin(rad) * (r - 2)}
-          x2=${cx + Math.cos(rad) * (r - 5)}
-          y2=${cy + Math.sin(rad) * (r - 5)}
-        />
-      `);
-    }
+    const hourEnd = handEnd((h + m / 60) * 30, 32);
+    const minuteEnd = handEnd((m + s / 60) * 6, 46);
+    const secondEnd = handEnd(s * 6, 50);
 
     return html`
       <svg class="analog-clock" viewBox="0 0 140 140">
         <circle class="clock-face" cx=${cx} cy=${cy} r=${r} />
-        ${marks}
-        ${numbers}
+        ${this._marks}
+        ${this._numbers}
         <line class="hour-hand" x1=${cx} y1=${cy} x2=${hourEnd.x} y2=${hourEnd.y} />
         <line class="minute-hand" x1=${cx} y1=${cy} x2=${minuteEnd.x} y2=${minuteEnd.y} />
         ${showSeconds
