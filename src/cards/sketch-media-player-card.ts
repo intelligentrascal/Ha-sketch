@@ -126,7 +126,7 @@ export class SketchMediaPlayerCard extends BaseSketchCard {
   }
 
   private _setVolume(e: Event) {
-    const value = parseFloat((e.target as HTMLInputElement).value);
+    const value = Math.max(0, Math.min(parseFloat((e.target as HTMLInputElement).value), 100));
     this.callService('media_player', 'volume_set', {
       entity_id: this._config.entity,
       volume_level: value / 100,
@@ -155,7 +155,7 @@ export class SketchMediaPlayerCard extends BaseSketchCard {
       <ha-card>
         <div class="sketch-card-content">
           ${showName ? html`<p class="sketch-name">${this.getName()}</p>` : nothing}
-          <div class="media-layout" role="button" tabindex="0" aria-label="${this.getName()}" @keydown=${this.handleKeyDown}>
+          <div class="media-layout" role="button" tabindex="0" aria-label="${this.getName()}" @keydown=${this.handleKeyDown} @pointerdown=${this.handlePointerDown} @pointerup=${this.handlePointerUp} @pointercancel=${this.handlePointerCancel}>
             ${showIcon && showArtwork
               ? artwork
                 ? html`<img class="media-artwork" src="${artwork}" alt="artwork" />`

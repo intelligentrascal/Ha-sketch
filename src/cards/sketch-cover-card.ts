@@ -103,7 +103,7 @@ export class SketchCoverCard extends BaseSketchCard {
   }
 
   private _setPosition(e: Event) {
-    const value = parseInt((e.target as HTMLInputElement).value);
+    const value = Math.max(0, Math.min(parseInt((e.target as HTMLInputElement).value), 100));
     this.callService('cover', 'set_cover_position', {
       entity_id: this._config.entity,
       position: value,
@@ -111,7 +111,7 @@ export class SketchCoverCard extends BaseSketchCard {
   }
 
   private _setTilt(e: Event) {
-    const value = parseInt((e.target as HTMLInputElement).value);
+    const value = Math.max(0, Math.min(parseInt((e.target as HTMLInputElement).value), 100));
     this.callService('cover', 'set_cover_tilt_position', {
       entity_id: this._config.entity,
       tilt_position: value,

@@ -127,6 +127,7 @@ export class SketchCameraCard extends BaseSketchCard {
 
   connectedCallback() {
     super.connectedCallback();
+    if (this._refreshTimer) clearInterval(this._refreshTimer);
     this._updateImage();
     this._refreshTimer = window.setInterval(() => this._updateImage(), 10000);
   }

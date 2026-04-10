@@ -94,7 +94,8 @@ export class SketchLightCard extends BaseSketchCard {
   }
 
   private _setBrightness(e: Event) {
-    const value = parseInt((e.target as HTMLInputElement).value);
+    const raw = parseInt((e.target as HTMLInputElement).value);
+    const value = Math.max(1, Math.min(raw, 100));
     this.callService('light', 'turn_on', {
       entity_id: this._config.entity,
       brightness: Math.round((value / 100) * 255),

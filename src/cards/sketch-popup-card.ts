@@ -265,7 +265,8 @@ export class SketchPopupCard extends LitElement {
     }
 
     try {
-      const helpers = await window.loadCardHelpers!();
+      if (!window.loadCardHelpers) return;
+      const helpers = await window.loadCardHelpers();
       const cards: HTMLElement[] = [];
 
       for (const cardConfig of this._config.cards) {

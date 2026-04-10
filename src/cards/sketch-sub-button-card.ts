@@ -228,7 +228,7 @@ export class SketchSubButtonCard extends BaseSketchCard {
     const icon = this._config.icon || stateIcon(entity);
     const name = this.getName();
     const isOn = isEntityActive(entity.state);
-    const columns = this._subConfig.columns || 3;
+    const columns = Math.max(1, Math.min(this._subConfig.columns || 3, 6));
     const collapsible = this._subConfig.collapsible !== false;
     const showName = this._config.show_name !== false;
     const showState = this._config.show_state !== false;

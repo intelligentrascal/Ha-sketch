@@ -100,7 +100,7 @@ export abstract class BaseSketchCard extends LitElement {
         }
         break;
       case 'navigate':
-        if (actionConfig?.navigation_path) {
+        if (actionConfig?.navigation_path && /^\/[a-zA-Z0-9\-_/?#=&.]*$/.test(actionConfig.navigation_path)) {
           window.history.pushState(null, '', actionConfig.navigation_path);
           this.fireEvent('location-changed');
           forwardHaptic('light');
