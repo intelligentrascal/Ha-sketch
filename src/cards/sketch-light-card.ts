@@ -62,7 +62,7 @@ export class SketchLightCard extends BaseSketchCard {
         min-width: 20px;
       }
       .ct-slider {
-        background: linear-gradient(to right, #ff8a2b, #fff, #90caf9);
+        background: linear-gradient(to right, #ff8a2b, #fff, #90caf9); /* warm(low K) → cool(high K) */
       }
     `,
   ];
@@ -105,7 +105,7 @@ export class SketchLightCard extends BaseSketchCard {
     const value = parseInt((e.target as HTMLInputElement).value);
     this.callService('light', 'turn_on', {
       entity_id: this._config.entity,
-      color_temp: value,
+      color_temp_kelvin: value,
     });
   }
 
@@ -124,7 +124,7 @@ export class SketchLightCard extends BaseSketchCard {
     const showColorTemp =
       this._lightConfig.show_color_temp !== false && !unavailable &&
       isOn &&
-      entity.attributes.min_mireds !== undefined;
+      entity.attributes.min_color_temp_kelvin !== undefined;
     const icon = this._config.icon || stateIcon(entity);
     const showName = this._config.show_name !== false;
     const showState = this._config.show_state !== false;
@@ -171,9 +171,9 @@ export class SketchLightCard extends BaseSketchCard {
                   <input
                     type="range"
                     class="sketch-slider ct-slider"
-                    min=${entity.attributes.min_mireds || 153}
-                    max=${entity.attributes.max_mireds || 500}
-                    .value=${String(entity.attributes.color_temp || 300)}
+                    min=${entity.attributes.min_color_temp_kelvin || 2000}
+                    max=${entity.attributes.max_color_temp_kelvin || 6500}
+                    .value=${String(entity.attributes.color_temp_kelvin || 4000)}
                     @change=${this._setColorTemp}
                   />
                   <span class="ct-label">&#x2744;</span>
