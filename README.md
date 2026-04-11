@@ -24,17 +24,23 @@ Hand-drawn, sketchbook-style custom cards for Home Assistant dashboards. Inspire
 | **Horizontal Buttons Stack** | `sketch-horizontal-buttons-stack` | Sticky footer nav bar with room buttons |
 | **Sub-Button Card** | `sketch-sub-button-card` | Entity card with expandable action button grid |
 | **Separator Card** | `sketch-separator-card` | Hand-drawn wavy line divider with optional label |
+| **Fan Card** | `sketch-fan-card` | Fan speed control with on/off toggle |
+| **Lock Card** | `sketch-lock-card` | Lock/unlock with optional keypad |
+| **Number Card** | `sketch-number-card` | Input number/slider for adjustable values |
 
 ## Design
 
 All cards feature the sketchbook-ui aesthetic:
-- Caveat handwriting font
-- Cream paper background (`#faf7f0`)
-- Subtle rotation and stacked drop-shadows
-- Hand-drawn SVG borders with dashed strokes
-- Decorative corner marks
-- Smooth hover lift animations
-- Respects HA theme variables (`--ha-card-background`, `--primary-text-color`, etc.)
+- **Caveat + Patrick Hand** handwriting fonts
+- **SVG hand-drawn borders** — wobbly double-stroke borders with unique wobble per entity (seeded PRNG)
+- **Paper texture** — feTurbulence noise grain overlay for a real paper feel
+- **Corner doodles** — cross mark (top-left) and circle sketch (bottom-right) on every card
+- **Paper fold** — subtle folded corner detail (top-right)
+- **Rotation + drop-shadows** — slight tilt with stacked shadows for depth
+- **Hover lift** — cards lift and rotate on hover with stronger shadows
+- **Dark mode support** — auto-detects `hass.themes.darkMode` and adjusts shadow depth and colors
+- **Card variants** — paper (default), notebook (ruled lines + red margin), sticky note (tape strip)
+- Fully respects HA theme variables (`--ha-card-background`, `--primary-text-color`, etc.)
 
 ## Installation
 
@@ -252,9 +258,29 @@ name: Lighting
 icon: mdi:lightbulb
 ```
 
+### Fan Card
+```yaml
+type: custom:sketch-fan-card
+entity: fan.bedroom
+show_speed: true
+```
+
+### Lock Card
+```yaml
+type: custom:sketch-lock-card
+entity: lock.front_door
+```
+
+### Number Card
+```yaml
+type: custom:sketch-number-card
+entity: input_number.volume
+show_slider: true
+```
+
 ## Configuration Options
 
-### Common Options (all cards except Clock)
+### Common Options (all entity cards)
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
@@ -265,6 +291,20 @@ icon: mdi:lightbulb
 | `show_state` | boolean | `true` | Show entity state |
 | `show_icon` | boolean | `true` | Show icon |
 | `tap_action` | object | `more-info` | Action on tap |
+| `hold_action` | object | none | Action on long press (500ms) |
+| `double_tap_action` | object | none | Action on double tap |
+
+### Appearance Options (all entity cards)
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `color` | string | theme primary | Accent color for icons and active states |
+| `card_background` | string | theme card bg | Card background color |
+| `border_color` | string | theme text | SVG border stroke color |
+| `card_rotation` | string | `-0.5deg` | Card tilt (e.g. `0deg`, `-1deg`) |
+| `show_border` | boolean | `true` | Show hand-drawn SVG borders |
+| `show_texture` | boolean | `true` | Show paper grain noise texture |
+| `variant` | string | `paper` | Card style: `paper`, `notebook`, or `sticky` |
 
 ### Clock Card Options
 
@@ -299,16 +339,14 @@ card_mod:
 
 ### Available CSS Custom Properties
 
+Card borders are drawn via SVG (not CSS borders), so `show_border` in the card config is the primary way to control them. These CSS properties control other visual aspects:
+
 | Property | Default | Description |
 |----------|---------|-------------|
 | `--sketch-card-rotate` | `-0.5deg` | Card rotation. Set `0deg` for straight cards |
-| `--sketch-border-style` | `dashed` | Border style: `dashed`, `solid`, `dotted`, or `none` |
-| `--sketch-border-width` | `2px` | Border thickness. Set `0` to remove borders |
-| `--sketch-border-color` | theme divider | Border color |
-| `--sketch-card-bg` | theme card bg | Card background color |
-| `--sketch-corner-opacity` | `0.3` | Corner mark visibility. Set `0` to hide |
-| `--sketch-radius` | `2px` | Border radius |
-| `--sketch-shadow-opacity` | `0.12` | Shadow strength. Set `0` for no shadow |
+| `--sketch-card-bg` | theme card bg | Card background fill color (SVG) |
+| `--sketch-border-color` | theme text | SVG border stroke color |
+| `--sketch-radius` | `2px` | Border radius for inner elements |
 | `--sketch-ink` | theme text | Primary text color |
 | `--sketch-ink-muted` | theme secondary | Muted text color |
 | `--sketch-primary` | theme primary | Accent color (icons, sliders, active states) |
@@ -318,6 +356,8 @@ card_mod:
 | `--sketch-icon-sm` | `20px` | Small icon size |
 | `--sketch-icon-md` | `28px` | Medium icon size (default) |
 | `--sketch-icon-lg` | `44px` | Large icon size |
+| `--sketch-border-style` | `dashed` | Border style for buttons and inner elements |
+| `--sketch-border-width` | `2px` | Border width for buttons and inner elements |
 
 ### Global Theme Override
 
@@ -335,37 +375,39 @@ frontend:
 
 ### Preset Examples
 
-**Minimal (clean, no sketch effect):**
+**Minimal (no sketch rotation):**
 ```yaml
-card_mod:
-  style: |
-    :host {
-      --sketch-card-rotate: 0deg;
-      --sketch-border-style: solid;
-      --sketch-border-width: 1px;
-      --sketch-corner-opacity: 0;
-    }
+type: custom:sketch-entity-card
+entity: light.bedroom
+card_rotation: "0deg"
+show_border: false
+show_texture: false
 ```
 
-**Heavy sketch (more hand-drawn):**
+**Notebook style:**
 ```yaml
+type: custom:sketch-entity-card
+entity: light.bedroom
+variant: notebook
+```
+
+**Sticky note:**
+```yaml
+type: custom:sketch-entity-card
+entity: light.bedroom
+variant: sticky
+card_background: "#fff9c4"
+```
+
+**Custom colors via card-mod:**
+```yaml
+type: custom:sketch-light-card
+entity: light.bedroom
 card_mod:
   style: |
     :host {
       --sketch-card-rotate: -1.2deg;
-      --sketch-border-style: dashed;
-      --sketch-border-width: 3px;
-      --sketch-corner-opacity: 0.5;
-    }
-```
-
-**No borders (floating):**
-```yaml
-card_mod:
-  style: |
-    :host {
-      --sketch-border-width: 0;
-      --sketch-corner-opacity: 0;
+      --sketch-primary: #e91e63;
     }
 ```
 
@@ -381,7 +423,10 @@ card_mod:
 - For HACS: the resource is auto-registered — try removing and re-adding the integration
 
 ### Cards look broken on dark theme
-- Cards use HA theme variables and adapt automatically. If colors look off, ensure your theme defines `--ha-card-background`, `--primary-text-color`, and `--divider-color`
+- Cards auto-detect dark mode via `hass.themes.darkMode` and adjust shadow depth accordingly
+- SVG borders and backgrounds use HA theme CSS variables (`--ha-card-background`, `--primary-text-color`) which adapt to any theme
+- If colors still look off, ensure your theme defines `--ha-card-background` and `--primary-text-color`
+- After updating, always clear your browser cache (Ctrl+Shift+R)
 
 ### Visual editor toggles don't work
 - Make sure you're on Ha-sketch v1.3.0+. Earlier versions had editor bugs

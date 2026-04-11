@@ -41,7 +41,13 @@ export const sharedStyles = css`
     font-family: var(--sketch-font-body);
   }
 
-  /* Fonts loaded via <link> tag in document.head (see bottom of this file) */
+  /* Dark mode adjustments — HA sets --primary-text-color to light text on dark themes */
+  :host(.dark-mode) {
+    --sketch-shadow: drop-shadow(2px 3px 0px rgba(0, 0, 0, 0.3))
+      drop-shadow(4px 6px 8px rgba(0, 0, 0, 0.25));
+    --sketch-shadow-hover: drop-shadow(3px 4px 0px rgba(0, 0, 0, 0.35))
+      drop-shadow(5px 7px 10px rgba(0, 0, 0, 0.3));
+  }
 
   ha-card {
     background: transparent;
@@ -53,11 +59,16 @@ export const sharedStyles = css`
     overflow: visible;
     border: none;
     position: relative;
+    /* Ensure ha-card provides a sizing context for the SVG overlay */
+    min-height: 40px;
   }
 
+  /* SVG background overlay — must fill the entire ha-card */
   .sketch-bg-svg {
     position: absolute;
-    inset: 0;
+    inset: -2px;
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
     pointer-events: none;
     z-index: 0;
   }
@@ -82,11 +93,9 @@ export const sharedStyles = css`
   }
 
   .sketch-card-content {
-    padding: clamp(10px, 3vw, 20px);
+    padding: clamp(12px, 3vw, 20px);
     position: relative;
   }
-
-  /* Corner marks now rendered as SVG doodles inside sketch-bg-svg */
 
   .sketch-name {
     font-family: var(--sketch-font);
@@ -264,7 +273,6 @@ export const sharedStyles = css`
   /* Unavailable entity state */
   :host(.unavailable) ha-card {
     opacity: 0.55;
-    border-style: dotted;
   }
   :host(.unavailable) .sketch-slider,
   :host(.unavailable) .sketch-btn,

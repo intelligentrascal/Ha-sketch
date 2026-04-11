@@ -4,7 +4,7 @@ import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { sharedStyles } from './styles';
 import type { HomeAssistant, CardConfig, ActionConfig } from './types';
 import { applyAppearance } from './utils';
-import { renderSketchOverlay, renderNotebookLines, renderStickyTape } from './sketch-svg';
+import { renderSketchOverlay } from './sketch-svg';
 
 /** Dispatch haptic feedback to the HA companion app. */
 function forwardHaptic(type: string): void {
@@ -35,10 +35,18 @@ export abstract class BaseSketchCard extends LitElement {
   /** Render the sketch SVG background overlay inside ha-card. Call in each card's render(). */
   protected renderSketchBg(width = 400, height = 200) {
     const config = this._config as any;
-    const seed = this._config?.entity ? this._config.entity.charCodeAt(0) : 0;
+    // Generate a richer seed from the entity ID for more variety between cards
+    let seed = 0;
+    const entityId = this._config?.entity || '';
+    for (let i = 0; i < entityId.length; i++) {
+      seed = ((seed << 5) - seed + entityId.charCodeAt(i)) | 0;
+    }
+    seed = Math.abs(seed);
+
     return html`${unsafeHTML(renderSketchOverlay(width, height, {
       showBorder: config?.show_border !== false,
       showTexture: config?.show_texture !== false,
+      variant: config?.variant || 'paper',
       seed,
     }))}`;
   }
@@ -144,7 +152,11 @@ export abstract class BaseSketchCard extends LitElement {
       applyAppearance(this, this._config);
     }
 
-    if (changedProps.has('hass')) {
+    if (changedProps.has('hass') && this.hass) {
+      // Dark mode detection — toggle class for CSS adjustments
+      const isDark = this.hass.themes?.darkMode ?? false;
+      this.classList.toggle('dark-mode', isDark);
+
       const unavailable = this.isUnavailable();
       if (unavailable && !this.classList.contains('unavailable')) {
         this.classList.add('unavailable');
