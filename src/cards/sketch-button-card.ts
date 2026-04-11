@@ -41,9 +41,6 @@ export class SketchButtonCard extends BaseSketchCard {
       .button-icon-wrap.active ha-icon {
         color: var(--sketch-active, var(--sketch-primary));
       }
-      .button-icon-wrap.active ha-icon {
-        color: #fff;
-      }
       .button-label {
         font-family: var(--sketch-font);
         font-size: 1.2em;

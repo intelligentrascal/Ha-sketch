@@ -115,7 +115,6 @@ export const sharedStyles = css`
 
   .sketch-icon {
     --mdc-icon-size: var(--sketch-icon-md);
-    color: var(--sketch-primary);
   }
 
   /* Keyboard focus visible indicator */

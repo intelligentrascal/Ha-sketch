@@ -73,7 +73,7 @@ function sketchRect(
   // Slight offset at corners for imperfect closure
   const co = (i: number) => (seededRandom(seed, i + 50) - 0.5) * wobble * 0.6;
 
-  if (cr <= 1) {
+  if (cr < 1) {
     // No rounding — sharp corners
     let path = `M ${(l + co(0)).toFixed(1)} ${(t + co(1)).toFixed(1)} `;
     path += sketchLine(l + co(0), t + co(1), r + co(2), t + co(3), seed, 0, wobble);

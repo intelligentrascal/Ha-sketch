@@ -56,7 +56,7 @@ export class SketchCameraCard extends BaseSketchCard {
         font-family: var(--sketch-font);
         font-size: 1.1em;
         font-weight: 600;
-        color: #fff;
+        color: var(--text-primary-color, #fff);
         text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
       }
       .camera-state {

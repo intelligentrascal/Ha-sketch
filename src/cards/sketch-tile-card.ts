@@ -70,7 +70,7 @@ export class SketchTileCard extends BaseSketchCard {
         width: 18px;
         height: 18px;
         border-radius: 50%;
-        background: #fff;
+        background: var(--card-background-color, #fff);
         box-shadow: 0 1px 3px rgba(0,0,0,0.15);
         transition: left 0.2s ease;
       }

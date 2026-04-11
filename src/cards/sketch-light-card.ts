@@ -28,7 +28,7 @@ export class SketchLightCard extends BaseSketchCard {
         transition: color 0.2s ease;
       }
       .light-icon-wrap.on ha-icon {
-        color: var(--sketch-active, #ffc107);
+        color: var(--sketch-active, var(--sketch-primary));
       }
       .light-controls {
         margin-top: 12px;

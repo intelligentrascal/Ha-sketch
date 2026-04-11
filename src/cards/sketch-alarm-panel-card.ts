@@ -42,7 +42,7 @@ export class SketchAlarmPanelCard extends BaseSketchCard {
         background: var(--sketch-danger);
         animation: pulse-alarm 0.5s ease-in-out infinite alternate;
       }
-      .alarm-icon-wrap.triggered ha-icon { color: #fff; }
+      .alarm-icon-wrap.triggered ha-icon { color: var(--text-primary-color, #fff); }
       @keyframes pulse-alarm {
         from { opacity: 0.7; }
         to { opacity: 1; }
