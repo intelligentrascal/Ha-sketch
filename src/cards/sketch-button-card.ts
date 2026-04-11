@@ -104,7 +104,7 @@ export class SketchButtonCard extends BaseSketchCard {
 
     return html`
       <ha-card>
-        ${this.renderSketchBg()}
+        ${this.renderSketchBg(400, 200, !!isActive)}
         <div
           class="sketch-card-content button-wrap ${this._pressing ? 'pressing' : ''}"
           role="button"

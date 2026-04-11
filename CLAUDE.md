@@ -14,7 +14,7 @@
 **Ha-Sketch** is a collection of 21 hand-drawn, sketchbook-style custom cards for Home Assistant dashboards. Inspired by [sketchbook-ui](https://github.com/SarthakRawat-1/sketchbook-ui).
 
 - **Repo**: `intelligentrascal/Ha-sketch` (GitHub)
-- **Version**: 1.3.7
+- **Version**: 1.3.8
 - **Bundle**: `dist/ha-sketchbook-cards.js` (~150 KB, single ES module)
 - **Tech**: Lit 3 + TypeScript, bundled with Rollup, HACS-ready
 
@@ -108,6 +108,13 @@ The `sketchLine()` function splits each edge into segments and displaces midpoin
 --sketch-radius: 12px                                /* inner element corners */
 --sketch-icon-sm/md/lg: 20px / 28px / 44px           /* icon scale */
 ```
+
+### Active State ("Paper Tint")
+When an entity is on/active, the SVG overlay renders:
+- A translucent wash of `--sketch-active` at 10% opacity over the paper background
+- Border strokes colorized with `--sketch-active` (slightly higher opacity)
+- Cards pass `active` boolean to `renderSketchBg(400, 200, isActive)`
+- 12 cards support this: button, entity, light, fan, cover, lock, media-player, tile, sub-button, alarm, thermostat, person
 
 ### Visual Effects
 - `rotate: var(--sketch-card-rotate)` on `ha-card`

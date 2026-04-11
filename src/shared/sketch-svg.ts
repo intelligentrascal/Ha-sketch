@@ -125,6 +125,7 @@ export function renderSketchOverlay(
     seed?: number;
     variant?: 'paper' | 'notebook' | 'sticky';
     cornerRadius?: number;
+    active?: boolean;
   } = {}
 ): string {
   const {
@@ -136,6 +137,7 @@ export function renderSketchOverlay(
     seed = 0,
     variant = 'paper',
     cornerRadius = 14,
+    active = false,
   } = options;
 
   const margin = 6;
@@ -158,6 +160,11 @@ export function renderSketchOverlay(
   const bgPath = sketchRect(0, 0, w, h, seed, 3, margin - 3, cr);
   svg += `<path d="${bgPath}" fill="${bgColor}" />`;
 
+  // Active state tint — watercolor wash of accent color over paper
+  if (active) {
+    svg += `<path d="${bgPath}" fill="var(--sketch-active, var(--sketch-primary, #4a6fa5))" opacity="0.10" />`;
+  }
+
   // Paper grain texture
   if (showTexture) {
     svg += `<rect x="0" y="0" width="${w}" height="${h}" filter="url(#${uid})" opacity="${noiseOpacity}" style="mix-blend-mode:multiply" />`;
@@ -171,14 +178,18 @@ export function renderSketchOverlay(
   }
 
   // --- Hand-drawn double border ---
+  const borderColor = active
+    ? 'var(--sketch-active, var(--sketch-primary, #4a6fa5))'
+    : strokeColor;
+
   if (showBorder) {
     // Primary stroke — visible hand-drawn border with rounded corners
     const bd1 = sketchRect(0, 0, w, h, seed, 5, margin, cr);
-    svg += `<path d="${bd1}" fill="none" stroke="${strokeColor}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.65" />`;
+    svg += `<path d="${bd1}" fill="none" stroke="${borderColor}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" opacity="${active ? '0.75' : '0.65'}" />`;
 
     // Secondary stroke — offset, thinner, for "overdrawn pencil" look
     const bd2 = sketchRect(0, 0, w, h, seed + 17, 4, margin + 1.8, cr);
-    svg += `<path d="${bd2}" fill="none" stroke="${strokeColor}" stroke-width="1.0" stroke-linecap="round" stroke-linejoin="round" opacity="0.22" />`;
+    svg += `<path d="${bd2}" fill="none" stroke="${borderColor}" stroke-width="1.0" stroke-linecap="round" stroke-linejoin="round" opacity="${active ? '0.30' : '0.22'}" />`;
   }
 
   // --- Corner decorations ---

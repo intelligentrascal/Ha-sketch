@@ -151,7 +151,7 @@ export class SketchMediaPlayerCard extends BaseSketchCard {
 
     return html`
       <ha-card>
-        ${this.renderSketchBg()}
+        ${this.renderSketchBg(400, 200, isPlaying)}
         <div class="sketch-card-content">
           ${showName ? html`<p class="sketch-name">${this.getName()}</p>` : nothing}
           <div class="media-layout" role="button" tabindex="0" aria-label="${this.getName()}" @keydown=${this.handleKeyDown} @pointerdown=${this.handlePointerDown} @pointerup=${this.handlePointerUp} @pointercancel=${this.handlePointerCancel}>

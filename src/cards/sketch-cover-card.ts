@@ -133,7 +133,7 @@ export class SketchCoverCard extends BaseSketchCard {
 
     return html`
       <ha-card>
-        ${this.renderSketchBg()}
+        ${this.renderSketchBg(400, 200, isOpen)}
         <div class="sketch-card-content">
           <div class="cover-header" role="button" tabindex="0" aria-label="${this.getName()}" @keydown=${this.handleKeyDown} @pointerdown=${this.handlePointerDown} @pointerup=${this.handlePointerUp} @pointercancel=${this.handlePointerCancel}>
             ${showIcon

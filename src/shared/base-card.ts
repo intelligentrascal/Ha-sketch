@@ -33,7 +33,7 @@ export abstract class BaseSketchCard extends LitElement {
   }
 
   /** Render the sketch SVG background overlay inside ha-card. Call in each card's render(). */
-  protected renderSketchBg(width = 400, height = 200) {
+  protected renderSketchBg(width = 400, height = 200, active = false) {
     const config = this._config as any;
     // Generate a richer seed from the entity ID for more variety between cards
     let seed = 0;
@@ -48,6 +48,7 @@ export abstract class BaseSketchCard extends LitElement {
       showTexture: config?.show_texture !== false,
       variant: config?.variant || 'paper',
       cornerRadius: config?.corner_radius ?? 14,
+      active,
       seed,
     }))}`;
   }

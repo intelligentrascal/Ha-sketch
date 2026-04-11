@@ -40,6 +40,7 @@ All cards feature the sketchbook-ui aesthetic:
 - **Clean icons** — icons render without borders or backgrounds, state indicated by color change
 - **Rotation + drop-shadows** — slight tilt with stacked shadows for depth
 - **Hover lift** — cards lift and rotate on hover with stronger shadows
+- **Active state tint** — cards with entities that are on/active get a subtle watercolor wash of the accent color on the paper background, with colored SVG borders
 - **Dark mode support** — auto-detects `hass.themes.darkMode` and adjusts shadow depth and colors
 - **Card variants** — paper (default), notebook (ruled lines + red margin), sticky note (tape strip)
 - Fully respects HA theme variables (`--ha-card-background`, `--primary-text-color`, etc.)
