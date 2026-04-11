@@ -1,5 +1,14 @@
 # Ha-Sketch — Project Context for Continuation
 
+## Rules
+
+- **Always update documentation**: Every code change MUST include corresponding updates to `README.md` and `CLAUDE.md`. Never skip documentation — it is a mandatory part of every commit.
+- **README.md**: User-facing docs — card list, config options, CSS vars, design description, troubleshooting.
+- **CLAUDE.md**: Developer context — architecture, design system details, file inventory, version, completed features.
+- When adding/removing cards, features, config options, or visual changes: update both files in the same commit.
+
+---
+
 ## What This Is
 
 **Ha-Sketch** is a collection of 21 hand-drawn, sketchbook-style custom cards for Home Assistant dashboards. Inspired by [sketchbook-ui](https://github.com/SarthakRawat-1/sketchbook-ui).
@@ -73,14 +82,15 @@ tests/
 
 Every entity card renders an SVG overlay inside `<ha-card>` via `renderSketchBg()`:
 
-1. **Background fill** — hand-drawn rectangle path via `sketchRect()` with 3px wobble
+1. **Background fill** — hand-drawn rounded rectangle path via `sketchRect()` with 3px wobble and 14px corner radius (quadratic bezier curves at corners)
 2. **Paper texture** — `feTurbulence` fractal noise filter at 8% opacity (`mix-blend-mode: multiply`)
-3. **Double-stroke border** — two `sketchRect()` paths with different seeds (5px and 4px wobble), creating an "overdrawn pencil" effect
+3. **Double-stroke border** — two `sketchRect()` paths with different seeds (5px and 4px wobble), creating an "overdrawn pencil" effect, both with rounded corners
 4. **Corner doodles** — cross mark (top-left) and circle with incomplete arc (bottom-right)
 5. **Paper fold** — triangular fold with diagonal line (top-right)
 6. **Card variants** — `paper` (default), `notebook` (ruled lines + red margin + ring holes), `sticky` (tape strip)
+7. **Icon backgrounds** — icons use a subtle filled background circle/shape (no dashed borders)
 
-The `sketchLine()` function splits each edge into segments and displaces midpoints perpendicular to the line direction using a seeded PRNG. Default wobble is 4-5px on a 400x200 viewBox.
+The `sketchLine()` function splits each edge into segments and displaces midpoints perpendicular to the line direction using a seeded PRNG. Default wobble is 4-5px on a 400x200 viewBox. The `sketchRect()` function supports a `cornerRadius` parameter that draws Q (quadratic bezier) curves at each corner with slight wobble for a natural hand-drawn rounded look.
 
 ### CSS Custom Properties (defined in `styles.ts`)
 ```css
@@ -95,6 +105,7 @@ The `sketchLine()` function splits each edge into segments and displaces midpoin
 --sketch-card-rotate: -0.5deg                        /* card tilt */
 --sketch-card-bg: var(--sketch-bg)                   /* SVG bg fill */
 --sketch-border-color: var(--sketch-border)          /* SVG border stroke */
+--sketch-radius: 12px                                /* inner element corners */
 --sketch-icon-sm/md/lg: 20px / 28px / 44px           /* icon scale */
 ```
 
@@ -102,7 +113,7 @@ The `sketchLine()` function splits each edge into segments and displaces midpoin
 - `rotate: var(--sketch-card-rotate)` on `ha-card`
 - Stacked drop-shadows (deeper in dark mode via `:host(.dark-mode)`)
 - Hover: `translate(-2px,-2px) rotate(-1.5deg)` + `saturate(1.1)`
-- SVG hand-drawn borders via `sketchRect()` with double-stroke overlay
+- SVG hand-drawn rounded borders via `sketchRect()` with double-stroke overlay and Q-curve corners
 - Corner doodles via SVG cross marks and circles
 - Paper texture via `feTurbulence` noise filter
 - Caveat + Patrick Hand fonts injected into `document.head`

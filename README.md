@@ -32,10 +32,12 @@ Hand-drawn, sketchbook-style custom cards for Home Assistant dashboards. Inspire
 
 All cards feature the sketchbook-ui aesthetic:
 - **Caveat + Patrick Hand** handwriting fonts
-- **SVG hand-drawn borders** — wobbly double-stroke borders with unique wobble per entity (seeded PRNG)
+- **SVG hand-drawn borders** — wobbly double-stroke rounded borders with unique wobble per entity (seeded PRNG)
+- **Rounded corners** — SVG borders use quadratic bezier curves at corners for a smooth, natural hand-drawn look
 - **Paper texture** — feTurbulence noise grain overlay for a real paper feel
 - **Corner doodles** — cross mark (top-left) and circle sketch (bottom-right) on every card
 - **Paper fold** — subtle folded corner detail (top-right)
+- **Soft icon backgrounds** — icons sit on a subtle filled circle, no harsh outlines
 - **Rotation + drop-shadows** — slight tilt with stacked shadows for depth
 - **Hover lift** — cards lift and rotate on hover with stronger shadows
 - **Dark mode support** — auto-detects `hass.themes.darkMode` and adjusts shadow depth and colors
@@ -333,7 +335,7 @@ card_mod:
       --sketch-border-color: #888;         /* custom border color */
       --sketch-card-bg: #f0f0f0;           /* custom background */
       --sketch-corner-opacity: 0;          /* hide corner marks */
-      --sketch-radius: 8px;                /* rounder corners */
+      --sketch-radius: 16px;               /* rounder corners */
     }
 ```
 
@@ -346,7 +348,7 @@ Card borders are drawn via SVG (not CSS borders), so `show_border` in the card c
 | `--sketch-card-rotate` | `-0.5deg` | Card rotation. Set `0deg` for straight cards |
 | `--sketch-card-bg` | theme card bg | Card background fill color (SVG) |
 | `--sketch-border-color` | theme text | SVG border stroke color |
-| `--sketch-radius` | `2px` | Border radius for inner elements |
+| `--sketch-radius` | `12px` | Border radius for inner elements |
 | `--sketch-ink` | theme text | Primary text color |
 | `--sketch-ink-muted` | theme secondary | Muted text color |
 | `--sketch-primary` | theme primary | Accent color (icons, sliders, active states) |
