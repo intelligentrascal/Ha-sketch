@@ -50,10 +50,10 @@ export class SketchTileCard extends BaseSketchCard {
         flex-shrink: 0;
       }
       .tile-toggle {
-        width: 38px;
-        height: 20px;
-        border-radius: 10px;
-        border: 1.5px solid var(--sketch-border);
+        width: 40px;
+        height: 22px;
+        border-radius: 12px;
+        border: none;
         background: var(--sketch-ink-light);
         position: relative;
         cursor: pointer;
@@ -62,22 +62,20 @@ export class SketchTileCard extends BaseSketchCard {
       }
       .tile-toggle.on {
         background: var(--sketch-primary);
-        border-color: var(--sketch-primary);
       }
       .tile-toggle-knob {
         position: absolute;
-        top: 1px;
-        left: 1px;
-        width: 16px;
-        height: 16px;
+        top: 2px;
+        left: 2px;
+        width: 18px;
+        height: 18px;
         border-radius: 50%;
         background: #fff;
-        border: 1px solid var(--sketch-ink-light);
+        box-shadow: 0 1px 3px rgba(0,0,0,0.15);
         transition: left 0.2s ease;
       }
       .tile-toggle.on .tile-toggle-knob {
-        left: 17px;
-        border-color: var(--sketch-primary);
+        left: 20px;
       }
     `,
   ];

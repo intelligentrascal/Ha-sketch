@@ -13,6 +13,7 @@ export class SketchSeparatorCard extends LitElement {
     css`
       :host {
         display: block;
+        overflow: hidden;
       }
       ha-card {
         background: transparent;
@@ -21,7 +22,9 @@ export class SketchSeparatorCard extends LitElement {
         box-shadow: none;
         filter: none;
         rotate: 0deg;
-        overflow: visible;
+        overflow: hidden;
+        animation: none;
+        min-height: 0;
       }
       ha-card:hover {
         transform: none;
@@ -30,13 +33,15 @@ export class SketchSeparatorCard extends LitElement {
       .separator-wrap {
         display: flex;
         align-items: center;
-        padding: 8px 0;
+        padding: 8px 4px;
         gap: 10px;
+        overflow: hidden;
       }
       .separator-line {
         flex: 1;
+        min-width: 0;
         height: 8px;
-        overflow: visible;
+        overflow: hidden;
       }
       .wavy-line {
         stroke: var(--sketch-ink-muted, rgba(42, 42, 42, 0.35));

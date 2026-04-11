@@ -26,8 +26,12 @@ export class SketchSubButtonCard extends BaseSketchCard {
         justify-content: center;
         flex-shrink: 0;
       }
+      .primary-icon-wrap ha-icon {
+        color: var(--sketch-ink-muted);
+        transition: color 0.2s ease;
+      }
       .primary-icon-wrap.on ha-icon {
-        color: var(--sketch-primary);
+        color: var(--sketch-active, var(--sketch-primary));
       }
       .expand-chevron {
         --mdc-icon-size: 20px;

@@ -22,6 +22,10 @@ export class SketchLockCard extends BaseSketchCard {
         align-items: center;
         justify-content: center;
       }
+      .lock-icon-wrap ha-icon {
+        color: var(--sketch-ink-muted);
+        transition: color 0.2s ease;
+      }
       .lock-icon-wrap.locked ha-icon { color: var(--sketch-success); }
       .lock-icon-wrap.unlocked ha-icon { color: var(--sketch-warning); }
       .lock-controls {

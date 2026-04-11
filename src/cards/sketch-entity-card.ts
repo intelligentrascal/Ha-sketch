@@ -24,6 +24,12 @@ export class SketchEntityCard extends BaseSketchCard {
         justify-content: center;
         flex-shrink: 0;
       }
+      .entity-icon-wrap ha-icon {
+        color: var(--sketch-ink-muted);
+      }
+      .entity-icon-wrap.on ha-icon {
+        color: var(--sketch-active, var(--sketch-primary));
+      }
       .entity-info {
         flex: 1;
         min-width: 0;
@@ -80,7 +86,7 @@ export class SketchEntityCard extends BaseSketchCard {
           <div class="entity-row" role="button" tabindex="0" aria-label="${this.getName()}" @keydown=${this.handleKeyDown} @pointerdown=${this.handlePointerDown} @pointerup=${this.handlePointerUp} @pointercancel=${this.handlePointerCancel}>
             ${showIcon
               ? html`
-                  <div class="entity-icon-wrap">
+                  <div class="entity-icon-wrap ${isOn ? 'on' : ''}">
                     <ha-icon class="sketch-icon" .icon=${icon}></ha-icon>
                   </div>
                 `

@@ -25,8 +25,12 @@ export class SketchCoverCard extends BaseSketchCard {
         position: relative;
         overflow: hidden;
       }
+      .cover-icon-wrap ha-icon {
+        color: var(--sketch-ink-muted);
+        transition: color 0.2s ease;
+      }
       .cover-icon-wrap.open ha-icon {
-        color: var(--sketch-success);
+        color: var(--sketch-active, var(--sketch-success));
       }
       .cover-fill {
         position: absolute;

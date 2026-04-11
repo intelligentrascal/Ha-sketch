@@ -33,11 +33,13 @@ export class SketchButtonCard extends BaseSketchCard {
         align-items: center;
         justify-content: center;
         margin-bottom: 8px;
-        border-radius: 50%;
+      }
+      .button-icon-wrap ha-icon {
+        color: var(--sketch-ink-muted);
         transition: color 0.2s ease;
       }
       .button-icon-wrap.active ha-icon {
-        color: var(--sketch-primary);
+        color: var(--sketch-active, var(--sketch-primary));
       }
       .button-icon-wrap.active ha-icon {
         color: #fff;

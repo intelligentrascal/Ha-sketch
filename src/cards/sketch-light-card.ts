@@ -23,8 +23,12 @@ export class SketchLightCard extends BaseSketchCard {
         align-items: center;
         justify-content: center;
       }
+      .light-icon-wrap ha-icon {
+        color: var(--sketch-ink-muted);
+        transition: color 0.2s ease;
+      }
       .light-icon-wrap.on ha-icon {
-        color: #ffc107;
+        color: var(--sketch-active, #ffc107);
       }
       .light-controls {
         margin-top: 12px;

@@ -22,6 +22,10 @@ export class SketchThermostatCard extends BaseSketchCard {
         align-items: center;
         justify-content: center;
       }
+      .thermo-icon-wrap ha-icon {
+        color: var(--sketch-ink-muted);
+        transition: color 0.2s ease;
+      }
       .thermo-icon-wrap.heating ha-icon { color: var(--sketch-danger); }
       .thermo-icon-wrap.cooling ha-icon { color: var(--sketch-primary); }
       .thermo-temp-display {
