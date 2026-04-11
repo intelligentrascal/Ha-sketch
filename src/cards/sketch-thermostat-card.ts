@@ -21,16 +21,8 @@ export class SketchThermostatCard extends BaseSketchCard {
         display: flex;
         align-items: center;
         justify-content: center;
-        background: var(--sketch-hover-bg);
-        border-radius: 50%;
-      }
-      .thermo-icon-wrap.heating {
-        background: rgba(244, 67, 54, 0.15);
       }
       .thermo-icon-wrap.heating ha-icon { color: var(--sketch-danger); }
-      .thermo-icon-wrap.cooling {
-        background: rgba(74, 111, 165, 0.15);
-      }
       .thermo-icon-wrap.cooling ha-icon { color: var(--sketch-primary); }
       .thermo-temp-display {
         text-align: center;

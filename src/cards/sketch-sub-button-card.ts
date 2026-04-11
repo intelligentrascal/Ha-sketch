@@ -24,12 +24,10 @@ export class SketchSubButtonCard extends BaseSketchCard {
         display: flex;
         align-items: center;
         justify-content: center;
-        background: var(--sketch-hover-bg);
-        border-radius: 50%;
         flex-shrink: 0;
       }
-      .primary-icon-wrap.on {
-        background: rgba(74, 111, 165, 0.15);
+      .primary-icon-wrap.on ha-icon {
+        color: var(--sketch-primary);
       }
       .expand-chevron {
         --mdc-icon-size: 20px;

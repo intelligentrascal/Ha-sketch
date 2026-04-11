@@ -22,12 +22,6 @@ export class SketchLightCard extends BaseSketchCard {
         display: flex;
         align-items: center;
         justify-content: center;
-        background: var(--sketch-hover-bg);
-        border-radius: 50%;
-        transition: background 0.3s ease;
-      }
-      .light-icon-wrap.on {
-        background: rgba(255, 193, 7, 0.2);
       }
       .light-icon-wrap.on ha-icon {
         color: #ffc107;

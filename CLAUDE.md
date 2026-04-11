@@ -82,15 +82,15 @@ tests/
 
 Every entity card renders an SVG overlay inside `<ha-card>` via `renderSketchBg()`:
 
-1. **Background fill** — hand-drawn rounded rectangle path via `sketchRect()` with 3px wobble and 14px corner radius (quadratic bezier curves at corners)
+1. **Background fill** — hand-drawn rounded rectangle path via `sketchRect()` with 3px wobble and configurable corner radius (default 14, range 0–30, quadratic bezier curves at corners)
 2. **Paper texture** — `feTurbulence` fractal noise filter at 8% opacity (`mix-blend-mode: multiply`)
 3. **Double-stroke border** — two `sketchRect()` paths with different seeds (5px and 4px wobble), creating an "overdrawn pencil" effect, both with rounded corners
 4. **Corner doodles** — cross mark (top-left) and circle with incomplete arc (bottom-right)
 5. **Paper fold** — triangular fold with diagonal line (top-right)
 6. **Card variants** — `paper` (default), `notebook` (ruled lines + red margin + ring holes), `sticky` (tape strip)
-7. **Icon backgrounds** — icons use a subtle filled background circle/shape (no dashed borders)
+7. **Clean icons** — icon wrappers have no borders or backgrounds; active state uses icon color change only
 
-The `sketchLine()` function splits each edge into segments and displaces midpoints perpendicular to the line direction using a seeded PRNG. Default wobble is 4-5px on a 400x200 viewBox. The `sketchRect()` function supports a `cornerRadius` parameter that draws Q (quadratic bezier) curves at each corner with slight wobble for a natural hand-drawn rounded look.
+The `sketchLine()` function splits each edge into segments and displaces midpoints perpendicular to the line direction using a seeded PRNG. Default wobble is 4-5px on a 400x200 viewBox. The `sketchRect()` function supports a `cornerRadius` parameter (configurable via `corner_radius` in card config, 0–30 slider in editor) that draws Q (quadratic bezier) curves at each corner with slight wobble for a natural hand-drawn rounded look.
 
 ### CSS Custom Properties (defined in `styles.ts`)
 ```css

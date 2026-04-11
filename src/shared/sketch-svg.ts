@@ -124,6 +124,7 @@ export function renderSketchOverlay(
     noiseOpacity?: number;
     seed?: number;
     variant?: 'paper' | 'notebook' | 'sticky';
+    cornerRadius?: number;
   } = {}
 ): string {
   const {
@@ -134,10 +135,11 @@ export function renderSketchOverlay(
     noiseOpacity = 0.08,
     seed = 0,
     variant = 'paper',
+    cornerRadius = 14,
   } = options;
 
   const margin = 6;
-  const cr = 14; // corner radius in viewBox units (~12px rendered)
+  const cr = cornerRadius;
   const uid = `sn${seed}${Math.floor(seededRandom(seed, 999) * 10000)}`;
 
   let svg = `<svg class="sketch-bg-svg" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">`;

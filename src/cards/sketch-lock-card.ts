@@ -21,17 +21,8 @@ export class SketchLockCard extends BaseSketchCard {
         display: flex;
         align-items: center;
         justify-content: center;
-        background: var(--sketch-hover-bg);
-        border-radius: 50%;
-        transition: background 0.3s ease;
-      }
-      .lock-icon-wrap.locked {
-        background: rgba(76, 175, 80, 0.15);
       }
       .lock-icon-wrap.locked ha-icon { color: var(--sketch-success); }
-      .lock-icon-wrap.unlocked {
-        background: rgba(255, 152, 0, 0.15);
-      }
       .lock-icon-wrap.unlocked ha-icon { color: var(--sketch-warning); }
       .lock-controls {
         display: flex;

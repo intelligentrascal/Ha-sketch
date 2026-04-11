@@ -25,8 +25,6 @@ export class SketchSensorCard extends BaseSketchCard {
         display: flex;
         align-items: center;
         justify-content: center;
-        background: var(--sketch-hover-bg);
-        border-radius: 50%;
         flex-shrink: 0;
       }
       .sensor-value-row {

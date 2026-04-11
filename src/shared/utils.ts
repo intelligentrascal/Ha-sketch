@@ -10,6 +10,8 @@ export function applyAppearance(el: HTMLElement, config: any): void {
   else el.style.removeProperty('--sketch-border-color');
   if (config?.card_rotation) el.style.setProperty('--sketch-card-rotate', config.card_rotation);
   else el.style.removeProperty('--sketch-card-rotate');
+  if (config?.corner_radius != null) el.style.setProperty('--sketch-radius', `${config.corner_radius}px`);
+  else el.style.removeProperty('--sketch-radius');
 }
 
 export function stateIcon(entity: HassEntity): string {

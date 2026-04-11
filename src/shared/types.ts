@@ -44,6 +44,7 @@ export interface CardConfig {
   card_background?: string;
   border_color?: string;
   card_rotation?: string;
+  corner_radius?: number;
   show_border?: boolean;
   show_texture?: boolean;
   variant?: 'paper' | 'notebook' | 'sticky';

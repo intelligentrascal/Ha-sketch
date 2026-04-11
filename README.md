@@ -33,11 +33,11 @@ Hand-drawn, sketchbook-style custom cards for Home Assistant dashboards. Inspire
 All cards feature the sketchbook-ui aesthetic:
 - **Caveat + Patrick Hand** handwriting fonts
 - **SVG hand-drawn borders** — wobbly double-stroke rounded borders with unique wobble per entity (seeded PRNG)
-- **Rounded corners** — SVG borders use quadratic bezier curves at corners for a smooth, natural hand-drawn look
+- **Configurable rounded corners** — SVG borders use quadratic bezier curves with adjustable radius (0–30px via editor slider or YAML)
 - **Paper texture** — feTurbulence noise grain overlay for a real paper feel
 - **Corner doodles** — cross mark (top-left) and circle sketch (bottom-right) on every card
 - **Paper fold** — subtle folded corner detail (top-right)
-- **Soft icon backgrounds** — icons sit on a subtle filled circle, no harsh outlines
+- **Clean icons** — icons render without borders or backgrounds, state indicated by color change
 - **Rotation + drop-shadows** — slight tilt with stacked shadows for depth
 - **Hover lift** — cards lift and rotate on hover with stronger shadows
 - **Dark mode support** — auto-detects `hass.themes.darkMode` and adjusts shadow depth and colors
@@ -304,6 +304,7 @@ show_slider: true
 | `card_background` | string | theme card bg | Card background color |
 | `border_color` | string | theme text | SVG border stroke color |
 | `card_rotation` | string | `-0.5deg` | Card tilt (e.g. `0deg`, `-1deg`) |
+| `corner_radius` | number | `14` | Corner roundness (0 = sharp, 30 = very round) |
 | `show_border` | boolean | `true` | Show hand-drawn SVG borders |
 | `show_texture` | boolean | `true` | Show paper grain noise texture |
 | `variant` | string | `paper` | Card style: `paper`, `notebook`, or `sticky` |

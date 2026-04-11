@@ -87,6 +87,7 @@ export abstract class BaseSketchEditor extends LitElement {
       card_background: 'Card Background',
       border_color: 'Border Color',
       card_rotation: 'Rotation (e.g. -1deg, 0deg)',
+      corner_radius: 'Corner Roundness',
       show_border: 'Show Border',
       show_texture: 'Show Paper Texture',
       variant: 'Card Style',
@@ -169,6 +170,18 @@ export function appearanceSchema(): any[] {
           },
         },
         { name: 'card_rotation', selector: { text: {} } },
+        {
+          name: 'corner_radius',
+          selector: {
+            number: {
+              min: 0,
+              max: 30,
+              step: 1,
+              mode: 'slider',
+              unit_of_measurement: 'px',
+            },
+          },
+        },
         { name: 'show_border', selector: { boolean: {} } },
         { name: 'show_texture', selector: { boolean: {} } },
       ],

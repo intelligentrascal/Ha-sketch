@@ -22,12 +22,9 @@ export class SketchFanCard extends BaseSketchCard {
         display: flex;
         align-items: center;
         justify-content: center;
-        background: var(--sketch-hover-bg);
-        border-radius: 50%;
-        transition: background 0.3s ease;
       }
-      .fan-icon-wrap.on {
-        background: rgba(74, 111, 165, 0.15);
+      .fan-icon-wrap.on ha-icon {
+        color: var(--sketch-active);
       }
       .fan-icon-wrap.on ha-icon {
         color: var(--sketch-active);
