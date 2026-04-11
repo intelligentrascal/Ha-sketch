@@ -16,8 +16,9 @@ export class SketchCameraCard extends BaseSketchCard {
     css`
       .camera-wrap {
         position: relative;
+        z-index: 1;
         overflow: hidden;
-        border-radius: var(--sketch-radius, 2px);
+        border-radius: var(--sketch-radius, 12px);
       }
       .camera-img {
         width: 100%;

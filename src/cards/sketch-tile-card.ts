@@ -20,6 +20,8 @@ export class SketchTileCard extends BaseSketchCard {
         padding: 10px 14px;
         cursor: pointer;
         min-height: 36px;
+        position: relative;
+        z-index: 1;
       }
       .tile-icon {
         --mdc-icon-size: 22px;
