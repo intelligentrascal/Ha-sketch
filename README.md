@@ -27,6 +27,13 @@ Hand-drawn, sketchbook-style custom cards for Home Assistant dashboards. Inspire
 | **Fan Card** | `sketch-fan-card` | Fan speed control with on/off toggle |
 | **Lock Card** | `sketch-lock-card` | Lock/unlock with optional keypad |
 | **Number Card** | `sketch-number-card` | Input number/slider for adjustable values |
+| **Template Card** | `sketch-template-card` | Dynamic content with Jinja2 templates for text, icons, colors |
+| **History Graph Card** | `sketch-history-graph-card` | Mini graph with color thresholds and configurable time range |
+| **Room Card** | `sketch-room-card` | Room summary with occupancy and sensor readouts |
+| **Select Card** | `sketch-select-card` | Dropdown picker for input_select and select entities |
+| **Progress Card** | `sketch-progress-card` | Radial progress ring with hand-drawn wobble |
+| **Timeline Card** | `sketch-timeline-card` | Hand-drawn activity journal of recent entity events |
+| **TOG Card** | `sketch-tog-card` | Baby sleep TOG recommendation with clothing illustrations |
 
 ## Design
 

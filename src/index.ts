@@ -21,6 +21,13 @@ import './cards/sketch-separator-card';
 import './cards/sketch-fan-card';
 import './cards/sketch-lock-card';
 import './cards/sketch-number-card';
+import './cards/sketch-template-card';
+import './cards/sketch-history-graph-card';
+import './cards/sketch-room-card';
+import './cards/sketch-select-card';
+import './cards/sketch-progress-card';
+import './cards/sketch-timeline-card';
+import './cards/sketch-tog-card';
 
 declare global {
   interface Window {
@@ -155,10 +162,52 @@ window.customCards.push(
     name: 'Sketch Number Card',
     description: 'Input number or number entity with value slider',
     preview: true,
+  },
+  {
+    type: 'sketch-template-card',
+    name: 'Sketch Template Card',
+    description: 'Dynamic content card with Jinja2 templates for text, icons, and colors',
+    preview: true,
+  },
+  {
+    type: 'sketch-history-graph-card',
+    name: 'Sketch History Graph Card',
+    description: 'Mini graph with color thresholds, configurable time range, and fill modes',
+    preview: true,
+  },
+  {
+    type: 'sketch-room-card',
+    name: 'Sketch Room Card',
+    description: 'Room summary with occupancy indicator and sensor readouts',
+    preview: true,
+  },
+  {
+    type: 'sketch-select-card',
+    name: 'Sketch Select Card',
+    description: 'Dropdown picker for input_select and select entities',
+    preview: true,
+  },
+  {
+    type: 'sketch-progress-card',
+    name: 'Sketch Progress Card',
+    description: 'Radial progress ring with hand-drawn wobble for goals and tracking',
+    preview: true,
+  },
+  {
+    type: 'sketch-timeline-card',
+    name: 'Sketch Timeline Card',
+    description: 'Hand-drawn activity journal showing recent entity events',
+    preview: true,
+  },
+  {
+    type: 'sketch-tog-card',
+    name: 'Sketch TOG Card',
+    description: 'Baby sleep TOG recommendation with temperature strip and clothing guide',
+    preview: true,
   }
 );
 
-const VERSION = '1.3.12';
+const VERSION = '1.4.0';
 console.info(
   `%c SKETCH-CARDS %c v${VERSION} `,
   'background:#faf7f0;color:#2a2a2a;font-weight:bold;font-family:cursive;padding:2px 6px;border:1px solid #2a2a2a;border-radius:2px;',

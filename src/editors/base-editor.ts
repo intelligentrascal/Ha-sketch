@@ -91,6 +91,28 @@ export abstract class BaseSketchEditor extends LitElement {
       show_border: 'Show Border',
       show_texture: 'Show Paper Texture',
       variant: 'Card Style',
+      /* Template card */
+      primary: 'Primary Text (template)',
+      secondary: 'Secondary Text (template)',
+      icon_color: 'Icon Color',
+      layout: 'Layout',
+      multiline_secondary: 'Multiline Secondary',
+      badge_icon: 'Badge Icon',
+      badge_color: 'Badge Color',
+      /* History graph card */
+      hours_to_show: 'Hours to Show',
+      line_width: 'Line Width',
+      fill: 'Fill Mode',
+      show_labels: 'Show Labels',
+      /* Room card */
+      sub_entities: 'Sub-Entities',
+      /* Progress card */
+      max: 'Maximum Value',
+      /* Timeline card */
+      max_entries: 'Max Entries',
+      /* TOG card */
+      temperature_entity: 'Temperature Sensor',
+      room_select_entity: 'Room Selector (input_select)',
     };
     return labels[schema.name] || schema.name;
   };

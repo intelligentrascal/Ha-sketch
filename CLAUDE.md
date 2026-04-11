@@ -11,10 +11,10 @@
 
 ## What This Is
 
-**Ha-Sketch** is a collection of 21 hand-drawn, sketchbook-style custom cards for Home Assistant dashboards. Inspired by [sketchbook-ui](https://github.com/SarthakRawat-1/sketchbook-ui).
+**Ha-Sketch** is a collection of 28 hand-drawn, sketchbook-style custom cards for Home Assistant dashboards. Inspired by [sketchbook-ui](https://github.com/SarthakRawat-1/sketchbook-ui).
 
 - **Repo**: `intelligentrascal/Ha-sketch` (GitHub)
-- **Version**: 1.3.12
+- **Version**: 1.4.0
 - **Bundle**: `dist/ha-sketchbook-cards.js` (~150 KB, single ES module)
 - **Tech**: Lit 3 + TypeScript, bundled with Rollup, HACS-ready
 
@@ -54,10 +54,17 @@ src/
 │   ├── sketch-separator-card.ts
 │   ├── sketch-fan-card.ts
 │   ├── sketch-lock-card.ts
-│   └── sketch-number-card.ts
+│   ├── sketch-number-card.ts
+│   ├── sketch-template-card.ts
+│   ├── sketch-history-graph-card.ts
+│   ├── sketch-room-card.ts
+│   ├── sketch-select-card.ts
+│   ├── sketch-progress-card.ts
+│   ├── sketch-timeline-card.ts
+│   └── sketch-tog-card.ts
 ├── editors/
 │   ├── base-editor.ts              # Shared ha-form editor base (entitySchema, appearanceSchema)
-│   └── sketch-*-card-editor.ts     # 21 card editors (one per card)
+│   └── sketch-*-card-editor.ts     # 28 card editors (one per card)
 dist/
 └── ha-sketchbook-cards.js          # Built bundle (committed for HACS)
 tests/
