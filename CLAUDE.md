@@ -188,7 +188,7 @@ All items from the original roadmap (Priorities 1-5) are done:
 - Automation actions (tap, hold 500ms, double-tap 250ms, URL, haptic feedback)
 - Dark mode (CSS vars map to HA theme, `hass.themes.darkMode` detection, adjusted shadows)
 - Unavailable entity handling (dimmed, disabled controls, "Unavailable" label)
-- GitHub Actions CI (build on push, release on tag)
+- GitHub Actions CI (build on push, auto-release on version bump in `package.json`)
 - Real sensor history (recorder/statistics_during_period with fallback)
 - Service call error feedback (red flash animation)
 - Confirmation dialog (`confirmation: true`)
