@@ -6,14 +6,10 @@ export function applyAppearance(el: HTMLElement, config: any): void {
   else el.style.removeProperty('--sketch-primary');
   if (config?.card_background) el.style.setProperty('--sketch-card-bg', config.card_background);
   else el.style.removeProperty('--sketch-card-bg');
-  if (config?.border_style) el.style.setProperty('--sketch-border-style', config.border_style);
-  else el.style.removeProperty('--sketch-border-style');
   if (config?.border_color) el.style.setProperty('--sketch-border-color', config.border_color);
   else el.style.removeProperty('--sketch-border-color');
   if (config?.card_rotation) el.style.setProperty('--sketch-card-rotate', config.card_rotation);
   else el.style.removeProperty('--sketch-card-rotate');
-  if (config?.hide_corners) el.style.setProperty('--sketch-corner-opacity', '0');
-  else el.style.removeProperty('--sketch-corner-opacity');
 }
 
 export function stateIcon(entity: HassEntity): string {

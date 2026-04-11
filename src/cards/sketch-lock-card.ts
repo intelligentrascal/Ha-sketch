@@ -86,6 +86,7 @@ export class SketchLockCard extends BaseSketchCard {
 
     return html`
       <ha-card>
+        ${this.renderSketchBg()}
         <div class="sketch-card-content">
           <div class="lock-header" role="button" tabindex="0" aria-label="${this.getName()}" @keydown=${this.handleKeyDown} @pointerdown=${this.handlePointerDown} @pointerup=${this.handlePointerUp} @pointercancel=${this.handlePointerCancel}>
             ${showIcon

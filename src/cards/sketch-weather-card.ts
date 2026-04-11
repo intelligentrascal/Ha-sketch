@@ -135,6 +135,7 @@ export class SketchWeatherCard extends BaseSketchCard {
 
     return html`
       <ha-card>
+        ${this.renderSketchBg()}
         <div class="sketch-card-content">
           ${showName ? html`<p class="sketch-name" style="margin-bottom:8px">${this.getName()}</p>` : nothing}
           <div class="weather-main" role="button" tabindex="0" aria-label="${this.getName()}" @keydown=${this.handleKeyDown} @pointerdown=${this.handlePointerDown} @pointerup=${this.handlePointerUp} @pointercancel=${this.handlePointerCancel}>

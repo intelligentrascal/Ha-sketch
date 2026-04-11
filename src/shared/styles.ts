@@ -44,15 +44,27 @@ export const sharedStyles = css`
   /* Fonts loaded via <link> tag in document.head (see bottom of this file) */
 
   ha-card {
-    background: var(--sketch-card-bg);
+    background: transparent;
     color: var(--sketch-ink);
     border-radius: var(--sketch-radius);
     rotate: var(--sketch-card-rotate);
     filter: var(--sketch-shadow);
     transition: transform 0.3s ease, filter 0.3s ease;
     overflow: visible;
-    border: var(--sketch-border-width) var(--sketch-border-style) var(--sketch-border-color);
+    border: none;
     position: relative;
+  }
+
+  .sketch-bg-svg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .sketch-card-content {
+    position: relative;
+    z-index: 1;
   }
 
   /* Entrance animation */
@@ -65,8 +77,8 @@ export const sharedStyles = css`
   }
 
   ha-card:hover {
-    transform: translate(-1px, -1px) rotate(-0.8deg);
-    filter: var(--sketch-shadow-hover);
+    transform: translate(-2px, -2px) rotate(-1.5deg);
+    filter: var(--sketch-shadow-hover) saturate(1.1);
   }
 
   .sketch-card-content {
@@ -74,27 +86,7 @@ export const sharedStyles = css`
     position: relative;
   }
 
-  /* Sketch decorative corner marks */
-  .sketch-card-content::before,
-  .sketch-card-content::after {
-    content: '';
-    position: absolute;
-    width: 12px;
-    height: 12px;
-    border-color: var(--sketch-ink-muted);
-    border-style: solid;
-    opacity: var(--sketch-corner-opacity);
-  }
-  .sketch-card-content::before {
-    top: 4px;
-    left: 4px;
-    border-width: var(--sketch-border-width) 0 0 var(--sketch-border-width);
-  }
-  .sketch-card-content::after {
-    bottom: 4px;
-    right: 4px;
-    border-width: 0 var(--sketch-border-width) var(--sketch-border-width) 0;
-  }
+  /* Corner marks now rendered as SVG doodles inside sketch-bg-svg */
 
   .sketch-name {
     font-family: var(--sketch-font);

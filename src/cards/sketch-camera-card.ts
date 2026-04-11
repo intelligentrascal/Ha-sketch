@@ -181,6 +181,7 @@ export class SketchCameraCard extends BaseSketchCard {
 
     return html`
       <ha-card>
+        ${this.renderSketchBg()}
         <div class="camera-wrap">
           <div class="tape-corner tl"></div>
           <div class="tape-corner tr"></div>

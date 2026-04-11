@@ -86,9 +86,10 @@ export abstract class BaseSketchEditor extends LitElement {
       color: 'Accent Color',
       card_background: 'Card Background',
       border_color: 'Border Color',
-      border_style: 'Border Style',
       card_rotation: 'Rotation (e.g. -1deg, 0deg)',
-      hide_corners: 'Hide Corner Marks',
+      show_border: 'Show Border',
+      show_texture: 'Show Paper Texture',
+      variant: 'Card Style',
     };
     return labels[schema.name] || schema.name;
   };
@@ -155,21 +156,21 @@ export function appearanceSchema(): any[] {
         },
         { name: 'border_color', selector: { ui_color: {} } },
         {
-          name: 'border_style',
+          name: 'variant',
           selector: {
             select: {
               options: [
-                { value: 'dashed', label: 'Dashed (default)' },
-                { value: 'solid', label: 'Solid' },
-                { value: 'dotted', label: 'Dotted' },
-                { value: 'none', label: 'None' },
+                { value: 'paper', label: 'Paper (default)' },
+                { value: 'notebook', label: 'Notebook' },
+                { value: 'sticky', label: 'Sticky Note' },
               ],
               mode: 'dropdown',
             },
           },
         },
         { name: 'card_rotation', selector: { text: {} } },
-        { name: 'hide_corners', selector: { boolean: {} } },
+        { name: 'show_border', selector: { boolean: {} } },
+        { name: 'show_texture', selector: { boolean: {} } },
       ],
     },
   ];

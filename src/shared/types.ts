@@ -39,13 +39,14 @@ export interface CardConfig {
   tap_action?: ActionConfig;
   hold_action?: ActionConfig;
   double_tap_action?: ActionConfig;
-  /* Appearance overrides — applied as CSS custom properties */
+  /* Appearance overrides */
   color?: string;
   card_background?: string;
-  border_style?: 'dashed' | 'solid' | 'dotted' | 'none';
   border_color?: string;
   card_rotation?: string;
-  hide_corners?: boolean;
+  show_border?: boolean;
+  show_texture?: boolean;
+  variant?: 'paper' | 'notebook' | 'sticky';
 }
 
 export interface ActionConfig {

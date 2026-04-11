@@ -1,8 +1,10 @@
-import { LitElement } from 'lit';
+import { LitElement, html } from 'lit';
 import { property, state } from 'lit/decorators.js';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { sharedStyles } from './styles';
 import type { HomeAssistant, CardConfig, ActionConfig } from './types';
 import { applyAppearance } from './utils';
+import { renderSketchOverlay, renderNotebookLines, renderStickyTape } from './sketch-svg';
 
 /** Dispatch haptic feedback to the HA companion app. */
 function forwardHaptic(type: string): void {
@@ -28,6 +30,17 @@ export abstract class BaseSketchCard extends LitElement {
 
   getCardSize(): number {
     return 3;
+  }
+
+  /** Render the sketch SVG background overlay inside ha-card. Call in each card's render(). */
+  protected renderSketchBg(width = 400, height = 200) {
+    const config = this._config as any;
+    const seed = this._config?.entity ? this._config.entity.charCodeAt(0) : 0;
+    return html`${unsafeHTML(renderSketchOverlay(width, height, {
+      showBorder: config?.show_border !== false,
+      showTexture: config?.show_texture !== false,
+      seed,
+    }))}`;
   }
 
   getLayoutOptions() {
