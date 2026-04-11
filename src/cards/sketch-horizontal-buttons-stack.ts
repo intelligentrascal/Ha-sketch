@@ -110,6 +110,7 @@ export class SketchHorizontalButtonsStack extends LitElement {
       }
       .nav-icon-wrap ha-icon {
         --mdc-icon-size: 20px;
+        color: var(--sketch-ink-muted);
       }
       .nav-label {
         font-family: var(--sketch-font, 'Caveat', cursive);

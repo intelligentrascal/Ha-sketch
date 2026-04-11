@@ -25,11 +25,11 @@ export class SketchTileCard extends BaseSketchCard {
       }
       .tile-icon {
         --mdc-icon-size: 22px;
-        color: var(--sketch-primary);
+        color: var(--sketch-ink-muted);
         flex-shrink: 0;
       }
       .tile-icon.on {
-        color: var(--sketch-success);
+        color: var(--sketch-active, var(--sketch-success));
       }
       .tile-icon.off {
         color: var(--sketch-ink-muted);

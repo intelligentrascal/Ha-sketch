@@ -93,7 +93,7 @@ export class SketchSubButtonCard extends BaseSketchCard {
       }
       .sub-btn ha-icon {
         --mdc-icon-size: 18px;
-        color: var(--sketch-primary);
+        color: var(--sketch-ink-muted);
         flex-shrink: 0;
       }
       .sub-btn-info {

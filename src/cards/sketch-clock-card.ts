@@ -14,7 +14,16 @@ export class SketchClockCard extends LitElement {
   static styles = [
     sharedStyles,
     css`
+      ha-card {
+        rotate: 0deg;
+      }
+      ha-card:hover {
+        transform: none;
+        filter: var(--sketch-shadow);
+      }
       .clock-content {
+        position: relative;
+        z-index: 1;
         display: flex;
         flex-direction: column;
         align-items: center;
