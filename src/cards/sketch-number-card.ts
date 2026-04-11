@@ -21,7 +21,7 @@ export class SketchNumberCard extends BaseSketchCard {
         display: flex;
         align-items: center;
         justify-content: center;
-        border: 1.5px dashed var(--sketch-ink-light);
+        background: var(--sketch-hover-bg);
         border-radius: 50%;
         flex-shrink: 0;
       }

@@ -21,15 +21,14 @@ export class SketchCoverCard extends BaseSketchCard {
         display: flex;
         align-items: center;
         justify-content: center;
-        border: 2px dashed var(--sketch-ink-light);
-        border-radius: 4px;
+        background: var(--sketch-hover-bg);
+        border-radius: 12px;
         flex-shrink: 0;
         position: relative;
         overflow: hidden;
       }
       .cover-icon-wrap.open {
-        border-color: var(--sketch-success);
-        border-style: solid;
+        background: rgba(76, 175, 80, 0.15);
       }
       .cover-fill {
         position: absolute;

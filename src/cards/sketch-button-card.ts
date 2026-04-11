@@ -33,14 +33,12 @@ export class SketchButtonCard extends BaseSketchCard {
         align-items: center;
         justify-content: center;
         margin-bottom: 8px;
-        border: 2px dashed var(--sketch-ink-light);
+        background: var(--sketch-hover-bg);
         border-radius: 50%;
-        transition: background 0.2s ease, border-color 0.2s ease;
+        transition: background 0.2s ease;
       }
       .button-icon-wrap.active {
         background: var(--sketch-primary);
-        border-color: var(--sketch-primary);
-        border-style: solid;
       }
       .button-icon-wrap.active ha-icon {
         color: #fff;

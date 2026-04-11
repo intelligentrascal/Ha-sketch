@@ -54,29 +54,57 @@ function sketchLine(
 /**
  * Generate a complete hand-drawn rectangle path.
  * Each side has independent wobble for natural look.
+ * Supports rounded corners via quadratic bezier curves.
  */
 function sketchRect(
   x: number, y: number,
   w: number, h: number,
   seed: number,
   wobble: number = 5,
-  inset: number = 0
+  inset: number = 0,
+  cornerRadius: number = 0
 ): string {
   const l = x + inset;
   const t = y + inset;
   const r = x + w - inset;
   const b = y + h - inset;
+  const cr = Math.min(cornerRadius, (r - l) / 3, (b - t) / 3);
 
   // Slight offset at corners for imperfect closure
   const co = (i: number) => (seededRandom(seed, i + 50) - 0.5) * wobble * 0.6;
 
-  let path = `M ${(l + co(0)).toFixed(1)} ${(t + co(1)).toFixed(1)} `;
-  path += sketchLine(l + co(0), t + co(1), r + co(2), t + co(3), seed, 0, wobble);
-  path += sketchLine(r + co(2), t + co(3), r + co(4), b + co(5), seed, 1, wobble);
-  path += sketchLine(r + co(4), b + co(5), l + co(6), b + co(7), seed, 2, wobble);
-  path += sketchLine(l + co(6), b + co(7), l + co(0), t + co(1), seed, 3, wobble);
-  path += 'Z';
+  if (cr <= 1) {
+    // No rounding — sharp corners
+    let path = `M ${(l + co(0)).toFixed(1)} ${(t + co(1)).toFixed(1)} `;
+    path += sketchLine(l + co(0), t + co(1), r + co(2), t + co(3), seed, 0, wobble);
+    path += sketchLine(r + co(2), t + co(3), r + co(4), b + co(5), seed, 1, wobble);
+    path += sketchLine(r + co(4), b + co(5), l + co(6), b + co(7), seed, 2, wobble);
+    path += sketchLine(l + co(6), b + co(7), l + co(0), t + co(1), seed, 3, wobble);
+    path += 'Z';
+    return path;
+  }
 
+  // Rounded corners — Q (quadratic bezier) at each corner with slight wobble
+  const cw = (i: number) => (seededRandom(seed, i + 80) - 0.5) * wobble * 0.3;
+
+  let path = `M ${(l + cr + cw(0)).toFixed(1)} ${(t + cw(1)).toFixed(1)} `;
+  // Top edge
+  path += sketchLine(l + cr + cw(0), t + cw(1), r - cr + cw(2), t + cw(3), seed, 0, wobble);
+  // Top-right corner
+  path += `Q ${(r + cw(4)).toFixed(1)} ${(t + cw(5)).toFixed(1)} ${(r + cw(6)).toFixed(1)} ${(t + cr + cw(7)).toFixed(1)} `;
+  // Right edge
+  path += sketchLine(r + cw(6), t + cr + cw(7), r + cw(8), b - cr + cw(9), seed, 1, wobble);
+  // Bottom-right corner
+  path += `Q ${(r + cw(10)).toFixed(1)} ${(b + cw(11)).toFixed(1)} ${(r - cr + cw(12)).toFixed(1)} ${(b + cw(13)).toFixed(1)} `;
+  // Bottom edge
+  path += sketchLine(r - cr + cw(12), b + cw(13), l + cr + cw(14), b + cw(15), seed, 2, wobble);
+  // Bottom-left corner
+  path += `Q ${(l + cw(16)).toFixed(1)} ${(b + cw(17)).toFixed(1)} ${(l + cw(18)).toFixed(1)} ${(b - cr + cw(19)).toFixed(1)} `;
+  // Left edge
+  path += sketchLine(l + cw(18), b - cr + cw(19), l + cw(20), t + cr + cw(21), seed, 3, wobble);
+  // Top-left corner
+  path += `Q ${(l + cw(22)).toFixed(1)} ${(t + cw(23)).toFixed(1)} ${(l + cr + cw(0)).toFixed(1)} ${(t + cw(1)).toFixed(1)} `;
+  path += 'Z';
   return path;
 }
 
@@ -109,6 +137,7 @@ export function renderSketchOverlay(
   } = options;
 
   const margin = 6;
+  const cr = 14; // corner radius in viewBox units (~12px rendered)
   const uid = `sn${seed}${Math.floor(seededRandom(seed, 999) * 10000)}`;
 
   let svg = `<svg class="sketch-bg-svg" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">`;
@@ -123,8 +152,8 @@ export function renderSketchOverlay(
     </defs>`;
   }
 
-  // --- Background fill: hand-drawn rectangle ---
-  const bgPath = sketchRect(0, 0, w, h, seed, 3, margin - 3);
+  // --- Background fill: hand-drawn rounded rectangle ---
+  const bgPath = sketchRect(0, 0, w, h, seed, 3, margin - 3, cr);
   svg += `<path d="${bgPath}" fill="${bgColor}" />`;
 
   // Paper grain texture
@@ -141,12 +170,12 @@ export function renderSketchOverlay(
 
   // --- Hand-drawn double border ---
   if (showBorder) {
-    // Primary stroke — visible hand-drawn border
-    const bd1 = sketchRect(0, 0, w, h, seed, 5, margin);
+    // Primary stroke — visible hand-drawn border with rounded corners
+    const bd1 = sketchRect(0, 0, w, h, seed, 5, margin, cr);
     svg += `<path d="${bd1}" fill="none" stroke="${strokeColor}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.65" />`;
 
     // Secondary stroke — offset, thinner, for "overdrawn pencil" look
-    const bd2 = sketchRect(0, 0, w, h, seed + 17, 4, margin + 1.8);
+    const bd2 = sketchRect(0, 0, w, h, seed + 17, 4, margin + 1.8, cr);
     svg += `<path d="${bd2}" fill="none" stroke="${strokeColor}" stroke-width="1.0" stroke-linecap="round" stroke-linejoin="round" opacity="0.22" />`;
   }
 
@@ -162,9 +191,9 @@ export function renderSketchOverlay(
   // Bottom-right: small circle doodle with incomplete second arc
   const brx = w - margin - 7 + seededRandom(seed, 72) * 2;
   const bry = h - margin - 7 + seededRandom(seed, 73) * 2;
-  const cr = cs * 0.35;
-  svg += `<circle cx="${brx}" cy="${bry}" r="${cr}" fill="none" stroke="${strokeColor}" stroke-width="1.1" opacity="0.28" />`;
-  svg += `<path d="M ${brx - cr * 0.8} ${bry - cr * 0.3} A ${cr} ${cr} 0 0 1 ${brx + cr * 0.5} ${bry + cr * 0.8}" fill="none" stroke="${strokeColor}" stroke-width="0.7" opacity="0.18" />`;
+  const dr = cs * 0.35;
+  svg += `<circle cx="${brx}" cy="${bry}" r="${dr}" fill="none" stroke="${strokeColor}" stroke-width="1.1" opacity="0.28" />`;
+  svg += `<path d="M ${brx - dr * 0.8} ${bry - dr * 0.3} A ${dr} ${dr} 0 0 1 ${brx + dr * 0.5} ${bry + dr * 0.8}" fill="none" stroke="${strokeColor}" stroke-width="0.7" opacity="0.18" />`;
 
   // --- Paper fold corner (top-right) ---
   const fs = Math.min(18, w * 0.045, h * 0.09);

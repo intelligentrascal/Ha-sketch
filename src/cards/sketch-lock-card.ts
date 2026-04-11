@@ -21,20 +21,16 @@ export class SketchLockCard extends BaseSketchCard {
         display: flex;
         align-items: center;
         justify-content: center;
-        border: 2px dashed var(--sketch-ink-light);
+        background: var(--sketch-hover-bg);
         border-radius: 50%;
-        transition: all 0.3s ease;
+        transition: background 0.3s ease;
       }
       .lock-icon-wrap.locked {
-        border-color: var(--sketch-success);
-        border-style: solid;
-        background: rgba(76, 175, 80, 0.1);
+        background: rgba(76, 175, 80, 0.15);
       }
       .lock-icon-wrap.locked ha-icon { color: var(--sketch-success); }
       .lock-icon-wrap.unlocked {
-        border-color: var(--sketch-warning);
-        border-style: solid;
-        background: rgba(255, 152, 0, 0.1);
+        background: rgba(255, 152, 0, 0.15);
       }
       .lock-icon-wrap.unlocked ha-icon { color: var(--sketch-warning); }
       .lock-controls {

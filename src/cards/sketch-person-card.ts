@@ -29,12 +29,11 @@ export class SketchPersonCard extends BaseSketchCard {
         width: 56px;
         height: 56px;
         border-radius: 50%;
-        border: 2.5px dashed var(--sketch-ink-light);
         display: flex;
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
-        background: var(--sketch-bg);
+        background: var(--sketch-hover-bg);
       }
       .person-avatar-placeholder ha-icon {
         --mdc-icon-size: 28px;

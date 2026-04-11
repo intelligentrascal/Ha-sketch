@@ -13,7 +13,7 @@ export const sharedStyles = css`
     --sketch-border: var(--divider-color, #2a2a2a);
     --sketch-font: 'Caveat', cursive;
     --sketch-font-body: 'Patrick Hand', 'Caveat', cursive, var(--paper-font-body1_-_font-family, sans-serif);
-    --sketch-radius: 2px;
+    --sketch-radius: 12px;
     --sketch-shadow: drop-shadow(3px 4px 0px rgba(0, 0, 0, 0.12))
       drop-shadow(5px 7px 8px rgba(0, 0, 0, 0.08));
     --sketch-shadow-hover: drop-shadow(4px 5px 0px rgba(0, 0, 0, 0.15))

@@ -21,19 +21,15 @@ export class SketchThermostatCard extends BaseSketchCard {
         display: flex;
         align-items: center;
         justify-content: center;
-        border: 2px dashed var(--sketch-ink-light);
+        background: var(--sketch-hover-bg);
         border-radius: 50%;
       }
       .thermo-icon-wrap.heating {
-        border-color: var(--sketch-danger);
-        border-style: solid;
-        background: rgba(244, 67, 54, 0.1);
+        background: rgba(244, 67, 54, 0.15);
       }
       .thermo-icon-wrap.heating ha-icon { color: var(--sketch-danger); }
       .thermo-icon-wrap.cooling {
-        border-color: var(--sketch-primary);
-        border-style: solid;
-        background: rgba(74, 111, 165, 0.1);
+        background: rgba(74, 111, 165, 0.15);
       }
       .thermo-icon-wrap.cooling ha-icon { color: var(--sketch-primary); }
       .thermo-temp-display {

@@ -29,8 +29,8 @@ export class SketchMediaPlayerCard extends BaseSketchCard {
         display: flex;
         align-items: center;
         justify-content: center;
-        border: 2px dashed var(--sketch-ink-light);
-        border-radius: 2px;
+        background: var(--sketch-hover-bg);
+        border-radius: 8px;
         flex-shrink: 0;
       }
       .media-info {
