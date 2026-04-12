@@ -16,8 +16,8 @@ const fs = require('fs');
 const path = require('path');
 
 // ── Config ──────────────────────────────────────────────────
-const HA_URL = process.env.HA_URL || 'http://192.168.1.84:8123';
-const HA_TOKEN = process.env.HA_TOKEN || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJkMWRiNjA2MDE2OGY0YTFlYmFkM2QzYjY4ZWNkZjJlYyIsImlhdCI6MTc3NjAwMTM1OCwiZXhwIjoyMDkxMzYxMzU4fQ.YkzIZhcL_mNWXm7E8eu9Ip4FaEIHqMDHhluSgfTRVk4';
+const HA_URL = process.env.HA_URL || 'http://localhost:8123';
+const HA_TOKEN = process.env.HA_TOKEN || '';
 const DASHBOARD_PATH = '/lovelace-sketch-test/0';
 const SCREENSHOT_DIR = path.join(__dirname, '..', 'test-screenshots');
 const TIMEOUT = 15000;
@@ -71,6 +71,13 @@ const CARD_TESTS = [
 
 // ── Main ────────────────────────────────────────────────────
 (async () => {
+  if (!HA_TOKEN) {
+    console.error('❌ Set HA_URL and HA_TOKEN environment variables first:');
+    console.error('   export HA_URL="http://192.168.1.x:8123"');
+    console.error('   export HA_TOKEN="your-long-lived-access-token"');
+    process.exit(1);
+  }
+
   console.log('\n🎨 Ha-sketch Visual Test Suite\n');
   console.log(`Target: ${HA_URL}${DASHBOARD_PATH}\n`);
 
