@@ -8,7 +8,7 @@
     "dev": "rollup -c --watch",
     "test": "node --experimental-vm-modules node_modules/.bin/vitest run",
     "test:watch": "node --experimental-vm-modules node_modules/.bin/vitest",
-    "test:visual": "node tests/visual-test.js"
+    "test:visual": "node --env-file=.env tests/visual-test.js"
   },
   "keywords": [
     "home-assistant",
