@@ -384,6 +384,132 @@ const CARD_TESTS = [
     });
     report('TOG card — expand button works', togExpanded);
 
+    // ── Step 3b: TOG card temperature sweep screenshots ───
+    console.log('\n🌡️  TOG Card — Temperature sweep screenshots:\n');
+
+    const togTemps = [
+      { temp: 28, label: '28C-very-light-0.2tog', expect: '0.2' },
+      { temp: 25, label: '25C-light-0.5tog', expect: '0.5' },
+      { temp: 23, label: '23C-balanced-1.0tog', expect: '1.0' },
+      { temp: 21, label: '21C-transitional-1.0-2.5tog', expect: '1.0' },
+      { temp: 18, label: '18C-warm-2.5tog', expect: '2.5' },
+      { temp: 15, label: '15C-extra-warm-3.5tog', expect: '3.5' },
+    ];
+
+    for (const { temp, label, expect } of togTemps) {
+      // Inject fake temperature into the card's hass state
+      const injected = await page.evaluate((fakeTemp) => {
+        function findInShadow(root, tag) {
+          const found = root.querySelector(tag);
+          if (found) return found;
+          const els = root.querySelectorAll('*');
+          for (const el of els) {
+            if (el.shadowRoot) {
+              const r = findInShadow(el.shadowRoot, tag);
+              if (r) return r;
+            }
+          }
+          return null;
+        }
+        const card = findInShadow(document, 'sketch-tog-card');
+        if (!card || !card.hass) return false;
+
+        // Find the temperature entity used by this card
+        const config = card._config || {};
+        const tempEntity = config.temperature_entity;
+        if (!tempEntity || !card.hass.states[tempEntity]) return false;
+
+        // Clone hass and override the temperature state
+        const newStates = { ...card.hass.states };
+        newStates[tempEntity] = {
+          ...newStates[tempEntity],
+          state: String(fakeTemp),
+        };
+        card.hass = { ...card.hass, states: newStates };
+        return true;
+      }, temp);
+
+      if (!injected) {
+        report(`TOG sweep ${label}`, false, 'Could not inject temperature');
+        continue;
+      }
+
+      await sleep(500); // Wait for re-render
+
+      // Verify the TOG recommendation changed
+      const togInfo = await page.evaluate((expectedTog) => {
+        function findInShadow(root, tag) {
+          const found = root.querySelector(tag);
+          if (found) return found;
+          const els = root.querySelectorAll('*');
+          for (const el of els) {
+            if (el.shadowRoot) {
+              const r = findInShadow(el.shadowRoot, tag);
+              if (r) return r;
+            }
+          }
+          return null;
+        }
+        const card = findInShadow(document, 'sketch-tog-card');
+        if (!card?.shadowRoot) return { pass: false, detail: 'No card' };
+        const sr = card.shadowRoot;
+
+        const rating = sr.querySelector('.tog-rating')?.textContent?.trim() || '';
+        const temp = sr.querySelector('.tog-temp')?.textContent?.trim() || '';
+        const condition = sr.querySelector('.tog-condition')?.textContent?.trim() || '';
+
+        // Count clothing items
+        const clothingSvgs = sr.querySelectorAll('.tog-clothing-svg');
+        const clothingLabels = [];
+        sr.querySelectorAll('.tog-clothing-label').forEach((l) => {
+          if (l.textContent.trim()) clothingLabels.push(l.textContent.trim());
+        });
+
+        // Check paths are distinct
+        const pathDatas = new Set();
+        clothingSvgs.forEach((s) => {
+          const p = s.querySelector('path');
+          if (p) pathDatas.add(p.getAttribute('d')?.substring(0, 40));
+        });
+
+        const hasExpected = rating.includes(expectedTog);
+        return {
+          pass: hasExpected,
+          detail: `${rating} | ${condition} | ${clothingLabels.join(' + ')} | ${pathDatas.size} distinct SVGs`,
+        };
+      }, expect);
+
+      report(`TOG sweep ${label}`, togInfo.pass, togInfo.detail);
+
+      // Screenshot this TOG state
+      try {
+        const cardHandle = await page.evaluateHandle(() => {
+          function findInShadow(root, tag) {
+            const found = root.querySelector(tag);
+            if (found) return found;
+            const els = root.querySelectorAll('*');
+            for (const el of els) {
+              if (el.shadowRoot) {
+                const r = findInShadow(el.shadowRoot, tag);
+                if (r) return r;
+              }
+            }
+            return null;
+          }
+          return findInShadow(document, 'sketch-tog-card');
+        });
+        if (cardHandle) {
+          const box = await cardHandle.boundingBox();
+          if (box) {
+            await page.screenshot({
+              path: path.join(SCREENSHOT_DIR, `tog-${label}.png`),
+              clip: { x: box.x, y: box.y, width: box.width, height: box.height },
+            });
+          }
+        }
+      } catch (_e) { /* screenshot failed */ }
+    }
+
     // ── Step 4: JS error check ────────────────────────────
     console.log('\n🐛 JavaScript errors:\n');
     const sketchErrors = jsErrors.filter((e) => {
