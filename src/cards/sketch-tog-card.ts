@@ -294,7 +294,7 @@ export class SketchTogCard extends BaseSketchCard {
   render() {
     const tempEntity = this.hass?.states[this._togConfig.temperature_entity];
     if (!tempEntity) {
-      return html`<ha-card><div class="sketch-card-content sketch-empty"><ha-icon icon="mdi:baby-face-outline"></ha-icon><span>Temperature entity not found</span></div></ha-card>`;
+      return html`<ha-card>${this.renderSketchBg()}<div class="sketch-card-content sketch-empty"><ha-icon icon="mdi:baby-face-outline"></ha-icon><span>Temperature entity not found</span></div></ha-card>`;
     }
 
     const temp = parseFloat(tempEntity.state) || 20;

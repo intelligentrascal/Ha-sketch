@@ -341,7 +341,10 @@ const CARD_TESTS = [
 
     // ── Step 4: JS error check ────────────────────────────
     console.log('\n🐛 JavaScript errors:\n');
-    const sketchErrors = jsErrors.filter((e) => e.toLowerCase().includes('sketch') || e.includes('customElement'));
+    const sketchErrors = jsErrors.filter((e) => {
+      const s = String(e || '');
+      return s.toLowerCase().includes('sketch') || s.includes('customElement');
+    });
     if (sketchErrors.length === 0) {
       report('No sketch-related JS errors', true);
     } else {

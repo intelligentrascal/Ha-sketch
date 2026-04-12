@@ -134,7 +134,7 @@ export class SketchMediaPlayerCard extends BaseSketchCard {
   render() {
     const entity = this.getEntity();
     if (!entity) {
-      return html`<ha-card><div class="sketch-card-content"><p class="sketch-name">Media Player not found</p></div></ha-card>`;
+      return html`<ha-card>${this.renderSketchBg()}<div class="sketch-card-content"><p class="sketch-name">Media Player not found</p></div></ha-card>`;
     }
 
     const title = entity.attributes.media_title || 'Nothing playing';

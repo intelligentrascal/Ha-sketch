@@ -39,7 +39,7 @@ views:
             show_color_temp: true
 
           - type: custom:sketch-thermostat-card
-            entity: climate.living_room
+            entity: climate.office
             name: Thermostat Test
 
           - type: custom:sketch-weather-card
@@ -57,14 +57,16 @@ views:
             name: Media Test
             show_artwork: true
 
+          # NOTE: cover and alarm need real entities — replace if you have them
+          # If entities don't exist, card shows "not found" (expected)
           - type: custom:sketch-cover-card
             entity: cover.living_room_blinds
-            name: Cover Test
+            name: Cover Test (needs real entity)
             show_position: true
 
           - type: custom:sketch-alarm-panel-card
             entity: alarm_control_panel.home
-            name: Alarm Test
+            name: Alarm Test (needs real entity)
             states:
               - arm_home
               - arm_away
@@ -111,13 +113,15 @@ views:
             name: Fan Test
             show_speed: true
 
+          # NOTE: lock needs a real entity — replace if you have one
           - type: custom:sketch-lock-card
             entity: lock.front_door
-            name: Lock Test
+            name: Lock Test (needs real entity)
 
+          # NOTE: input_number needs a real entity — replace if you have one
           - type: custom:sketch-number-card
             entity: input_number.volume
-            name: Number Test
+            name: Number Test (needs real entity)
             show_slider: true
 
           - type: custom:sketch-sub-button-card

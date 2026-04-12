@@ -118,7 +118,7 @@ export class SketchTileCard extends BaseSketchCard {
   render() {
     const entity = this.getEntity();
     if (!entity) {
-      return html`<ha-card><div class="tile-row"><span class="tile-name">Not found</span></div></ha-card>`;
+      return html`<ha-card>${this.renderSketchBg()}<div class="tile-row" style="position:relative;z-index:1"><span class="tile-name">Not found</span></div></ha-card>`;
     }
 
     const icon = this._config.icon || stateIcon(entity);

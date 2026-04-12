@@ -151,7 +151,7 @@ export class SketchAlarmPanelCard extends BaseSketchCard {
   render() {
     const entity = this.getEntity();
     if (!entity) {
-      return html`<ha-card><div class="sketch-card-content"><p class="sketch-name">Alarm not found</p></div></ha-card>`;
+      return html`<ha-card>${this.renderSketchBg()}<div class="sketch-card-content"><p class="sketch-name">Alarm not found</p></div></ha-card>`;
     }
 
     const alarmState = entity.state;

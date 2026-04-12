@@ -118,7 +118,7 @@ export class SketchThermostatCard extends BaseSketchCard {
   render() {
     const entity = this.getEntity();
     if (!entity) {
-      return html`<ha-card><div class="sketch-card-content"><p class="sketch-name">Climate not found</p></div></ha-card>`;
+      return html`<ha-card>${this.renderSketchBg()}<div class="sketch-card-content"><p class="sketch-name">Climate not found</p></div></ha-card>`;
     }
 
     const currentTemp = entity.attributes.current_temperature ?? '--';

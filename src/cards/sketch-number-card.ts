@@ -76,7 +76,7 @@ export class SketchNumberCard extends BaseSketchCard {
   render() {
     const entity = this.getEntity();
     if (!entity) {
-      return html`<ha-card><div class="sketch-card-content"><p class="sketch-name">Number not found</p></div></ha-card>`;
+      return html`<ha-card>${this.renderSketchBg()}<div class="sketch-card-content"><p class="sketch-name">Number not found</p></div></ha-card>`;
     }
 
     const value = parseFloat(entity.state) || 0;

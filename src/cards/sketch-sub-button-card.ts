@@ -222,7 +222,7 @@ export class SketchSubButtonCard extends BaseSketchCard {
   render() {
     const entity = this.getEntity();
     if (!entity) {
-      return html`<ha-card><div class="sketch-card-content"><p class="sketch-name">Entity not found</p></div></ha-card>`;
+      return html`<ha-card>${this.renderSketchBg()}<div class="sketch-card-content"><p class="sketch-name">Entity not found</p></div></ha-card>`;
     }
 
     const icon = this._config.icon || stateIcon(entity);
