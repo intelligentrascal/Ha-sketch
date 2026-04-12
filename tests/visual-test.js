@@ -425,7 +425,10 @@ const CARD_TESTS = [
           ...newStates[tempEntity],
           state: String(fakeTemp),
         };
-        card.hass = { ...card.hass, states: newStates };
+        const newHass = Object.assign(Object.create(Object.getPrototypeOf(card.hass)), card.hass, { states: newStates });
+        card.hass = newHass;
+        // Force Lit re-render
+        if (card.requestUpdate) card.requestUpdate();
         return true;
       }, temp);
 
@@ -434,7 +437,7 @@ const CARD_TESTS = [
         continue;
       }
 
-      await sleep(500); // Wait for re-render
+      await sleep(1500); // Wait for Lit re-render cycle
 
       // Verify the TOG recommendation changed
       const togInfo = await page.evaluate((expectedTog) => {
