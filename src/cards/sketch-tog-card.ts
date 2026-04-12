@@ -1,6 +1,7 @@
 import { html, css, svg, nothing } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import { unsafeSVG } from 'lit/directives/unsafe-svg.js';
 import { BaseSketchCard } from '../shared/base-card';
 import { clamp } from '../shared/utils';
 import type { HomeAssistant, TogCardConfig } from '../shared/types';
@@ -31,26 +32,26 @@ function clothingSvg(item: string, seed: number): string {
 
   if (item.toLowerCase().includes('bodysuit') || item.toLowerCase().includes('vest')) {
     // T-shirt / bodysuit outline
-    return `<path d="M ${20+w(seed,0)} ${8+w(seed,1)} L ${12+w(seed,2)} ${16+w(seed,3)} L ${6+w(seed,4)} ${14+w(seed,5)} L ${10+w(seed,6)} ${6+w(seed,7)} L ${15+w(seed,8)} ${3+w(seed,9)} L ${25+w(seed,10)} ${3+w(seed,11)} L ${30+w(seed,12)} ${6+w(seed,13)} L ${34+w(seed,14)} ${14+w(seed,15)} L ${28+w(seed,16)} ${16+w(seed,17)} L ${20+w(seed,18)} ${8+w(seed,19)} M ${12+w(seed,20)} ${16+w(seed,21)} L ${12+w(seed,22)} ${34+w(seed,23)} L ${17+w(seed,24)} ${38+w(seed,25)} L ${23+w(seed,26)} ${38+w(seed,27)} L ${28+w(seed,28)} ${34+w(seed,29)} L ${28+w(seed,30)} ${16+w(seed,31)}" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>`;
+    return `<path d="M ${20+w(seed,0)} ${8+w(seed,1)} L ${12+w(seed,2)} ${16+w(seed,3)} L ${6+w(seed,4)} ${14+w(seed,5)} L ${10+w(seed,6)} ${6+w(seed,7)} L ${15+w(seed,8)} ${3+w(seed,9)} L ${25+w(seed,10)} ${3+w(seed,11)} L ${30+w(seed,12)} ${6+w(seed,13)} L ${34+w(seed,14)} ${14+w(seed,15)} L ${28+w(seed,16)} ${16+w(seed,17)} L ${20+w(seed,18)} ${8+w(seed,19)} M ${12+w(seed,20)} ${16+w(seed,21)} L ${12+w(seed,22)} ${34+w(seed,23)} L ${17+w(seed,24)} ${38+w(seed,25)} L ${23+w(seed,26)} ${38+w(seed,27)} L ${28+w(seed,28)} ${34+w(seed,29)} L ${28+w(seed,30)} ${16+w(seed,31)}" fill="none" stroke="var(--sketch-ink, #2a2a2a)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>`;
   }
   if (item.toLowerCase().includes('sleepsuit') || item.toLowerCase().includes('romper')) {
     // Full sleepsuit with legs
-    return `<path d="M ${15+w(seed,0)} ${4+w(seed,1)} L ${25+w(seed,2)} ${4+w(seed,3)} L ${28+w(seed,4)} ${7+w(seed,5)} L ${30+w(seed,6)} ${18+w(seed,7)} L ${30+w(seed,8)} ${28+w(seed,9)} L ${28+w(seed,10)} ${36+w(seed,11)} L ${24+w(seed,12)} ${38+w(seed,13)} L ${22+w(seed,14)} ${30+w(seed,15)} L ${20+w(seed,16)} ${28+w(seed,17)} L ${18+w(seed,18)} ${30+w(seed,19)} L ${16+w(seed,20)} ${38+w(seed,21)} L ${12+w(seed,22)} ${36+w(seed,23)} L ${10+w(seed,24)} ${28+w(seed,25)} L ${10+w(seed,26)} ${18+w(seed,27)} L ${12+w(seed,28)} ${7+w(seed,29)} Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>`;
+    return `<path d="M ${15+w(seed,0)} ${4+w(seed,1)} L ${25+w(seed,2)} ${4+w(seed,3)} L ${28+w(seed,4)} ${7+w(seed,5)} L ${30+w(seed,6)} ${18+w(seed,7)} L ${30+w(seed,8)} ${28+w(seed,9)} L ${28+w(seed,10)} ${36+w(seed,11)} L ${24+w(seed,12)} ${38+w(seed,13)} L ${22+w(seed,14)} ${30+w(seed,15)} L ${20+w(seed,16)} ${28+w(seed,17)} L ${18+w(seed,18)} ${30+w(seed,19)} L ${16+w(seed,20)} ${38+w(seed,21)} L ${12+w(seed,22)} ${36+w(seed,23)} L ${10+w(seed,24)} ${28+w(seed,25)} L ${10+w(seed,26)} ${18+w(seed,27)} L ${12+w(seed,28)} ${7+w(seed,29)} Z" fill="none" stroke="var(--sketch-ink, #2a2a2a)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>`;
   }
   if (item.toLowerCase().includes('sleep bag') || item.toLowerCase().includes('tog')) {
     // Sleep bag silhouette
-    return `<path d="M ${14+w(seed,0)} ${6+w(seed,1)} C ${14+w(seed,2)} ${3+w(seed,3)} ${26+w(seed,4)} ${3+w(seed,5)} ${26+w(seed,6)} ${6+w(seed,7)} L ${28+w(seed,8)} ${12+w(seed,9)} L ${30+w(seed,10)} ${30+w(seed,11)} C ${30+w(seed,12)} ${36+w(seed,13)} ${26+w(seed,14)} ${40+w(seed,15)} ${20+w(seed,16)} ${40+w(seed,17)} C ${14+w(seed,18)} ${40+w(seed,19)} ${10+w(seed,20)} ${36+w(seed,21)} ${10+w(seed,22)} ${30+w(seed,23)} L ${12+w(seed,24)} ${12+w(seed,25)} Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>`;
+    return `<path d="M ${14+w(seed,0)} ${6+w(seed,1)} C ${14+w(seed,2)} ${3+w(seed,3)} ${26+w(seed,4)} ${3+w(seed,5)} ${26+w(seed,6)} ${6+w(seed,7)} L ${28+w(seed,8)} ${12+w(seed,9)} L ${30+w(seed,10)} ${30+w(seed,11)} C ${30+w(seed,12)} ${36+w(seed,13)} ${26+w(seed,14)} ${40+w(seed,15)} ${20+w(seed,16)} ${40+w(seed,17)} C ${14+w(seed,18)} ${40+w(seed,19)} ${10+w(seed,20)} ${36+w(seed,21)} ${10+w(seed,22)} ${30+w(seed,23)} L ${12+w(seed,24)} ${12+w(seed,25)} Z" fill="none" stroke="var(--sketch-ink, #2a2a2a)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>`;
   }
   if (item.toLowerCase().includes('nappy')) {
     // Simple nappy/diaper outline
-    return `<path d="M ${12+w(seed,0)} ${14+w(seed,1)} L ${28+w(seed,2)} ${14+w(seed,3)} L ${30+w(seed,4)} ${22+w(seed,5)} C ${30+w(seed,6)} ${30+w(seed,7)} ${24+w(seed,8)} ${34+w(seed,9)} ${20+w(seed,10)} ${34+w(seed,11)} C ${16+w(seed,12)} ${34+w(seed,13)} ${10+w(seed,14)} ${30+w(seed,15)} ${10+w(seed,16)} ${22+w(seed,17)} Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>`;
+    return `<path d="M ${12+w(seed,0)} ${14+w(seed,1)} L ${28+w(seed,2)} ${14+w(seed,3)} L ${30+w(seed,4)} ${22+w(seed,5)} C ${30+w(seed,6)} ${30+w(seed,7)} ${24+w(seed,8)} ${34+w(seed,9)} ${20+w(seed,10)} ${34+w(seed,11)} C ${16+w(seed,12)} ${34+w(seed,13)} ${10+w(seed,14)} ${30+w(seed,15)} ${10+w(seed,16)} ${22+w(seed,17)} Z" fill="none" stroke="var(--sketch-ink, #2a2a2a)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>`;
   }
   if (item.toLowerCase().includes('singlet') || item.toLowerCase().includes('thermal')) {
     // Singlet/undershirt
-    return `<path d="M ${14+w(seed,0)} ${6+w(seed,1)} L ${16+w(seed,2)} ${4+w(seed,3)} L ${24+w(seed,4)} ${4+w(seed,5)} L ${26+w(seed,6)} ${6+w(seed,7)} L ${26+w(seed,8)} ${34+w(seed,9)} L ${14+w(seed,10)} ${34+w(seed,11)} Z M ${16+w(seed,12)} ${4+w(seed,13)} C ${18+w(seed,14)} ${8+w(seed,15)} ${22+w(seed,16)} ${8+w(seed,17)} ${24+w(seed,18)} ${4+w(seed,19)}" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>`;
+    return `<path d="M ${14+w(seed,0)} ${6+w(seed,1)} L ${16+w(seed,2)} ${4+w(seed,3)} L ${24+w(seed,4)} ${4+w(seed,5)} L ${26+w(seed,6)} ${6+w(seed,7)} L ${26+w(seed,8)} ${34+w(seed,9)} L ${14+w(seed,10)} ${34+w(seed,11)} Z M ${16+w(seed,12)} ${4+w(seed,13)} C ${18+w(seed,14)} ${8+w(seed,15)} ${22+w(seed,16)} ${8+w(seed,17)} ${24+w(seed,18)} ${4+w(seed,19)}" fill="none" stroke="var(--sketch-ink, #2a2a2a)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>`;
   }
   // Default: generic clothing item
-  return `<rect x="${12+w(seed,0)}" y="${8+w(seed,1)}" width="${16+w(seed,2)}" height="${24+w(seed,3)}" rx="3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>`;
+  return `<rect x="${12+w(seed,0)}" y="${8+w(seed,1)}" width="${16+w(seed,2)}" height="${24+w(seed,3)}" rx="3" fill="none" stroke="var(--sketch-ink, #2a2a2a)" stroke-width="1.5" stroke-linecap="round"/>`;
 }
 
 const TOG_RANGES = [
@@ -363,7 +364,7 @@ export class SketchTogCard extends BaseSketchCard {
           <div class="tog-clothing">
             ${rec.clothing.map((item, i) => html`
               <div class="tog-clothing-item">
-                <svg class="tog-clothing-svg" viewBox="0 0 40 44">${unsafeHTML(clothingSvg(item, seed + i * 37))}</svg>
+                <svg class="tog-clothing-svg" viewBox="0 0 40 44">${unsafeSVG(clothingSvg(item, seed + i * 37))}</svg>
                 <span class="tog-clothing-label">${item}</span>
               </div>
             `)}
