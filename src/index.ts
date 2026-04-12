@@ -207,7 +207,7 @@ window.customCards.push(
   }
 );
 
-const VERSION = '1.4.3';
+const VERSION = '1.4.4';
 console.info(
   `%c SKETCH-CARDS %c v${VERSION} `,
   'background:#faf7f0;color:#2a2a2a;font-weight:bold;font-family:cursive;padding:2px 6px;border:1px solid #2a2a2a;border-radius:2px;',

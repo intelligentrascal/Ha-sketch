@@ -26,68 +26,82 @@ function getTogRecommendation(temp: number): TogRec {
   return { tog: '3.5', bucket: 'extra_warm', headline: 'Extra Warm', risk: 'cold', clothing: ['Thermal bodysuit', 'Warm sleepsuit', '3.5 TOG sleep bag'], color: '#818cf8' };
 }
 
-/* ── Inline SVG clothing illustrations (hand-drawn wobble paths) ── */
+/* ── Inline SVG clothing illustrations ── */
+/* Each item has a completely different silhouette so they're
+   instantly distinguishable even at small sizes. */
 function clothingSvg(item: string, seed: number): string {
-  const w = (s: number, i: number) => (Math.sin(s * 9301 + i * 49297) * 49297 % 1 - 0.5) * 1.2;
+  const w = (s: number, i: number) => (Math.sin(s * 9301 + i * 49297) * 49297 % 1 - 0.5) * 0.8;
   const ink = 'var(--sketch-ink, #2a2a2a)';
-  const sw = 'stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"';
+  const s = `stroke="${ink}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"`;
   const lower = item.toLowerCase();
 
-  // ── Short-sleeve bodysuit: T-shirt with SHORT sleeves ending at upper arm ──
-  if (lower.includes('short') && (lower.includes('bodysuit') || lower.includes('sleeve') || lower.includes('vest'))) {
-    return `<path d="M ${20+w(seed,0)} ${10+w(seed,1)} L ${14+w(seed,2)} ${14+w(seed,3)} L ${8+w(seed,4)} ${12+w(seed,5)} L ${11+w(seed,6)} ${6+w(seed,7)} L ${15+w(seed,8)} ${3+w(seed,9)} L ${25+w(seed,10)} ${3+w(seed,11)} L ${29+w(seed,12)} ${6+w(seed,13)} L ${32+w(seed,14)} ${12+w(seed,15)} L ${26+w(seed,16)} ${14+w(seed,17)} L ${20+w(seed,18)} ${10+w(seed,19)}" fill="none" stroke="${ink}" ${sw}/>
-    <path d="M ${14+w(seed,20)} ${14+w(seed,21)} L ${14+w(seed,22)} ${34+w(seed,23)} L ${17+w(seed,24)} ${38+w(seed,25)} L ${23+w(seed,26)} ${38+w(seed,27)} L ${26+w(seed,28)} ${34+w(seed,29)} L ${26+w(seed,30)} ${14+w(seed,31)}" fill="none" stroke="${ink}" ${sw}/>`;
+  // ── SHORT-SLEEVE bodysuit: wide T-shape, sleeves stop at mid-arm ──
+  if (lower.includes('short') && (lower.includes('bodysuit') || lower.includes('sleeve') || lower.includes('vest') || lower.includes('top'))) {
+    return `
+      <path d="M 16 5 L 13 5 L 7 11 L 10 13 L 14 9 L 14 36 L 26 36 L 26 9 L 30 13 L 33 11 L 27 5 L 24 5" ${s}/>
+      <path d="M 16 5 C 17 8 23 8 24 5" ${s} stroke-width="1"/>`;
   }
 
-  // ── Long-sleeve bodysuit: T-shirt with LONG sleeves extending to wrists ──
-  if (lower.includes('long') && (lower.includes('bodysuit') || lower.includes('sleeve'))) {
-    return `<path d="M ${20+w(seed,0)} ${10+w(seed,1)} L ${12+w(seed,2)} ${16+w(seed,3)} L ${4+w(seed,4)} ${14+w(seed,5)} L ${3+w(seed,40)} ${12+w(seed,41)} L ${5+w(seed,42)} ${11+w(seed,43)} L ${10+w(seed,6)} ${14+w(seed,7)} L ${10+w(seed,44)} ${6+w(seed,45)} L ${15+w(seed,8)} ${3+w(seed,9)} L ${25+w(seed,10)} ${3+w(seed,11)} L ${30+w(seed,46)} ${6+w(seed,47)} L ${30+w(seed,12)} ${14+w(seed,13)} L ${35+w(seed,48)} ${11+w(seed,49)} L ${37+w(seed,50)} ${12+w(seed,51)} L ${36+w(seed,14)} ${14+w(seed,15)} L ${28+w(seed,16)} ${16+w(seed,17)} L ${20+w(seed,18)} ${10+w(seed,19)}" fill="none" stroke="${ink}" ${sw}/>
-    <path d="M ${12+w(seed,20)} ${16+w(seed,21)} L ${12+w(seed,22)} ${34+w(seed,23)} L ${16+w(seed,24)} ${38+w(seed,25)} L ${24+w(seed,26)} ${38+w(seed,27)} L ${28+w(seed,28)} ${34+w(seed,29)} L ${28+w(seed,30)} ${16+w(seed,31)}" fill="none" stroke="${ink}" ${sw}/>`;
+  // ── LONG-SLEEVE bodysuit: arms extend to wrists with cuffs ──
+  if (lower.includes('long') && (lower.includes('bodysuit') || lower.includes('sleeve') || lower.includes('top'))) {
+    return `
+      <path d="M 16 5 L 13 5 L 3 15 L 5 17 L 6 16 L 14 9 L 14 36 L 26 36 L 26 9 L 34 16 L 35 17 L 37 15 L 27 5 L 24 5" ${s}/>
+      <path d="M 16 5 C 17 8 23 8 24 5" ${s} stroke-width="1"/>
+      <line x1="4" y1="15" x2="7" y2="13" ${s} stroke-width="0.8" opacity="0.5"/>
+      <line x1="33" y1="13" x2="36" y2="15" ${s} stroke-width="0.8" opacity="0.5"/>`;
   }
 
-  // ── Generic bodysuit/vest (fallback if no short/long prefix) ──
+  // ── BODYSUIT/VEST fallback (no short/long) — same as short ──
   if (lower.includes('bodysuit') || lower.includes('vest')) {
-    return `<path d="M ${20+w(seed,0)} ${10+w(seed,1)} L ${14+w(seed,2)} ${14+w(seed,3)} L ${8+w(seed,4)} ${12+w(seed,5)} L ${11+w(seed,6)} ${6+w(seed,7)} L ${15+w(seed,8)} ${3+w(seed,9)} L ${25+w(seed,10)} ${3+w(seed,11)} L ${29+w(seed,12)} ${6+w(seed,13)} L ${32+w(seed,14)} ${12+w(seed,15)} L ${26+w(seed,16)} ${14+w(seed,17)} L ${20+w(seed,18)} ${10+w(seed,19)}" fill="none" stroke="${ink}" ${sw}/>
-    <path d="M ${14+w(seed,20)} ${14+w(seed,21)} L ${14+w(seed,22)} ${34+w(seed,23)} L ${17+w(seed,24)} ${38+w(seed,25)} L ${23+w(seed,26)} ${38+w(seed,27)} L ${26+w(seed,28)} ${34+w(seed,29)} L ${26+w(seed,30)} ${14+w(seed,31)}" fill="none" stroke="${ink}" ${sw}/>`;
+    return `
+      <path d="M 16 5 L 13 5 L 7 11 L 10 13 L 14 9 L 14 36 L 26 36 L 26 9 L 30 13 L 33 11 L 27 5 L 24 5" ${s}/>
+      <path d="M 16 5 C 17 8 23 8 24 5" ${s} stroke-width="1"/>`;
   }
 
-  // ── Sleepsuit (footed): full body with split legs and rounded feet ──
-  if (lower.includes('sleepsuit') || lower.includes('romper')) {
-    return `<path d="M ${15+w(seed,0)} ${4+w(seed,1)} L ${25+w(seed,2)} ${4+w(seed,3)} L ${28+w(seed,4)} ${7+w(seed,5)} L ${30+w(seed,6)} ${18+w(seed,7)} L ${30+w(seed,8)} ${28+w(seed,9)} L ${29+w(seed,10)} ${34+w(seed,11)} C ${29+w(seed,32)} ${38+w(seed,33)} ${25+w(seed,34)} ${40+w(seed,35)} ${23+w(seed,12)} ${39+w(seed,13)} L ${22+w(seed,14)} ${30+w(seed,15)} L ${20+w(seed,16)} ${28+w(seed,17)} L ${18+w(seed,18)} ${30+w(seed,19)} L ${17+w(seed,36)} ${39+w(seed,37)} C ${15+w(seed,38)} ${40+w(seed,39)} ${11+w(seed,40)} ${38+w(seed,41)} ${11+w(seed,42)} ${34+w(seed,43)} L ${10+w(seed,24)} ${28+w(seed,25)} L ${10+w(seed,26)} ${18+w(seed,27)} L ${12+w(seed,28)} ${7+w(seed,29)} Z" fill="none" stroke="${ink}" ${sw}/>
-    <line x1="${10+w(seed,44)}" y1="${28+w(seed,45)}" x2="${30+w(seed,46)}" y2="${28+w(seed,47)}" stroke="${ink}" stroke-width="0.8" opacity="0.4"/>`;
+  // ── SLEEPSUIT: one-piece with TWO LEGS and FEET bumps ──
+  if (lower.includes('sleepsuit') || lower.includes('romper') || lower.includes('footed')) {
+    return `
+      <path d="M 15 4 L 25 4 L 28 8 L 30 20 L 29 30 L 27 36 C 26 39 23 40 22 38 L 21 30 L 20 28 L 19 30 L 18 38 C 17 40 14 39 13 36 L 11 30 L 10 20 L 12 8 Z" ${s}/>
+      <line x1="11" y1="24" x2="29" y2="24" ${s} stroke-width="0.7" opacity="0.3"/>`;
   }
 
-  // ── Sleep bag: sack silhouette with rounded bottom, no legs ──
+  // ── SLEEP BAG: rounded sack, NO legs, wider bottom ──
   if (lower.includes('sleep bag') || lower.includes('tog')) {
-    return `<path d="M ${14+w(seed,0)} ${6+w(seed,1)} C ${14+w(seed,2)} ${3+w(seed,3)} ${26+w(seed,4)} ${3+w(seed,5)} ${26+w(seed,6)} ${6+w(seed,7)} L ${28+w(seed,8)} ${12+w(seed,9)} L ${30+w(seed,10)} ${30+w(seed,11)} C ${30+w(seed,12)} ${36+w(seed,13)} ${26+w(seed,14)} ${40+w(seed,15)} ${20+w(seed,16)} ${40+w(seed,17)} C ${14+w(seed,18)} ${40+w(seed,19)} ${10+w(seed,20)} ${36+w(seed,21)} ${10+w(seed,22)} ${30+w(seed,23)} L ${12+w(seed,24)} ${12+w(seed,25)} Z" fill="none" stroke="${ink}" ${sw}/>
-    <line x1="${16+w(seed,26)}" y1="${6+w(seed,27)}" x2="${16+w(seed,28)}" y2="${12+w(seed,29)}" stroke="${ink}" stroke-width="0.8" opacity="0.5"/>
-    <line x1="${24+w(seed,30)}" y1="${6+w(seed,31)}" x2="${24+w(seed,32)}" y2="${12+w(seed,33)}" stroke="${ink}" stroke-width="0.8" opacity="0.5"/>`;
+    return `
+      <path d="M 14 6 C 14 2 26 2 26 6 L 28 14 L 31 32 C 31 38 26 42 20 42 C 14 42 9 38 9 32 L 12 14 Z" ${s}/>
+      <line x1="16" y1="6" x2="16" y2="14" ${s} stroke-width="0.8" opacity="0.4"/>
+      <line x1="24" y1="6" x2="24" y2="14" ${s} stroke-width="0.8" opacity="0.4"/>
+      <path d="M 14 6 L 26 6" ${s} stroke-width="0.8" opacity="0.4"/>`;
   }
 
-  // ── Nappy / diaper: small rounded triangle shape ──
-  if (lower.includes('nappy') || lower.includes('diaper')) {
-    return `<path d="M ${12+w(seed,0)} ${16+w(seed,1)} L ${28+w(seed,2)} ${16+w(seed,3)} L ${30+w(seed,4)} ${22+w(seed,5)} C ${30+w(seed,6)} ${30+w(seed,7)} ${24+w(seed,8)} ${34+w(seed,9)} ${20+w(seed,10)} ${34+w(seed,11)} C ${16+w(seed,12)} ${34+w(seed,13)} ${10+w(seed,14)} ${30+w(seed,15)} ${10+w(seed,16)} ${22+w(seed,17)} Z" fill="none" stroke="${ink}" ${sw}/>
-    <path d="M ${18+w(seed,18)} ${16+w(seed,19)} L ${18+w(seed,20)} ${20+w(seed,21)}" stroke="${ink}" stroke-width="0.8" opacity="0.4"/>
-    <path d="M ${22+w(seed,22)} ${16+w(seed,23)} L ${22+w(seed,24)} ${20+w(seed,25)}" stroke="${ink}" stroke-width="0.8" opacity="0.4"/>`;
+  // ── NAPPY/DIAPER: small, wide, low shape ──
+  if (lower.includes('nappy') || lower.includes('diaper') || lower.includes('skip')) {
+    return `
+      <path d="M 10 16 L 30 16 L 32 24 C 32 34 24 38 20 38 C 16 38 8 34 8 24 Z" ${s}/>
+      <line x1="18" y1="16" x2="18" y2="21" ${s} stroke-width="0.7" opacity="0.35"/>
+      <line x1="22" y1="16" x2="22" y2="21" ${s} stroke-width="0.7" opacity="0.35"/>`;
   }
 
-  // ── Singlet / undershirt: tank top with thin straps, NO sleeves ──
+  // ── SINGLET/UNDERSHIRT: narrow straps, deep scoop neck, NO sleeves ──
   if (lower.includes('singlet') || lower.includes('undershirt')) {
-    return `<path d="M ${16+w(seed,0)} ${4+w(seed,1)} L ${17+w(seed,2)} ${2+w(seed,3)} L ${19+w(seed,4)} ${2+w(seed,5)} L ${17+w(seed,6)} ${8+w(seed,7)} L ${14+w(seed,8)} ${12+w(seed,9)} L ${14+w(seed,10)} ${34+w(seed,11)} L ${26+w(seed,12)} ${34+w(seed,13)} L ${26+w(seed,14)} ${12+w(seed,15)} L ${23+w(seed,16)} ${8+w(seed,17)} L ${21+w(seed,18)} ${2+w(seed,19)} L ${23+w(seed,20)} ${2+w(seed,21)} L ${24+w(seed,22)} ${4+w(seed,23)}" fill="none" stroke="${ink}" ${sw}/>
-    <path d="M ${17+w(seed,24)} ${8+w(seed,25)} C ${19+w(seed,26)} ${12+w(seed,27)} ${21+w(seed,28)} ${12+w(seed,29)} ${23+w(seed,30)} ${8+w(seed,31)}" fill="none" stroke="${ink}" stroke-width="0.8" opacity="0.5"/>`;
+    return `
+      <path d="M 15 3 L 17 3 L 16 10 L 13 14 L 13 36 L 27 36 L 27 14 L 24 10 L 23 3 L 25 3" ${s}/>
+      <path d="M 16 10 C 18 16 22 16 24 10" ${s} stroke-width="1"/>`;
   }
 
-  // ── Thermal bodysuit: long-sleeve with double-line (thick/warm) ──
+  // ── THERMAL bodysuit: long-sleeve + horizontal lines (warmth) ──
   if (lower.includes('thermal')) {
-    return `<path d="M ${20+w(seed,0)} ${10+w(seed,1)} L ${12+w(seed,2)} ${16+w(seed,3)} L ${4+w(seed,4)} ${14+w(seed,5)} L ${3+w(seed,6)} ${12+w(seed,7)} L ${5+w(seed,8)} ${11+w(seed,9)} L ${10+w(seed,10)} ${14+w(seed,11)} L ${10+w(seed,12)} ${6+w(seed,13)} L ${15+w(seed,14)} ${3+w(seed,15)} L ${25+w(seed,16)} ${3+w(seed,17)} L ${30+w(seed,18)} ${6+w(seed,19)} L ${30+w(seed,20)} ${14+w(seed,21)} L ${35+w(seed,22)} ${11+w(seed,23)} L ${37+w(seed,24)} ${12+w(seed,25)} L ${36+w(seed,26)} ${14+w(seed,27)} L ${28+w(seed,28)} ${16+w(seed,29)} L ${20+w(seed,30)} ${10+w(seed,31)}" fill="none" stroke="${ink}" ${sw}/>
-    <path d="M ${12+w(seed,32)} ${16+w(seed,33)} L ${12+w(seed,34)} ${34+w(seed,35)} L ${16+w(seed,36)} ${38+w(seed,37)} L ${24+w(seed,38)} ${38+w(seed,39)} L ${28+w(seed,40)} ${34+w(seed,41)} L ${28+w(seed,42)} ${16+w(seed,43)}" fill="none" stroke="${ink}" ${sw}/>
-    <path d="M ${14+w(seed,44)} ${18+w(seed,45)} L ${26+w(seed,46)} ${18+w(seed,47)}" stroke="${ink}" stroke-width="0.8" opacity="0.3" stroke-dasharray="2 2"/>
-    <path d="M ${14+w(seed,48)} ${24+w(seed,49)} L ${26+w(seed,50)} ${24+w(seed,51)}" stroke="${ink}" stroke-width="0.8" opacity="0.3" stroke-dasharray="2 2"/>
-    <path d="M ${14+w(seed,52)} ${30+w(seed,53)} L ${26+w(seed,54)} ${30+w(seed,55)}" stroke="${ink}" stroke-width="0.8" opacity="0.3" stroke-dasharray="2 2"/>`;
+    return `
+      <path d="M 16 5 L 13 5 L 3 15 L 5 17 L 6 16 L 14 9 L 14 36 L 26 36 L 26 9 L 34 16 L 35 17 L 37 15 L 27 5 L 24 5" ${s}/>
+      <path d="M 16 5 C 17 8 23 8 24 5" ${s} stroke-width="1"/>
+      <line x1="15" y1="16" x2="25" y2="16" stroke="${ink}" stroke-width="0.8" opacity="0.3" stroke-dasharray="1.5 1.5"/>
+      <line x1="15" y1="21" x2="25" y2="21" stroke="${ink}" stroke-width="0.8" opacity="0.3" stroke-dasharray="1.5 1.5"/>
+      <line x1="15" y1="26" x2="25" y2="26" stroke="${ink}" stroke-width="0.8" opacity="0.3" stroke-dasharray="1.5 1.5"/>
+      <line x1="15" y1="31" x2="25" y2="31" stroke="${ink}" stroke-width="0.8" opacity="0.3" stroke-dasharray="1.5 1.5"/>`;
   }
 
   // ── Default fallback ──
-  return `<rect x="${12+w(seed,0)}" y="${8+w(seed,1)}" width="${16+w(seed,2)}" height="${24+w(seed,3)}" rx="3" fill="none" stroke="${ink}" stroke-width="1.5" stroke-linecap="round"/>`;
+  return `<rect x="12" y="8" width="16" height="28" rx="3" ${s}/>`;
 }
 
 const TOG_RANGES = [
@@ -184,8 +198,8 @@ export class SketchTogCard extends BaseSketchCard {
         width: 64px;
       }
       .tog-clothing-svg {
-        width: 40px;
-        height: 44px;
+        width: 56px;
+        height: 60px;
         color: var(--sketch-ink);
       }
       .tog-clothing-label {
