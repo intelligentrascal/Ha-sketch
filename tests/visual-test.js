@@ -104,24 +104,39 @@ const CARD_TESTS = [
   try {
     // ── Step 1: Authenticate ──────────────────────────────
     console.log('🔑 Authenticating...');
-    await page.goto(`${HA_URL}${DASHBOARD_PATH}`, { waitUntil: 'domcontentloaded', timeout: TIMEOUT });
 
-    // Inject auth token
-    await page.evaluate((token) => {
-      localStorage.setItem('hassTokens', JSON.stringify({
+    // First, go to a blank page on the HA origin to set localStorage
+    await page.goto(`${HA_URL}/auth/authorize`, { waitUntil: 'domcontentloaded', timeout: TIMEOUT }).catch(() => {});
+
+    // Inject the auth token into localStorage using HA's expected format
+    await page.evaluate((url, token) => {
+      // HA stores tokens keyed by hassUrl
+      const tokenData = {
+        hassUrl: url,
+        clientId: `${url}/`,
         access_token: token,
         token_type: 'Bearer',
         refresh_token: '',
-        expires_in: 999999,
-        hassUrl: '',
-        clientId: '',
-        expires: Date.now() + 999999999,
-      }));
-    }, HA_TOKEN);
+        expires_in: 86400,
+        expires: Date.now() + 86400000,
+      };
+      try {
+        // Try the modern HA token storage format
+        localStorage.setItem('hassTokens', JSON.stringify(tokenData));
+        // Also set the legacy format
+        localStorage.setItem(`hassTokens-${url}`, JSON.stringify(tokenData));
+      } catch(e) {}
+    }, HA_URL, HA_TOKEN);
 
-    // Reload with auth
-    await page.goto(`${HA_URL}${DASHBOARD_PATH}`, { waitUntil: 'networkidle2', timeout: 30000 });
-    await sleep(5000); // Wait for cards to render
+    // Set extra headers for API calls that bypass localStorage
+    await page.setExtraHTTPHeaders({
+      'Authorization': `Bearer ${HA_TOKEN}`,
+    });
+
+    // Now load the dashboard
+    console.log('📄 Loading dashboard...');
+    await page.goto(`${HA_URL}${DASHBOARD_PATH}`, { waitUntil: 'networkidle0', timeout: 30000 });
+    await sleep(8000); // Wait for cards to fully render + WebSocket connections
 
     console.log('📸 Taking full dashboard screenshot...');
     await page.screenshot({ path: path.join(SCREENSHOT_DIR, '00-full-dashboard.png'), fullPage: true });
@@ -359,7 +374,7 @@ const CARD_TESTS = [
 
   } catch (err) {
     console.error(`\n💥 Fatal error: ${err.message}`);
-    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'ERROR.png'), fullPage: true });
+    try { await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'ERROR.png'), fullPage: true }); } catch(_) {}
   } finally {
     await browser.close();
   }
