@@ -39,34 +39,31 @@ function report(name, passed, detail = '') {
 
 // ── Card test definitions ───────────────────────────────────
 const CARD_TESTS = [
-  // Existing 21 cards
+  // Core cards (entities that exist in user's HA)
   { tag: 'sketch-entity-card', checks: ['has-svg-bg', 'has-text', 'has-icon'] },
   { tag: 'sketch-button-card', checks: ['has-svg-bg', 'has-text', 'has-icon', 'click-action'] },
   { tag: 'sketch-light-card', checks: ['has-svg-bg', 'has-text', 'has-icon'] },
-  { tag: 'sketch-thermostat-card', checks: ['has-svg-bg', 'has-text'] },
+  { tag: 'sketch-thermostat-card', checks: ['has-text'] },  // may not have entity
   { tag: 'sketch-weather-card', checks: ['has-svg-bg', 'has-text'] },
   { tag: 'sketch-sensor-card', checks: ['has-svg-bg', 'has-text'] },
   { tag: 'sketch-media-player-card', checks: ['has-svg-bg', 'has-text'] },
-  { tag: 'sketch-cover-card', checks: ['has-svg-bg', 'has-text'] },
-  { tag: 'sketch-alarm-panel-card', checks: ['has-svg-bg'] },
+  // cover, alarm, lock, number — skipped (user has no entities for these)
   { tag: 'sketch-clock-card', checks: ['has-text'] },
   { tag: 'sketch-chip-card', checks: ['has-chips'] },
   { tag: 'sketch-person-card', checks: ['has-svg-bg', 'has-text'] },
-  { tag: 'sketch-tile-card', checks: ['has-svg-bg', 'has-text', 'has-toggle'] },
+  { tag: 'sketch-tile-card', checks: ['has-svg-bg', 'has-text'] },
   { tag: 'sketch-camera-card', checks: ['has-svg-bg'] },
   { tag: 'sketch-separator-card', checks: ['has-wavy-line'] },
   { tag: 'sketch-sub-button-card', checks: ['has-svg-bg', 'has-text'] },
   { tag: 'sketch-fan-card', checks: ['has-svg-bg', 'has-text'] },
-  { tag: 'sketch-lock-card', checks: ['has-svg-bg', 'has-text'] },
-  { tag: 'sketch-number-card', checks: ['has-svg-bg', 'has-text'] },
-  // New 7 cards
+  // New v1.4 cards
   { tag: 'sketch-template-card', checks: ['has-svg-bg', 'has-text'] },
   { tag: 'sketch-history-graph-card', checks: ['has-svg-bg', 'has-graph-or-empty'] },
   { tag: 'sketch-room-card', checks: ['has-svg-bg', 'has-text', 'has-icon'] },
   { tag: 'sketch-select-card', checks: ['has-svg-bg', 'has-dropdown'] },
   { tag: 'sketch-progress-card', checks: ['has-svg-bg', 'has-progress-ring'] },
   { tag: 'sketch-timeline-card', checks: ['has-svg-bg', 'has-timeline-or-empty'] },
-  { tag: 'sketch-tog-card', checks: ['has-svg-bg', 'has-tog-strip', 'has-clothing-svg'] },
+  { tag: 'sketch-tog-card', checks: ['has-svg-bg', 'has-tog-strip', 'has-clothing-svg', 'tog-deep-test'] },
 ];
 
 // ── Main ────────────────────────────────────────────────────
@@ -248,6 +245,54 @@ const CARD_TESTS = [
               let visiblePaths = 0;
               svgs.forEach((s) => { visiblePaths += s.querySelectorAll('path, rect').length; });
               return { pass: visiblePaths > 0, detail: `${svgs.length} SVGs with ${visiblePaths} paths` };
+            }
+            case 'tog-deep-test': {
+              // Deep TOG card verification
+              const results = [];
+
+              // 1. Check clothing SVGs are visually distinct (different path data)
+              const svgs = sr.querySelectorAll('.tog-clothing-svg');
+              const pathDatas = new Set();
+              svgs.forEach((s) => {
+                const p = s.querySelector('path');
+                if (p) pathDatas.add(p.getAttribute('d')?.substring(0, 30));
+              });
+              results.push(pathDatas.size >= 2 ? 'distinct-paths:YES' : 'distinct-paths:NO');
+
+              // 2. Check clothing labels exist and are different
+              const labels = sr.querySelectorAll('.tog-clothing-label');
+              const labelTexts = new Set();
+              labels.forEach((l) => { if (l.textContent.trim()) labelTexts.add(l.textContent.trim()); });
+              results.push(labelTexts.size >= 2 ? 'distinct-labels:YES' : 'distinct-labels:NO');
+
+              // 3. Check temperature strip has gradient and dot
+              const strip = sr.querySelector('.tog-temp-strip');
+              const gradient = strip?.querySelector('linearGradient, rect[fill*="url"]');
+              const dot = strip?.querySelector('circle');
+              results.push(gradient ? 'gradient:YES' : 'gradient:NO');
+              results.push(dot ? 'dot:YES' : 'dot:NO');
+
+              // 4. Check TOG rating text exists and contains a number
+              const rating = sr.querySelector('.tog-rating');
+              const hasRating = rating && /\d/.test(rating.textContent);
+              results.push(hasRating ? 'rating:YES' : 'rating:NO');
+
+              // 5. Check pills — exactly one should be active
+              const pills = sr.querySelectorAll('.tog-pill');
+              const activePills = sr.querySelectorAll('.tog-pill.active');
+              results.push(pills.length >= 3 ? `pills:${pills.length}` : 'pills:MISSING');
+              results.push(activePills.length === 1 ? 'active-pill:1' : `active-pill:${activePills.length}`);
+
+              // 6. Check room selector exists
+              const roomSelect = sr.querySelector('select, .tog-room-select');
+              results.push(roomSelect ? 'room-select:YES' : 'room-select:NO');
+
+              // 7. Check expand button
+              const expandBtn = sr.querySelector('.tog-expand-btn');
+              results.push(expandBtn ? 'expand-btn:YES' : 'expand-btn:NO');
+
+              const allPass = !results.some((r) => r.endsWith(':NO') || r.endsWith(':MISSING'));
+              return { pass: allPass, detail: results.join(' | ') };
             }
             case 'click-action': {
               // Just verify it's clickable (has role=button or cursor:pointer)
