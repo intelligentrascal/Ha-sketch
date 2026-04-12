@@ -1,0 +1,282 @@
+# Ha-sketch Test Dashboard — All 28 Cards
+#
+# Install: In HA, go to Settings > Dashboards > Add Dashboard
+#   Title: Sketch Test
+#   URL: lovelace-sketch-test
+#   Then edit the dashboard in raw config mode and paste this YAML.
+#
+# Requires: ha-sketchbook-cards.js loaded as a resource
+
+views:
+  - title: All Cards Test
+    path: "0"
+    type: sections
+    max_columns: 4
+    sections:
+
+      # ── Core Entity Cards ────────────────────────────────
+      - title: ""
+        cards:
+          - type: custom:sketch-separator-card
+            name: Core Cards
+            icon: mdi:cards
+
+          - type: custom:sketch-entity-card
+            entity: light.silicon_labs_ezsp_living_room_lamp_leds
+            name: Entity Card Test
+
+          - type: custom:sketch-button-card
+            entity: switch.coffee_machine
+            name: Button Test
+            icon: mdi:coffee
+            tap_action:
+              action: toggle
+
+          - type: custom:sketch-light-card
+            entity: light.silicon_labs_ezsp_living_room_lamp_leds
+            name: Light Test
+            show_brightness: true
+            show_color_temp: true
+
+          - type: custom:sketch-thermostat-card
+            entity: climate.living_room
+            name: Thermostat Test
+
+          - type: custom:sketch-weather-card
+            entity: weather.aemet_spain_weather
+            name: Weather Test
+            show_forecast: true
+
+          - type: custom:sketch-sensor-card
+            entity: sensor.temperature_humidity_livingroom_temperature
+            name: Sensor Test
+            graph: true
+
+          - type: custom:sketch-media-player-card
+            entity: media_player.nvidia_shield
+            name: Media Test
+            show_artwork: true
+
+          - type: custom:sketch-cover-card
+            entity: cover.living_room_blinds
+            name: Cover Test
+            show_position: true
+
+          - type: custom:sketch-alarm-panel-card
+            entity: alarm_control_panel.home
+            name: Alarm Test
+            states:
+              - arm_home
+              - arm_away
+
+      # ── Utility Cards ────────────────────────────────────
+      - title: ""
+        cards:
+          - type: custom:sketch-separator-card
+            name: Utility Cards
+            icon: mdi:tools
+
+          - type: custom:sketch-clock-card
+            mode: both
+            show_date: true
+            name: Clock Test
+
+          - type: custom:sketch-chip-card
+            chips:
+              - type: entity
+                entity: binary_sensor.front_door_sensor_opening
+                name: Door
+              - type: entity
+                entity: switch.coffee_machine
+                name: Coffee
+                tap_action:
+                  action: toggle
+
+          - type: custom:sketch-person-card
+            entity: person.rahil
+            name: Person Test
+            show_location: true
+
+          - type: custom:sketch-tile-card
+            entity: switch.coffee_machine
+            name: Tile Test
+
+          - type: custom:sketch-camera-card
+            entity: camera.aqara_g100
+            name: Camera Test
+            show_controls: true
+
+          - type: custom:sketch-fan-card
+            entity: fan.core_200s_series
+            name: Fan Test
+            show_speed: true
+
+          - type: custom:sketch-lock-card
+            entity: lock.front_door
+            name: Lock Test
+
+          - type: custom:sketch-number-card
+            entity: input_number.volume
+            name: Number Test
+            show_slider: true
+
+          - type: custom:sketch-sub-button-card
+            entity: light.silicon_labs_ezsp_living_room_lamp_leds
+            name: Sub-Button Test
+            collapsible: true
+            columns: 3
+            sub_buttons:
+              - icon: mdi:lightbulb
+                name: On
+                tap_action:
+                  action: toggle
+              - icon: mdi:lightbulb-off
+                name: Off
+
+      # ── NEW 7 Cards ──────────────────────────────────────
+      - title: ""
+        cards:
+          - type: custom:sketch-separator-card
+            name: New Cards (v1.4)
+            icon: mdi:new-box
+
+          - type: custom:sketch-template-card
+            primary: >-
+              {% set hour = now().hour %}
+              {% if hour < 12 %}Good morning{% elif hour < 17 %}Good afternoon{% else %}Good evening{% endif %}
+            secondary: "{{ now().strftime('%A, %B %-d') }} · {{ now().strftime('%-I:%M %p') }}"
+            icon: mdi:home
+            icon_color: >-
+              {% set hour = now().hour %}
+              {% if hour < 6 or hour > 20 %}deep-purple{% elif hour < 12 %}amber{% else %}orange{% endif %}
+
+          - type: custom:sketch-template-card
+            primary: >-
+              {{ states('sensor.temperature_humidity_livingroom_temperature') | round(1) }}°C
+            secondary: >-
+              Living room · {{ states('sensor.temperature_humidity_livingroom_humidity') | round(0) }}% humidity
+            icon: mdi:thermometer
+            icon_color: >-
+              {% set t = states('sensor.temperature_humidity_livingroom_temperature') | float(20) %}
+              {% if t > 26 %}red{% elif t > 22 %}green{% else %}blue{% endif %}
+            layout: horizontal
+
+          - type: custom:sketch-history-graph-card
+            name: Living Room Temp
+            entities:
+              - sensor.temperature_humidity_livingroom_temperature
+            hours_to_show: 24
+            fill: fade
+            color_thresholds:
+              - value: 18
+                color: "#42A5F5"
+              - value: 22
+                color: "#66BB6A"
+              - value: 26
+                color: "#FFA726"
+
+          - type: custom:sketch-history-graph-card
+            name: Bedroom CO2
+            entities:
+              - sensor.i_9psl_carbon_dioxide
+            hours_to_show: 12
+            fill: fade
+            color_thresholds:
+              - value: 400
+                color: "#66BB6A"
+              - value: 800
+                color: "#FDD835"
+              - value: 1200
+                color: "#EF5350"
+
+          - type: custom:sketch-room-card
+            entity: binary_sensor.screek_human_sensor_f2_06e7bc_occupancy_or_movement
+            name: Living Room
+            icon: mdi:sofa
+            tap_action:
+              action: navigate
+              navigation_path: "#living-room"
+            sub_entities:
+              - entity: sensor.temperature_humidity_livingroom_temperature
+                icon: mdi:thermometer
+              - entity: sensor.temperature_humidity_livingroom_humidity
+                icon: mdi:water-percent
+
+          - type: custom:sketch-room-card
+            entity: binary_sensor.bedroom_presence_motion
+            name: Bedroom
+            icon: mdi:bed
+            tap_action:
+              action: navigate
+              navigation_path: "#bedroom"
+            sub_entities:
+              - entity: sensor.i_9psl_temperature
+                icon: mdi:thermometer
+              - entity: sensor.i_9psl_carbon_dioxide
+                icon: mdi:molecule-co2
+
+          - type: custom:sketch-select-card
+            entity: input_select.baby_sleep_room
+            name: Sleep Room
+            icon: mdi:door-open
+
+          - type: custom:sketch-progress-card
+            entity: sensor.v2515_daily_steps
+            name: Rahil Steps
+            icon: mdi:walk
+            max: 10000
+
+          - type: custom:sketch-timeline-card
+            name: Recent Activity
+            entities:
+              - binary_sensor.front_door_sensor_opening
+              - light.silicon_labs_ezsp_living_room_lamp_leds
+              - switch.coffee_machine
+              - binary_sensor.bedroom_presence_motion
+            hours_to_show: 4
+            max_entries: 8
+            variant: notebook
+
+          - type: custom:sketch-tog-card
+            temperature_entity: sensor.i_9psl_temperature
+            room_select_entity: input_select.baby_sleep_room
+            name: Baby Sleep Guide
+
+      # ── Variant & Corner Radius Tests ────────────────────
+      - title: ""
+        cards:
+          - type: custom:sketch-separator-card
+            name: Visual Tests
+            icon: mdi:palette
+
+          - type: custom:sketch-entity-card
+            entity: light.silicon_labs_ezsp_living_room_lamp_leds
+            name: Paper (default)
+            variant: paper
+            corner_radius: 14
+
+          - type: custom:sketch-entity-card
+            entity: light.ledstrip_bedside_light
+            name: Notebook
+            variant: notebook
+            corner_radius: 14
+
+          - type: custom:sketch-entity-card
+            entity: light.silicon_labs_ezsp_office_lamp_back
+            name: Sticky Note
+            variant: sticky
+            corner_radius: 8
+
+          - type: custom:sketch-button-card
+            entity: switch.coffee_machine
+            name: Sharp (0)
+            corner_radius: 0
+            tap_action:
+              action: toggle
+
+          - type: custom:sketch-button-card
+            entity: switch.bedroom_fan_switch
+            name: Round (25)
+            corner_radius: 25
+            tap_action:
+              action: toggle
