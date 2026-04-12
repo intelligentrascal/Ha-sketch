@@ -75,6 +75,7 @@ export abstract class BaseSketchEditor extends LitElement {
       hide_icon: 'Hide Icon',
       states: 'Alarm States',
       mode: 'Display Mode',
+      time_format: 'Time Format',
       show_date: 'Show Date',
       show_seconds: 'Show Seconds',
       hash: 'Hash (e.g. kitchen)',

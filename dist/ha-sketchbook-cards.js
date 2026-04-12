@@ -1,4 +1,4 @@
-function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPropertyDescriptor(t,i):s;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,i,s);else for(var r=e.length-1;r>=0;r--)(o=e[r])&&(a=(n<3?o(a):n>3?o(t,i,a):o(t,i))||a);return n>3&&a&&Object.defineProperty(t,i,a),a}"function"==typeof SuppressedError&&SuppressedError;const t=globalThis,i=t.ShadowRoot&&(void 0===t.ShadyCSS||t.ShadyCSS.nativeShadow)&&"adoptedStyleSheets"in Document.prototype&&"replace"in CSSStyleSheet.prototype,s=Symbol(),o=new WeakMap;let n=class{constructor(e,t,i){if(this._$cssResult$=!0,i!==s)throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");this.cssText=e,this.t=t}get styleSheet(){let e=this.o;const t=this.t;if(i&&void 0===e){const i=void 0!==t&&1===t.length;i&&(e=o.get(t)),void 0===e&&((this.o=e=new CSSStyleSheet).replaceSync(this.cssText),i&&o.set(t,e))}return e}toString(){return this.cssText}};const a=(e,...t)=>{const i=1===e.length?e[0]:t.reduce((t,i,s)=>t+(e=>{if(!0===e._$cssResult$)return e.cssText;if("number"==typeof e)return e;throw Error("Value passed to 'css' function must be a 'css' function result: "+e+". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security.")})(i)+e[s+1],e[0]);return new n(i,e,s)},r=i?e=>e:e=>e instanceof CSSStyleSheet?(e=>{let t="";for(const i of e.cssRules)t+=i.cssText;return(e=>new n("string"==typeof e?e:e+"",void 0,s))(t)})(e):e,{is:c,defineProperty:l,getOwnPropertyDescriptor:h,getOwnPropertyNames:d,getOwnPropertySymbols:p,getPrototypeOf:m}=Object,u=globalThis,g=u.trustedTypes,f=g?g.emptyScript:"",v=u.reactiveElementPolyfillSupport,k=(e,t)=>e,_={toAttribute(e,t){switch(t){case Boolean:e=e?f:null;break;case Object:case Array:e=null==e?e:JSON.stringify(e)}return e},fromAttribute(e,t){let i=e;switch(t){case Boolean:i=null!==e;break;case Number:i=null===e?null:Number(e);break;case Object:case Array:try{i=JSON.parse(e)}catch(e){i=null}}return i}},y=(e,t)=>!c(e,t),b={attribute:!0,type:String,converter:_,reflect:!1,useDefault:!1,hasChanged:y};Symbol.metadata??=Symbol("metadata"),u.litPropertyMetadata??=new WeakMap;let w=class extends HTMLElement{static addInitializer(e){this._$Ei(),(this.l??=[]).push(e)}static get observedAttributes(){return this.finalize(),this._$Eh&&[...this._$Eh.keys()]}static createProperty(e,t=b){if(t.state&&(t.attribute=!1),this._$Ei(),this.prototype.hasOwnProperty(e)&&((t=Object.create(t)).wrapped=!0),this.elementProperties.set(e,t),!t.noAccessor){const i=Symbol(),s=this.getPropertyDescriptor(e,i,t);void 0!==s&&l(this.prototype,e,s)}}static getPropertyDescriptor(e,t,i){const{get:s,set:o}=h(this.prototype,e)??{get(){return this[t]},set(e){this[t]=e}};return{get:s,set(t){const n=s?.call(this);o?.call(this,t),this.requestUpdate(e,n,i)},configurable:!0,enumerable:!0}}static getPropertyOptions(e){return this.elementProperties.get(e)??b}static _$Ei(){if(this.hasOwnProperty(k("elementProperties")))return;const e=m(this);e.finalize(),void 0!==e.l&&(this.l=[...e.l]),this.elementProperties=new Map(e.elementProperties)}static finalize(){if(this.hasOwnProperty(k("finalized")))return;if(this.finalized=!0,this._$Ei(),this.hasOwnProperty(k("properties"))){const e=this.properties,t=[...d(e),...p(e)];for(const i of t)this.createProperty(i,e[i])}const e=this[Symbol.metadata];if(null!==e){const t=litPropertyMetadata.get(e);if(void 0!==t)for(const[e,i]of t)this.elementProperties.set(e,i)}this._$Eh=new Map;for(const[e,t]of this.elementProperties){const i=this._$Eu(e,t);void 0!==i&&this._$Eh.set(i,e)}this.elementStyles=this.finalizeStyles(this.styles)}static finalizeStyles(e){const t=[];if(Array.isArray(e)){const i=new Set(e.flat(1/0).reverse());for(const e of i)t.unshift(r(e))}else void 0!==e&&t.push(r(e));return t}static _$Eu(e,t){const i=t.attribute;return!1===i?void 0:"string"==typeof i?i:"string"==typeof e?e.toLowerCase():void 0}constructor(){super(),this._$Ep=void 0,this.isUpdatePending=!1,this.hasUpdated=!1,this._$Em=null,this._$Ev()}_$Ev(){this._$ES=new Promise(e=>this.enableUpdating=e),this._$AL=new Map,this._$E_(),this.requestUpdate(),this.constructor.l?.forEach(e=>e(this))}addController(e){(this._$EO??=new Set).add(e),void 0!==this.renderRoot&&this.isConnected&&e.hostConnected?.()}removeController(e){this._$EO?.delete(e)}_$E_(){const e=new Map,t=this.constructor.elementProperties;for(const i of t.keys())this.hasOwnProperty(i)&&(e.set(i,this[i]),delete this[i]);e.size>0&&(this._$Ep=e)}createRenderRoot(){const e=this.shadowRoot??this.attachShadow(this.constructor.shadowRootOptions);return((e,s)=>{if(i)e.adoptedStyleSheets=s.map(e=>e instanceof CSSStyleSheet?e:e.styleSheet);else for(const i of s){const s=document.createElement("style"),o=t.litNonce;void 0!==o&&s.setAttribute("nonce",o),s.textContent=i.cssText,e.appendChild(s)}})(e,this.constructor.elementStyles),e}connectedCallback(){this.renderRoot??=this.createRenderRoot(),this.enableUpdating(!0),this._$EO?.forEach(e=>e.hostConnected?.())}enableUpdating(e){}disconnectedCallback(){this._$EO?.forEach(e=>e.hostDisconnected?.())}attributeChangedCallback(e,t,i){this._$AK(e,i)}_$ET(e,t){const i=this.constructor.elementProperties.get(e),s=this.constructor._$Eu(e,i);if(void 0!==s&&!0===i.reflect){const o=(void 0!==i.converter?.toAttribute?i.converter:_).toAttribute(t,i.type);this._$Em=e,null==o?this.removeAttribute(s):this.setAttribute(s,o),this._$Em=null}}_$AK(e,t){const i=this.constructor,s=i._$Eh.get(e);if(void 0!==s&&this._$Em!==s){const e=i.getPropertyOptions(s),o="function"==typeof e.converter?{fromAttribute:e.converter}:void 0!==e.converter?.fromAttribute?e.converter:_;this._$Em=s;const n=o.fromAttribute(t,e.type);this[s]=n??this._$Ej?.get(s)??n,this._$Em=null}}requestUpdate(e,t,i,s=!1,o){if(void 0!==e){const n=this.constructor;if(!1===s&&(o=this[e]),i??=n.getPropertyOptions(e),!((i.hasChanged??y)(o,t)||i.useDefault&&i.reflect&&o===this._$Ej?.get(e)&&!this.hasAttribute(n._$Eu(e,i))))return;this.C(e,t,i)}!1===this.isUpdatePending&&(this._$ES=this._$EP())}C(e,t,{useDefault:i,reflect:s,wrapped:o},n){i&&!(this._$Ej??=new Map).has(e)&&(this._$Ej.set(e,n??t??this[e]),!0!==o||void 0!==n)||(this._$AL.has(e)||(this.hasUpdated||i||(t=void 0),this._$AL.set(e,t)),!0===s&&this._$Em!==e&&(this._$Eq??=new Set).add(e))}async _$EP(){this.isUpdatePending=!0;try{await this._$ES}catch(e){Promise.reject(e)}const e=this.scheduleUpdate();return null!=e&&await e,!this.isUpdatePending}scheduleUpdate(){return this.performUpdate()}performUpdate(){if(!this.isUpdatePending)return;if(!this.hasUpdated){if(this.renderRoot??=this.createRenderRoot(),this._$Ep){for(const[e,t]of this._$Ep)this[e]=t;this._$Ep=void 0}const e=this.constructor.elementProperties;if(e.size>0)for(const[t,i]of e){const{wrapped:e}=i,s=this[t];!0!==e||this._$AL.has(t)||void 0===s||this.C(t,void 0,i,s)}}let e=!1;const t=this._$AL;try{e=this.shouldUpdate(t),e?(this.willUpdate(t),this._$EO?.forEach(e=>e.hostUpdate?.()),this.update(t)):this._$EM()}catch(t){throw e=!1,this._$EM(),t}e&&this._$AE(t)}willUpdate(e){}_$AE(e){this._$EO?.forEach(e=>e.hostUpdated?.()),this.hasUpdated||(this.hasUpdated=!0,this.firstUpdated(e)),this.updated(e)}_$EM(){this._$AL=new Map,this.isUpdatePending=!1}get updateComplete(){return this.getUpdateComplete()}getUpdateComplete(){return this._$ES}shouldUpdate(e){return!0}update(e){this._$Eq&&=this._$Eq.forEach(e=>this._$ET(e,this[e])),this._$EM()}updated(e){}firstUpdated(e){}};w.elementStyles=[],w.shadowRootOptions={mode:"open"},w[k("elementProperties")]=new Map,w[k("finalized")]=new Map,v?.({ReactiveElement:w}),(u.reactiveElementVersions??=[]).push("2.1.2");const x=globalThis,$=e=>e,C=x.trustedTypes,S=C?C.createPolicy("lit-html",{createHTML:e=>e}):void 0,E="$lit$",A=`lit$${Math.random().toFixed(9).slice(2)}$`,z="?"+A,P=`<${z}>`,T=document,L=()=>T.createComment(""),M=e=>null===e||"object"!=typeof e&&"function"!=typeof e,j=Array.isArray,O="[ \t\n\f\r]",N=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,B=/-->/g,D=/>/g,U=RegExp(`>|${O}(?:([^\\s"'>=/]+)(${O}*=${O}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`,"g"),H=/'/g,I=/"/g,F=/^(?:script|style|textarea|title)$/i,R=e=>(t,...i)=>({_$litType$:e,strings:t,values:i}),W=R(1),K=R(2),G=Symbol.for("lit-noChange"),Q=Symbol.for("lit-nothing"),V=new WeakMap,q=T.createTreeWalker(T,129);function Z(e,t){if(!j(e)||!e.hasOwnProperty("raw"))throw Error("invalid template strings array");return void 0!==S?S.createHTML(t):t}const Y=(e,t)=>{const i=e.length-1,s=[];let o,n=2===t?"<svg>":3===t?"<math>":"",a=N;for(let t=0;t<i;t++){const i=e[t];let r,c,l=-1,h=0;for(;h<i.length&&(a.lastIndex=h,c=a.exec(i),null!==c);)h=a.lastIndex,a===N?"!--"===c[1]?a=B:void 0!==c[1]?a=D:void 0!==c[2]?(F.test(c[2])&&(o=RegExp("</"+c[2],"g")),a=U):void 0!==c[3]&&(a=U):a===U?">"===c[0]?(a=o??N,l=-1):void 0===c[1]?l=-2:(l=a.lastIndex-c[2].length,r=c[1],a=void 0===c[3]?U:'"'===c[3]?I:H):a===I||a===H?a=U:a===B||a===D?a=N:(a=U,o=void 0);const d=a===U&&e[t+1].startsWith("/>")?" ":"";n+=a===N?i+P:l>=0?(s.push(r),i.slice(0,l)+E+i.slice(l)+A+d):i+A+(-2===l?t:d)}return[Z(e,n+(e[i]||"<?>")+(2===t?"</svg>":3===t?"</math>":"")),s]};class J{constructor({strings:e,_$litType$:t},i){let s;this.parts=[];let o=0,n=0;const a=e.length-1,r=this.parts,[c,l]=Y(e,t);if(this.el=J.createElement(c,i),q.currentNode=this.el.content,2===t||3===t){const e=this.el.content.firstChild;e.replaceWith(...e.childNodes)}for(;null!==(s=q.nextNode())&&r.length<a;){if(1===s.nodeType){if(s.hasAttributes())for(const e of s.getAttributeNames())if(e.endsWith(E)){const t=l[n++],i=s.getAttribute(e).split(A),a=/([.?@])?(.*)/.exec(t);r.push({type:1,index:o,name:a[2],strings:i,ctor:"."===a[1]?se:"?"===a[1]?oe:"@"===a[1]?ne:ie}),s.removeAttribute(e)}else e.startsWith(A)&&(r.push({type:6,index:o}),s.removeAttribute(e));if(F.test(s.tagName)){const e=s.textContent.split(A),t=e.length-1;if(t>0){s.textContent=C?C.emptyScript:"";for(let i=0;i<t;i++)s.append(e[i],L()),q.nextNode(),r.push({type:2,index:++o});s.append(e[t],L())}}}else if(8===s.nodeType)if(s.data===z)r.push({type:2,index:o});else{let e=-1;for(;-1!==(e=s.data.indexOf(A,e+1));)r.push({type:7,index:o}),e+=A.length-1}o++}}static createElement(e,t){const i=T.createElement("template");return i.innerHTML=e,i}}function X(e,t,i=e,s){if(t===G)return t;let o=void 0!==s?i._$Co?.[s]:i._$Cl;const n=M(t)?void 0:t._$litDirective$;return o?.constructor!==n&&(o?._$AO?.(!1),void 0===n?o=void 0:(o=new n(e),o._$AT(e,i,s)),void 0!==s?(i._$Co??=[])[s]=o:i._$Cl=o),void 0!==o&&(t=X(e,o._$AS(e,t.values),o,s)),t}class ee{constructor(e,t){this._$AV=[],this._$AN=void 0,this._$AD=e,this._$AM=t}get parentNode(){return this._$AM.parentNode}get _$AU(){return this._$AM._$AU}u(e){const{el:{content:t},parts:i}=this._$AD,s=(e?.creationScope??T).importNode(t,!0);q.currentNode=s;let o=q.nextNode(),n=0,a=0,r=i[0];for(;void 0!==r;){if(n===r.index){let t;2===r.type?t=new te(o,o.nextSibling,this,e):1===r.type?t=new r.ctor(o,r.name,r.strings,this,e):6===r.type&&(t=new ae(o,this,e)),this._$AV.push(t),r=i[++a]}n!==r?.index&&(o=q.nextNode(),n++)}return q.currentNode=T,s}p(e){let t=0;for(const i of this._$AV)void 0!==i&&(void 0!==i.strings?(i._$AI(e,i,t),t+=i.strings.length-2):i._$AI(e[t])),t++}}class te{get _$AU(){return this._$AM?._$AU??this._$Cv}constructor(e,t,i,s){this.type=2,this._$AH=Q,this._$AN=void 0,this._$AA=e,this._$AB=t,this._$AM=i,this.options=s,this._$Cv=s?.isConnected??!0}get parentNode(){let e=this._$AA.parentNode;const t=this._$AM;return void 0!==t&&11===e?.nodeType&&(e=t.parentNode),e}get startNode(){return this._$AA}get endNode(){return this._$AB}_$AI(e,t=this){e=X(this,e,t),M(e)?e===Q||null==e||""===e?(this._$AH!==Q&&this._$AR(),this._$AH=Q):e!==this._$AH&&e!==G&&this._(e):void 0!==e._$litType$?this.$(e):void 0!==e.nodeType?this.T(e):(e=>j(e)||"function"==typeof e?.[Symbol.iterator])(e)?this.k(e):this._(e)}O(e){return this._$AA.parentNode.insertBefore(e,this._$AB)}T(e){this._$AH!==e&&(this._$AR(),this._$AH=this.O(e))}_(e){this._$AH!==Q&&M(this._$AH)?this._$AA.nextSibling.data=e:this.T(T.createTextNode(e)),this._$AH=e}$(e){const{values:t,_$litType$:i}=e,s="number"==typeof i?this._$AC(e):(void 0===i.el&&(i.el=J.createElement(Z(i.h,i.h[0]),this.options)),i);if(this._$AH?._$AD===s)this._$AH.p(t);else{const e=new ee(s,this),i=e.u(this.options);e.p(t),this.T(i),this._$AH=e}}_$AC(e){let t=V.get(e.strings);return void 0===t&&V.set(e.strings,t=new J(e)),t}k(e){j(this._$AH)||(this._$AH=[],this._$AR());const t=this._$AH;let i,s=0;for(const o of e)s===t.length?t.push(i=new te(this.O(L()),this.O(L()),this,this.options)):i=t[s],i._$AI(o),s++;s<t.length&&(this._$AR(i&&i._$AB.nextSibling,s),t.length=s)}_$AR(e=this._$AA.nextSibling,t){for(this._$AP?.(!1,!0,t);e!==this._$AB;){const t=$(e).nextSibling;$(e).remove(),e=t}}setConnected(e){void 0===this._$AM&&(this._$Cv=e,this._$AP?.(e))}}class ie{get tagName(){return this.element.tagName}get _$AU(){return this._$AM._$AU}constructor(e,t,i,s,o){this.type=1,this._$AH=Q,this._$AN=void 0,this.element=e,this.name=t,this._$AM=s,this.options=o,i.length>2||""!==i[0]||""!==i[1]?(this._$AH=Array(i.length-1).fill(new String),this.strings=i):this._$AH=Q}_$AI(e,t=this,i,s){const o=this.strings;let n=!1;if(void 0===o)e=X(this,e,t,0),n=!M(e)||e!==this._$AH&&e!==G,n&&(this._$AH=e);else{const s=e;let a,r;for(e=o[0],a=0;a<o.length-1;a++)r=X(this,s[i+a],t,a),r===G&&(r=this._$AH[a]),n||=!M(r)||r!==this._$AH[a],r===Q?e=Q:e!==Q&&(e+=(r??"")+o[a+1]),this._$AH[a]=r}n&&!s&&this.j(e)}j(e){e===Q?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,e??"")}}class se extends ie{constructor(){super(...arguments),this.type=3}j(e){this.element[this.name]=e===Q?void 0:e}}class oe extends ie{constructor(){super(...arguments),this.type=4}j(e){this.element.toggleAttribute(this.name,!!e&&e!==Q)}}class ne extends ie{constructor(e,t,i,s,o){super(e,t,i,s,o),this.type=5}_$AI(e,t=this){if((e=X(this,e,t,0)??Q)===G)return;const i=this._$AH,s=e===Q&&i!==Q||e.capture!==i.capture||e.once!==i.once||e.passive!==i.passive,o=e!==Q&&(i===Q||s);s&&this.element.removeEventListener(this.name,this,i),o&&this.element.addEventListener(this.name,this,e),this._$AH=e}handleEvent(e){"function"==typeof this._$AH?this._$AH.call(this.options?.host??this.element,e):this._$AH.handleEvent(e)}}class ae{constructor(e,t,i){this.element=e,this.type=6,this._$AN=void 0,this._$AM=t,this.options=i}get _$AU(){return this._$AM._$AU}_$AI(e){X(this,e)}}const re=x.litHtmlPolyfillSupport;re?.(J,te),(x.litHtmlVersions??=[]).push("3.3.2");const ce=globalThis;let le=class extends w{constructor(){super(...arguments),this.renderOptions={host:this},this._$Do=void 0}createRenderRoot(){const e=super.createRenderRoot();return this.renderOptions.renderBefore??=e.firstChild,e}update(e){const t=this.render();this.hasUpdated||(this.renderOptions.isConnected=this.isConnected),super.update(e),this._$Do=((e,t,i)=>{const s=i?.renderBefore??t;let o=s._$litPart$;if(void 0===o){const e=i?.renderBefore??null;s._$litPart$=o=new te(t.insertBefore(L(),e),e,void 0,i??{})}return o._$AI(e),o})(t,this.renderRoot,this.renderOptions)}connectedCallback(){super.connectedCallback(),this._$Do?.setConnected(!0)}disconnectedCallback(){super.disconnectedCallback(),this._$Do?.setConnected(!1)}render(){return G}};le._$litElement$=!0,le.finalized=!0,ce.litElementHydrateSupport?.({LitElement:le});const he=ce.litElementPolyfillSupport;he?.({LitElement:le}),(ce.litElementVersions??=[]).push("4.2.2");const de=e=>(t,i)=>{void 0!==i?i.addInitializer(()=>{customElements.define(e,t)}):customElements.define(e,t)},pe={attribute:!0,type:String,converter:_,reflect:!1,hasChanged:y},me=(e=pe,t,i)=>{const{kind:s,metadata:o}=i;let n=globalThis.litPropertyMetadata.get(o);if(void 0===n&&globalThis.litPropertyMetadata.set(o,n=new Map),"setter"===s&&((e=Object.create(e)).wrapped=!0),n.set(i.name,e),"accessor"===s){const{name:s}=i;return{set(i){const o=t.get.call(this);t.set.call(this,i),this.requestUpdate(s,o,e,!0,i)},init(t){return void 0!==t&&this.C(s,void 0,e,t),t}}}if("setter"===s){const{name:s}=i;return function(i){const o=this[s];t.call(this,i),this.requestUpdate(s,o,e,!0,i)}}throw Error("Unsupported decorator location: "+s)};function ue(e){return(t,i)=>"object"==typeof i?me(e,t,i):((e,t,i)=>{const s=t.hasOwnProperty(i);return t.constructor.createProperty(i,e),s?Object.getOwnPropertyDescriptor(t,i):void 0})(e,t,i)}function ge(e){return ue({...e,state:!0,attribute:!1})}const fe=2,ve=e=>(...t)=>({_$litDirective$:e,values:t});class ke{constructor(e){}get _$AU(){return this._$AM._$AU}_$AT(e,t,i){this._$Ct=e,this._$AM=t,this._$Ci=i}_$AS(e,t){return this.update(e,t)}update(e,t){return this.render(...t)}}class _e extends ke{constructor(e){if(super(e),this.it=Q,e.type!==fe)throw Error(this.constructor.directiveName+"() can only be used in child bindings")}render(e){if(e===Q||null==e)return this._t=void 0,this.it=e;if(e===G)return e;if("string"!=typeof e)throw Error(this.constructor.directiveName+"() called with a non-string value");if(e===this.it)return this._t;this.it=e;const t=[e];return t.raw=t,this._t={_$litType$:this.constructor.resultType,strings:t,values:[]}}}_e.directiveName="unsafeHTML",_e.resultType=1;const ye=ve(_e),be=a`
+function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPropertyDescriptor(t,i):s;if("object"==typeof Reflect&&"function"==typeof Reflect.decorate)a=Reflect.decorate(e,t,i,s);else for(var r=e.length-1;r>=0;r--)(o=e[r])&&(a=(n<3?o(a):n>3?o(t,i,a):o(t,i))||a);return n>3&&a&&Object.defineProperty(t,i,a),a}"function"==typeof SuppressedError&&SuppressedError;const t=globalThis,i=t.ShadowRoot&&(void 0===t.ShadyCSS||t.ShadyCSS.nativeShadow)&&"adoptedStyleSheets"in Document.prototype&&"replace"in CSSStyleSheet.prototype,s=Symbol(),o=new WeakMap;let n=class{constructor(e,t,i){if(this._$cssResult$=!0,i!==s)throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");this.cssText=e,this.t=t}get styleSheet(){let e=this.o;const t=this.t;if(i&&void 0===e){const i=void 0!==t&&1===t.length;i&&(e=o.get(t)),void 0===e&&((this.o=e=new CSSStyleSheet).replaceSync(this.cssText),i&&o.set(t,e))}return e}toString(){return this.cssText}};const a=(e,...t)=>{const i=1===e.length?e[0]:t.reduce((t,i,s)=>t+(e=>{if(!0===e._$cssResult$)return e.cssText;if("number"==typeof e)return e;throw Error("Value passed to 'css' function must be a 'css' function result: "+e+". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security.")})(i)+e[s+1],e[0]);return new n(i,e,s)},r=i?e=>e:e=>e instanceof CSSStyleSheet?(e=>{let t="";for(const i of e.cssRules)t+=i.cssText;return(e=>new n("string"==typeof e?e:e+"",void 0,s))(t)})(e):e,{is:c,defineProperty:l,getOwnPropertyDescriptor:h,getOwnPropertyNames:d,getOwnPropertySymbols:p,getPrototypeOf:m}=Object,u=globalThis,g=u.trustedTypes,f=g?g.emptyScript:"",v=u.reactiveElementPolyfillSupport,_=(e,t)=>e,k={toAttribute(e,t){switch(t){case Boolean:e=e?f:null;break;case Object:case Array:e=null==e?e:JSON.stringify(e)}return e},fromAttribute(e,t){let i=e;switch(t){case Boolean:i=null!==e;break;case Number:i=null===e?null:Number(e);break;case Object:case Array:try{i=JSON.parse(e)}catch(e){i=null}}return i}},y=(e,t)=>!c(e,t),b={attribute:!0,type:String,converter:k,reflect:!1,useDefault:!1,hasChanged:y};Symbol.metadata??=Symbol("metadata"),u.litPropertyMetadata??=new WeakMap;let w=class extends HTMLElement{static addInitializer(e){this._$Ei(),(this.l??=[]).push(e)}static get observedAttributes(){return this.finalize(),this._$Eh&&[...this._$Eh.keys()]}static createProperty(e,t=b){if(t.state&&(t.attribute=!1),this._$Ei(),this.prototype.hasOwnProperty(e)&&((t=Object.create(t)).wrapped=!0),this.elementProperties.set(e,t),!t.noAccessor){const i=Symbol(),s=this.getPropertyDescriptor(e,i,t);void 0!==s&&l(this.prototype,e,s)}}static getPropertyDescriptor(e,t,i){const{get:s,set:o}=h(this.prototype,e)??{get(){return this[t]},set(e){this[t]=e}};return{get:s,set(t){const n=s?.call(this);o?.call(this,t),this.requestUpdate(e,n,i)},configurable:!0,enumerable:!0}}static getPropertyOptions(e){return this.elementProperties.get(e)??b}static _$Ei(){if(this.hasOwnProperty(_("elementProperties")))return;const e=m(this);e.finalize(),void 0!==e.l&&(this.l=[...e.l]),this.elementProperties=new Map(e.elementProperties)}static finalize(){if(this.hasOwnProperty(_("finalized")))return;if(this.finalized=!0,this._$Ei(),this.hasOwnProperty(_("properties"))){const e=this.properties,t=[...d(e),...p(e)];for(const i of t)this.createProperty(i,e[i])}const e=this[Symbol.metadata];if(null!==e){const t=litPropertyMetadata.get(e);if(void 0!==t)for(const[e,i]of t)this.elementProperties.set(e,i)}this._$Eh=new Map;for(const[e,t]of this.elementProperties){const i=this._$Eu(e,t);void 0!==i&&this._$Eh.set(i,e)}this.elementStyles=this.finalizeStyles(this.styles)}static finalizeStyles(e){const t=[];if(Array.isArray(e)){const i=new Set(e.flat(1/0).reverse());for(const e of i)t.unshift(r(e))}else void 0!==e&&t.push(r(e));return t}static _$Eu(e,t){const i=t.attribute;return!1===i?void 0:"string"==typeof i?i:"string"==typeof e?e.toLowerCase():void 0}constructor(){super(),this._$Ep=void 0,this.isUpdatePending=!1,this.hasUpdated=!1,this._$Em=null,this._$Ev()}_$Ev(){this._$ES=new Promise(e=>this.enableUpdating=e),this._$AL=new Map,this._$E_(),this.requestUpdate(),this.constructor.l?.forEach(e=>e(this))}addController(e){(this._$EO??=new Set).add(e),void 0!==this.renderRoot&&this.isConnected&&e.hostConnected?.()}removeController(e){this._$EO?.delete(e)}_$E_(){const e=new Map,t=this.constructor.elementProperties;for(const i of t.keys())this.hasOwnProperty(i)&&(e.set(i,this[i]),delete this[i]);e.size>0&&(this._$Ep=e)}createRenderRoot(){const e=this.shadowRoot??this.attachShadow(this.constructor.shadowRootOptions);return((e,s)=>{if(i)e.adoptedStyleSheets=s.map(e=>e instanceof CSSStyleSheet?e:e.styleSheet);else for(const i of s){const s=document.createElement("style"),o=t.litNonce;void 0!==o&&s.setAttribute("nonce",o),s.textContent=i.cssText,e.appendChild(s)}})(e,this.constructor.elementStyles),e}connectedCallback(){this.renderRoot??=this.createRenderRoot(),this.enableUpdating(!0),this._$EO?.forEach(e=>e.hostConnected?.())}enableUpdating(e){}disconnectedCallback(){this._$EO?.forEach(e=>e.hostDisconnected?.())}attributeChangedCallback(e,t,i){this._$AK(e,i)}_$ET(e,t){const i=this.constructor.elementProperties.get(e),s=this.constructor._$Eu(e,i);if(void 0!==s&&!0===i.reflect){const o=(void 0!==i.converter?.toAttribute?i.converter:k).toAttribute(t,i.type);this._$Em=e,null==o?this.removeAttribute(s):this.setAttribute(s,o),this._$Em=null}}_$AK(e,t){const i=this.constructor,s=i._$Eh.get(e);if(void 0!==s&&this._$Em!==s){const e=i.getPropertyOptions(s),o="function"==typeof e.converter?{fromAttribute:e.converter}:void 0!==e.converter?.fromAttribute?e.converter:k;this._$Em=s;const n=o.fromAttribute(t,e.type);this[s]=n??this._$Ej?.get(s)??n,this._$Em=null}}requestUpdate(e,t,i,s=!1,o){if(void 0!==e){const n=this.constructor;if(!1===s&&(o=this[e]),i??=n.getPropertyOptions(e),!((i.hasChanged??y)(o,t)||i.useDefault&&i.reflect&&o===this._$Ej?.get(e)&&!this.hasAttribute(n._$Eu(e,i))))return;this.C(e,t,i)}!1===this.isUpdatePending&&(this._$ES=this._$EP())}C(e,t,{useDefault:i,reflect:s,wrapped:o},n){i&&!(this._$Ej??=new Map).has(e)&&(this._$Ej.set(e,n??t??this[e]),!0!==o||void 0!==n)||(this._$AL.has(e)||(this.hasUpdated||i||(t=void 0),this._$AL.set(e,t)),!0===s&&this._$Em!==e&&(this._$Eq??=new Set).add(e))}async _$EP(){this.isUpdatePending=!0;try{await this._$ES}catch(e){Promise.reject(e)}const e=this.scheduleUpdate();return null!=e&&await e,!this.isUpdatePending}scheduleUpdate(){return this.performUpdate()}performUpdate(){if(!this.isUpdatePending)return;if(!this.hasUpdated){if(this.renderRoot??=this.createRenderRoot(),this._$Ep){for(const[e,t]of this._$Ep)this[e]=t;this._$Ep=void 0}const e=this.constructor.elementProperties;if(e.size>0)for(const[t,i]of e){const{wrapped:e}=i,s=this[t];!0!==e||this._$AL.has(t)||void 0===s||this.C(t,void 0,i,s)}}let e=!1;const t=this._$AL;try{e=this.shouldUpdate(t),e?(this.willUpdate(t),this._$EO?.forEach(e=>e.hostUpdate?.()),this.update(t)):this._$EM()}catch(t){throw e=!1,this._$EM(),t}e&&this._$AE(t)}willUpdate(e){}_$AE(e){this._$EO?.forEach(e=>e.hostUpdated?.()),this.hasUpdated||(this.hasUpdated=!0,this.firstUpdated(e)),this.updated(e)}_$EM(){this._$AL=new Map,this.isUpdatePending=!1}get updateComplete(){return this.getUpdateComplete()}getUpdateComplete(){return this._$ES}shouldUpdate(e){return!0}update(e){this._$Eq&&=this._$Eq.forEach(e=>this._$ET(e,this[e])),this._$EM()}updated(e){}firstUpdated(e){}};w.elementStyles=[],w.shadowRootOptions={mode:"open"},w[_("elementProperties")]=new Map,w[_("finalized")]=new Map,v?.({ReactiveElement:w}),(u.reactiveElementVersions??=[]).push("2.1.2");const x=globalThis,$=e=>e,C=x.trustedTypes,S=C?C.createPolicy("lit-html",{createHTML:e=>e}):void 0,E="$lit$",A=`lit$${Math.random().toFixed(9).slice(2)}$`,z="?"+A,P=`<${z}>`,M=document,T=()=>M.createComment(""),L=e=>null===e||"object"!=typeof e&&"function"!=typeof e,j=Array.isArray,N="[ \t\n\f\r]",O=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,B=/-->/g,D=/>/g,I=RegExp(`>|${N}(?:([^\\s"'>=/]+)(${N}*=${N}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`,"g"),H=/'/g,U=/"/g,F=/^(?:script|style|textarea|title)$/i,R=e=>(t,...i)=>({_$litType$:e,strings:t,values:i}),W=R(1),K=R(2),Q=Symbol.for("lit-noChange"),G=Symbol.for("lit-nothing"),V=new WeakMap,q=M.createTreeWalker(M,129);function Z(e,t){if(!j(e)||!e.hasOwnProperty("raw"))throw Error("invalid template strings array");return void 0!==S?S.createHTML(t):t}const Y=(e,t)=>{const i=e.length-1,s=[];let o,n=2===t?"<svg>":3===t?"<math>":"",a=O;for(let t=0;t<i;t++){const i=e[t];let r,c,l=-1,h=0;for(;h<i.length&&(a.lastIndex=h,c=a.exec(i),null!==c);)h=a.lastIndex,a===O?"!--"===c[1]?a=B:void 0!==c[1]?a=D:void 0!==c[2]?(F.test(c[2])&&(o=RegExp("</"+c[2],"g")),a=I):void 0!==c[3]&&(a=I):a===I?">"===c[0]?(a=o??O,l=-1):void 0===c[1]?l=-2:(l=a.lastIndex-c[2].length,r=c[1],a=void 0===c[3]?I:'"'===c[3]?U:H):a===U||a===H?a=I:a===B||a===D?a=O:(a=I,o=void 0);const d=a===I&&e[t+1].startsWith("/>")?" ":"";n+=a===O?i+P:l>=0?(s.push(r),i.slice(0,l)+E+i.slice(l)+A+d):i+A+(-2===l?t:d)}return[Z(e,n+(e[i]||"<?>")+(2===t?"</svg>":3===t?"</math>":"")),s]};class J{constructor({strings:e,_$litType$:t},i){let s;this.parts=[];let o=0,n=0;const a=e.length-1,r=this.parts,[c,l]=Y(e,t);if(this.el=J.createElement(c,i),q.currentNode=this.el.content,2===t||3===t){const e=this.el.content.firstChild;e.replaceWith(...e.childNodes)}for(;null!==(s=q.nextNode())&&r.length<a;){if(1===s.nodeType){if(s.hasAttributes())for(const e of s.getAttributeNames())if(e.endsWith(E)){const t=l[n++],i=s.getAttribute(e).split(A),a=/([.?@])?(.*)/.exec(t);r.push({type:1,index:o,name:a[2],strings:i,ctor:"."===a[1]?se:"?"===a[1]?oe:"@"===a[1]?ne:ie}),s.removeAttribute(e)}else e.startsWith(A)&&(r.push({type:6,index:o}),s.removeAttribute(e));if(F.test(s.tagName)){const e=s.textContent.split(A),t=e.length-1;if(t>0){s.textContent=C?C.emptyScript:"";for(let i=0;i<t;i++)s.append(e[i],T()),q.nextNode(),r.push({type:2,index:++o});s.append(e[t],T())}}}else if(8===s.nodeType)if(s.data===z)r.push({type:2,index:o});else{let e=-1;for(;-1!==(e=s.data.indexOf(A,e+1));)r.push({type:7,index:o}),e+=A.length-1}o++}}static createElement(e,t){const i=M.createElement("template");return i.innerHTML=e,i}}function X(e,t,i=e,s){if(t===Q)return t;let o=void 0!==s?i._$Co?.[s]:i._$Cl;const n=L(t)?void 0:t._$litDirective$;return o?.constructor!==n&&(o?._$AO?.(!1),void 0===n?o=void 0:(o=new n(e),o._$AT(e,i,s)),void 0!==s?(i._$Co??=[])[s]=o:i._$Cl=o),void 0!==o&&(t=X(e,o._$AS(e,t.values),o,s)),t}class ee{constructor(e,t){this._$AV=[],this._$AN=void 0,this._$AD=e,this._$AM=t}get parentNode(){return this._$AM.parentNode}get _$AU(){return this._$AM._$AU}u(e){const{el:{content:t},parts:i}=this._$AD,s=(e?.creationScope??M).importNode(t,!0);q.currentNode=s;let o=q.nextNode(),n=0,a=0,r=i[0];for(;void 0!==r;){if(n===r.index){let t;2===r.type?t=new te(o,o.nextSibling,this,e):1===r.type?t=new r.ctor(o,r.name,r.strings,this,e):6===r.type&&(t=new ae(o,this,e)),this._$AV.push(t),r=i[++a]}n!==r?.index&&(o=q.nextNode(),n++)}return q.currentNode=M,s}p(e){let t=0;for(const i of this._$AV)void 0!==i&&(void 0!==i.strings?(i._$AI(e,i,t),t+=i.strings.length-2):i._$AI(e[t])),t++}}class te{get _$AU(){return this._$AM?._$AU??this._$Cv}constructor(e,t,i,s){this.type=2,this._$AH=G,this._$AN=void 0,this._$AA=e,this._$AB=t,this._$AM=i,this.options=s,this._$Cv=s?.isConnected??!0}get parentNode(){let e=this._$AA.parentNode;const t=this._$AM;return void 0!==t&&11===e?.nodeType&&(e=t.parentNode),e}get startNode(){return this._$AA}get endNode(){return this._$AB}_$AI(e,t=this){e=X(this,e,t),L(e)?e===G||null==e||""===e?(this._$AH!==G&&this._$AR(),this._$AH=G):e!==this._$AH&&e!==Q&&this._(e):void 0!==e._$litType$?this.$(e):void 0!==e.nodeType?this.T(e):(e=>j(e)||"function"==typeof e?.[Symbol.iterator])(e)?this.k(e):this._(e)}O(e){return this._$AA.parentNode.insertBefore(e,this._$AB)}T(e){this._$AH!==e&&(this._$AR(),this._$AH=this.O(e))}_(e){this._$AH!==G&&L(this._$AH)?this._$AA.nextSibling.data=e:this.T(M.createTextNode(e)),this._$AH=e}$(e){const{values:t,_$litType$:i}=e,s="number"==typeof i?this._$AC(e):(void 0===i.el&&(i.el=J.createElement(Z(i.h,i.h[0]),this.options)),i);if(this._$AH?._$AD===s)this._$AH.p(t);else{const e=new ee(s,this),i=e.u(this.options);e.p(t),this.T(i),this._$AH=e}}_$AC(e){let t=V.get(e.strings);return void 0===t&&V.set(e.strings,t=new J(e)),t}k(e){j(this._$AH)||(this._$AH=[],this._$AR());const t=this._$AH;let i,s=0;for(const o of e)s===t.length?t.push(i=new te(this.O(T()),this.O(T()),this,this.options)):i=t[s],i._$AI(o),s++;s<t.length&&(this._$AR(i&&i._$AB.nextSibling,s),t.length=s)}_$AR(e=this._$AA.nextSibling,t){for(this._$AP?.(!1,!0,t);e!==this._$AB;){const t=$(e).nextSibling;$(e).remove(),e=t}}setConnected(e){void 0===this._$AM&&(this._$Cv=e,this._$AP?.(e))}}class ie{get tagName(){return this.element.tagName}get _$AU(){return this._$AM._$AU}constructor(e,t,i,s,o){this.type=1,this._$AH=G,this._$AN=void 0,this.element=e,this.name=t,this._$AM=s,this.options=o,i.length>2||""!==i[0]||""!==i[1]?(this._$AH=Array(i.length-1).fill(new String),this.strings=i):this._$AH=G}_$AI(e,t=this,i,s){const o=this.strings;let n=!1;if(void 0===o)e=X(this,e,t,0),n=!L(e)||e!==this._$AH&&e!==Q,n&&(this._$AH=e);else{const s=e;let a,r;for(e=o[0],a=0;a<o.length-1;a++)r=X(this,s[i+a],t,a),r===Q&&(r=this._$AH[a]),n||=!L(r)||r!==this._$AH[a],r===G?e=G:e!==G&&(e+=(r??"")+o[a+1]),this._$AH[a]=r}n&&!s&&this.j(e)}j(e){e===G?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,e??"")}}class se extends ie{constructor(){super(...arguments),this.type=3}j(e){this.element[this.name]=e===G?void 0:e}}class oe extends ie{constructor(){super(...arguments),this.type=4}j(e){this.element.toggleAttribute(this.name,!!e&&e!==G)}}class ne extends ie{constructor(e,t,i,s,o){super(e,t,i,s,o),this.type=5}_$AI(e,t=this){if((e=X(this,e,t,0)??G)===Q)return;const i=this._$AH,s=e===G&&i!==G||e.capture!==i.capture||e.once!==i.once||e.passive!==i.passive,o=e!==G&&(i===G||s);s&&this.element.removeEventListener(this.name,this,i),o&&this.element.addEventListener(this.name,this,e),this._$AH=e}handleEvent(e){"function"==typeof this._$AH?this._$AH.call(this.options?.host??this.element,e):this._$AH.handleEvent(e)}}class ae{constructor(e,t,i){this.element=e,this.type=6,this._$AN=void 0,this._$AM=t,this.options=i}get _$AU(){return this._$AM._$AU}_$AI(e){X(this,e)}}const re=x.litHtmlPolyfillSupport;re?.(J,te),(x.litHtmlVersions??=[]).push("3.3.2");const ce=globalThis;let le=class extends w{constructor(){super(...arguments),this.renderOptions={host:this},this._$Do=void 0}createRenderRoot(){const e=super.createRenderRoot();return this.renderOptions.renderBefore??=e.firstChild,e}update(e){const t=this.render();this.hasUpdated||(this.renderOptions.isConnected=this.isConnected),super.update(e),this._$Do=((e,t,i)=>{const s=i?.renderBefore??t;let o=s._$litPart$;if(void 0===o){const e=i?.renderBefore??null;s._$litPart$=o=new te(t.insertBefore(T(),e),e,void 0,i??{})}return o._$AI(e),o})(t,this.renderRoot,this.renderOptions)}connectedCallback(){super.connectedCallback(),this._$Do?.setConnected(!0)}disconnectedCallback(){super.disconnectedCallback(),this._$Do?.setConnected(!1)}render(){return Q}};le._$litElement$=!0,le.finalized=!0,ce.litElementHydrateSupport?.({LitElement:le});const he=ce.litElementPolyfillSupport;he?.({LitElement:le}),(ce.litElementVersions??=[]).push("4.2.2");const de=e=>(t,i)=>{void 0!==i?i.addInitializer(()=>{customElements.define(e,t)}):customElements.define(e,t)},pe={attribute:!0,type:String,converter:k,reflect:!1,hasChanged:y},me=(e=pe,t,i)=>{const{kind:s,metadata:o}=i;let n=globalThis.litPropertyMetadata.get(o);if(void 0===n&&globalThis.litPropertyMetadata.set(o,n=new Map),"setter"===s&&((e=Object.create(e)).wrapped=!0),n.set(i.name,e),"accessor"===s){const{name:s}=i;return{set(i){const o=t.get.call(this);t.set.call(this,i),this.requestUpdate(s,o,e,!0,i)},init(t){return void 0!==t&&this.C(s,void 0,e,t),t}}}if("setter"===s){const{name:s}=i;return function(i){const o=this[s];t.call(this,i),this.requestUpdate(s,o,e,!0,i)}}throw Error("Unsupported decorator location: "+s)};function ue(e){return(t,i)=>"object"==typeof i?me(e,t,i):((e,t,i)=>{const s=t.hasOwnProperty(i);return t.constructor.createProperty(i,e),s?Object.getOwnPropertyDescriptor(t,i):void 0})(e,t,i)}function ge(e){return ue({...e,state:!0,attribute:!1})}const fe=2,ve=e=>(...t)=>({_$litDirective$:e,values:t});class _e{constructor(e){}get _$AU(){return this._$AM._$AU}_$AT(e,t,i){this._$Ct=e,this._$AM=t,this._$Ci=i}_$AS(e,t){return this.update(e,t)}update(e,t){return this.render(...t)}}class ke extends _e{constructor(e){if(super(e),this.it=G,e.type!==fe)throw Error(this.constructor.directiveName+"() can only be used in child bindings")}render(e){if(e===G||null==e)return this._t=void 0,this.it=e;if(e===Q)return e;if("string"!=typeof e)throw Error(this.constructor.directiveName+"() called with a non-string value");if(e===this.it)return this._t;this.it=e;const t=[e];return t.raw=t,this._t={_$litType$:this.constructor.resultType,strings:t,values:[]}}}ke.directiveName="unsafeHTML",ke.resultType=1;const ye=ve(ke),be=a`
   :host {
     --sketch-bg: var(--ha-card-background, #faf7f0);
     --sketch-ink: var(--primary-text-color, #2a2a2a);
@@ -374,7 +374,7 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
       display: none;
     }
   }
-`,we=document.createElement("link");function xe(e,t){t?.color?e.style.setProperty("--sketch-primary",t.color):e.style.removeProperty("--sketch-primary"),t?.card_background?e.style.setProperty("--sketch-card-bg",t.card_background):e.style.removeProperty("--sketch-card-bg"),t?.border_color?e.style.setProperty("--sketch-border-color",t.border_color):e.style.removeProperty("--sketch-border-color"),t?.card_rotation?e.style.setProperty("--sketch-card-rotate",t.card_rotation):e.style.removeProperty("--sketch-card-rotate"),null!=t?.corner_radius?e.style.setProperty("--sketch-radius",`${t.corner_radius}px`):e.style.removeProperty("--sketch-radius")}function $e(e){if(e.attributes.icon)return e.attributes.icon;const t=e.entity_id.split(".")[0],i=e.state;return{light:"on"===i?"mdi:lightbulb":"mdi:lightbulb-outline",switch:"on"===i?"mdi:toggle-switch":"mdi:toggle-switch-off",fan:"mdi:fan",climate:"mdi:thermostat",weather:Ce(i),sensor:Se(e),binary_sensor:"on"===i?"mdi:checkbox-marked-circle":"mdi:checkbox-blank-circle-outline",cover:"open"===i?"mdi:window-open":"mdi:window-closed",lock:"locked"===i?"mdi:lock":"mdi:lock-open",media_player:"playing"===i?"mdi:play-circle":"mdi:play-circle-outline",alarm_control_panel:Ee(i),camera:"mdi:video",automation:"mdi:robot",script:"mdi:script-text",scene:"mdi:palette",input_boolean:"on"===i?"mdi:check-circle":"mdi:close-circle",person:"mdi:account",device_tracker:"mdi:crosshairs-gps",vacuum:"mdi:robot-vacuum",input_number:"mdi:ray-vertex",input_select:"mdi:format-list-bulleted",timer:"mdi:timer-outline",counter:"mdi:counter",sun:"above_horizon"===i?"mdi:white-balance-sunny":"mdi:weather-night"}[t]||"mdi:help-circle-outline"}function Ce(e){return{"clear-night":"mdi:weather-night",cloudy:"mdi:weather-cloudy",fog:"mdi:weather-fog",hail:"mdi:weather-hail",lightning:"mdi:weather-lightning","lightning-rainy":"mdi:weather-lightning-rainy",partlycloudy:"mdi:weather-partly-cloudy",pouring:"mdi:weather-pouring",rainy:"mdi:weather-rainy",snowy:"mdi:weather-snowy","snowy-rainy":"mdi:weather-snowy-rainy",sunny:"mdi:weather-sunny",windy:"mdi:weather-windy","windy-variant":"mdi:weather-windy-variant",exceptional:"mdi:alert-circle-outline"}[e]||"mdi:weather-cloudy"}function Se(e){return{temperature:"mdi:thermometer",humidity:"mdi:water-percent",pressure:"mdi:gauge",power:"mdi:flash",energy:"mdi:lightning-bolt",battery:"mdi:battery",illuminance:"mdi:brightness-6",carbon_dioxide:"mdi:molecule-co2",carbon_monoxide:"mdi:molecule-co",gas:"mdi:gas-cylinder",moisture:"mdi:water",signal_strength:"mdi:wifi",voltage:"mdi:sine-wave",current:"mdi:current-ac"}[e.attributes.device_class]||"mdi:eye"}function Ee(e){return{armed_home:"mdi:shield-home",armed_away:"mdi:shield-lock",armed_night:"mdi:shield-moon",armed_vacation:"mdi:shield-airplane",armed_custom_bypass:"mdi:shield-star",disarmed:"mdi:shield-off",triggered:"mdi:bell-ring",pending:"mdi:shield-alert",arming:"mdi:shield-outline"}[e]||"mdi:shield"}function Ae(e){return["on","open","playing","home","unlocked"].includes(e)}function ze(e,t){if(t?.formatEntityState)try{return t.formatEntityState(e)}catch(e){}const i=e.state,s=e.attributes.unit_of_measurement;return s?`${i} ${s}`:i}function Pe(e,t,i){return Math.min(Math.max(e,t),i)}function Te(e,t){const i=49297*Math.sin(9301*e+49297*t+233280);return i-Math.floor(i)}function Le(e,t,i,s,o,n,a=4){const r=i-e,c=s-t,l=Math.sqrt(r*r+c*c);if(l<8)return`L ${i.toFixed(1)} ${s.toFixed(1)}`;const h=Math.max(2,Math.floor(l/35));let d="";for(let i=1;i<=h;i++){const s=i/h,p=e+r*s,m=t+c*s;if(i<h){const e=-c/l,t=r/l,s=(Te(o,13*n+i)-.5)*a*2;d+=`L ${(p+e*s).toFixed(1)} ${(m+t*s).toFixed(1)} `}else d+=`L ${p.toFixed(1)} ${m.toFixed(1)} `}return d}function Me(e,t,i,s,o,n=5,a=0,r=0){const c=e+a,l=t+a,h=e+i-a,d=t+s-a,p=Math.min(r,(h-c)/3,(d-l)/3),m=e=>(Te(o,e+50)-.5)*n*.6;if(p<1){let e=`M ${(c+m(0)).toFixed(1)} ${(l+m(1)).toFixed(1)} `;return e+=Le(c+m(0),l+m(1),h+m(2),l+m(3),o,0,n),e+=Le(h+m(2),l+m(3),h+m(4),d+m(5),o,1,n),e+=Le(h+m(4),d+m(5),c+m(6),d+m(7),o,2,n),e+=Le(c+m(6),d+m(7),c+m(0),l+m(1),o,3,n),e+="Z",e}const u=e=>(Te(o,e+80)-.5)*n*.3;let g=`M ${(c+p+u(0)).toFixed(1)} ${(l+u(1)).toFixed(1)} `;return g+=Le(c+p+u(0),l+u(1),h-p+u(2),l+u(3),o,0,n),g+=`Q ${(h+u(4)).toFixed(1)} ${(l+u(5)).toFixed(1)} ${(h+u(6)).toFixed(1)} ${(l+p+u(7)).toFixed(1)} `,g+=Le(h+u(6),l+p+u(7),h+u(8),d-p+u(9),o,1,n),g+=`Q ${(h+u(10)).toFixed(1)} ${(d+u(11)).toFixed(1)} ${(h-p+u(12)).toFixed(1)} ${(d+u(13)).toFixed(1)} `,g+=Le(h-p+u(12),d+u(13),c+p+u(14),d+u(15),o,2,n),g+=`Q ${(c+u(16)).toFixed(1)} ${(d+u(17)).toFixed(1)} ${(c+u(18)).toFixed(1)} ${(d-p+u(19)).toFixed(1)} `,g+=Le(c+u(18),d-p+u(19),c+u(20),l+p+u(21),o,3,n),g+=`Q ${(c+u(22)).toFixed(1)} ${(l+u(23)).toFixed(1)} ${(c+p+u(0)).toFixed(1)} ${(l+u(1)).toFixed(1)} `,g+="Z",g}function je(e,t,i={}){const{bgColor:s="var(--sketch-card-bg, var(--ha-card-background, #faf7f0))",strokeColor:o="var(--sketch-border-color, var(--primary-text-color, #2a2a2a))",showBorder:n=!0,showTexture:a=!0,noiseOpacity:r=.08,seed:c=0,variant:l="paper",cornerRadius:h=14,active:d=!1}=i,p=h,m=`sn${c}${Math.floor(1e4*Te(c,999))}`;let u=`<svg class="sketch-bg-svg" viewBox="0 0 ${e} ${t}" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">`;a&&(u+=`<defs>\n      <filter id="${m}" x="0" y="0" width="100%" height="100%">\n        <feTurbulence type="fractalNoise" baseFrequency="0.5" numOctaves="4" seed="${c}" stitchTiles="stitch" result="noise"/>\n        <feColorMatrix type="saturate" values="0" in="noise" result="gray"/>\n      </filter>\n    </defs>`);const g=Me(0,0,e,t,c,3,3,p);u+=`<path d="${g}" fill="${s}" />`,d&&(u+=`<path d="${g}" fill="var(--sketch-active, var(--sketch-primary, #4a6fa5))" opacity="0.10" />`),a&&(u+=`<rect x="0" y="0" width="${e}" height="${t}" filter="url(#${m})" opacity="${r}" style="mix-blend-mode:multiply" />`),"notebook"===l?u+=function(e,t,i){let s="";const o=28,n=50;for(let i=45;i<t-15;i+=o){const t=.5*Math.sin(.1*i);s+=`<line x1="${n+5}" y1="${i+t}" x2="${e-15}" y2="${i-.5*t}" stroke="#90c1d4" stroke-width="0.8" opacity="0.35" />`}s+=`<line x1="${n}" y1="8" x2="${n+.5}" y2="${t-8}" stroke="#d4626a" stroke-width="1.8" opacity="0.35" />`,s+=`<line x1="${n+2.5}" y1="8" x2="${n+2}" y2="${t-8}" stroke="#d4626a" stroke-width="0.8" opacity="0.18" />`;const a=Math.min(6,Math.floor((t-40)/45));for(let e=0;e<a;e++){const t=35+45*e;s+=`<circle cx="22" cy="${t}" r="5" fill="var(--sketch-card-bg, var(--ha-card-background, #faf7f0))" />`,s+=`<circle cx="22" cy="${t}" r="5" fill="none" stroke="${i}" stroke-width="1.2" opacity="0.3" />`,s+=`<circle cx="22.5" cy="${t+.5}" r="4" fill="none" stroke="${i}" stroke-width="0.5" opacity="0.15" />`}return s}(e,t,o):"sticky"===l&&(u+=function(e){const t=e/2,i=Math.min(90,.3*e);return`<g opacity="0.55" transform="rotate(${(2*Math.sin(.1*t)-1).toFixed(1)} ${t} 6)">\n    <rect x="${t-i/2}" y="-4" width="${i}" height="20" fill="#e8e4c8" rx="1" />\n    <line x1="${t-i/2+4}" y1="2" x2="${t+i/2-4}" y2="2" stroke="#c8c4a8" stroke-width="0.4" opacity="0.4" />\n    <line x1="${t-i/2+4}" y1="8" x2="${t+i/2-4}" y2="8" stroke="#c8c4a8" stroke-width="0.4" opacity="0.4" />\n  </g>`}(e));const f=d?"var(--sketch-active, var(--sketch-primary, #4a6fa5))":o;if(n){u+=`<path d="${Me(0,0,e,t,c,5,6,p)}" fill="none" stroke="${f}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" opacity="${d?"0.75":"0.65"}" />`;u+=`<path d="${Me(0,0,e,t,c+17,4,7.8,p)}" fill="none" stroke="${f}" stroke-width="1.0" stroke-linecap="round" stroke-linejoin="round" opacity="${d?"0.30":"0.22"}" />`}const v=Math.max(10,.07*Math.min(e,t)),k=11+2*Te(c,70),_=11+2*Te(c,71);u+=`<line x1="${k-.4*v}" y1="${_}" x2="${k+.4*v}" y2="${_}" stroke="${o}" stroke-width="1.2" opacity="0.3" stroke-linecap="round"/>`,u+=`<line x1="${k}" y1="${_-.4*v}" x2="${k}" y2="${_+.4*v}" stroke="${o}" stroke-width="1.2" opacity="0.3" stroke-linecap="round"/>`;const y=e-6-7+2*Te(c,72),b=t-6-7+2*Te(c,73),w=.35*v;u+=`<circle cx="${y}" cy="${b}" r="${w}" fill="none" stroke="${o}" stroke-width="1.1" opacity="0.28" />`,u+=`<path d="M ${y-.8*w} ${b-.3*w} A ${w} ${w} 0 0 1 ${y+.5*w} ${b+.8*w}" fill="none" stroke="${o}" stroke-width="0.7" opacity="0.18" />`;const x=Math.min(18,.045*e,.09*t),$=e-6-x;return u+=`<path d="M ${$} 6 L ${e-6} 6 L ${e-6} ${6+x} Z" fill="${o}" opacity="0.05" />`,u+=`<line x1="${$}" y1="6" x2="${e-6}" y2="${6+x}" stroke="${o}" stroke-width="0.8" opacity="0.18" stroke-linecap="round"/>`,u+="</svg>",u}function Oe(e){window.dispatchEvent(new CustomEvent("haptic",{detail:e}))}we.rel="stylesheet",we.href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Patrick+Hand&display=swap",document.head.querySelector('link[href*="Caveat"]')||document.head.appendChild(we);class Ne extends le{constructor(){super(...arguments),this._holdFired=!1,this._lastTap=0,this._prevState="",this.handleKeyDown=e=>{"Enter"!==e.key&&" "!==e.key||(e.preventDefault(),this.executeAction(this._config?.tap_action,this.defaultTapAction))},this.handlePointerDown=e=>{this._holdFired=!1,this._holdTimer=setTimeout(()=>{this._holdFired=!0,this._config?.hold_action&&(this.executeAction(this._config.hold_action),Oe("medium"))},500)},this.handlePointerUp=e=>{if(this._holdTimer&&(clearTimeout(this._holdTimer),this._holdTimer=void 0),this._holdFired)return;const t=Date.now();this._config?.double_tap_action&&t-this._lastTap<250?(this._dblTapTimer&&(clearTimeout(this._dblTapTimer),this._dblTapTimer=void 0),this._lastTap=0,this.executeAction(this._config.double_tap_action)):(this._lastTap=t,this._config?.double_tap_action?this._dblTapTimer=setTimeout(()=>{this._lastTap=0,this.executeAction(this._config?.tap_action,this.defaultTapAction)},250):this.executeAction(this._config?.tap_action,this.defaultTapAction))},this.handlePointerCancel=()=>{this._holdTimer&&(clearTimeout(this._holdTimer),this._holdTimer=void 0),this._holdFired=!1}}static{this.styles=[be]}setConfig(e){if(!e)throw new Error("Invalid configuration");this._config={...e}}getCardSize(){return 3}renderSketchBg(e=400,t=200,i=!1){const s=this._config;let o=0;const n=this._config?.entity||"";for(let e=0;e<n.length;e++)o=(o<<5)-o+n.charCodeAt(e)|0;return o=Math.abs(o),W`${ye(je(e,t,{showBorder:!1!==s?.show_border,showTexture:!1!==s?.show_texture,variant:s?.variant||"paper",cornerRadius:s?.corner_radius??14,active:i,seed:o}))}`}getLayoutOptions(){return{grid_columns:4,grid_rows:this.getCardSize()}}getEntity(){if(this._config?.entity&&this.hass)return this.hass.states[this._config.entity]}isUnavailable(){const e=this.getEntity();return!!e&&["unavailable","unknown"].includes(e.state)}getName(){if(this._config?.name)return this._config.name;const e=this.getEntity();return e?.attributes?.friendly_name||this._config?.entity||""}getIcon(){if(this._config?.icon)return this._config.icon;const e=this.getEntity();return e?.attributes?.icon||"mdi:help-circle-outline"}async callService(e,t,i){try{await this.hass.callService(e,t,i)}catch(e){this.classList.add("sketch-error"),setTimeout(()=>this.classList.remove("sketch-error"),1e3),console.error("Ha-sketch service call failed:",e)}}toggleEntity(){if(!this._config?.entity)return;const[e]=this._config.entity.split(".");this.callService(e,"toggle",{entity_id:this._config.entity})}fireEvent(e,t){this.dispatchEvent(new CustomEvent(e,{bubbles:!0,composed:!0,detail:t}))}executeAction(e,t="more-info"){if(e?.confirmation&&!window.confirm("Are you sure?"))return;switch(e?.action||t){case"toggle":this.toggleEntity(),Oe("success");break;case"call-service":if(e?.service){const[t,i]=e.service.split(".");this.callService(t,i,e.service_data),Oe("light")}break;case"navigate":e?.navigation_path&&/^\/[a-zA-Z0-9\-_/?#=&.]*$/.test(e.navigation_path)&&(window.history.pushState(null,"",e.navigation_path),this.fireEvent("location-changed"),Oe("light"));break;case"url":e?.url_path&&(window.open(e.url_path,"_blank"),Oe("light"));break;case"none":break;default:this.fireEvent("hass-more-info",{entityId:this._config?.entity}),Oe("light")}}updated(e){if(super.updated(e),e.has("_config")&&xe(this,this._config),e.has("hass")&&this.hass){const e=this.hass.themes?.darkMode??!1;this.classList.toggle("dark-mode",e);const t=this.isUnavailable();t&&!this.classList.contains("unavailable")?this.classList.add("unavailable"):!t&&this.classList.contains("unavailable")&&this.classList.remove("unavailable");const i=this.getEntity();if(i&&this._prevState&&i.state!==this._prevState){const e=this.shadowRoot?.querySelector("ha-card");e&&(e.style.animation="none",e.offsetHeight,e.style.animation="sketch-state-pulse 0.6s ease")}i&&(this._prevState=i.state)}}disconnectedCallback(){super.disconnectedCallback(),this._holdTimer&&clearTimeout(this._holdTimer),this._dblTapTimer&&clearTimeout(this._dblTapTimer)}get defaultTapAction(){return"more-info"}handleAction(){this.executeAction(this._config?.tap_action,this.defaultTapAction)}}e([ue({attribute:!1})],Ne.prototype,"hass",void 0),e([ge()],Ne.prototype,"_config",void 0);class Be extends le{constructor(){super(...arguments),this._computeLabel=e=>({entity:"Entity",name:"Name (optional)",icon:"Icon (optional)",show_name:"Show Name",show_state:"Show State",show_icon:"Show Icon",show_brightness:"Show Brightness Slider",show_color_temp:"Show Color Temperature",show_current_as_primary:"Show Current Temp as Primary",show_forecast:"Show Forecast",num_forecasts:"Number of Forecast Days",graph:"Show Graph",show_artwork:"Show Artwork",show_source:"Show Source",show_position:"Show Position Slider",show_tilt:"Show Tilt Slider",show_location:"Show Location",show_battery:"Show Battery",battery_entity:"Battery Entity",show_controls:"Show Controls",aspect_ratio:"Aspect Ratio",hide_icon:"Hide Icon",states:"Alarm States",mode:"Display Mode",show_date:"Show Date",show_seconds:"Show Seconds",hash:"Hash (e.g. kitchen)",auto_close:"Auto-close (seconds)",width:"Width (e.g. 90%)",style:"Style",columns:"Columns",collapsible:"Collapsible",color:"Accent Color",card_background:"Card Background",border_color:"Border Color",card_rotation:"Rotation (e.g. -1deg, 0deg)",corner_radius:"Corner Roundness",show_border:"Show Border",show_texture:"Show Paper Texture",variant:"Card Style",primary:"Primary Text (template)",secondary:"Secondary Text (template)",icon_color:"Icon Color",layout:"Layout",multiline_secondary:"Multiline Secondary",badge_icon:"Badge Icon",badge_color:"Badge Color",hours_to_show:"Hours to Show",line_width:"Line Width",fill:"Fill Mode",show_labels:"Show Labels",sub_entities:"Sub-Entities",max:"Maximum Value",max_entries:"Max Entries",temperature_entity:"Temperature Sensor",room_select_entity:"Room Selector (input_select)"}[e.name]||e.name),this._valueChanged=e=>{const t=e.detail.value;!function(e,t,i){const s=new Event(t,{bubbles:!0,cancelable:!1,composed:!0});s.detail=i,e.dispatchEvent(s)}(this,"config-changed",{config:{...this._config,...t}})}}static{this.styles=[a`
+`,we=document.createElement("link");function xe(e,t){t?.color?e.style.setProperty("--sketch-primary",t.color):e.style.removeProperty("--sketch-primary"),t?.card_background?e.style.setProperty("--sketch-card-bg",t.card_background):e.style.removeProperty("--sketch-card-bg"),t?.border_color?e.style.setProperty("--sketch-border-color",t.border_color):e.style.removeProperty("--sketch-border-color"),t?.card_rotation?e.style.setProperty("--sketch-card-rotate",t.card_rotation):e.style.removeProperty("--sketch-card-rotate"),null!=t?.corner_radius?e.style.setProperty("--sketch-radius",`${t.corner_radius}px`):e.style.removeProperty("--sketch-radius")}function $e(e){if(e.attributes.icon)return e.attributes.icon;const t=e.entity_id.split(".")[0],i=e.state;return{light:"on"===i?"mdi:lightbulb":"mdi:lightbulb-outline",switch:"on"===i?"mdi:toggle-switch":"mdi:toggle-switch-off",fan:"mdi:fan",climate:"mdi:thermostat",weather:Ce(i),sensor:Se(e),binary_sensor:"on"===i?"mdi:checkbox-marked-circle":"mdi:checkbox-blank-circle-outline",cover:"open"===i?"mdi:window-open":"mdi:window-closed",lock:"locked"===i?"mdi:lock":"mdi:lock-open",media_player:"playing"===i?"mdi:play-circle":"mdi:play-circle-outline",alarm_control_panel:Ee(i),camera:"mdi:video",automation:"mdi:robot",script:"mdi:script-text",scene:"mdi:palette",input_boolean:"on"===i?"mdi:check-circle":"mdi:close-circle",person:"mdi:account",device_tracker:"mdi:crosshairs-gps",vacuum:"mdi:robot-vacuum",input_number:"mdi:ray-vertex",input_select:"mdi:format-list-bulleted",timer:"mdi:timer-outline",counter:"mdi:counter",sun:"above_horizon"===i?"mdi:white-balance-sunny":"mdi:weather-night"}[t]||"mdi:help-circle-outline"}function Ce(e){return{"clear-night":"mdi:weather-night",cloudy:"mdi:weather-cloudy",fog:"mdi:weather-fog",hail:"mdi:weather-hail",lightning:"mdi:weather-lightning","lightning-rainy":"mdi:weather-lightning-rainy",partlycloudy:"mdi:weather-partly-cloudy",pouring:"mdi:weather-pouring",rainy:"mdi:weather-rainy",snowy:"mdi:weather-snowy","snowy-rainy":"mdi:weather-snowy-rainy",sunny:"mdi:weather-sunny",windy:"mdi:weather-windy","windy-variant":"mdi:weather-windy-variant",exceptional:"mdi:alert-circle-outline"}[e]||"mdi:weather-cloudy"}function Se(e){return{temperature:"mdi:thermometer",humidity:"mdi:water-percent",pressure:"mdi:gauge",power:"mdi:flash",energy:"mdi:lightning-bolt",battery:"mdi:battery",illuminance:"mdi:brightness-6",carbon_dioxide:"mdi:molecule-co2",carbon_monoxide:"mdi:molecule-co",gas:"mdi:gas-cylinder",moisture:"mdi:water",signal_strength:"mdi:wifi",voltage:"mdi:sine-wave",current:"mdi:current-ac"}[e.attributes.device_class]||"mdi:eye"}function Ee(e){return{armed_home:"mdi:shield-home",armed_away:"mdi:shield-lock",armed_night:"mdi:shield-moon",armed_vacation:"mdi:shield-airplane",armed_custom_bypass:"mdi:shield-star",disarmed:"mdi:shield-off",triggered:"mdi:bell-ring",pending:"mdi:shield-alert",arming:"mdi:shield-outline"}[e]||"mdi:shield"}function Ae(e){return["on","open","playing","home","unlocked"].includes(e)}function ze(e,t){if(t?.formatEntityState)try{return t.formatEntityState(e)}catch(e){}const i=e.state,s=e.attributes.unit_of_measurement;return s?`${i} ${s}`:i}function Pe(e,t,i){return Math.min(Math.max(e,t),i)}function Me(e,t){const i=49297*Math.sin(9301*e+49297*t+233280);return i-Math.floor(i)}function Te(e,t,i,s,o,n,a=4){const r=i-e,c=s-t,l=Math.sqrt(r*r+c*c);if(l<8)return`L ${i.toFixed(1)} ${s.toFixed(1)}`;const h=Math.max(2,Math.floor(l/35));let d="";for(let i=1;i<=h;i++){const s=i/h,p=e+r*s,m=t+c*s;if(i<h){const e=-c/l,t=r/l,s=(Me(o,13*n+i)-.5)*a*2;d+=`L ${(p+e*s).toFixed(1)} ${(m+t*s).toFixed(1)} `}else d+=`L ${p.toFixed(1)} ${m.toFixed(1)} `}return d}function Le(e,t,i,s,o,n=5,a=0,r=0){const c=e+a,l=t+a,h=e+i-a,d=t+s-a,p=Math.min(r,(h-c)/3,(d-l)/3),m=e=>(Me(o,e+50)-.5)*n*.6;if(p<1){let e=`M ${(c+m(0)).toFixed(1)} ${(l+m(1)).toFixed(1)} `;return e+=Te(c+m(0),l+m(1),h+m(2),l+m(3),o,0,n),e+=Te(h+m(2),l+m(3),h+m(4),d+m(5),o,1,n),e+=Te(h+m(4),d+m(5),c+m(6),d+m(7),o,2,n),e+=Te(c+m(6),d+m(7),c+m(0),l+m(1),o,3,n),e+="Z",e}const u=e=>(Me(o,e+80)-.5)*n*.3;let g=`M ${(c+p+u(0)).toFixed(1)} ${(l+u(1)).toFixed(1)} `;return g+=Te(c+p+u(0),l+u(1),h-p+u(2),l+u(3),o,0,n),g+=`Q ${(h+u(4)).toFixed(1)} ${(l+u(5)).toFixed(1)} ${(h+u(6)).toFixed(1)} ${(l+p+u(7)).toFixed(1)} `,g+=Te(h+u(6),l+p+u(7),h+u(8),d-p+u(9),o,1,n),g+=`Q ${(h+u(10)).toFixed(1)} ${(d+u(11)).toFixed(1)} ${(h-p+u(12)).toFixed(1)} ${(d+u(13)).toFixed(1)} `,g+=Te(h-p+u(12),d+u(13),c+p+u(14),d+u(15),o,2,n),g+=`Q ${(c+u(16)).toFixed(1)} ${(d+u(17)).toFixed(1)} ${(c+u(18)).toFixed(1)} ${(d-p+u(19)).toFixed(1)} `,g+=Te(c+u(18),d-p+u(19),c+u(20),l+p+u(21),o,3,n),g+=`Q ${(c+u(22)).toFixed(1)} ${(l+u(23)).toFixed(1)} ${(c+p+u(0)).toFixed(1)} ${(l+u(1)).toFixed(1)} `,g+="Z",g}function je(e,t,i={}){const{bgColor:s="var(--sketch-card-bg, var(--ha-card-background, #faf7f0))",strokeColor:o="var(--sketch-border-color, var(--primary-text-color, #2a2a2a))",showBorder:n=!0,showTexture:a=!0,noiseOpacity:r=.08,seed:c=0,variant:l="paper",cornerRadius:h=14,active:d=!1}=i,p=h,m=`sn${c}${Math.floor(1e4*Me(c,999))}`;let u=`<svg class="sketch-bg-svg" viewBox="0 0 ${e} ${t}" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">`;a&&(u+=`<defs>\n      <filter id="${m}" x="0" y="0" width="100%" height="100%">\n        <feTurbulence type="fractalNoise" baseFrequency="0.5" numOctaves="4" seed="${c}" stitchTiles="stitch" result="noise"/>\n        <feColorMatrix type="saturate" values="0" in="noise" result="gray"/>\n      </filter>\n    </defs>`);const g=Le(0,0,e,t,c,3,3,p);u+=`<path d="${g}" fill="${s}" />`,d&&(u+=`<path d="${g}" fill="var(--sketch-active, var(--sketch-primary, #4a6fa5))" opacity="0.10" />`),a&&(u+=`<rect x="0" y="0" width="${e}" height="${t}" filter="url(#${m})" opacity="${r}" style="mix-blend-mode:multiply" />`),"notebook"===l?u+=function(e,t,i){let s="";const o=28,n=50;for(let i=45;i<t-15;i+=o){const t=.5*Math.sin(.1*i);s+=`<line x1="${n+5}" y1="${i+t}" x2="${e-15}" y2="${i-.5*t}" stroke="#90c1d4" stroke-width="0.8" opacity="0.35" />`}s+=`<line x1="${n}" y1="8" x2="${n+.5}" y2="${t-8}" stroke="#d4626a" stroke-width="1.8" opacity="0.35" />`,s+=`<line x1="${n+2.5}" y1="8" x2="${n+2}" y2="${t-8}" stroke="#d4626a" stroke-width="0.8" opacity="0.18" />`;const a=Math.min(6,Math.floor((t-40)/45));for(let e=0;e<a;e++){const t=35+45*e;s+=`<circle cx="22" cy="${t}" r="5" fill="var(--sketch-card-bg, var(--ha-card-background, #faf7f0))" />`,s+=`<circle cx="22" cy="${t}" r="5" fill="none" stroke="${i}" stroke-width="1.2" opacity="0.3" />`,s+=`<circle cx="22.5" cy="${t+.5}" r="4" fill="none" stroke="${i}" stroke-width="0.5" opacity="0.15" />`}return s}(e,t,o):"sticky"===l&&(u+=function(e){const t=e/2,i=Math.min(90,.3*e);return`<g opacity="0.55" transform="rotate(${(2*Math.sin(.1*t)-1).toFixed(1)} ${t} 6)">\n    <rect x="${t-i/2}" y="-4" width="${i}" height="20" fill="#e8e4c8" rx="1" />\n    <line x1="${t-i/2+4}" y1="2" x2="${t+i/2-4}" y2="2" stroke="#c8c4a8" stroke-width="0.4" opacity="0.4" />\n    <line x1="${t-i/2+4}" y1="8" x2="${t+i/2-4}" y2="8" stroke="#c8c4a8" stroke-width="0.4" opacity="0.4" />\n  </g>`}(e));const f=d?"var(--sketch-active, var(--sketch-primary, #4a6fa5))":o;if(n){u+=`<path d="${Le(0,0,e,t,c,5,6,p)}" fill="none" stroke="${f}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" opacity="${d?"0.75":"0.65"}" />`;u+=`<path d="${Le(0,0,e,t,c+17,4,7.8,p)}" fill="none" stroke="${f}" stroke-width="1.0" stroke-linecap="round" stroke-linejoin="round" opacity="${d?"0.30":"0.22"}" />`}const v=Math.max(10,.07*Math.min(e,t)),_=11+2*Me(c,70),k=11+2*Me(c,71);u+=`<line x1="${_-.4*v}" y1="${k}" x2="${_+.4*v}" y2="${k}" stroke="${o}" stroke-width="1.2" opacity="0.3" stroke-linecap="round"/>`,u+=`<line x1="${_}" y1="${k-.4*v}" x2="${_}" y2="${k+.4*v}" stroke="${o}" stroke-width="1.2" opacity="0.3" stroke-linecap="round"/>`;const y=e-6-7+2*Me(c,72),b=t-6-7+2*Me(c,73),w=.35*v;u+=`<circle cx="${y}" cy="${b}" r="${w}" fill="none" stroke="${o}" stroke-width="1.1" opacity="0.28" />`,u+=`<path d="M ${y-.8*w} ${b-.3*w} A ${w} ${w} 0 0 1 ${y+.5*w} ${b+.8*w}" fill="none" stroke="${o}" stroke-width="0.7" opacity="0.18" />`;const x=Math.min(18,.045*e,.09*t),$=e-6-x;return u+=`<path d="M ${$} 6 L ${e-6} 6 L ${e-6} ${6+x} Z" fill="${o}" opacity="0.05" />`,u+=`<line x1="${$}" y1="6" x2="${e-6}" y2="${6+x}" stroke="${o}" stroke-width="0.8" opacity="0.18" stroke-linecap="round"/>`,u+="</svg>",u}function Ne(e){window.dispatchEvent(new CustomEvent("haptic",{detail:e}))}we.rel="stylesheet",we.href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Patrick+Hand&display=swap",document.head.querySelector('link[href*="Caveat"]')||document.head.appendChild(we);class Oe extends le{constructor(){super(...arguments),this._holdFired=!1,this._lastTap=0,this._prevState="",this.handleKeyDown=e=>{"Enter"!==e.key&&" "!==e.key||(e.preventDefault(),this.executeAction(this._config?.tap_action,this.defaultTapAction))},this.handlePointerDown=e=>{this._holdFired=!1,this._holdTimer=setTimeout(()=>{this._holdFired=!0,this._config?.hold_action&&(this.executeAction(this._config.hold_action),Ne("medium"))},500)},this.handlePointerUp=e=>{if(this._holdTimer&&(clearTimeout(this._holdTimer),this._holdTimer=void 0),this._holdFired)return;const t=Date.now();this._config?.double_tap_action&&t-this._lastTap<250?(this._dblTapTimer&&(clearTimeout(this._dblTapTimer),this._dblTapTimer=void 0),this._lastTap=0,this.executeAction(this._config.double_tap_action)):(this._lastTap=t,this._config?.double_tap_action?this._dblTapTimer=setTimeout(()=>{this._lastTap=0,this.executeAction(this._config?.tap_action,this.defaultTapAction)},250):this.executeAction(this._config?.tap_action,this.defaultTapAction))},this.handlePointerCancel=()=>{this._holdTimer&&(clearTimeout(this._holdTimer),this._holdTimer=void 0),this._holdFired=!1}}static{this.styles=[be]}setConfig(e){if(!e)throw new Error("Invalid configuration");this._config={...e}}getCardSize(){return 3}renderSketchBg(e=400,t=200,i=!1){const s=this._config;let o=0;const n=this._config?.entity||"";for(let e=0;e<n.length;e++)o=(o<<5)-o+n.charCodeAt(e)|0;return o=Math.abs(o),W`${ye(je(e,t,{showBorder:!1!==s?.show_border,showTexture:!1!==s?.show_texture,variant:s?.variant||"paper",cornerRadius:s?.corner_radius??14,active:i,seed:o}))}`}getLayoutOptions(){return{grid_columns:4,grid_rows:this.getCardSize()}}getEntity(){if(this._config?.entity&&this.hass)return this.hass.states[this._config.entity]}isUnavailable(){const e=this.getEntity();return!!e&&["unavailable","unknown"].includes(e.state)}getName(){if(this._config?.name)return this._config.name;const e=this.getEntity();return e?.attributes?.friendly_name||this._config?.entity||""}getIcon(){if(this._config?.icon)return this._config.icon;const e=this.getEntity();return e?.attributes?.icon||"mdi:help-circle-outline"}async callService(e,t,i){try{await this.hass.callService(e,t,i)}catch(e){this.classList.add("sketch-error"),setTimeout(()=>this.classList.remove("sketch-error"),1e3),console.error("Ha-sketch service call failed:",e)}}toggleEntity(){if(!this._config?.entity)return;const[e]=this._config.entity.split(".");this.callService(e,"toggle",{entity_id:this._config.entity})}fireEvent(e,t){this.dispatchEvent(new CustomEvent(e,{bubbles:!0,composed:!0,detail:t}))}executeAction(e,t="more-info"){if(e?.confirmation&&!window.confirm("Are you sure?"))return;switch(e?.action||t){case"toggle":this.toggleEntity(),Ne("success");break;case"call-service":if(e?.service){const[t,i]=e.service.split(".");this.callService(t,i,e.service_data),Ne("light")}break;case"navigate":e?.navigation_path&&/^\/[a-zA-Z0-9\-_/?#=&.]*$/.test(e.navigation_path)&&(window.history.pushState(null,"",e.navigation_path),this.fireEvent("location-changed"),Ne("light"));break;case"url":e?.url_path&&(window.open(e.url_path,"_blank"),Ne("light"));break;case"none":break;default:this.fireEvent("hass-more-info",{entityId:this._config?.entity}),Ne("light")}}updated(e){if(super.updated(e),e.has("_config")&&xe(this,this._config),e.has("hass")&&this.hass){const e=this.hass.themes?.darkMode??!1;this.classList.toggle("dark-mode",e);const t=this.isUnavailable();t&&!this.classList.contains("unavailable")?this.classList.add("unavailable"):!t&&this.classList.contains("unavailable")&&this.classList.remove("unavailable");const i=this.getEntity();if(i&&this._prevState&&i.state!==this._prevState){const e=this.shadowRoot?.querySelector("ha-card");e&&(e.style.animation="none",e.offsetHeight,e.style.animation="sketch-state-pulse 0.6s ease")}i&&(this._prevState=i.state)}}disconnectedCallback(){super.disconnectedCallback(),this._holdTimer&&clearTimeout(this._holdTimer),this._dblTapTimer&&clearTimeout(this._dblTapTimer)}get defaultTapAction(){return"more-info"}handleAction(){this.executeAction(this._config?.tap_action,this.defaultTapAction)}}e([ue({attribute:!1})],Oe.prototype,"hass",void 0),e([ge()],Oe.prototype,"_config",void 0);class Be extends le{constructor(){super(...arguments),this._computeLabel=e=>({entity:"Entity",name:"Name (optional)",icon:"Icon (optional)",show_name:"Show Name",show_state:"Show State",show_icon:"Show Icon",show_brightness:"Show Brightness Slider",show_color_temp:"Show Color Temperature",show_current_as_primary:"Show Current Temp as Primary",show_forecast:"Show Forecast",num_forecasts:"Number of Forecast Days",graph:"Show Graph",show_artwork:"Show Artwork",show_source:"Show Source",show_position:"Show Position Slider",show_tilt:"Show Tilt Slider",show_location:"Show Location",show_battery:"Show Battery",battery_entity:"Battery Entity",show_controls:"Show Controls",aspect_ratio:"Aspect Ratio",hide_icon:"Hide Icon",states:"Alarm States",mode:"Display Mode",time_format:"Time Format",show_date:"Show Date",show_seconds:"Show Seconds",hash:"Hash (e.g. kitchen)",auto_close:"Auto-close (seconds)",width:"Width (e.g. 90%)",style:"Style",columns:"Columns",collapsible:"Collapsible",color:"Accent Color",card_background:"Card Background",border_color:"Border Color",card_rotation:"Rotation (e.g. -1deg, 0deg)",corner_radius:"Corner Roundness",show_border:"Show Border",show_texture:"Show Paper Texture",variant:"Card Style",primary:"Primary Text (template)",secondary:"Secondary Text (template)",icon_color:"Icon Color",layout:"Layout",multiline_secondary:"Multiline Secondary",badge_icon:"Badge Icon",badge_color:"Badge Color",hours_to_show:"Hours to Show",line_width:"Line Width",fill:"Fill Mode",show_labels:"Show Labels",sub_entities:"Sub-Entities",max:"Maximum Value",max_entries:"Max Entries",temperature_entity:"Temperature Sensor",room_select_entity:"Room Selector (input_select)"}[e.name]||e.name),this._valueChanged=e=>{const t=e.detail.value;!function(e,t,i){const s=new Event(t,{bubbles:!0,cancelable:!1,composed:!0});s.detail=i,e.dispatchEvent(s)}(this,"config-changed",{config:{...this._config,...t}})}}static{this.styles=[a`
     :host {
       display: block;
     }
@@ -391,7 +391,7 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
         .computeLabel=${this._computeLabel}
         @value-changed=${this._valueChanged}
       ></ha-form>
-    `:Q}}function De(e){return[{name:"entity",selector:{entity:e?{domain:e}:{}}},{type:"grid",name:"",schema:[{name:"name",selector:{text:{}}},{name:"icon",selector:{icon:{}},context:{icon_entity:"entity"}}]},{name:"show_name",selector:{boolean:{}}},{name:"show_state",selector:{boolean:{}}},{name:"show_icon",selector:{boolean:{}}},{type:"expandable",title:"Appearance",schema:[{type:"grid",name:"",schema:[{name:"color",selector:{ui_color:{}}},{name:"card_background",selector:{ui_color:{}}}]},{name:"border_color",selector:{ui_color:{}}},{name:"variant",selector:{select:{options:[{value:"paper",label:"Paper (default)"},{value:"notebook",label:"Notebook"},{value:"sticky",label:"Sticky Note"}],mode:"dropdown"}}},{name:"card_rotation",selector:{text:{}}},{name:"corner_radius",selector:{number:{min:0,max:30,step:1,mode:"slider",unit_of_measurement:"px"}}},{name:"show_border",selector:{boolean:{}}},{name:"show_texture",selector:{boolean:{}}}]}]}e([ue({attribute:!1})],Be.prototype,"hass",void 0),e([ge()],Be.prototype,"_config",void 0);let Ue=class extends Be{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0}}get _schema(){return[...De()]}};Ue=e([de("sketch-entity-card-editor")],Ue);let He=class extends Ne{static{this.styles=[...super.styles,a`
+    `:G}}function De(e){return[{name:"entity",selector:{entity:e?{domain:e}:{}}},{type:"grid",name:"",schema:[{name:"name",selector:{text:{}}},{name:"icon",selector:{icon:{}},context:{icon_entity:"entity"}}]},{name:"show_name",selector:{boolean:{}}},{name:"show_state",selector:{boolean:{}}},{name:"show_icon",selector:{boolean:{}}},{type:"expandable",title:"Appearance",schema:[{type:"grid",name:"",schema:[{name:"color",selector:{ui_color:{}}},{name:"card_background",selector:{ui_color:{}}}]},{name:"border_color",selector:{ui_color:{}}},{name:"variant",selector:{select:{options:[{value:"paper",label:"Paper (default)"},{value:"notebook",label:"Notebook"},{value:"sticky",label:"Sticky Note"}],mode:"dropdown"}}},{name:"card_rotation",selector:{text:{}}},{name:"corner_radius",selector:{number:{min:0,max:30,step:1,mode:"slider",unit_of_measurement:"px"}}},{name:"show_border",selector:{boolean:{}}},{name:"show_texture",selector:{boolean:{}}}]}]}e([ue({attribute:!1})],Be.prototype,"hass",void 0),e([ge()],Be.prototype,"_config",void 0);let Ie=class extends Be{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0}}get _schema(){return[...De()]}};Ie=e([de("sketch-entity-card-editor")],Ie);let He=class extends Oe{static{this.styles=[...super.styles,a`
       .entity-row {
         display: flex;
         align-items: center;
@@ -435,20 +435,20 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
                   <div class="entity-icon-wrap ${r?"on":""}">
                     <ha-icon class="sketch-icon" .icon=${t}></ha-icon>
                   </div>
-                `:Q}
+                `:G}
             <div class="entity-info">
-              ${o?W`<p class="sketch-name">${i}</p>`:Q}
+              ${o?W`<p class="sketch-name">${i}</p>`:G}
               <div class="last-changed">${function(e){const t=new Date,i=new Date(e),s=Math.floor((t.getTime()-i.getTime())/1e3);return s<60?"just now":s<3600?`${Math.floor(s/60)}m ago`:s<86400?`${Math.floor(s/3600)}h ago`:`${Math.floor(s/86400)}d ago`}(e.last_changed)}</div>
             </div>
             ${n?W`
                   <div class="entity-state-badge">
                     <span class="sketch-badge ${r?"on":"off"}">${s}</span>
                   </div>
-                `:Q}
+                `:G}
           </div>
         </div>
       </ha-card>
-    `}};He=e([de("sketch-entity-card")],He);let Ie=class extends Be{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0}}get _schema(){return[...De()]}};Ie=e([de("sketch-button-card-editor")],Ie);let Fe=class extends Ne{constructor(){super(...arguments),this._pressing=!1}static{this.styles=[...super.styles,a`
+    `}};He=e([de("sketch-entity-card")],He);let Ue=class extends Be{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0}}get _schema(){return[...De()]}};Ue=e([de("sketch-button-card-editor")],Ue);let Fe=class extends Oe{constructor(){super(...arguments),this._pressing=!1}static{this.styles=[...super.styles,a`
       .button-wrap {
         display: flex;
         flex-direction: column;
@@ -508,12 +508,12 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
                 <div class="button-icon-wrap ${s?"active":""}">
                   <ha-icon class="sketch-icon" .icon=${t}></ha-icon>
                 </div>
-              `:Q}
-          ${o?W`<div class="button-label">${i}</div>`:Q}
-          ${n&&e?W`<div class="button-state">${e.state}</div>`:Q}
+              `:G}
+          ${o?W`<div class="button-label">${i}</div>`:G}
+          ${n&&e?W`<div class="button-state">${e.state}</div>`:G}
         </div>
       </ha-card>
-    `}};e([ge()],Fe.prototype,"_pressing",void 0),Fe=e([de("sketch-button-card")],Fe);let Re=class extends Be{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0,show_brightness:!0,show_color_temp:!0}}get _schema(){return[...De("light"),{name:"show_brightness",selector:{boolean:{}}},{name:"show_color_temp",selector:{boolean:{}}}]}};Re=e([de("sketch-light-card-editor")],Re);let We=class extends Ne{static{this.styles=[...super.styles,a`
+    `}};e([ge()],Fe.prototype,"_pressing",void 0),Fe=e([de("sketch-button-card")],Fe);let Re=class extends Be{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0,show_brightness:!0,show_color_temp:!0}}get _schema(){return[...De("light"),{name:"show_brightness",selector:{boolean:{}}},{name:"show_color_temp",selector:{boolean:{}}}]}};Re=e([de("sketch-light-card-editor")],Re);let We=class extends Oe{static{this.styles=[...super.styles,a`
       .light-header {
         display: flex;
         align-items: center;
@@ -573,10 +573,10 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
                   <div class="light-icon-wrap ${i?"on":""}">
                     <ha-icon class="sketch-icon" .icon=${a}></ha-icon>
                   </div>
-                `:Q}
+                `:G}
             <div class="sketch-col">
-              ${r?W`<p class="sketch-name">${this.getName()}</p>`:Q}
-              ${c?W`<p class="sketch-state">${t?W`<span class="sketch-unavailable-label">Unavailable</span>`:i?`${s}%`:"Off"}</p>`:Q}
+              ${r?W`<p class="sketch-name">${this.getName()}</p>`:G}
+              ${c?W`<p class="sketch-state">${t?W`<span class="sketch-unavailable-label">Unavailable</span>`:i?`${s}%`:"Off"}</p>`:G}
             </div>
           </div>
           ${o?W`
@@ -594,7 +594,7 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
                     <span class="brightness-value">${s}%</span>
                   </div>
                 </div>
-              `:Q}
+              `:G}
           ${n?W`
                 <div class="color-temp-row">
                   <span class="ct-label">&#x2600;</span>
@@ -608,10 +608,10 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
                   />
                   <span class="ct-label">&#x2744;</span>
                 </div>
-              `:Q}
+              `:G}
         </div>
       </ha-card>
-    `}};We=e([de("sketch-light-card")],We);let Ke=class extends Be{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0,show_current_as_primary:!1}}get _schema(){return[...De("climate"),{name:"show_current_as_primary",selector:{boolean:{}}}]}};Ke=e([de("sketch-thermostat-card-editor")],Ke);let Ge=class extends Ne{static{this.styles=[...super.styles,a`
+    `}};We=e([de("sketch-light-card")],We);let Ke=class extends Be{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0,show_current_as_primary:!1}}get _schema(){return[...De("climate"),{name:"show_current_as_primary",selector:{boolean:{}}}]}};Ke=e([de("sketch-thermostat-card-editor")],Ke);let Qe=class extends Oe{static{this.styles=[...super.styles,a`
       .thermo-header {
         display: flex;
         align-items: center;
@@ -688,10 +688,10 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
                   <div class="thermo-icon-wrap ${r}">
                     <ha-icon class="sketch-icon" .icon=${"mdi:thermostat"}></ha-icon>
                   </div>
-                `:Q}
+                `:G}
             <div class="sketch-col">
-              ${c?W`<p class="sketch-name">${this.getName()}</p>`:Q}
-              ${l?W`<p class="sketch-state">${a}</p>`:Q}
+              ${c?W`<p class="sketch-name">${this.getName()}</p>`:G}
+              ${l?W`<p class="sketch-state">${a}</p>`:G}
             </div>
           </div>
 
@@ -720,10 +720,10 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
                       </button>
                     `)}
                 </div>
-              `:Q}
+              `:G}
         </div>
       </ha-card>
-    `}};Ge=e([de("sketch-thermostat-card")],Ge);let Qe=class extends Be{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0,show_forecast:!0,num_forecasts:5}}get _schema(){return[...De("weather"),{name:"show_forecast",selector:{boolean:{}}},{name:"num_forecasts",selector:{number:{min:1,max:7,mode:"box"}}}]}};Qe=e([de("sketch-weather-card-editor")],Qe);let Ve=class extends Ne{static{this.styles=[...super.styles,a`
+    `}};Qe=e([de("sketch-thermostat-card")],Qe);let Ge=class extends Be{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0,show_forecast:!0,num_forecasts:5}}get _schema(){return[...De("weather"),{name:"show_forecast",selector:{boolean:{}}},{name:"num_forecasts",selector:{number:{min:1,max:7,mode:"box"}}}]}};Ge=e([de("sketch-weather-card-editor")],Ge);let Ve=class extends Oe{static{this.styles=[...super.styles,a`
       .weather-main {
         display: flex;
         align-items: center;
@@ -802,13 +802,13 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
       <ha-card>
         ${this.renderSketchBg()}
         <div class="sketch-card-content">
-          ${d?W`<p class="sketch-name" style="margin-bottom:8px">${this.getName()}</p>`:Q}
+          ${d?W`<p class="sketch-name" style="margin-bottom:8px">${this.getName()}</p>`:G}
           <div class="weather-main" role="button" tabindex="0" aria-label="${this.getName()}" @keydown=${this.handleKeyDown} @pointerdown=${this.handlePointerDown} @pointerup=${this.handlePointerUp} @pointercancel=${this.handlePointerCancel}>
             ${p?W`
                   <div class="weather-icon-wrap">
                     <ha-icon .icon=${this._weatherIconName(s)}></ha-icon>
                   </div>
-                `:Q}
+                `:G}
             <div>
               <div class="weather-temp">${t}${i}</div>
               <div class="weather-condition">${s.replace(/-/g," ")}</div>
@@ -816,9 +816,9 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
           </div>
 
           <div class="weather-details">
-            ${null!=o?W`<div class="weather-detail"><ha-icon icon="mdi:water-percent"></ha-icon>${o}%</div>`:Q}
-            ${null!=n?W`<div class="weather-detail"><ha-icon icon="mdi:weather-windy"></ha-icon>${n} ${a}</div>`:Q}
-            ${null!=r?W`<div class="weather-detail"><ha-icon icon="mdi:gauge"></ha-icon>${r} hPa</div>`:Q}
+            ${null!=o?W`<div class="weather-detail"><ha-icon icon="mdi:water-percent"></ha-icon>${o}%</div>`:G}
+            ${null!=n?W`<div class="weather-detail"><ha-icon icon="mdi:weather-windy"></ha-icon>${n} ${a}</div>`:G}
+            ${null!=r?W`<div class="weather-detail"><ha-icon icon="mdi:gauge"></ha-icon>${r} hPa</div>`:G}
           </div>
 
           ${l&&c.length>0?W`
@@ -832,15 +832,15 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
                         <ha-icon .icon=${this._weatherIconName(e.condition)}></ha-icon>
                         <div class="forecast-temps">
                           <span class="forecast-high">${e.temperature}\u00b0</span>
-                          ${null!=e.templow?W`<span class="forecast-low"> ${e.templow}\u00b0</span>`:Q}
+                          ${null!=e.templow?W`<span class="forecast-low"> ${e.templow}\u00b0</span>`:G}
                         </div>
                       </div>
                     `)}
                 </div>
-              `:Q}
+              `:G}
         </div>
       </ha-card>
-    `}};Ve=e([de("sketch-weather-card")],Ve);let qe=class extends Be{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0,graph:!0}}get _schema(){return[...De("sensor"),{name:"graph",selector:{boolean:{}}}]}};qe=e([de("sketch-sensor-card-editor")],qe);let Ze=class extends Ne{constructor(){super(...arguments),this._history=[],this._historyEntityId=""}static{this.styles=[...super.styles,a`
+    `}};Ve=e([de("sketch-weather-card")],Ve);let qe=class extends Be{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0,graph:!0}}get _schema(){return[...De("sensor"),{name:"graph",selector:{boolean:{}}}]}};qe=e([de("sketch-sensor-card-editor")],qe);let Ze=class extends Oe{constructor(){super(...arguments),this._history=[],this._historyEntityId=""}static{this.styles=[...super.styles,a`
       .sensor-header {
         display: flex;
         align-items: flex-start;
@@ -901,21 +901,21 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
                   <div class="sensor-icon-wrap">
                     <ha-icon class="sketch-icon" .icon=${t}></ha-icon>
                   </div>
-                `:Q}
+                `:G}
             <div class="sketch-col">
-              ${o?W`<p class="sketch-name">${this.getName()}</p>`:Q}
+              ${o?W`<p class="sketch-name">${this.getName()}</p>`:G}
               ${n?W`
                     <div class="sensor-value-row">
                       <span class="sketch-value">${e.state}</span>
-                      ${i?W`<span class="sketch-unit">${i}</span>`:Q}
+                      ${i?W`<span class="sketch-unit">${i}</span>`:G}
                     </div>
-                  `:Q}
+                  `:G}
             </div>
           </div>
-          ${s?this._renderSparkline():Q}
+          ${s?this._renderSparkline():G}
         </div>
       </ha-card>
-    `}};e([ge()],Ze.prototype,"_history",void 0),Ze=e([de("sketch-sensor-card")],Ze);let Ye=class extends Be{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0,show_artwork:!0,show_source:!0}}get _schema(){return[...De("media_player"),{name:"show_artwork",selector:{boolean:{}}},{name:"show_source",selector:{boolean:{}}}]}};Ye=e([de("sketch-media-player-card-editor")],Ye);let Je=class extends Ne{static{this.styles=[...super.styles,a`
+    `}};e([ge()],Ze.prototype,"_history",void 0),Ze=e([de("sketch-sensor-card")],Ze);let Ye=class extends Be{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0,show_artwork:!0,show_source:!0}}get _schema(){return[...De("media_player"),{name:"show_artwork",selector:{boolean:{}}},{name:"show_source",selector:{boolean:{}}}]}};Ye=e([de("sketch-media-player-card-editor")],Ye);let Je=class extends Oe{static{this.styles=[...super.styles,a`
       .media-layout {
         display: flex;
         gap: 14px;
@@ -1005,19 +1005,19 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
       <ha-card>
         ${this.renderSketchBg(400,200,o)}
         <div class="sketch-card-content">
-          ${l?W`<p class="sketch-name">${this.getName()}</p>`:Q}
+          ${l?W`<p class="sketch-name">${this.getName()}</p>`:G}
           <div class="media-layout" role="button" tabindex="0" aria-label="${this.getName()}" @keydown=${this.handleKeyDown} @pointerdown=${this.handlePointerDown} @pointerup=${this.handlePointerUp} @pointercancel=${this.handlePointerCancel}>
             ${d&&a?s?W`<img class="media-artwork" src="${s}" alt="artwork" />`:W`
                     <div class="media-artwork-placeholder">
                       <ha-icon class="sketch-icon" icon="mdi:music-note"></ha-icon>
                     </div>
-                  `:Q}
+                  `:G}
             ${h?W`
                   <div class="media-info">
                     <div class="media-title">${t}</div>
-                    ${i?W`<div class="media-artist">${i}</div>`:Q}
+                    ${i?W`<div class="media-artist">${i}</div>`:G}
                   </div>
-                `:Q}
+                `:G}
           </div>
 
           <div class="media-controls">
@@ -1044,10 +1044,10 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
             />
           </div>
 
-          ${r&&c?W`<div class="media-source">Source: ${c}</div>`:Q}
+          ${r&&c?W`<div class="media-source">Source: ${c}</div>`:G}
         </div>
       </ha-card>
-    `}};Je=e([de("sketch-media-player-card")],Je);let Xe=class extends Be{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0,show_position:!0,show_tilt:!0}}get _schema(){return[...De("cover"),{name:"show_position",selector:{boolean:{}}},{name:"show_tilt",selector:{boolean:{}}}]}};Xe=e([de("sketch-cover-card-editor")],Xe);let et=class extends Ne{static{this.styles=[...super.styles,a`
+    `}};Je=e([de("sketch-media-player-card")],Je);let Xe=class extends Be{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0,show_position:!0,show_tilt:!0}}get _schema(){return[...De("cover"),{name:"show_position",selector:{boolean:{}}},{name:"show_tilt",selector:{boolean:{}}}]}};Xe=e([de("sketch-cover-card-editor")],Xe);let et=class extends Oe{static{this.styles=[...super.styles,a`
       .cover-header {
         display: flex;
         align-items: center;
@@ -1123,10 +1123,10 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
                     <div class="cover-fill" style="height: ${i}%"></div>
                     <ha-icon class="sketch-icon" .icon=${this._config.icon||a}></ha-icon>
                   </div>
-                `:Q}
+                `:G}
             <div class="sketch-col">
-              ${r?W`<p class="sketch-name">${this.getName()}</p>`:Q}
-              ${c?W`<p class="sketch-state">${e.state} ${null!=i?`(${i}%)`:""}</p>`:Q}
+              ${r?W`<p class="sketch-name">${this.getName()}</p>`:G}
+              ${c?W`<p class="sketch-state">${e.state} ${null!=i?`(${i}%)`:""}</p>`:G}
             </div>
           </div>
 
@@ -1157,7 +1157,7 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
                     @change=${this._setPosition}
                   />
                 </div>
-              `:Q}
+              `:G}
 
           ${n?W`
                 <div class="tilt-row">
@@ -1174,10 +1174,10 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
                     @change=${this._setTilt}
                   />
                 </div>
-              `:Q}
+              `:G}
         </div>
       </ha-card>
-    `}};et=e([de("sketch-cover-card")],et);let tt=class extends Be{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0,states:["arm_home","arm_away","arm_night"]}}get _schema(){return[...De("alarm_control_panel"),{name:"states",selector:{select:{multiple:!0,options:[{value:"arm_home",label:"Arm Home"},{value:"arm_away",label:"Arm Away"},{value:"arm_night",label:"Arm Night"},{value:"arm_custom_bypass",label:"Arm Custom"}]}}}]}};tt=e([de("sketch-alarm-panel-card-editor")],tt);let it=class extends Ne{constructor(){super(...arguments),this._code=""}static{this.styles=[...super.styles,a`
+    `}};et=e([de("sketch-cover-card")],et);let tt=class extends Be{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0,states:["arm_home","arm_away","arm_night"]}}get _schema(){return[...De("alarm_control_panel"),{name:"states",selector:{select:{multiple:!0,options:[{value:"arm_home",label:"Arm Home"},{value:"arm_away",label:"Arm Away"},{value:"arm_night",label:"Arm Night"},{value:"arm_custom_bypass",label:"Arm Custom"}]}}}]}};tt=e([de("sketch-alarm-panel-card-editor")],tt);let it=class extends Oe{constructor(){super(...arguments),this._code=""}static{this.styles=[...super.styles,a`
       .alarm-header {
         display: flex;
         align-items: center;
@@ -1282,10 +1282,10 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
                   <div class="alarm-icon-wrap ${r}">
                     <ha-icon class="sketch-icon" .icon=${n}></ha-icon>
                   </div>
-                `:Q}
+                `:G}
             <div class="sketch-col">
-              ${l?W`<p class="sketch-name">${this.getName()}</p>`:Q}
-              ${h?W`<p class="sketch-state">${t.replace(/_/g," ")}</p>`:Q}
+              ${l?W`<p class="sketch-name">${this.getName()}</p>`:G}
+              ${h?W`<p class="sketch-state">${t.replace(/_/g," ")}</p>`:G}
             </div>
           </div>
 
@@ -1299,19 +1299,19 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
                     <ha-icon icon="mdi:backspace-outline" style="--mdc-icon-size:20px"></ha-icon>
                   </button>
                 </div>
-              `:Q}
+              `:G}
 
           <div class="action-row">
-            ${i||o?W`<button class="sketch-btn arm-btn disarm" @click=${()=>this._armAlarm("disarm")}>Disarm</button>`:Q}
+            ${i||o?W`<button class="sketch-btn arm-btn disarm" @click=${()=>this._armAlarm("disarm")}>Disarm</button>`:G}
             ${s?c.map(e=>W`
                     <button class="sketch-btn arm-btn arm" @click=${()=>this._armAlarm(e)}>
                       ${e.replace("arm_","").replace(/_/g," ")}
                     </button>
-                  `):Q}
+                  `):G}
           </div>
         </div>
       </ha-card>
-    `}};e([ge()],it.prototype,"_code",void 0),it=e([de("sketch-alarm-panel-card")],it);let st=class extends Be{get _defaults(){return{mode:"both",show_date:!0,show_seconds:!0}}get _schema(){return[{name:"name",selector:{text:{}}},{name:"mode",selector:{select:{options:[{value:"both",label:"Analog + Digital"},{value:"analog",label:"Analog Only"},{value:"digital",label:"Digital Only"}],mode:"dropdown"}}},{name:"show_date",selector:{boolean:{}}},{name:"show_seconds",selector:{boolean:{}}},{type:"expandable",title:"Appearance",schema:[{type:"grid",name:"",schema:[{name:"color",selector:{ui_color:{}}},{name:"card_background",selector:{ui_color:{}}}]},{name:"border_color",selector:{ui_color:{}}},{name:"variant",selector:{select:{options:[{value:"paper",label:"Paper (default)"},{value:"notebook",label:"Notebook"},{value:"sticky",label:"Sticky Note"}],mode:"dropdown"}}},{name:"card_rotation",selector:{text:{}}},{name:"corner_radius",selector:{number:{min:0,max:30,step:1,mode:"slider",unit_of_measurement:"px"}}},{name:"show_border",selector:{boolean:{}}},{name:"show_texture",selector:{boolean:{}}}]}]}};st=e([de("sketch-clock-card-editor")],st);let ot=class extends le{constructor(){super(...arguments),this._time=new Date,this._marks=null,this._numbers=null}static{this.styles=[be,a`
+    `}};e([ge()],it.prototype,"_code",void 0),it=e([de("sketch-alarm-panel-card")],it);let st=class extends Be{get _defaults(){return{mode:"both",show_date:!0,show_seconds:!0,time_format:"12h"}}get _schema(){return[{name:"name",selector:{text:{}}},{name:"mode",selector:{select:{options:[{value:"both",label:"Analog + Digital"},{value:"analog",label:"Analog Only"},{value:"digital",label:"Digital Only"}],mode:"dropdown"}}},{name:"time_format",selector:{select:{options:[{value:"12h",label:"12-hour (AM/PM)"},{value:"24h",label:"24-hour"}],mode:"dropdown"}}},{name:"show_date",selector:{boolean:{}}},{name:"show_seconds",selector:{boolean:{}}},{type:"expandable",title:"Appearance",schema:[{type:"grid",name:"",schema:[{name:"color",selector:{ui_color:{}}},{name:"card_background",selector:{ui_color:{}}}]},{name:"border_color",selector:{ui_color:{}}},{name:"variant",selector:{select:{options:[{value:"paper",label:"Paper (default)"},{value:"notebook",label:"Notebook"},{value:"sticky",label:"Sticky Note"}],mode:"dropdown"}}},{name:"card_rotation",selector:{text:{}}},{name:"corner_radius",selector:{number:{min:0,max:30,step:1,mode:"slider",unit_of_measurement:"px"}}},{name:"show_border",selector:{boolean:{}}},{name:"show_texture",selector:{boolean:{}}}]}]}};function ot(e,t){const i=49297*Math.sin(9301*e+49297*t+233280);return 2*(i-Math.floor(i)-.5)}st=e([de("sketch-clock-card-editor")],st);let nt=class extends le{constructor(){super(...arguments),this._time=new Date}static{this.styles=[be,a`
       ha-card {
         rotate: 0deg;
       }
@@ -1334,43 +1334,8 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
         margin-bottom: 8px;
       }
       .analog-clock {
-        width: 140px;
-        height: 140px;
-      }
-      .clock-face {
-        fill: var(--sketch-bg, #faf7f0);
-        stroke: var(--sketch-ink, #2a2a2a);
-        stroke-width: 2;
-        stroke-dasharray: 6 2 1 2;
-        stroke-linecap: round;
-      }
-      .clock-center {
-        fill: var(--sketch-ink, #2a2a2a);
-      }
-      .hour-mark {
-        stroke: var(--sketch-ink, #2a2a2a);
-        stroke-width: 2;
-        stroke-linecap: round;
-      }
-      .minute-mark {
-        stroke: var(--sketch-ink-muted, rgba(42,42,42,0.3));
-        stroke-width: 1;
-        stroke-linecap: round;
-      }
-      .hour-hand {
-        stroke: var(--sketch-ink, #2a2a2a);
-        stroke-width: 3.5;
-        stroke-linecap: round;
-      }
-      .minute-hand {
-        stroke: var(--sketch-ink, #2a2a2a);
-        stroke-width: 2.5;
-        stroke-linecap: round;
-      }
-      .second-hand {
-        stroke: var(--sketch-danger, #f44336);
-        stroke-width: 1;
-        stroke-linecap: round;
+        width: 160px;
+        height: 160px;
       }
       .digital-time {
         font-family: var(--sketch-font);
@@ -1378,6 +1343,7 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
         font-weight: 700;
         line-height: 1;
         margin-top: 8px;
+        color: var(--sketch-ink);
       }
       .digital-date {
         font-family: var(--sketch-font);
@@ -1385,34 +1351,61 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
         color: var(--sketch-ink-muted);
         margin-top: 4px;
       }
-      .clock-number {
-        font-family: var(--sketch-font);
-        font-size: 11px;
-        fill: var(--sketch-ink, #2a2a2a);
-        text-anchor: middle;
-        dominant-baseline: central;
-        font-weight: 600;
-      }
-    `]}setConfig(e){if(!e)throw new Error("Invalid configuration");this._config={...e}}static getConfigElement(){return document.createElement("sketch-clock-card-editor")}static getStubConfig(){return{mode:"both",show_date:!0,show_seconds:!0}}getCardSize(){return 4}getLayoutOptions(){return{grid_columns:4,grid_rows:4}}_ensureStaticMarks(){if(this._marks)return;this._marks=[],this._numbers=[];for(let e=0;e<12;e++){const t=(30*e-90)*Math.PI/180;this._marks.push(K`<line class="hour-mark" x1=${70+52*Math.cos(t)} y1=${70+52*Math.sin(t)} x2=${70+58*Math.cos(t)} y2=${70+58*Math.sin(t)} />`),this._numbers.push(K`<text class="clock-number" x=${70+44*Math.cos(t)} y=${70+44*Math.sin(t)}>${0===e?12:e}</text>`)}for(let e=0;e<60;e++){if(e%5==0)continue;const t=(6*e-90)*Math.PI/180;this._marks.push(K`<line class="minute-mark" x1=${70+58*Math.cos(t)} y1=${70+58*Math.sin(t)} x2=${70+55*Math.cos(t)} y2=${70+55*Math.sin(t)} />`)}}connectedCallback(){super.connectedCallback(),this._tick(),this._timer=window.setInterval(()=>this._tick(),1e3)}disconnectedCallback(){super.disconnectedCallback(),this._timer&&clearInterval(this._timer)}_tick(){this._time=new Date}_renderAnalog(){this._ensureStaticMarks();const e=this._time.getHours()%12,t=this._time.getMinutes(),i=this._time.getSeconds(),s=!1!==this._config.show_seconds,o=70,n=70,a=(e,t)=>{const i=(e-90)*Math.PI/180;return{x:o+Math.cos(i)*t,y:n+Math.sin(i)*t}},r=a(30*(e+t/60),32),c=a(6*(t+i/60),46),l=a(6*i,50);return W`
-      <svg class="analog-clock" viewBox="0 0 140 140">
-        <circle class="clock-face" cx=${o} cy=${n} r=${60} />
-        ${this._marks}
-        ${this._numbers}
-        <line class="hour-hand" x1=${o} y1=${n} x2=${r.x} y2=${r.y} />
-        <line class="minute-hand" x1=${o} y1=${n} x2=${c.x} y2=${c.y} />
-        ${s?K`<line class="second-hand" x1=${o} y1=${n} x2=${l.x} y2=${l.y} />`:Q}
-        <circle class="clock-center" cx=${o} cy=${n} r="3" />
+    `]}setConfig(e){if(!e)throw new Error("Invalid configuration");this._config={...e}}updated(e){super.updated(e),e.has("_config")&&xe(this,this._config),e.has("hass")&&this.hass&&this.classList.toggle("dark-mode",this.hass.themes?.darkMode??!1)}static getConfigElement(){return document.createElement("sketch-clock-card-editor")}static getStubConfig(){return{mode:"both",show_date:!0,show_seconds:!0,time_format:"12h"}}getCardSize(){return 4}getLayoutOptions(){return{grid_columns:4,grid_rows:4}}connectedCallback(){super.connectedCallback(),this._tick(),this._timer=window.setInterval(()=>this._tick(),1e3)}disconnectedCallback(){super.disconnectedCallback(),this._timer&&clearInterval(this._timer)}_tick(){this._time=new Date}_renderSketchBg(){const e=this._config;return W`${ye(je(400,300,{showBorder:!1!==e?.show_border,showTexture:!1!==e?.show_texture,variant:e?.variant||"paper",cornerRadius:e?.corner_radius??14,seed:54321}))}`}_renderAnalog(){const e=this._time.getHours()%12,t=this._time.getMinutes(),i=this._time.getSeconds(),s=!1!==this._config.show_seconds,o=80,n=80,a=65,r=777,c="var(--sketch-ink, #2a2a2a)",l=[];for(let e=0;e<=72;e++){const t=e/72*Math.PI*2-Math.PI/2,i=1.8*ot(r,e),s=o+(a+i)*Math.cos(t),c=n+(a+i)*Math.sin(t);l.push(`${s.toFixed(1)},${c.toFixed(1)}`)}const h=[];for(let e=0;e<12;e++){const t=(30*e-90)*Math.PI/180,i=1.5*ot(877,e),s=55+i,a=62+i,r=2+.5*ot(977,e);h.push(K`<line
+        x1=${o+Math.cos(t)*s}
+        y1=${n+Math.sin(t)*s}
+        x2=${o+Math.cos(t)*a}
+        y2=${n+Math.sin(t)*a}
+        stroke="${c}" stroke-width="${r.toFixed(1)}" stroke-linecap="round"
+      />`)}const d=[];for(let e=0;e<60;e++){if(e%5==0)continue;const t=(6*e-90)*Math.PI/180,i=.8*ot(1077,e);d.push(K`<line
+        x1=${o+Math.cos(t)*(61+i)}
+        y1=${n+Math.sin(t)*(61+i)}
+        x2=${o+Math.cos(t)*(63+i)}
+        y2=${n+Math.sin(t)*(63+i)}
+        stroke="${"var(--sketch-ink-muted, rgba(42,42,42,0.3))"}" stroke-width="0.8" stroke-linecap="round"
+      />`)}const p=[];for(let e=0;e<12;e++){const t=0===e?12:e,i=(30*e-90)*Math.PI/180,s=o+45*Math.cos(i)+1.5*ot(1177,e),a=n+45*Math.sin(i)+1.5*ot(1277,e),r=6*ot(1377,e);p.push(K`<text
+        x=${s} y=${a}
+        text-anchor="middle" dominant-baseline="central"
+        font-family="var(--sketch-font, Caveat, cursive)"
+        font-size="13" font-weight="600"
+        fill="${c}"
+        transform="rotate(${r.toFixed(1)} ${s.toFixed(1)} ${a.toFixed(1)})"
+      >${t}</text>`)}const m=(e,t,i)=>{const s=(e-90)*Math.PI/180,a=o+Math.cos(s)*t,r=n+Math.sin(s)*t,l=(o+a)/2+Math.sin(s)*ot(1477,Math.round(e))*2.5,h=(n+r)/2-Math.cos(s)*ot(1577,Math.round(e))*2.5;return K`<path d="M ${o} ${n} Q ${l.toFixed(1)} ${h.toFixed(1)} ${a.toFixed(1)} ${r.toFixed(1)}"
+        fill="none" stroke="${c}" stroke-width="${i}" stroke-linecap="round"/>`},u=30*(e+t/60),g=6*(t+i/60),f=6*i;return W`
+      <svg class="analog-clock" viewBox="0 0 160 160">
+        <!-- Wobbly face -->
+        <polyline points="${l.join(" ")}" fill="none"
+          stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+        <!-- Second wobbly face (overdrawn pencil) -->
+        <polyline points="${l.map((e,t)=>{const[i,s]=e.split(",").map(Number);return`${(i+.8*ot(1677,t)).toFixed(1)},${(s+.8*ot(1777,t)).toFixed(1)}`}).join(" ")}" fill="none"
+          stroke="${c}" stroke-width="0.8" stroke-linecap="round" opacity="0.25"/>
+        ${h}
+        ${d}
+        ${p}
+        <!-- Hands -->
+        ${m(u,35,3.5)}
+        ${m(g,50,2.5)}
+        ${s?K`
+          <line x1=${o} y1=${n}
+            x2=${o+54*Math.cos((f-90)*Math.PI/180)}
+            y2=${n+54*Math.sin((f-90)*Math.PI/180)}
+            stroke="var(--sketch-danger, #f44336)" stroke-width="1" stroke-linecap="round"/>
+        `:G}
+        <!-- Center dot -->
+        <circle cx=${o} cy=${n} r="3.5" fill="${c}"/>
+        <circle cx=${o} cy=${n} r="1.5" fill="var(--sketch-card-bg, var(--ha-card-background, #faf7f0))"/>
       </svg>
-    `}_renderDigital(){const e=this._time.getHours(),t=this._time.getMinutes(),i=this._time.getSeconds(),s=e=>String(e).padStart(2,"0"),o=!1!==this._config.show_seconds?`${s(e)}:${s(t)}:${s(i)}`:`${s(e)}:${s(t)}`;return W`<div class="digital-time">${o}</div>`}render(){const e=this._config?.mode||"both",t=!1!==this._config?.show_date,i=this._config?.name,s=this._time.toLocaleDateString(void 0,{weekday:"long",year:"numeric",month:"long",day:"numeric"});return W`
+    `}_renderDigital(){const e=this._time.getHours(),t=this._time.getMinutes(),i=this._time.getSeconds(),s=!1!==this._config.show_seconds,o="12h"===this._config.time_format,n=e=>String(e).padStart(2,"0");let a=e,r="";o&&(r=e>=12?" PM":" AM",a=e%12||12);const c=s?`${n(a)}:${n(t)}:${n(i)}`:`${n(a)}:${n(t)}`;return W`<div class="digital-time">${c}${o?W`<span style="font-size:0.4em;font-weight:400;color:var(--sketch-ink-muted)">${r}</span>`:G}</div>`}render(){const e=this._config?.mode||"both",t=!1!==this._config?.show_date,i=this._config?.name,s=this._time.toLocaleDateString(void 0,{weekday:"long",year:"numeric",month:"long",day:"numeric"});return W`
       <ha-card>
+        ${this._renderSketchBg()}
         <div class="sketch-card-content clock-content">
-          ${i?W`<div class="clock-name">${i}</div>`:Q}
-          ${"analog"===e||"both"===e?this._renderAnalog():Q}
-          ${"digital"===e||"both"===e?this._renderDigital():Q}
-          ${t?W`<div class="digital-date">${s}</div>`:Q}
+          ${i?W`<div class="clock-name">${i}</div>`:G}
+          ${"analog"===e||"both"===e?this._renderAnalog():G}
+          ${"digital"===e||"both"===e?this._renderDigital():G}
+          ${t?W`<div class="digital-date">${s}</div>`:G}
         </div>
       </ha-card>
-    `}};e([ge()],ot.prototype,"_config",void 0),e([ge()],ot.prototype,"_time",void 0),ot=e([de("sketch-clock-card")],ot);let nt=class extends le{constructor(){super(...arguments),this._config={}}static{this.styles=a`
+    `}};e([ue({attribute:!1})],nt.prototype,"hass",void 0),e([ge()],nt.prototype,"_config",void 0),e([ge()],nt.prototype,"_time",void 0),nt=e([de("sketch-clock-card")],nt);let at=class extends le{constructor(){super(...arguments),this._config={}}static{this.styles=a`
     :host { display: block; }
     .editor-note {
       font-size: 13px;
@@ -1424,7 +1417,7 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
         The Chip card requires YAML configuration for its chips array.
         Switch to the code editor to configure chips.
       </p>
-    `}};e([ue({attribute:!1})],nt.prototype,"hass",void 0),e([ge()],nt.prototype,"_config",void 0),nt=e([de("sketch-chip-card-editor")],nt);let at=class extends le{static{this.styles=[be,a`
+    `}};e([ue({attribute:!1})],at.prototype,"hass",void 0),e([ge()],at.prototype,"_config",void 0),at=e([de("sketch-chip-card-editor")],at);let rt=class extends le{static{this.styles=[be,a`
       :host {
         display: block;
       }
@@ -1488,7 +1481,7 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
     `]}setConfig(e){if(!e||!e.chips||!Array.isArray(e.chips))throw new Error("Please define chips array");this._config={...e}}static getConfigElement(){return document.createElement("sketch-chip-card-editor")}static getStubConfig(){return{chips:[{type:"entity",entity:"light.living_room"},{type:"action",icon:"mdi:home",name:"Home",tap_action:{action:"navigate",navigation_path:"/"}}]}}getCardSize(){return 1}getLayoutOptions(){return{grid_columns:4,grid_rows:1}}_handleChipTap(e){switch(e.tap_action?.action||(e.entity?"more-info":"none")){case"toggle":if(e.entity){const[t]=e.entity.split(".");this.hass.callService(t,"toggle",{entity_id:e.entity})}break;case"more-info":e.entity&&this.dispatchEvent(new CustomEvent("hass-more-info",{bubbles:!0,composed:!0,detail:{entityId:e.entity}}));break;case"navigate":e.tap_action?.navigation_path&&(window.history.pushState(null,"",e.tap_action.navigation_path),this.dispatchEvent(new CustomEvent("location-changed",{bubbles:!0,composed:!0})));break;case"call-service":if(e.tap_action?.service){const[t,i]=e.tap_action.service.split(".");this.hass.callService(t,i,e.tap_action.service_data)}}}_renderChip(e){const t=e.entity?this.hass.states[e.entity]:void 0,i=e.icon||(t?$e(t):"mdi:circle"),s=t&&["on","open","playing","home"].includes(t.state);let o=e.name;return!o&&t&&(o=t.attributes.friendly_name||e.entity),"template"===e.type&&e.content&&(o=e.content),W`
       <div class="chip ${s?"on":""}" @click=${()=>this._handleChipTap(e)}>
         <ha-icon .icon=${i}></ha-icon>
-        ${o?W`<span class="chip-label">${o}</span>`:Q}
+        ${o?W`<span class="chip-label">${o}</span>`:G}
       </div>
     `}render(){return this._config?.chips?W`
       <ha-card>
@@ -1496,7 +1489,7 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
           ${this._config.chips.map(e=>this._renderChip(e))}
         </div>
       </ha-card>
-    `:Q}};e([ue({attribute:!1})],at.prototype,"hass",void 0),e([ge()],at.prototype,"_config",void 0),at=e([de("sketch-chip-card")],at);let rt=class extends Be{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0,show_location:!0,show_battery:!0}}get _schema(){return[...De("person"),{name:"show_location",selector:{boolean:{}}},{name:"show_battery",selector:{boolean:{}}},{name:"battery_entity",selector:{entity:{domain:"sensor"}}}]}};rt=e([de("sketch-person-card-editor")],rt);let ct=class extends Ne{static{this.styles=[...super.styles,a`
+    `:G}};e([ue({attribute:!1})],rt.prototype,"hass",void 0),e([ge()],rt.prototype,"_config",void 0),rt=e([de("sketch-chip-card")],rt);let ct=class extends Be{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0,show_location:!0,show_battery:!0}}get _schema(){return[...De("person"),{name:"show_location",selector:{boolean:{}}},{name:"show_battery",selector:{boolean:{}}},{name:"battery_entity",selector:{entity:{domain:"sensor"}}}]}};ct=e([de("sketch-person-card-editor")],ct);let lt=class extends Oe{static{this.styles=[...super.styles,a`
       .person-row {
         display: flex;
         align-items: center;
@@ -1597,9 +1590,9 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
                     <div class="person-avatar-placeholder">
                       <ha-icon icon="mdi:account"></ha-icon>
                     </div>
-                  `:Q}
+                  `:G}
             <div class="person-info">
-              ${p?W`<p class="sketch-name">${t}</p>`:Q}
+              ${p?W`<p class="sketch-name">${t}</p>`:G}
               ${m&&n?W`
                     <div class="person-location">
                       <span class="person-status">
@@ -1607,9 +1600,9 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
                         <ha-icon .icon=${d}></ha-icon>
                         ${o}
                       </span>
-                      ${h?W`<span style="font-size:0.8em">(~${h}m)</span>`:Q}
+                      ${h?W`<span style="font-size:0.8em">(~${h}m)</span>`:G}
                     </div>
-                  `:Q}
+                  `:G}
               ${m&&a&&null!==c?W`
                     <div class="battery-row">
                       <ha-icon icon="mdi:battery" style="--mdc-icon-size:14px;color:var(--sketch-ink-muted)"></ha-icon>
@@ -1618,12 +1611,12 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
                       </div>
                       <span class="battery-text">${c}%</span>
                     </div>
-                  `:Q}
+                  `:G}
             </div>
           </div>
         </div>
       </ha-card>
-    `}};ct=e([de("sketch-person-card")],ct);let lt=class extends Be{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0,hide_icon:!1}}get _schema(){return[...De(),{name:"hide_icon",selector:{boolean:{}}}]}};lt=e([de("sketch-tile-card-editor")],lt);let ht=class extends Ne{static{this.styles=[...super.styles,a`
+    `}};lt=e([de("sketch-person-card")],lt);let ht=class extends Be{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0,hide_icon:!1}}get _schema(){return[...De(),{name:"hide_icon",selector:{boolean:{}}}]}};ht=e([de("sketch-tile-card-editor")],ht);let dt=class extends Oe{static{this.styles=[...super.styles,a`
       ha-card {
         rotate: -0.3deg;
       }
@@ -1697,16 +1690,16 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
       <ha-card>
         ${this.renderSketchBg(400,200,o)}
         <div class="tile-row" role="button" tabindex="0" aria-label="${this.getName()}" @keydown=${this.handleKeyDown} @pointerdown=${this.handlePointerDown} @pointerup=${this.handlePointerUp} @pointercancel=${this.handlePointerCancel}>
-          ${n?W`<ha-icon class="tile-icon ${o?"on":"off"}" .icon=${t}></ha-icon>`:Q}
-          ${a?W`<span class="tile-name">${i}</span>`:Q}
+          ${n?W`<ha-icon class="tile-icon ${o?"on":"off"}" .icon=${t}></ha-icon>`:G}
+          ${a?W`<span class="tile-name">${i}</span>`:G}
           ${c?W`
                 <div class="tile-toggle ${o?"on":""}" @click=${this._handleToggle}>
                   <div class="tile-toggle-knob"></div>
                 </div>
-              `:r?W`<span class="tile-state">${s}</span>`:Q}
+              `:r?W`<span class="tile-state">${s}</span>`:G}
         </div>
       </ha-card>
-    `}};ht=e([de("sketch-tile-card")],ht);let dt=class extends Be{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0,show_controls:!0}}get _schema(){return[...De("camera"),{name:"show_controls",selector:{boolean:{}}},{name:"aspect_ratio",selector:{text:{}}}]}};dt=e([de("sketch-camera-card-editor")],dt);let pt=class extends Ne{constructor(){super(...arguments),this._imageUrl="",this._loading=!0}static{this.styles=[...super.styles,a`
+    `}};dt=e([de("sketch-tile-card")],dt);let pt=class extends Be{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0,show_controls:!0}}get _schema(){return[...De("camera"),{name:"show_controls",selector:{boolean:{}}},{name:"aspect_ratio",selector:{text:{}}}]}};pt=e([de("sketch-camera-card-editor")],pt);let mt=class extends Oe{constructor(){super(...arguments),this._imageUrl="",this._loading=!0}static{this.styles=[...super.styles,a`
       .camera-wrap {
         position: relative;
         z-index: 1;
@@ -1823,8 +1816,8 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
                 </div>
               `}
           <div class="camera-overlay">
-            ${s?W`<span class="camera-name">${t}</span>`:Q}
-            ${o?W`<span class="camera-state">${e.state}</span>`:Q}
+            ${s?W`<span class="camera-name">${t}</span>`:G}
+            ${o?W`<span class="camera-state">${e.state}</span>`:G}
           </div>
         </div>
         ${i?W`
@@ -1836,14 +1829,14 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
                   <ha-icon icon="mdi:fullscreen"></ha-icon>
                 </button>
               </div>
-            `:Q}
+            `:G}
       </ha-card>
-    `}};e([ge()],pt.prototype,"_imageUrl",void 0),e([ge()],pt.prototype,"_loading",void 0),pt=e([de("sketch-camera-card")],pt);let mt=class extends Be{get _schema(){return[{name:"hash",selector:{text:{}}},{type:"grid",name:"",schema:[{name:"name",selector:{text:{}}},{name:"icon",selector:{icon:{}}}]},{name:"auto_close",selector:{number:{min:0,max:300,mode:"box"}}},{name:"width",selector:{text:{}}}]}render(){return this.hass&&this._config?W`
+    `}};e([ge()],mt.prototype,"_imageUrl",void 0),e([ge()],mt.prototype,"_loading",void 0),mt=e([de("sketch-camera-card")],mt);let ut=class extends Be{get _schema(){return[{name:"hash",selector:{text:{}}},{type:"grid",name:"",schema:[{name:"name",selector:{text:{}}},{name:"icon",selector:{icon:{}}}]},{name:"auto_close",selector:{number:{min:0,max:300,mode:"box"}}},{name:"width",selector:{text:{}}}]}render(){return this.hass&&this._config?W`
       ${super.render()}
       <p class="editor-note">
         Configure child cards in YAML mode (code editor).
       </p>
-    `:Q}};mt=e([de("sketch-popup-card-editor")],mt);let ut=class extends le{constructor(){super(...arguments),this._open=!1,this._childCards=[],this._hashListener=()=>this._checkHash(),this._keyListener=e=>{"Escape"===e.key&&this._open&&this._closePopup()}}static{this.styles=[be,a`
+    `:G}};ut=e([de("sketch-popup-card-editor")],ut);let gt=class extends le{constructor(){super(...arguments),this._open=!1,this._childCards=[],this._hashListener=()=>this._checkHash(),this._keyListener=e=>{"Escape"===e.key&&this._open&&this._closePopup()}}static{this.styles=[be,a`
       :host {
         display: block;
       }
@@ -2001,8 +1994,8 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
         <div class="popup-handle"></div>
         ${t||i?W`
               <div class="popup-header">
-                ${i?W`<ha-icon .icon=${i}></ha-icon>`:Q}
-                ${t?W`<span class="popup-title">${t}</span>`:Q}
+                ${i?W`<ha-icon .icon=${i}></ha-icon>`:G}
+                ${t?W`<span class="popup-title">${t}</span>`:G}
                 <button class="popup-close" @click=${this._closePopup}>
                   <ha-icon icon="mdi:close"></ha-icon>
                 </button>
@@ -2019,7 +2012,7 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
           ${this._childCards.map(e=>e)}
         </div>
       </div>
-    `}};e([ue({attribute:!1})],ut.prototype,"hass",void 0),e([ge()],ut.prototype,"_config",void 0),e([ge()],ut.prototype,"_open",void 0),e([ge()],ut.prototype,"_childCards",void 0),ut=e([de("sketch-popup-card")],ut);let gt=class extends le{constructor(){super(...arguments),this._config={}}static{this.styles=a`
+    `}};e([ue({attribute:!1})],gt.prototype,"hass",void 0),e([ge()],gt.prototype,"_config",void 0),e([ge()],gt.prototype,"_open",void 0),e([ge()],gt.prototype,"_childCards",void 0),gt=e([de("sketch-popup-card")],gt);let ft=class extends le{constructor(){super(...arguments),this._config={}}static{this.styles=a`
     :host { display: block; }
     .editor-note {
       font-size: 13px;
@@ -2031,7 +2024,7 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
         The Horizontal Buttons Stack requires YAML configuration for its buttons array.
         Switch to the code editor to configure buttons.
       </p>
-    `}};e([ue({attribute:!1})],gt.prototype,"hass",void 0),e([ge()],gt.prototype,"_config",void 0),gt=e([de("sketch-horizontal-buttons-stack-editor")],gt);let ft=class extends le{constructor(){super(...arguments),this._activeHash="",this._hashListener=()=>this._updateActiveHash()}static{this.styles=[be,a`
+    `}};e([ue({attribute:!1})],ft.prototype,"hass",void 0),e([ge()],ft.prototype,"_config",void 0),ft=e([de("sketch-horizontal-buttons-stack-editor")],ft);let vt=class extends le{constructor(){super(...arguments),this._activeHash="",this._hashListener=()=>this._updateActiveHash()}static{this.styles=[be,a`
       :host {
         display: block;
       }
@@ -2160,7 +2153,7 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
         right: 0;
         background: linear-gradient(to left, var(--sketch-bg, #faf7f0), transparent);
       }
-    `]}setConfig(e){if(!e||!e.buttons||!Array.isArray(e.buttons))throw new Error("Please define buttons array");this._config={...e}}static getConfigElement(){return document.createElement("sketch-horizontal-buttons-stack-editor")}static getStubConfig(){return{style:"fixed",buttons:[{name:"Home",icon:"mdi:home",hash:"home"},{name:"Lights",icon:"mdi:lightbulb-group",hash:"lights"},{name:"Climate",icon:"mdi:thermostat",hash:"climate"},{name:"Security",icon:"mdi:shield-home",hash:"security"},{name:"Media",icon:"mdi:speaker",hash:"media"}]}}getCardSize(){return 1}getLayoutOptions(){return{grid_columns:4,grid_rows:1}}connectedCallback(){super.connectedCallback(),this._updateActiveHash(),window.addEventListener("hashchange",this._hashListener)}disconnectedCallback(){super.disconnectedCallback(),window.removeEventListener("hashchange",this._hashListener)}_updateActiveHash(){this._activeHash=window.location.hash.replace("#","")}_handleButtonTap(e){e.hash?window.location.hash=e.hash:e.navigation_path&&(window.history.pushState(null,"",e.navigation_path),this.dispatchEvent(new CustomEvent("location-changed",{bubbles:!0,composed:!0})))}_getOrderedButtons(){const e=[...this._config.buttons];return this.hass?e.sort((e,t)=>{if(!e.entity&&!t.entity)return 0;const i=e.entity&&"on"===this.hass.states[e.entity]?.state?1:0;return(t.entity&&"on"===this.hass.states[t.entity]?.state?1:0)-i}):e}render(){if(!this._config?.buttons)return Q;const e="inline"!==this._config.style,t=this._getOrderedButtons();return W`
+    `]}setConfig(e){if(!e||!e.buttons||!Array.isArray(e.buttons))throw new Error("Please define buttons array");this._config={...e}}static getConfigElement(){return document.createElement("sketch-horizontal-buttons-stack-editor")}static getStubConfig(){return{style:"fixed",buttons:[{name:"Home",icon:"mdi:home",hash:"home"},{name:"Lights",icon:"mdi:lightbulb-group",hash:"lights"},{name:"Climate",icon:"mdi:thermostat",hash:"climate"},{name:"Security",icon:"mdi:shield-home",hash:"security"},{name:"Media",icon:"mdi:speaker",hash:"media"}]}}getCardSize(){return 1}getLayoutOptions(){return{grid_columns:4,grid_rows:1}}connectedCallback(){super.connectedCallback(),this._updateActiveHash(),window.addEventListener("hashchange",this._hashListener)}disconnectedCallback(){super.disconnectedCallback(),window.removeEventListener("hashchange",this._hashListener)}_updateActiveHash(){this._activeHash=window.location.hash.replace("#","")}_handleButtonTap(e){e.hash?window.location.hash=e.hash:e.navigation_path&&(window.history.pushState(null,"",e.navigation_path),this.dispatchEvent(new CustomEvent("location-changed",{bubbles:!0,composed:!0})))}_getOrderedButtons(){const e=[...this._config.buttons];return this.hass?e.sort((e,t)=>{if(!e.entity&&!t.entity)return 0;const i=e.entity&&"on"===this.hass.states[e.entity]?.state?1:0;return(t.entity&&"on"===this.hass.states[t.entity]?.state?1:0)-i}):e}render(){if(!this._config?.buttons)return G;const e="inline"!==this._config.style,t=this._getOrderedButtons();return W`
       <div class="${e?"nav-fixed":""}">
         <ha-card>
           <div class="torn-edge">
@@ -2185,12 +2178,12 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
           </div>
         </ha-card>
       </div>
-    `}};e([ue({attribute:!1})],ft.prototype,"hass",void 0),e([ge()],ft.prototype,"_config",void 0),e([ge()],ft.prototype,"_activeHash",void 0),ft=e([de("sketch-horizontal-buttons-stack")],ft);let vt=class extends Be{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0,columns:3,collapsible:!0}}get _schema(){return[...De(),{name:"columns",selector:{number:{min:1,max:6,mode:"box"}}},{name:"collapsible",selector:{boolean:{}}}]}render(){return this.hass&&this._config?W`
+    `}};e([ue({attribute:!1})],vt.prototype,"hass",void 0),e([ge()],vt.prototype,"_config",void 0),e([ge()],vt.prototype,"_activeHash",void 0),vt=e([de("sketch-horizontal-buttons-stack")],vt);let _t=class extends Be{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0,columns:3,collapsible:!0}}get _schema(){return[...De(),{name:"columns",selector:{number:{min:1,max:6,mode:"box"}}},{name:"collapsible",selector:{boolean:{}}}]}render(){return this.hass&&this._config?W`
       ${super.render()}
       <p class="editor-note">
         Configure sub_buttons in YAML mode (code editor).
       </p>
-    `:Q}};vt=e([de("sketch-sub-button-card-editor")],vt);let kt=class extends Ne{constructor(){super(...arguments),this._expanded=!0}static{this.styles=[...super.styles,a`
+    `:G}};_t=e([de("sketch-sub-button-card-editor")],_t);let kt=class extends Oe{constructor(){super(...arguments),this._expanded=!0}static{this.styles=[...super.styles,a`
       .primary-row {
         display: flex;
         align-items: center;
@@ -2298,7 +2291,7 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
         <ha-icon .icon=${i}></ha-icon>
         <div class="sub-btn-info">
           <div class="sub-btn-name">${s}</div>
-          ${n?W`<div class="sub-btn-state">${ze(t)}</div>`:Q}
+          ${n?W`<div class="sub-btn-state">${ze(t)}</div>`:G}
         </div>
       </button>
     `}render(){const e=this.getEntity();if(!e)return W`<ha-card>${this.renderSketchBg()}<div class="sketch-card-content"><p class="sketch-name">Entity not found</p></div></ha-card>`;const t=this._config.icon||$e(e),i=this.getName(),s=Ae(e.state),o=Math.max(1,Math.min(this._subConfig.columns||3,6)),n=!1!==this._subConfig.collapsible,a=!1!==this._config.show_name,r=!1!==this._config.show_state,c=!1!==this._config.show_icon;return W`
@@ -2310,12 +2303,12 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
                   <div class="primary-icon-wrap ${s?"on":""}">
                     <ha-icon class="sketch-icon" .icon=${t}></ha-icon>
                   </div>
-                `:Q}
+                `:G}
             <div class="sketch-col">
-              ${a?W`<p class="sketch-name">${i}</p>`:Q}
-              ${r?W`<p class="sketch-state">${ze(e)}</p>`:Q}
+              ${a?W`<p class="sketch-name">${i}</p>`:G}
+              ${r?W`<p class="sketch-state">${ze(e)}</p>`:G}
             </div>
-            ${n?W`<ha-icon class="expand-chevron ${this._expanded?"open":""}" icon="mdi:chevron-down"></ha-icon>`:Q}
+            ${n?W`<ha-icon class="expand-chevron ${this._expanded?"open":""}" icon="mdi:chevron-down"></ha-icon>`:G}
           </div>
           <div
             class="sub-buttons-grid ${this._expanded?"expanded":"collapsed"}"
@@ -2325,7 +2318,7 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
           </div>
         </div>
       </ha-card>
-    `}};e([ge()],kt.prototype,"_expanded",void 0),kt=e([de("sketch-sub-button-card")],kt);let _t=class extends Be{get _schema(){return[{name:"name",selector:{text:{}}},{name:"icon",selector:{icon:{}}},{type:"expandable",title:"Appearance",schema:[{type:"grid",name:"",schema:[{name:"color",selector:{ui_color:{}}},{name:"card_background",selector:{ui_color:{}}}]},{name:"border_color",selector:{ui_color:{}}},{name:"variant",selector:{select:{options:[{value:"paper",label:"Paper (default)"},{value:"notebook",label:"Notebook"},{value:"sticky",label:"Sticky Note"}],mode:"dropdown"}}},{name:"card_rotation",selector:{text:{}}},{name:"corner_radius",selector:{number:{min:0,max:30,step:1,mode:"slider",unit_of_measurement:"px"}}},{name:"show_border",selector:{boolean:{}}},{name:"show_texture",selector:{boolean:{}}}]}]}};_t=e([de("sketch-separator-card-editor")],_t);let yt=class extends le{static{this.styles=[be,a`
+    `}};e([ge()],kt.prototype,"_expanded",void 0),kt=e([de("sketch-sub-button-card")],kt);let yt=class extends Be{get _schema(){return[{name:"name",selector:{text:{}}},{name:"icon",selector:{icon:{}}},{type:"expandable",title:"Appearance",schema:[{type:"grid",name:"",schema:[{name:"color",selector:{ui_color:{}}},{name:"card_background",selector:{ui_color:{}}}]},{name:"border_color",selector:{ui_color:{}}},{name:"variant",selector:{select:{options:[{value:"paper",label:"Paper (default)"},{value:"notebook",label:"Notebook"},{value:"sticky",label:"Sticky Note"}],mode:"dropdown"}}},{name:"card_rotation",selector:{text:{}}},{name:"corner_radius",selector:{number:{min:0,max:30,step:1,mode:"slider",unit_of_measurement:"px"}}},{name:"show_border",selector:{boolean:{}}},{name:"show_texture",selector:{boolean:{}}}]}]}};yt=e([de("sketch-separator-card-editor")],yt);let bt=class extends le{static{this.styles=[be,a`
       :host {
         display: block;
         overflow: hidden;
@@ -2390,7 +2383,7 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
           <div class="separator-wrap">
             ${this._renderWavyLine(200)}
             <span class="separator-label">
-              ${t?W`<ha-icon .icon=${t}></ha-icon>`:Q}
+              ${t?W`<ha-icon .icon=${t}></ha-icon>`:G}
               ${e||""}
             </span>
             ${this._renderWavyLine(200)}
@@ -2402,7 +2395,7 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
           ${this._renderWavyLine(600)}
         </div>
       </ha-card>
-    `}};e([ge()],yt.prototype,"_config",void 0),yt=e([de("sketch-separator-card")],yt);let bt=class extends Be{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0,show_speed:!0}}get _schema(){return[...De("fan"),{name:"show_speed",selector:{boolean:{}}}]}};bt=e([de("sketch-fan-card-editor")],bt);let wt=class extends Ne{static{this.styles=[...super.styles,a`
+    `}};e([ge()],bt.prototype,"_config",void 0),bt=e([de("sketch-separator-card")],bt);let wt=class extends Be{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0,show_speed:!0}}get _schema(){return[...De("fan"),{name:"show_speed",selector:{boolean:{}}}]}};wt=e([de("sketch-fan-card-editor")],wt);let xt=class extends Oe{static{this.styles=[...super.styles,a`
       .fan-header {
         display: flex;
         align-items: center;
@@ -2452,10 +2445,10 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
                   <div class="fan-icon-wrap ${t?"on":""}">
                     <ha-icon class="sketch-icon" .icon=${r}></ha-icon>
                   </div>
-                `:Q}
+                `:G}
             <div class="sketch-col">
-              ${s?W`<p class="sketch-name">${this.getName()}</p>`:Q}
-              ${o?W`<p class="sketch-state">${t?`${i}%`:"Off"}</p>`:Q}
+              ${s?W`<p class="sketch-name">${this.getName()}</p>`:G}
+              ${o?W`<p class="sketch-state">${t?`${i}%`:"Off"}</p>`:G}
             </div>
           </div>
           ${a?W`
@@ -2464,10 +2457,10 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
                   <input type="range" class="sketch-slider" min="0" max="100" .value=${String(i)} @change=${this._setSpeed} />
                   <span class="speed-value">${i}%</span>
                 </div>
-              `:Q}
+              `:G}
         </div>
       </ha-card>
-    `}};wt=e([de("sketch-fan-card")],wt);let xt=class extends Be{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0}}get _schema(){return[...De("lock")]}};xt=e([de("sketch-lock-card-editor")],xt);let $t=class extends Ne{static{this.styles=[...super.styles,a`
+    `}};xt=e([de("sketch-fan-card")],xt);let $t=class extends Be{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0}}get _schema(){return[...De("lock")]}};$t=e([de("sketch-lock-card-editor")],$t);let Ct=class extends Oe{static{this.styles=[...super.styles,a`
       .lock-header {
         display: flex;
         align-items: center;
@@ -2502,10 +2495,10 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
                   <div class="lock-icon-wrap ${t?"locked":"unlocked"}">
                     <ha-icon class="sketch-icon" .icon=${n}></ha-icon>
                   </div>
-                `:Q}
+                `:G}
             <div class="sketch-col">
-              ${i?W`<p class="sketch-name">${this.getName()}</p>`:Q}
-              ${s?W`<p class="sketch-state">${t?"Locked":"Unlocked"}</p>`:Q}
+              ${i?W`<p class="sketch-name">${this.getName()}</p>`:G}
+              ${s?W`<p class="sketch-state">${t?"Locked":"Unlocked"}</p>`:G}
             </div>
           </div>
           <div class="lock-controls">
@@ -2514,7 +2507,7 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
           </div>
         </div>
       </ha-card>
-    `}};$t=e([de("sketch-lock-card")],$t);let Ct=class extends Be{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0,show_slider:!0}}get _schema(){return[...De(),{name:"show_slider",selector:{boolean:{}}}]}};Ct=e([de("sketch-number-card-editor")],Ct);let St=class extends Ne{static{this.styles=[...super.styles,a`
+    `}};Ct=e([de("sketch-lock-card")],Ct);let St=class extends Be{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0,show_slider:!0}}get _schema(){return[...De(),{name:"show_slider",selector:{boolean:{}}}]}};St=e([de("sketch-number-card-editor")],St);let Et=class extends Oe{static{this.styles=[...super.styles,a`
       .number-header {
         display: flex;
         align-items: center;
@@ -2551,10 +2544,10 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
                   <div class="number-icon-wrap">
                     <ha-icon class="sketch-icon" .icon=${h}></ha-icon>
                   </div>
-                `:Q}
+                `:G}
             <div class="sketch-col">
-              ${a?W`<p class="sketch-name">${this.getName()}</p>`:Q}
-              ${r?W`<p class="sketch-state">${t}${n?` ${n}`:""}</p>`:Q}
+              ${a?W`<p class="sketch-name">${this.getName()}</p>`:G}
+              ${r?W`<p class="sketch-state">${t}${n?` ${n}`:""}</p>`:G}
             </div>
           </div>
           ${l?W`
@@ -2570,10 +2563,10 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
                   />
                   <span class="number-value">${t}${n?` ${n}`:""}</span>
                 </div>
-              `:Q}
+              `:G}
         </div>
       </ha-card>
-    `}};St=e([de("sketch-number-card")],St);let Et=class extends Be{get _defaults(){return{show_icon:!0,multiline_secondary:!1,layout:"horizontal"}}get _schema(){return[{name:"entity",selector:{entity:{}}},{name:"primary",selector:{template:{}}},{name:"secondary",selector:{template:{}}},{type:"grid",name:"",schema:[{name:"icon",selector:{icon:{}}},{name:"icon_color",selector:{text:{}}}]},{name:"layout",selector:{select:{options:[{value:"horizontal",label:"Horizontal"},{value:"vertical",label:"Vertical"}],mode:"dropdown"}}},{name:"show_icon",selector:{boolean:{}}},{name:"multiline_secondary",selector:{boolean:{}}},{type:"grid",name:"",schema:[{name:"badge_icon",selector:{icon:{}}},{name:"badge_color",selector:{text:{}}}]},{type:"expandable",title:"Appearance",schema:[{type:"grid",name:"",schema:[{name:"color",selector:{ui_color:{}}},{name:"card_background",selector:{ui_color:{}}}]},{name:"border_color",selector:{ui_color:{}}},{name:"variant",selector:{select:{options:[{value:"paper",label:"Paper (default)"},{value:"notebook",label:"Notebook"},{value:"sticky",label:"Sticky Note"}],mode:"dropdown"}}},{name:"card_rotation",selector:{text:{}}},{name:"corner_radius",selector:{number:{min:0,max:30,step:1,mode:"slider",unit_of_measurement:"px"}}},{name:"show_border",selector:{boolean:{}}},{name:"show_texture",selector:{boolean:{}}}]}]}};Et=e([de("sketch-template-card-editor")],Et);let At=class extends Ne{constructor(){super(...arguments),this._primary="",this._secondary="",this._icon="",this._iconColor="",this._badgeIcon="",this._unsubs=[],this._subscribing=!1}static{this.styles=[...super.styles,a`
+    `}};Et=e([de("sketch-number-card")],Et);let At=class extends Be{get _defaults(){return{show_icon:!0,multiline_secondary:!1,layout:"horizontal"}}get _schema(){return[{name:"entity",selector:{entity:{}}},{name:"primary",selector:{template:{}}},{name:"secondary",selector:{template:{}}},{type:"grid",name:"",schema:[{name:"icon",selector:{icon:{}}},{name:"icon_color",selector:{text:{}}}]},{name:"layout",selector:{select:{options:[{value:"horizontal",label:"Horizontal"},{value:"vertical",label:"Vertical"}],mode:"dropdown"}}},{name:"show_icon",selector:{boolean:{}}},{name:"multiline_secondary",selector:{boolean:{}}},{type:"grid",name:"",schema:[{name:"badge_icon",selector:{icon:{}}},{name:"badge_color",selector:{text:{}}}]},{type:"expandable",title:"Appearance",schema:[{type:"grid",name:"",schema:[{name:"color",selector:{ui_color:{}}},{name:"card_background",selector:{ui_color:{}}}]},{name:"border_color",selector:{ui_color:{}}},{name:"variant",selector:{select:{options:[{value:"paper",label:"Paper (default)"},{value:"notebook",label:"Notebook"},{value:"sticky",label:"Sticky Note"}],mode:"dropdown"}}},{name:"card_rotation",selector:{text:{}}},{name:"corner_radius",selector:{number:{min:0,max:30,step:1,mode:"slider",unit_of_measurement:"px"}}},{name:"show_border",selector:{boolean:{}}},{name:"show_texture",selector:{boolean:{}}}]}]}};At=e([de("sketch-template-card-editor")],At);let zt=class extends Oe{constructor(){super(...arguments),this._primary="",this._secondary="",this._icon="",this._iconColor="",this._badgeIcon="",this._unsubs=[],this._subscribing=!1}static{this.styles=[...super.styles,a`
       .template-wrap {
         display: flex;
         gap: 14px;
@@ -2660,17 +2653,17 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
                           <div class="template-badge" style="background: ${e.badge_color?this._resolveColor(e.badge_color):"var(--sketch-danger)"}">
                             <ha-icon .icon=${this._badgeIcon}></ha-icon>
                           </div>
-                        `:Q}
+                        `:G}
                   </div>
-                `:Q}
+                `:G}
             <div class="template-info">
-              ${this._primary?W`<div class="template-primary">${this._primary}</div>`:Q}
-              ${this._secondary?W`<div class="template-secondary ${s?"multiline":""}">${this._secondary}</div>`:Q}
+              ${this._primary?W`<div class="template-primary">${this._primary}</div>`:G}
+              ${this._secondary?W`<div class="template-secondary ${s?"multiline":""}">${this._secondary}</div>`:G}
             </div>
           </div>
         </div>
       </ha-card>
-    `}_resolveColor(e){return{red:"var(--sketch-danger, #f44336)",green:"var(--sketch-success, #4caf50)",amber:"var(--sketch-warning, #ff9800)",blue:"var(--sketch-primary, #4a6fa5)"}[e]||e}};e([ge()],At.prototype,"_primary",void 0),e([ge()],At.prototype,"_secondary",void 0),e([ge()],At.prototype,"_icon",void 0),e([ge()],At.prototype,"_iconColor",void 0),e([ge()],At.prototype,"_badgeIcon",void 0),At=e([de("sketch-template-card")],At);let zt=class extends Be{get _defaults(){return{hours_to_show:24,show_labels:!0,line_width:2,fill:"fade"}}get _schema(){return[{name:"name",selector:{text:{}}},{name:"hours_to_show",selector:{number:{min:1,max:168,step:1,mode:"slider"}}},{name:"line_width",selector:{number:{min:1,max:5,step:.5,mode:"slider"}}},{name:"fill",selector:{select:{options:[{value:"fade",label:"Fade"},{value:"solid",label:"Solid"},{value:"none",label:"None"}],mode:"dropdown"}}},{name:"show_labels",selector:{boolean:{}}},{type:"expandable",title:"Appearance",schema:[{type:"grid",name:"",schema:[{name:"color",selector:{ui_color:{}}},{name:"card_background",selector:{ui_color:{}}}]},{name:"border_color",selector:{ui_color:{}}},{name:"variant",selector:{select:{options:[{value:"paper",label:"Paper (default)"},{value:"notebook",label:"Notebook"},{value:"sticky",label:"Sticky Note"}],mode:"dropdown"}}},{name:"card_rotation",selector:{text:{}}},{name:"corner_radius",selector:{number:{min:0,max:30,step:1,mode:"slider",unit_of_measurement:"px"}}},{name:"show_border",selector:{boolean:{}}},{name:"show_texture",selector:{boolean:{}}}]}]}};zt=e([de("sketch-history-graph-card-editor")],zt);let Pt=class extends le{constructor(){super(...arguments),this._histories=new Map}static{this.styles=[be,a`
+    `}_resolveColor(e){return{red:"var(--sketch-danger, #f44336)",green:"var(--sketch-success, #4caf50)",amber:"var(--sketch-warning, #ff9800)",blue:"var(--sketch-primary, #4a6fa5)"}[e]||e}};e([ge()],zt.prototype,"_primary",void 0),e([ge()],zt.prototype,"_secondary",void 0),e([ge()],zt.prototype,"_icon",void 0),e([ge()],zt.prototype,"_iconColor",void 0),e([ge()],zt.prototype,"_badgeIcon",void 0),zt=e([de("sketch-template-card")],zt);let Pt=class extends Be{get _defaults(){return{hours_to_show:24,show_labels:!0,line_width:2,fill:"fade"}}get _schema(){return[{name:"name",selector:{text:{}}},{name:"hours_to_show",selector:{number:{min:1,max:168,step:1,mode:"slider"}}},{name:"line_width",selector:{number:{min:1,max:5,step:.5,mode:"slider"}}},{name:"fill",selector:{select:{options:[{value:"fade",label:"Fade"},{value:"solid",label:"Solid"},{value:"none",label:"None"}],mode:"dropdown"}}},{name:"show_labels",selector:{boolean:{}}},{type:"expandable",title:"Appearance",schema:[{type:"grid",name:"",schema:[{name:"color",selector:{ui_color:{}}},{name:"card_background",selector:{ui_color:{}}}]},{name:"border_color",selector:{ui_color:{}}},{name:"variant",selector:{select:{options:[{value:"paper",label:"Paper (default)"},{value:"notebook",label:"Notebook"},{value:"sticky",label:"Sticky Note"}],mode:"dropdown"}}},{name:"card_rotation",selector:{text:{}}},{name:"corner_radius",selector:{number:{min:0,max:30,step:1,mode:"slider",unit_of_measurement:"px"}}},{name:"show_border",selector:{boolean:{}}},{name:"show_texture",selector:{boolean:{}}}]}]}};Pt=e([de("sketch-history-graph-card-editor")],Pt);let Mt=class extends le{constructor(){super(...arguments),this._histories=new Map}static{this.styles=[be,a`
       .graph-content {
         position: relative;
         z-index: 1;
@@ -2731,8 +2724,8 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
         color: var(--sketch-ink-muted);
         font-style: italic;
       }
-    `]}setConfig(e){if(!e.entities||!e.entities.length)throw new Error("Please define at least one entity");this._config={...e}}static getConfigElement(){return document.createElement("sketch-history-graph-card-editor")}static getStubConfig(e){const t=Object.keys(e.states).filter(e=>e.startsWith("sensor."));return{entities:[t[0]||"sensor.temperature"],hours_to_show:24}}getCardSize(){return 3}getLayoutOptions(){return{grid_columns:4,grid_rows:3}}connectedCallback(){super.connectedCallback(),this._fetchHistory(),this._fetchTimer=setInterval(()=>this._fetchHistory(),3e5)}disconnectedCallback(){super.disconnectedCallback(),this._fetchTimer&&clearInterval(this._fetchTimer)}updated(e){super.updated(e),e.has("_config")&&(xe(this,this._config),this._fetchHistory()),e.has("hass")&&this.hass&&this.classList.toggle("dark-mode",this.hass.themes?.darkMode??!1)}async _fetchHistory(){if(!this.hass||!this._config?.entities)return;const e=this._config.hours_to_show||24,t=new Date,i=new Date(t.getTime()-36e5*e);for(const s of this._config.entities)try{const o=(await this.hass.callWS({type:"recorder/statistics_during_period",start_time:i.toISOString(),end_time:t.toISOString(),statistic_ids:[s],period:e<=6?"5minute":e<=48?"hour":"day",types:["mean"]}))[s];o?.length&&(this._histories=new Map(this._histories),this._histories.set(s,o.map(e=>e.mean??0)))}catch(e){try{const e=await(this.hass.callApi?.("GET",`history/period/${i.toISOString()}?filter_entity_id=${s}&end_time=${t.toISOString()}&minimal_response&no_attributes`));e?.[0]?.length&&(this._histories=new Map(this._histories),this._histories.set(s,e[0].map(e=>parseFloat(e.s)||0)))}catch(e){}}this.requestUpdate()}_getColorForValue(e){const t=this._config.color_thresholds;if(!t?.length)return"var(--sketch-primary)";let i=t[0].color;for(const s of t)e>=s.value&&(i=s.color);return i}_renderGraph(e,t,i){if(!t.length)return Q;const s=Math.min(...t),o=Math.max(...t)-s||1,n=t.map((e,i)=>({x:2+i/(t.length-1)*296,y:2+46*(1-(e-s)/o)}));let a=`M ${n[0].x} ${n[0].y}`;for(let e=1;e<n.length;e++)a+=` L ${n[e].x} ${n[e].y}`;const r=t[t.length-1],c=this._getColorForValue(r),l="none"!==this._config.fill,h=l?`${a} L ${n[n.length-1].x} 50 L ${n[0].x} 50 Z`:"";return K`
-      ${l?K`<path d="${h}" class="graph-fill" fill="${c}" />`:Q}
+    `]}setConfig(e){if(!e.entities||!e.entities.length)throw new Error("Please define at least one entity");this._config={...e}}static getConfigElement(){return document.createElement("sketch-history-graph-card-editor")}static getStubConfig(e){const t=Object.keys(e.states).filter(e=>e.startsWith("sensor."));return{entities:[t[0]||"sensor.temperature"],hours_to_show:24}}getCardSize(){return 3}getLayoutOptions(){return{grid_columns:4,grid_rows:3}}connectedCallback(){super.connectedCallback(),this._fetchHistory(),this._fetchTimer=setInterval(()=>this._fetchHistory(),3e5)}disconnectedCallback(){super.disconnectedCallback(),this._fetchTimer&&clearInterval(this._fetchTimer)}updated(e){super.updated(e),e.has("_config")&&(xe(this,this._config),this._fetchHistory()),e.has("hass")&&this.hass&&this.classList.toggle("dark-mode",this.hass.themes?.darkMode??!1)}async _fetchHistory(){if(!this.hass||!this._config?.entities)return;const e=this._config.hours_to_show||24,t=new Date,i=new Date(t.getTime()-36e5*e);for(const s of this._config.entities)try{const o=(await this.hass.callWS({type:"recorder/statistics_during_period",start_time:i.toISOString(),end_time:t.toISOString(),statistic_ids:[s],period:e<=6?"5minute":e<=48?"hour":"day",types:["mean"]}))[s];o?.length&&(this._histories=new Map(this._histories),this._histories.set(s,o.map(e=>e.mean??0)))}catch(e){try{const e=await(this.hass.callApi?.("GET",`history/period/${i.toISOString()}?filter_entity_id=${s}&end_time=${t.toISOString()}&minimal_response&no_attributes`));e?.[0]?.length&&(this._histories=new Map(this._histories),this._histories.set(s,e[0].map(e=>parseFloat(e.s)||0)))}catch(e){}}this.requestUpdate()}_getColorForValue(e){const t=this._config.color_thresholds;if(!t?.length)return"var(--sketch-primary)";let i=t[0].color;for(const s of t)e>=s.value&&(i=s.color);return i}_renderGraph(e,t,i){if(!t.length)return G;const s=Math.min(...t),o=Math.max(...t)-s||1,n=t.map((e,i)=>({x:2+i/(t.length-1)*296,y:2+46*(1-(e-s)/o)}));let a=`M ${n[0].x} ${n[0].y}`;for(let e=1;e<n.length;e++)a+=` L ${n[e].x} ${n[e].y}`;const r=t[t.length-1],c=this._getColorForValue(r),l="none"!==this._config.fill,h=l?`${a} L ${n[n.length-1].x} 50 L ${n[0].x} 50 Z`:"";return K`
+      ${l?K`<path d="${h}" class="graph-fill" fill="${c}" />`:G}
       <path d="${a}" class="graph-line" stroke="${c}" stroke-width="${this._config.line_width||2}" />
     `}_renderSketchBg(){let e=0;const t=this._config?.entities?.[0]||"";for(let i=0;i<t.length;i++)e=(e<<5)-e+t.charCodeAt(i)|0;return e=Math.abs(e),W`${ye(je(400,200,{showBorder:!1!==this._config?.show_border,showTexture:!1!==this._config?.show_texture,variant:this._config?.variant||"paper",cornerRadius:this._config?.corner_radius??14,seed:e}))}`}render(){if(!this._config?.entities?.length)return W`<ha-card><div class="graph-content"><p class="sketch-name">No entities</p></div></ha-card>`;const e=this.hass?.states[this._config.entities[0]],t=this._config.name||e?.attributes?.friendly_name||this._config.entities[0],i=e?parseFloat(e.state):NaN,s=e?.attributes?.unit_of_measurement||"",o=this._config.hours_to_show||24,n=!1!==this._config.show_labels;return W`
       <ha-card>
@@ -2740,7 +2733,7 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
         <div class="graph-content">
           <div class="graph-header">
             <span class="graph-name">${t}</span>
-            ${isNaN(i)?Q:W`<span class="graph-value">${i.toFixed(1)}<span class="graph-unit">${s}</span></span>`}
+            ${isNaN(i)?G:W`<span class="graph-value">${i.toFixed(1)}<span class="graph-unit">${s}</span></span>`}
           </div>
           ${this._config.entities.map((e,t)=>{const i=this._histories.get(e);return i?.length?W`
               <svg class="graph-svg" viewBox="0 0 300 50" preserveAspectRatio="none">
@@ -2752,10 +2745,10 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
                   <span>${o}h ago</span>
                   <span>now</span>
                 </div>
-              `:Q}
+              `:G}
         </div>
       </ha-card>
-    `}};e([ue({attribute:!1})],Pt.prototype,"hass",void 0),e([ge()],Pt.prototype,"_config",void 0),e([ge()],Pt.prototype,"_histories",void 0),Pt=e([de("sketch-history-graph-card")],Pt);let Tt=class extends Be{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0}}get _schema(){return[...De("binary_sensor")]}};Tt=e([de("sketch-room-card-editor")],Tt);let Lt=class extends Ne{static{this.styles=[...super.styles,a`
+    `}};e([ue({attribute:!1})],Mt.prototype,"hass",void 0),e([ge()],Mt.prototype,"_config",void 0),e([ge()],Mt.prototype,"_histories",void 0),Mt=e([de("sketch-history-graph-card")],Mt);let Tt=class extends Be{get _defaults(){return{show_name:!0,show_state:!0,show_icon:!0}}get _schema(){return[...De("binary_sensor")]}};Tt=e([de("sketch-room-card-editor")],Tt);let Lt=class extends Oe{static{this.styles=[...super.styles,a`
       .room-wrap {
         display: flex;
         align-items: center;
@@ -2834,22 +2827,22 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
             </div>
             <div class="room-info">
               <div class="room-name">${s}</div>
-              ${o?W`<div class="room-status">${o}</div>`:Q}
+              ${o?W`<div class="room-status">${o}</div>`:G}
             </div>
             ${n.length?W`
                   <div class="room-sensors">
                     ${n.map(e=>{const t=this.hass?.states[e.entity||""];return t?W`
                         <span class="room-sensor">
-                          ${e.icon?W`<ha-icon .icon=${e.icon}></ha-icon>`:Q}
+                          ${e.icon?W`<ha-icon .icon=${e.icon}></ha-icon>`:G}
                           ${ze(t,this.hass)}
                         </span>
-                      `:Q})}
+                      `:G})}
                   </div>
-                `:Q}
+                `:G}
           </div>
         </div>
       </ha-card>
-    `}};Lt=e([de("sketch-room-card")],Lt);let Mt=class extends Be{get _defaults(){return{show_name:!0,show_icon:!0}}get _schema(){return[...De("input_select")]}};Mt=e([de("sketch-select-card-editor")],Mt);let jt=class extends Ne{constructor(){super(...arguments),this._open=!1}static{this.styles=[...super.styles,a`
+    `}};Lt=e([de("sketch-room-card")],Lt);let jt=class extends Be{get _defaults(){return{show_name:!0,show_icon:!0}}get _schema(){return[...De("input_select")]}};jt=e([de("sketch-select-card-editor")],jt);let Nt=class extends Oe{constructor(){super(...arguments),this._open=!1}static{this.styles=[...super.styles,a`
       .select-header {
         display: flex;
         align-items: center;
@@ -2931,9 +2924,9 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
                   <div class="select-icon-wrap">
                     <ha-icon .icon=${o}></ha-icon>
                   </div>
-                `:Q}
+                `:G}
             <div class="select-info">
-              ${a?W`<p class="sketch-name">${t}</p>`:Q}
+              ${a?W`<p class="sketch-name">${t}</p>`:G}
               <div class="select-current">${i}</div>
             </div>
             <ha-icon class="select-chevron ${this._open?"open":""}" icon="mdi:chevron-down"></ha-icon>
@@ -2952,7 +2945,7 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
           </div>
         </div>
       </ha-card>
-    `}};e([ge()],jt.prototype,"_open",void 0),jt=e([de("sketch-select-card")],jt);let Ot=class extends Be{get _defaults(){return{show_name:!0,show_icon:!0,max:100}}get _schema(){return[...De("sensor"),{name:"max",selector:{number:{min:1,max:1e6,step:1,mode:"box"}}}]}};function Nt(e,t){const i=49297*Math.sin(9301*e+49297*t+233280);return i-Math.floor(i)-.5}Ot=e([de("sketch-progress-card-editor")],Ot);let Bt=class extends Ne{static{this.styles=[...super.styles,a`
+    `}};e([ge()],Nt.prototype,"_open",void 0),Nt=e([de("sketch-select-card")],Nt);let Ot=class extends Be{get _defaults(){return{show_name:!0,show_icon:!0,max:100}}get _schema(){return[...De("sensor"),{name:"max",selector:{number:{min:1,max:1e6,step:1,mode:"box"}}}]}};function Bt(e,t){const i=49297*Math.sin(9301*e+49297*t+233280);return i-Math.floor(i)-.5}Ot=e([de("sketch-progress-card-editor")],Ot);let Dt=class extends Oe{static{this.styles=[...super.styles,a`
       .progress-content {
         display: flex;
         flex-direction: column;
@@ -2988,7 +2981,7 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
         color: var(--sketch-ink-muted);
         margin-top: 2px;
       }
-    `]}get _progressConfig(){return this._config}setConfig(e){if(!e.entity)throw new Error("Please define an entity");super.setConfig(e)}static getConfigElement(){return document.createElement("sketch-progress-card-editor")}static getStubConfig(e){const t=Object.keys(e.states).filter(e=>e.startsWith("sensor."));return{entity:t[0]||"sensor.steps",max:1e4}}getCardSize(){return 4}getLayoutOptions(){return{grid_columns:4,grid_rows:4}}_getColor(e){const t=this._progressConfig.color_thresholds;if(t?.length){let i=t[0].color;for(const s of t)e>=s.value&&(i=s.color);return i}return e>=100?"var(--sketch-success, #4caf50)":e>=60?"var(--sketch-primary, #4a6fa5)":"var(--sketch-ink-muted)"}_renderArc(e,t){const i=360*Pe(e/100,0,1),s=this._getColor(e),o=[],n=[];for(let e=0;e<=72;e++){const s=e/72*Math.PI*2-Math.PI/2,a=1.5*Nt(t,e),r=70+(56+a)*Math.cos(s),c=70+(56+a)*Math.sin(s);if(o.push(`${r.toFixed(1)},${c.toFixed(1)}`),e/72*360<=i){const i=2*Nt(t+100,e),o=70+(56+i)*Math.cos(s),a=70+(56+i)*Math.sin(s);n.push(`${o.toFixed(1)},${a.toFixed(1)}`)}}return K`
+    `]}get _progressConfig(){return this._config}setConfig(e){if(!e.entity)throw new Error("Please define an entity");super.setConfig(e)}static getConfigElement(){return document.createElement("sketch-progress-card-editor")}static getStubConfig(e){const t=Object.keys(e.states).filter(e=>e.startsWith("sensor."));return{entity:t[0]||"sensor.steps",max:1e4}}getCardSize(){return 4}getLayoutOptions(){return{grid_columns:4,grid_rows:4}}_getColor(e){const t=this._progressConfig.color_thresholds;if(t?.length){let i=t[0].color;for(const s of t)e>=s.value&&(i=s.color);return i}return e>=100?"var(--sketch-success, #4caf50)":e>=60?"var(--sketch-primary, #4a6fa5)":"var(--sketch-ink-muted)"}_renderArc(e,t){const i=360*Pe(e/100,0,1),s=this._getColor(e),o=[],n=[];for(let e=0;e<=72;e++){const s=e/72*Math.PI*2-Math.PI/2,a=1.5*Bt(t,e),r=70+(56+a)*Math.cos(s),c=70+(56+a)*Math.sin(s);if(o.push(`${r.toFixed(1)},${c.toFixed(1)}`),e/72*360<=i){const i=2*Bt(t+100,e),o=70+(56+i)*Math.cos(s),a=70+(56+i)*Math.sin(s);n.push(`${o.toFixed(1)},${a.toFixed(1)}`)}}return K`
       <polyline
         points="${o.join(" ")}"
         fill="none"
@@ -3006,7 +2999,7 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
             stroke-linecap="round"
             stroke-linejoin="round"
             opacity="0.8"
-          />`:Q}
+          />`:G}
       <text x="${70}" y="${68}" text-anchor="middle" dominant-baseline="middle" class="progress-label">
         ${Math.round(e)}%
       </text>
@@ -3030,7 +3023,57 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
           <div class="progress-value">${t.toLocaleString()} ${e.attributes.unit_of_measurement||""}</div>
         </div>
       </ha-card>
-    `}};Bt=e([de("sketch-progress-card")],Bt);let Dt=class extends Be{get _defaults(){return{hours_to_show:4,max_entries:8}}get _schema(){return[{name:"name",selector:{text:{}}},{name:"hours_to_show",selector:{number:{min:1,max:48,step:1,mode:"slider"}}},{name:"max_entries",selector:{number:{min:1,max:20,step:1,mode:"slider"}}},{type:"expandable",title:"Appearance",schema:[{type:"grid",name:"",schema:[{name:"color",selector:{ui_color:{}}},{name:"card_background",selector:{ui_color:{}}}]},{name:"border_color",selector:{ui_color:{}}},{name:"variant",selector:{select:{options:[{value:"paper",label:"Paper (default)"},{value:"notebook",label:"Notebook"},{value:"sticky",label:"Sticky Note"}],mode:"dropdown"}}},{name:"card_rotation",selector:{text:{}}},{name:"corner_radius",selector:{number:{min:0,max:30,step:1,mode:"slider",unit_of_measurement:"px"}}},{name:"show_border",selector:{boolean:{}}},{name:"show_texture",selector:{boolean:{}}}]}]}};Dt=e([de("sketch-timeline-card-editor")],Dt);let Ut=class extends le{constructor(){super(...arguments),this._events=[]}static{this.styles=[be,a`
+    `}};function It(e,t,i){const s=new Event(t,{bubbles:!0,cancelable:!1,composed:!0});s.detail=i,e.dispatchEvent(s)}Dt=e([de("sketch-progress-card")],Dt);let Ht=class extends le{constructor(){super(...arguments),this._computeLabel=e=>({name:"Name (optional)",hours_to_show:"Hours to Show",max_entries:"Max Entries",color:"Accent Color",card_background:"Card Background",border_color:"Border Color",variant:"Card Style",card_rotation:"Rotation",corner_radius:"Corner Roundness",show_border:"Show Border",show_texture:"Show Paper Texture"}[e.name]||e.name),this._valueChanged=e=>{It(this,"config-changed",{config:{...this._config,...e.detail.value}})}}static{this.styles=[a`
+    :host { display: block; }
+    .entity-list { margin: 8px 0; }
+    .entity-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 4px 0;
+    }
+    .entity-row span {
+      flex: 1;
+      font-size: 14px;
+      color: var(--primary-text-color);
+    }
+    .remove-btn {
+      cursor: pointer;
+      color: var(--secondary-text-color);
+      --mdc-icon-size: 20px;
+    }
+    .remove-btn:hover { color: var(--error-color, #f44336); }
+    .add-entity { margin: 8px 0; }
+  `]}setConfig(e){this._config={max_entries:10,hours_to_show:4,...e}}_addEntity(e){const t=e.detail.value;if(!t)return;const i=[...this._config?.entities||[]];if(!i.includes(t)){i.push(t);It(this,"config-changed",{config:{...this._config,entities:i}})}}_removeEntity(e){const t=[...this._config?.entities||[]];t.splice(e,1);It(this,"config-changed",{config:{...this._config,entities:t}})}render(){if(!this.hass||!this._config)return G;const e=this._config.entities||[];return W`
+      <div class="add-entity">
+        <ha-entity-picker
+          .hass=${this.hass}
+          @value-changed=${this._addEntity}
+          .label=${"Add entity to track"}
+          allow-custom-entity
+        ></ha-entity-picker>
+      </div>
+
+      ${e.length?W`
+            <div class="entity-list">
+              ${e.map((e,t)=>W`
+                <div class="entity-row">
+                  <ha-icon icon="mdi:drag" style="opacity:0.3;--mdc-icon-size:16px"></ha-icon>
+                  <span>${e}</span>
+                  <ha-icon class="remove-btn" icon="mdi:close" @click=${()=>this._removeEntity(t)}></ha-icon>
+                </div>
+              `)}
+            </div>
+          `:W`<p style="font-size:13px;color:var(--secondary-text-color);padding:4px 0;">No entities — will show full logbook</p>`}
+
+      <ha-form
+        .hass=${this.hass}
+        .data=${this._config}
+        .schema=${[{name:"name",selector:{text:{}}},{name:"hours_to_show",selector:{number:{min:1,max:48,step:1,mode:"slider"}}},{name:"max_entries",selector:{number:{min:1,max:30,step:1,mode:"slider"}}},{type:"expandable",title:"Appearance",schema:[{type:"grid",name:"",schema:[{name:"color",selector:{ui_color:{}}},{name:"card_background",selector:{ui_color:{}}}]},{name:"border_color",selector:{ui_color:{}}},{name:"variant",selector:{select:{options:[{value:"paper",label:"Paper (default)"},{value:"notebook",label:"Notebook"},{value:"sticky",label:"Sticky Note"}],mode:"dropdown"}}},{name:"card_rotation",selector:{text:{}}},{name:"corner_radius",selector:{number:{min:0,max:30,step:1,mode:"slider",unit_of_measurement:"px"}}},{name:"show_border",selector:{boolean:{}}},{name:"show_texture",selector:{boolean:{}}}]}]}
+        .computeLabel=${this._computeLabel}
+        @value-changed=${this._valueChanged}
+      ></ha-form>
+    `}};e([ue({attribute:!1})],Ht.prototype,"hass",void 0),e([ge()],Ht.prototype,"_config",void 0),Ht=e([de("sketch-timeline-card-editor")],Ht);let Ut=class extends le{constructor(){super(...arguments),this._events=[]}static{this.styles=[be,a`
       ha-card {
         overflow: hidden;
       }
@@ -3109,7 +3152,7 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
         text-align: center;
         padding: 16px;
       }
-    `]}setConfig(e){if(!e.entities?.length)throw new Error("Please define at least one entity");this._config={...e}}static getConfigElement(){return document.createElement("sketch-timeline-card-editor")}static getStubConfig(e){return{entities:Object.keys(e.states).slice(0,3),hours_to_show:4,max_entries:8,name:"Activity"}}getCardSize(){return 4}getLayoutOptions(){return{grid_columns:4,grid_rows:4}}connectedCallback(){super.connectedCallback(),this._fetchEvents(),this._fetchTimer=setInterval(()=>this._fetchEvents(),6e4)}disconnectedCallback(){super.disconnectedCallback(),this._fetchTimer&&clearInterval(this._fetchTimer)}updated(e){super.updated(e),e.has("_config")&&(xe(this,this._config),this._fetchEvents()),e.has("hass")&&this.hass&&this.classList.toggle("dark-mode",this.hass.themes?.darkMode??!1)}async _fetchEvents(){if(!this.hass||!this._config?.entities?.length)return;const e=this._config.hours_to_show||4,t=this._config.max_entries||8,i=new Date,s=new Date(i.getTime()-36e5*e);try{const e=await this.hass.callWS({type:"logbook/get_events",start_time:s.toISOString(),end_time:i.toISOString(),entity_ids:this._config.entities});Array.isArray(e)&&(this._events=e.filter(e=>e.entity_id&&this._config.entities.includes(e.entity_id)).map(e=>({time:new Date(e.when),entity_id:e.entity_id,state:e.state||"",name:e.name||e.entity_id,icon:this._getIconForEntity(e.entity_id)})).sort((e,t)=>t.time.getTime()-e.time.getTime()).slice(0,t))}catch(e){this._events=[]}this.requestUpdate()}_getIconForEntity(e){const t=this.hass?.states[e];if(t?.attributes?.icon)return t.attributes.icon;if(t)return $e(t);return{binary_sensor:"mdi:checkbox-blank-circle-outline",light:"mdi:lightbulb",switch:"mdi:toggle-switch",lock:"mdi:lock",cover:"mdi:window-closed",sensor:"mdi:eye"}[e.split(".")[0]]||"mdi:circle-small"}_formatTime(e){const t=(new Date).getTime()-e.getTime(),i=Math.floor(t/6e4);if(i<1)return"just now";if(i<60)return`${i}m ago`;return`${Math.floor(i/60)}h ${i%60}m ago`}_renderSketchBg(){let e=0;const t=this._config?.entities?.[0]||"timeline";for(let i=0;i<t.length;i++)e=(e<<5)-e+t.charCodeAt(i)|0;return e=Math.abs(e),W`${ye(je(400,300,{showBorder:!1!==this._config?.show_border,showTexture:!1!==this._config?.show_texture,variant:this._config?.variant||"notebook",cornerRadius:this._config?.corner_radius??14,seed:e}))}`}render(){const e=this._config?.name||"Activity";return W`
+    `]}setConfig(e){this._config={...e}}static getConfigElement(){return document.createElement("sketch-timeline-card-editor")}static getStubConfig(e){const t=Object.keys(e.states).filter(e=>e.startsWith("binary_sensor.")||e.startsWith("light.")||e.startsWith("switch.")).slice(0,3);return{entities:t,hours_to_show:4,max_entries:10,name:"Activity"}}getCardSize(){return 4}getLayoutOptions(){return{grid_columns:4,grid_rows:4}}connectedCallback(){super.connectedCallback(),this._fetchEvents(),this._fetchTimer=setInterval(()=>this._fetchEvents(),6e4)}disconnectedCallback(){super.disconnectedCallback(),this._fetchTimer&&clearInterval(this._fetchTimer)}updated(e){super.updated(e),e.has("_config")&&(xe(this,this._config),this._fetchEvents()),e.has("hass")&&this.hass&&this.classList.toggle("dark-mode",this.hass.themes?.darkMode??!1)}async _fetchEvents(){if(!this.hass)return;const e=this._config.hours_to_show||4,t=this._config.max_entries||10,i=new Date,s=new Date(i.getTime()-36e5*e),o=this._config.entities||[];try{const e={type:"logbook/get_events",start_time:s.toISOString(),end_time:i.toISOString()};o.length&&(e.entity_ids=o);const n=await this.hass.callWS(e);Array.isArray(n)&&(this._events=n.filter(e=>e.entity_id&&(0===o.length||o.includes(e.entity_id))).map(e=>({time:new Date(e.when),entity_id:e.entity_id,state:e.state||"",name:e.name||e.entity_id,icon:this._getIconForEntity(e.entity_id)})).sort((e,t)=>t.time.getTime()-e.time.getTime()).slice(0,t))}catch(e){this._events=[]}this.requestUpdate()}_getIconForEntity(e){const t=this.hass?.states[e];if(t?.attributes?.icon)return t.attributes.icon;if(t)return $e(t);return{binary_sensor:"mdi:checkbox-blank-circle-outline",light:"mdi:lightbulb",switch:"mdi:toggle-switch",lock:"mdi:lock",cover:"mdi:window-closed",sensor:"mdi:eye"}[e.split(".")[0]]||"mdi:circle-small"}_formatTime(e){const t=(new Date).getTime()-e.getTime(),i=Math.floor(t/6e4);if(i<1)return"just now";if(i<60)return`${i}m ago`;return`${Math.floor(i/60)}h ${i%60}m ago`}_renderSketchBg(){let e=0;const t=this._config?.entities?.[0]||"timeline";for(let i=0;i<t.length;i++)e=(e<<5)-e+t.charCodeAt(i)|0;return e=Math.abs(e),W`${ye(je(400,300,{showBorder:!1!==this._config?.show_border,showTexture:!1!==this._config?.show_texture,variant:this._config?.variant||"notebook",cornerRadius:this._config?.corner_radius??14,seed:e}))}`}render(){const e=this._config?.name||"Activity";return W`
       <ha-card>
         ${this._renderSketchBg()}
         <div class="timeline-content">
@@ -3131,7 +3174,7 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
               `:W`<div class="timeline-empty">No recent activity</div>`}
         </div>
       </ha-card>
-    `}};e([ue({attribute:!1})],Ut.prototype,"hass",void 0),e([ge()],Ut.prototype,"_config",void 0),e([ge()],Ut.prototype,"_events",void 0),Ut=e([de("sketch-timeline-card")],Ut);class Ht extends _e{}Ht.directiveName="unsafeSVG",Ht.resultType=2;const It=ve(Ht);let Ft=class extends Be{get _defaults(){return{}}get _schema(){return[{name:"name",selector:{text:{}}},{name:"temperature_entity",selector:{entity:{domain:"sensor"}}},{name:"room_select_entity",selector:{entity:{domain:"input_select"}}},{type:"expandable",title:"Appearance",schema:[{type:"grid",name:"",schema:[{name:"color",selector:{ui_color:{}}},{name:"card_background",selector:{ui_color:{}}}]},{name:"border_color",selector:{ui_color:{}}},{name:"variant",selector:{select:{options:[{value:"paper",label:"Paper (default)"},{value:"notebook",label:"Notebook"},{value:"sticky",label:"Sticky Note"}],mode:"dropdown"}}},{name:"card_rotation",selector:{text:{}}},{name:"corner_radius",selector:{number:{min:0,max:30,step:1,mode:"slider",unit_of_measurement:"px"}}},{name:"show_border",selector:{boolean:{}}},{name:"show_texture",selector:{boolean:{}}}]}]}};Ft=e([de("sketch-tog-card-editor")],Ft);const Rt=[{label:"0.5 TOG",range:"24–27°C",min:24,max:27,color:"#fb923c"},{label:"1.0 TOG",range:"20–24°C",min:20,max:24,color:"#4ade80"},{label:"2.5 TOG",range:"17–20°C",min:17,max:20,color:"#38bdf8"}];let Wt=class extends Ne{constructor(){super(...arguments),this._expanded=!1}static{this.styles=[...super.styles,a`
+    `}};e([ue({attribute:!1})],Ut.prototype,"hass",void 0),e([ge()],Ut.prototype,"_config",void 0),e([ge()],Ut.prototype,"_events",void 0),Ut=e([de("sketch-timeline-card")],Ut);class Ft extends ke{}Ft.directiveName="unsafeSVG",Ft.resultType=2;const Rt=ve(Ft);let Wt=class extends Be{get _defaults(){return{}}get _schema(){return[{name:"name",selector:{text:{}}},{name:"temperature_entity",selector:{entity:{domain:"sensor"}}},{name:"room_select_entity",selector:{entity:{domain:"input_select"}}},{type:"expandable",title:"Appearance",schema:[{type:"grid",name:"",schema:[{name:"color",selector:{ui_color:{}}},{name:"card_background",selector:{ui_color:{}}}]},{name:"border_color",selector:{ui_color:{}}},{name:"variant",selector:{select:{options:[{value:"paper",label:"Paper (default)"},{value:"notebook",label:"Notebook"},{value:"sticky",label:"Sticky Note"}],mode:"dropdown"}}},{name:"card_rotation",selector:{text:{}}},{name:"corner_radius",selector:{number:{min:0,max:30,step:1,mode:"slider",unit_of_measurement:"px"}}},{name:"show_border",selector:{boolean:{}}},{name:"show_texture",selector:{boolean:{}}}]}]}};Wt=e([de("sketch-tog-card-editor")],Wt);const Kt=[{label:"0.5 TOG",range:"24–27°C",min:24,max:27,color:"#fb923c"},{label:"1.0 TOG",range:"20–24°C",min:20,max:24,color:"#4ade80"},{label:"2.5 TOG",range:"17–20°C",min:17,max:20,color:"#38bdf8"}];let Qt=class extends Oe{constructor(){super(...arguments),this._expanded=!1}static{this.styles=[...super.styles,a`
       .tog-room-select {
         display: flex;
         align-items: center;
@@ -3329,7 +3372,7 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
                     ${n.map(e=>W`<option value="${e}" ?selected=${e===a}>${e}</option>`)}
                   </select>
                 </div>
-              `:Q}
+              `:G}
 
           <svg class="tog-temp-strip" viewBox="0 0 200 20" preserveAspectRatio="none">
             <defs>
@@ -3354,7 +3397,7 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
           <div class="tog-clothing">
             ${i.clothing.map((e,t)=>W`
               <div class="tog-clothing-item">
-                <svg class="tog-clothing-svg" viewBox="0 0 40 44">${It(function(e){const t="var(--sketch-ink, #2a2a2a)",i=`stroke="${t}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"`,s=e.toLowerCase();return s.includes("short")&&(s.includes("bodysuit")||s.includes("sleeve")||s.includes("vest")||s.includes("top"))?`\n      <path d="M 16 5 L 13 5 L 7 11 L 10 13 L 14 9 L 14 36 L 26 36 L 26 9 L 30 13 L 33 11 L 27 5 L 24 5" ${i}/>\n      <path d="M 16 5 C 17 8 23 8 24 5" ${i} stroke-width="1"/>`:s.includes("long")&&(s.includes("bodysuit")||s.includes("sleeve")||s.includes("top"))?`\n      <path d="M 16 5 L 13 5 L 3 15 L 5 17 L 6 16 L 14 9 L 14 36 L 26 36 L 26 9 L 34 16 L 35 17 L 37 15 L 27 5 L 24 5" ${i}/>\n      <path d="M 16 5 C 17 8 23 8 24 5" ${i} stroke-width="1"/>\n      <line x1="4" y1="15" x2="7" y2="13" ${i} stroke-width="0.8" opacity="0.5"/>\n      <line x1="33" y1="13" x2="36" y2="15" ${i} stroke-width="0.8" opacity="0.5"/>`:s.includes("bodysuit")||s.includes("vest")?`\n      <path d="M 16 5 L 13 5 L 7 11 L 10 13 L 14 9 L 14 36 L 26 36 L 26 9 L 30 13 L 33 11 L 27 5 L 24 5" ${i}/>\n      <path d="M 16 5 C 17 8 23 8 24 5" ${i} stroke-width="1"/>`:s.includes("sleepsuit")||s.includes("romper")||s.includes("footed")?`\n      <path d="M 15 4 L 25 4 L 28 8 L 30 20 L 29 30 L 27 36 C 26 39 23 40 22 38 L 21 30 L 20 28 L 19 30 L 18 38 C 17 40 14 39 13 36 L 11 30 L 10 20 L 12 8 Z" ${i}/>\n      <line x1="11" y1="24" x2="29" y2="24" ${i} stroke-width="0.7" opacity="0.3"/>`:s.includes("sleep bag")||s.includes("tog")?`\n      <path d="M 14 6 C 14 2 26 2 26 6 L 28 14 L 31 32 C 31 38 26 42 20 42 C 14 42 9 38 9 32 L 12 14 Z" ${i}/>\n      <line x1="16" y1="6" x2="16" y2="14" ${i} stroke-width="0.8" opacity="0.4"/>\n      <line x1="24" y1="6" x2="24" y2="14" ${i} stroke-width="0.8" opacity="0.4"/>\n      <path d="M 14 6 L 26 6" ${i} stroke-width="0.8" opacity="0.4"/>`:s.includes("nappy")||s.includes("diaper")||s.includes("skip")?`\n      <path d="M 10 16 L 30 16 L 32 24 C 32 34 24 38 20 38 C 16 38 8 34 8 24 Z" ${i}/>\n      <line x1="18" y1="16" x2="18" y2="21" ${i} stroke-width="0.7" opacity="0.35"/>\n      <line x1="22" y1="16" x2="22" y2="21" ${i} stroke-width="0.7" opacity="0.35"/>`:s.includes("singlet")||s.includes("undershirt")?`\n      <path d="M 15 3 L 17 3 L 16 10 L 13 14 L 13 36 L 27 36 L 27 14 L 24 10 L 23 3 L 25 3" ${i}/>\n      <path d="M 16 10 C 18 16 22 16 24 10" ${i} stroke-width="1"/>`:s.includes("thermal")?`\n      <path d="M 16 5 L 13 5 L 3 15 L 5 17 L 6 16 L 14 9 L 14 36 L 26 36 L 26 9 L 34 16 L 35 17 L 37 15 L 27 5 L 24 5" ${i}/>\n      <path d="M 16 5 C 17 8 23 8 24 5" ${i} stroke-width="1"/>\n      <line x1="15" y1="16" x2="25" y2="16" stroke="${t}" stroke-width="0.8" opacity="0.3" stroke-dasharray="1.5 1.5"/>\n      <line x1="15" y1="21" x2="25" y2="21" stroke="${t}" stroke-width="0.8" opacity="0.3" stroke-dasharray="1.5 1.5"/>\n      <line x1="15" y1="26" x2="25" y2="26" stroke="${t}" stroke-width="0.8" opacity="0.3" stroke-dasharray="1.5 1.5"/>\n      <line x1="15" y1="31" x2="25" y2="31" stroke="${t}" stroke-width="0.8" opacity="0.3" stroke-dasharray="1.5 1.5"/>`:`<rect x="12" y="8" width="16" height="28" rx="3" ${i}/>`}(e))}</svg>
+                <svg class="tog-clothing-svg" viewBox="0 0 40 44">${Rt(function(e){const t="var(--sketch-ink, #2a2a2a)",i=`stroke="${t}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"`,s=e.toLowerCase();return s.includes("short")&&(s.includes("bodysuit")||s.includes("sleeve")||s.includes("vest")||s.includes("top"))?`\n      <path d="M 16 5 L 13 5 L 7 11 L 10 13 L 14 9 L 14 36 L 26 36 L 26 9 L 30 13 L 33 11 L 27 5 L 24 5" ${i}/>\n      <path d="M 16 5 C 17 8 23 8 24 5" ${i} stroke-width="1"/>`:s.includes("long")&&(s.includes("bodysuit")||s.includes("sleeve")||s.includes("top"))?`\n      <path d="M 16 5 L 13 5 L 3 15 L 5 17 L 6 16 L 14 9 L 14 36 L 26 36 L 26 9 L 34 16 L 35 17 L 37 15 L 27 5 L 24 5" ${i}/>\n      <path d="M 16 5 C 17 8 23 8 24 5" ${i} stroke-width="1"/>\n      <line x1="4" y1="15" x2="7" y2="13" ${i} stroke-width="0.8" opacity="0.5"/>\n      <line x1="33" y1="13" x2="36" y2="15" ${i} stroke-width="0.8" opacity="0.5"/>`:s.includes("bodysuit")||s.includes("vest")?`\n      <path d="M 16 5 L 13 5 L 7 11 L 10 13 L 14 9 L 14 36 L 26 36 L 26 9 L 30 13 L 33 11 L 27 5 L 24 5" ${i}/>\n      <path d="M 16 5 C 17 8 23 8 24 5" ${i} stroke-width="1"/>`:s.includes("sleepsuit")||s.includes("romper")||s.includes("footed")?`\n      <path d="M 15 4 L 25 4 L 28 8 L 30 20 L 29 30 L 27 36 C 26 39 23 40 22 38 L 21 30 L 20 28 L 19 30 L 18 38 C 17 40 14 39 13 36 L 11 30 L 10 20 L 12 8 Z" ${i}/>\n      <line x1="11" y1="24" x2="29" y2="24" ${i} stroke-width="0.7" opacity="0.3"/>`:s.includes("sleep bag")||s.includes("tog")?`\n      <path d="M 14 6 C 14 2 26 2 26 6 L 28 14 L 31 32 C 31 38 26 42 20 42 C 14 42 9 38 9 32 L 12 14 Z" ${i}/>\n      <line x1="16" y1="6" x2="16" y2="14" ${i} stroke-width="0.8" opacity="0.4"/>\n      <line x1="24" y1="6" x2="24" y2="14" ${i} stroke-width="0.8" opacity="0.4"/>\n      <path d="M 14 6 L 26 6" ${i} stroke-width="0.8" opacity="0.4"/>`:s.includes("nappy")||s.includes("diaper")||s.includes("skip")?`\n      <path d="M 10 16 L 30 16 L 32 24 C 32 34 24 38 20 38 C 16 38 8 34 8 24 Z" ${i}/>\n      <line x1="18" y1="16" x2="18" y2="21" ${i} stroke-width="0.7" opacity="0.35"/>\n      <line x1="22" y1="16" x2="22" y2="21" ${i} stroke-width="0.7" opacity="0.35"/>`:s.includes("singlet")||s.includes("undershirt")?`\n      <path d="M 15 3 L 17 3 L 16 10 L 13 14 L 13 36 L 27 36 L 27 14 L 24 10 L 23 3 L 25 3" ${i}/>\n      <path d="M 16 10 C 18 16 22 16 24 10" ${i} stroke-width="1"/>`:s.includes("thermal")?`\n      <path d="M 16 5 L 13 5 L 3 15 L 5 17 L 6 16 L 14 9 L 14 36 L 26 36 L 26 9 L 34 16 L 35 17 L 37 15 L 27 5 L 24 5" ${i}/>\n      <path d="M 16 5 C 17 8 23 8 24 5" ${i} stroke-width="1"/>\n      <line x1="15" y1="16" x2="25" y2="16" stroke="${t}" stroke-width="0.8" opacity="0.3" stroke-dasharray="1.5 1.5"/>\n      <line x1="15" y1="21" x2="25" y2="21" stroke="${t}" stroke-width="0.8" opacity="0.3" stroke-dasharray="1.5 1.5"/>\n      <line x1="15" y1="26" x2="25" y2="26" stroke="${t}" stroke-width="0.8" opacity="0.3" stroke-dasharray="1.5 1.5"/>\n      <line x1="15" y1="31" x2="25" y2="31" stroke="${t}" stroke-width="0.8" opacity="0.3" stroke-dasharray="1.5 1.5"/>`:`<rect x="12" y="8" width="16" height="28" rx="3" ${i}/>`}(e))}</svg>
                 <span class="tog-clothing-label">${e}</span>
               </div>
             `)}
@@ -3363,7 +3406,7 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
           <hr class="tog-divider"/>
 
           <div class="tog-pills">
-            ${Rt.map(e=>{const i=t>=e.min&&t<e.max;return W`
+            ${Kt.map(e=>{const i=t>=e.min&&t<e.max;return W`
                 <div class="tog-pill ${i?"active":""}" style="${i?`border-color: ${e.color}; background: ${e.color}1a;`:""}">
                   <div class="tog-pill-label" style="${i?`color: ${e.color}`:""}">${e.label}</div>
                   <div class="tog-pill-range">${e.range}</div>
@@ -3391,4 +3434,4 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
           </div>
         </div>
       </ha-card>
-    `}};e([ge()],Wt.prototype,"_expanded",void 0),Wt=e([de("sketch-tog-card")],Wt),window.customCards=window.customCards||[],window.customCards.push({type:"sketch-entity-card",name:"Sketch Entity Card",description:"Hand-drawn style entity state display with icon, name, and state badge",preview:!0},{type:"sketch-button-card",name:"Sketch Button Card",description:"Sketchbook-style button for toggling entities or triggering actions",preview:!0},{type:"sketch-light-card",name:"Sketch Light Card",description:"Light control card with brightness slider in hand-drawn aesthetic",preview:!0},{type:"sketch-thermostat-card",name:"Sketch Thermostat Card",description:"Climate control card with temperature display and HVAC mode selection",preview:!0},{type:"sketch-weather-card",name:"Sketch Weather Card",description:"Current weather conditions and forecast in sketchbook style",preview:!0},{type:"sketch-sensor-card",name:"Sketch Sensor Card",description:"Sensor value display with sparkline graph in hand-drawn look",preview:!0},{type:"sketch-media-player-card",name:"Sketch Media Player Card",description:"Media player controls with artwork display in sketch aesthetic",preview:!0},{type:"sketch-cover-card",name:"Sketch Cover Card",description:"Blinds/cover control with position slider in hand-drawn style",preview:!0},{type:"sketch-alarm-panel-card",name:"Sketch Alarm Panel Card",description:"Alarm system keypad with arm/disarm controls in sketchbook design",preview:!0},{type:"sketch-clock-card",name:"Sketch Clock Card",description:"Analog and digital clock with date display (no entity required)",preview:!0},{type:"sketch-chip-card",name:"Sketch Chip Card",description:"Compact pills for quick actions, scene triggers, and status indicators",preview:!0},{type:"sketch-person-card",name:"Sketch Person Card",description:"Person presence card with avatar, location, and device battery",preview:!0},{type:"sketch-tile-card",name:"Sketch Tile Card",description:"Ultra-compact single-line entity row with toggle for maximum density",preview:!0},{type:"sketch-camera-card",name:"Sketch Camera Card",description:"Camera snapshot display with refresh and fullscreen controls",preview:!0},{type:"sketch-popup-card",name:"Sketch Pop-up Card",description:"Hash-triggered modal overlay for organizing cards in slide-up panels",preview:!1},{type:"sketch-horizontal-buttons-stack",name:"Sketch Horizontal Buttons Stack",description:"Sticky footer navigation bar with scrollable room/view buttons",preview:!0},{type:"sketch-sub-button-card",name:"Sketch Sub-Button Card",description:"Entity card with expandable secondary action button grid",preview:!0},{type:"sketch-separator-card",name:"Sketch Separator Card",description:"Hand-drawn wavy line divider with optional label for organizing cards",preview:!0},{type:"sketch-fan-card",name:"Sketch Fan Card",description:"Fan speed control with spinning icon animation",preview:!0},{type:"sketch-lock-card",name:"Sketch Lock Card",description:"Lock/unlock controls with status indicator",preview:!0},{type:"sketch-number-card",name:"Sketch Number Card",description:"Input number or number entity with value slider",preview:!0},{type:"sketch-template-card",name:"Sketch Template Card",description:"Dynamic content card with Jinja2 templates for text, icons, and colors",preview:!0},{type:"sketch-history-graph-card",name:"Sketch History Graph Card",description:"Mini graph with color thresholds, configurable time range, and fill modes",preview:!0},{type:"sketch-room-card",name:"Sketch Room Card",description:"Room summary with occupancy indicator and sensor readouts",preview:!0},{type:"sketch-select-card",name:"Sketch Select Card",description:"Dropdown picker for input_select and select entities",preview:!0},{type:"sketch-progress-card",name:"Sketch Progress Card",description:"Radial progress ring with hand-drawn wobble for goals and tracking",preview:!0},{type:"sketch-timeline-card",name:"Sketch Timeline Card",description:"Hand-drawn activity journal showing recent entity events",preview:!0},{type:"sketch-tog-card",name:"Sketch TOG Card",description:"Baby sleep TOG recommendation with temperature strip and clothing guide",preview:!0});console.info("%c SKETCH-CARDS %c v1.4.4 ","background:#faf7f0;color:#2a2a2a;font-weight:bold;font-family:cursive;padding:2px 6px;border:1px solid #2a2a2a;border-radius:2px;","background:#2a2a2a;color:#faf7f0;font-weight:bold;padding:2px 6px;border-radius:2px;");
+    `}};e([ge()],Qt.prototype,"_expanded",void 0),Qt=e([de("sketch-tog-card")],Qt),window.customCards=window.customCards||[],window.customCards.push({type:"sketch-entity-card",name:"Sketch Entity Card",description:"Hand-drawn style entity state display with icon, name, and state badge",preview:!0},{type:"sketch-button-card",name:"Sketch Button Card",description:"Sketchbook-style button for toggling entities or triggering actions",preview:!0},{type:"sketch-light-card",name:"Sketch Light Card",description:"Light control card with brightness slider in hand-drawn aesthetic",preview:!0},{type:"sketch-thermostat-card",name:"Sketch Thermostat Card",description:"Climate control card with temperature display and HVAC mode selection",preview:!0},{type:"sketch-weather-card",name:"Sketch Weather Card",description:"Current weather conditions and forecast in sketchbook style",preview:!0},{type:"sketch-sensor-card",name:"Sketch Sensor Card",description:"Sensor value display with sparkline graph in hand-drawn look",preview:!0},{type:"sketch-media-player-card",name:"Sketch Media Player Card",description:"Media player controls with artwork display in sketch aesthetic",preview:!0},{type:"sketch-cover-card",name:"Sketch Cover Card",description:"Blinds/cover control with position slider in hand-drawn style",preview:!0},{type:"sketch-alarm-panel-card",name:"Sketch Alarm Panel Card",description:"Alarm system keypad with arm/disarm controls in sketchbook design",preview:!0},{type:"sketch-clock-card",name:"Sketch Clock Card",description:"Analog and digital clock with date display (no entity required)",preview:!0},{type:"sketch-chip-card",name:"Sketch Chip Card",description:"Compact pills for quick actions, scene triggers, and status indicators",preview:!0},{type:"sketch-person-card",name:"Sketch Person Card",description:"Person presence card with avatar, location, and device battery",preview:!0},{type:"sketch-tile-card",name:"Sketch Tile Card",description:"Ultra-compact single-line entity row with toggle for maximum density",preview:!0},{type:"sketch-camera-card",name:"Sketch Camera Card",description:"Camera snapshot display with refresh and fullscreen controls",preview:!0},{type:"sketch-popup-card",name:"Sketch Pop-up Card",description:"Hash-triggered modal overlay for organizing cards in slide-up panels",preview:!1},{type:"sketch-horizontal-buttons-stack",name:"Sketch Horizontal Buttons Stack",description:"Sticky footer navigation bar with scrollable room/view buttons",preview:!0},{type:"sketch-sub-button-card",name:"Sketch Sub-Button Card",description:"Entity card with expandable secondary action button grid",preview:!0},{type:"sketch-separator-card",name:"Sketch Separator Card",description:"Hand-drawn wavy line divider with optional label for organizing cards",preview:!0},{type:"sketch-fan-card",name:"Sketch Fan Card",description:"Fan speed control with spinning icon animation",preview:!0},{type:"sketch-lock-card",name:"Sketch Lock Card",description:"Lock/unlock controls with status indicator",preview:!0},{type:"sketch-number-card",name:"Sketch Number Card",description:"Input number or number entity with value slider",preview:!0},{type:"sketch-template-card",name:"Sketch Template Card",description:"Dynamic content card with Jinja2 templates for text, icons, and colors",preview:!0},{type:"sketch-history-graph-card",name:"Sketch History Graph Card",description:"Mini graph with color thresholds, configurable time range, and fill modes",preview:!0},{type:"sketch-room-card",name:"Sketch Room Card",description:"Room summary with occupancy indicator and sensor readouts",preview:!0},{type:"sketch-select-card",name:"Sketch Select Card",description:"Dropdown picker for input_select and select entities",preview:!0},{type:"sketch-progress-card",name:"Sketch Progress Card",description:"Radial progress ring with hand-drawn wobble for goals and tracking",preview:!0},{type:"sketch-timeline-card",name:"Sketch Timeline Card",description:"Hand-drawn activity journal showing recent entity events",preview:!0},{type:"sketch-tog-card",name:"Sketch TOG Card",description:"Baby sleep TOG recommendation with temperature strip and clothing guide",preview:!0});console.info("%c SKETCH-CARDS %c v1.4.5 ","background:#faf7f0;color:#2a2a2a;font-weight:bold;font-family:cursive;padding:2px 6px;border:1px solid #2a2a2a;border-radius:2px;","background:#2a2a2a;color:#faf7f0;font-weight:bold;padding:2px 6px;border-radius:2px;");

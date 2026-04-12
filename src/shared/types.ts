@@ -94,8 +94,18 @@ export interface ClockCardConfig {
   type: string;
   name?: string;
   mode?: 'analog' | 'digital' | 'both';
+  time_format?: '12h' | '24h';
   show_date?: boolean;
   show_seconds?: boolean;
+  /* appearance */
+  color?: string;
+  card_background?: string;
+  border_color?: string;
+  card_rotation?: string;
+  corner_radius?: number;
+  show_border?: boolean;
+  show_texture?: boolean;
+  variant?: 'paper' | 'notebook' | 'sticky';
 }
 
 export interface ChipCardConfig {

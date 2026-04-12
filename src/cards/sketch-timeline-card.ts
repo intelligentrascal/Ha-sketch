@@ -107,7 +107,6 @@ export class SketchTimelineCard extends LitElement {
   ];
 
   setConfig(config: TimelineCardConfig): void {
-    if (!config.entities?.length) throw new Error('Please define at least one entity');
     this._config = { ...config };
   }
 
@@ -116,8 +115,10 @@ export class SketchTimelineCard extends LitElement {
   }
 
   static getStubConfig(hass: HomeAssistant) {
-    const entities = Object.keys(hass.states).slice(0, 3);
-    return { entities, hours_to_show: 4, max_entries: 8, name: 'Activity' };
+    const entities = Object.keys(hass.states)
+      .filter((e) => e.startsWith('binary_sensor.') || e.startsWith('light.') || e.startsWith('switch.'))
+      .slice(0, 3);
+    return { entities, hours_to_show: 4, max_entries: 10, name: 'Activity' };
   }
 
   getCardSize() {
@@ -151,23 +152,29 @@ export class SketchTimelineCard extends LitElement {
   }
 
   private async _fetchEvents() {
-    if (!this.hass || !this._config?.entities?.length) return;
+    if (!this.hass) return;
     const hours = this._config.hours_to_show || 4;
-    const maxEntries = this._config.max_entries || 8;
+    const maxEntries = this._config.max_entries || 10;
     const end = new Date();
     const start = new Date(end.getTime() - hours * 3600000);
+    const entities = this._config.entities || [];
 
     try {
-      const result = await this.hass.callWS({
+      const wsMsg: any = {
         type: 'logbook/get_events',
         start_time: start.toISOString(),
         end_time: end.toISOString(),
-        entity_ids: this._config.entities,
-      });
+      };
+      // Only filter by entity_ids if entities are specified
+      if (entities.length) {
+        wsMsg.entity_ids = entities;
+      }
+
+      const result = await this.hass.callWS(wsMsg);
 
       if (Array.isArray(result)) {
         this._events = result
-          .filter((e: any) => e.entity_id && this._config.entities.includes(e.entity_id))
+          .filter((e: any) => e.entity_id && (entities.length === 0 || entities.includes(e.entity_id)))
           .map((e: any) => ({
             time: new Date(e.when),
             entity_id: e.entity_id,
