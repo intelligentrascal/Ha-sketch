@@ -288,6 +288,87 @@ entity: input_number.volume
 show_slider: true
 ```
 
+### Template Card (Jinja2)
+```yaml
+type: custom:sketch-template-card
+primary: "{% if now().hour < 12 %}Good morning{% else %}Good evening{% endif %}"
+secondary: "{{ now().strftime('%A, %B %-d') }}"
+icon: mdi:home
+icon_color: "{% if now().hour < 6 %}deep-purple{% else %}amber{% endif %}"
+layout: horizontal
+multiline_secondary: true
+```
+
+### History Graph Card
+```yaml
+type: custom:sketch-history-graph-card
+name: Temperature
+entities:
+  - sensor.living_room_temperature
+hours_to_show: 24
+fill: fade
+color_thresholds:
+  - value: 18
+    color: "#42A5F5"
+  - value: 22
+    color: "#66BB6A"
+  - value: 26
+    color: "#FFA726"
+```
+
+### Room Card
+```yaml
+type: custom:sketch-room-card
+entity: binary_sensor.living_room_occupancy
+name: Living Room
+icon: mdi:sofa
+tap_action:
+  action: navigate
+  navigation_path: "#living-room"
+sub_entities:
+  - entity: sensor.living_room_temperature
+    icon: mdi:thermometer
+  - entity: sensor.living_room_humidity
+    icon: mdi:water-percent
+```
+
+### Select Card
+```yaml
+type: custom:sketch-select-card
+entity: input_select.baby_sleep_room
+name: Sleep Room
+```
+
+### Progress Card
+```yaml
+type: custom:sketch-progress-card
+entity: sensor.daily_steps
+name: Steps Today
+max: 10000
+icon: mdi:walk
+```
+
+### Timeline Card
+```yaml
+type: custom:sketch-timeline-card
+name: Recent Activity
+entities:
+  - binary_sensor.front_door
+  - light.living_room
+  - switch.coffee_machine
+hours_to_show: 4
+max_entries: 8
+variant: notebook
+```
+
+### TOG Card (Baby Sleep)
+```yaml
+type: custom:sketch-tog-card
+temperature_entity: sensor.bedroom_temperature
+room_select_entity: input_select.baby_sleep_room
+name: Baby Sleep Guide
+```
+
 ## Configuration Options
 
 ### Common Options (all entity cards)

@@ -68,16 +68,20 @@ src/
 dist/
 └── ha-sketchbook-cards.js          # Built bundle (committed for HACS)
 tests/
-└── utils.test.ts                   # 14 unit tests (vitest)
+├── utils.test.ts                   # 14 unit tests (vitest)
+├── visual-test.js                  # Puppeteer visual test suite (all 28 cards)
+└── test-dashboard.yaml             # HA test dashboard with all 28 cards
 ```
 
 ### Key Patterns
 
-- **Cards extending `BaseSketchCard`** (16 cards): Entity, Button, Light, Thermostat, Weather, Sensor, Media Player, Cover, Alarm Panel, Person, Tile, Camera, Sub-Button, Fan, Lock, Number. These get `hass`, `_config`, `getEntity()`, `getName()`, `handleAction()`, `callService()`, `toggleEntity()`, `fireEvent()`, `renderSketchBg()` for free.
-- **Cards extending `LitElement` directly** (5 cards): Clock (no entity), Chip (multiple entities), Popup (modal overlay), Horizontal Buttons Stack (navigation), Separator (pure visual). These import `sharedStyles` manually.
+- **Cards extending `BaseSketchCard`** (21 cards): Entity, Button, Light, Thermostat, Weather, Sensor, Media Player, Cover, Alarm Panel, Person, Tile, Camera, Sub-Button, Fan, Lock, Number, Template, Room, Select, Progress, TOG. These get `hass`, `_config`, `getEntity()`, `getName()`, `handleAction()`, `callService()`, `toggleEntity()`, `fireEvent()`, `renderSketchBg()` for free.
+- **Cards extending `LitElement` directly** (7 cards): Clock (no entity), Chip (multiple entities), Popup (modal overlay), Horizontal Buttons Stack (navigation), Separator (pure visual), History Graph (multi-entity charts), Timeline (logbook API). These import `sharedStyles` manually and handle dark mode + SVG rendering independently.
 - **SVG overlay rendering**: `BaseSketchCard.renderSketchBg()` injects an SVG overlay inside `<ha-card>` with hand-drawn wobbly borders, paper texture (feTurbulence noise), corner doodles, and paper fold. Each card gets unique wobble via a DJB2 hash of the entity ID as the PRNG seed.
 - **Dark mode detection**: `base-card.ts` reads `hass.themes.darkMode` in `updated()` and toggles a `.dark-mode` CSS class for shadow depth adjustments.
-- **Visual editors**: All 21 cards have `getConfigElement()` returning ha-form-based editors with entity picker, appearance controls (color, background, border, variant, rotation), and card-specific fields.
+- **Visual editors**: All 28 cards have `getConfigElement()` returning ha-form-based editors with entity picker, appearance controls (color, background, border, variant, rotation, corner_radius), and card-specific fields.
+- **Template rendering**: `sketch-template-card` uses `hass.connection.subscribeMessage({type: 'render_template'})` for server-side Jinja2 evaluation with auto-updates.
+- **SVG clothing illustrations**: `sketch-tog-card` renders inline hand-drawn clothing sketches using `unsafeSVG()` (NOT `unsafeHTML` — SVG namespace requirement).
 - **Popup card**: Uses `window.addEventListener('hashchange')` + `loadCardHelpers()` to dynamically render child HA cards inside a modal panel.
 - **Horizontal Buttons Stack**: `position: fixed` footer with torn-paper SVG edge, auto-reorders based on motion sensor entities.
 
@@ -137,7 +141,7 @@ When an entity is on/active, the SVG overlay renders:
 
 ---
 
-## 21 Cards Summary
+## 28 Cards Summary
 
 ### Core Cards (10)
 | Card | Tag | Entity Domain | Key Features |
@@ -176,6 +180,17 @@ When an entity is on/active, the SVG overlay renders:
 | Lock | `sketch-lock-card` | `lock.*` | Lock/unlock with optional keypad |
 | Number | `sketch-number-card` | `input_number.*` | Slider or +/- buttons for numeric values |
 
+### New Cards v1.4 (7)
+| Card | Tag | Key Features |
+|------|-----|--------------|
+| Template | `sketch-template-card` | Jinja2 templates via HA WebSocket API, dynamic text/icons/colors, badges, horizontal/vertical layout |
+| History Graph | `sketch-history-graph-card` | Multi-entity sparklines, color thresholds, 1-168h range, fill modes (fade/solid/none) |
+| Room | `sketch-room-card` | Room summary: occupancy indicator + inline sub-entity sensor readouts, navigation tap action |
+| Select | `sketch-select-card` | Dropdown picker for `input_select.*` / `select.*`, collapsible option list |
+| Progress | `sketch-progress-card` | Hand-drawn SVG radial progress ring with wobble, configurable max, color thresholds |
+| Timeline | `sketch-timeline-card` | Activity journal from HA logbook API, fading opacity for older events, default notebook variant |
+| TOG | `sketch-tog-card` | Baby sleep TOG recommendation: temperature gradient strip, inline SVG clothing illustrations (unsafeSVG), built-in room selector, collapsible all-options reference, color-coded risk levels |
+
 ---
 
 ## Build & Dev
@@ -185,6 +200,7 @@ npm install          # Install Lit, Rollup, TypeScript
 npm run dev          # Watch mode (rollup -c --watch)
 npm run build        # Production build → dist/ha-sketchbook-cards.js
 npm test             # Run 14 unit tests (vitest)
+npm run test:visual  # Puppeteer visual test against live HA (see tests/)
 ```
 
 ### Build Config
@@ -223,14 +239,33 @@ All items from the original roadmap (Priorities 1-5) are done:
 - SVG sketch aesthetic (wobbly borders, paper texture, corner doodles, variants)
 - Entity picture support (`.sketch-entity-picture`)
 - Troubleshooting docs
+- 7 new cards (v1.4): Template, History Graph, Room, Select, Progress, Timeline, TOG
+- Configurable corner radius (0–30 slider in editor)
+- Active state paper tint (10% accent wash on on/active cards)
+- Auto-release CI (version bump in package.json triggers GitHub Release)
+- Puppeteer visual test suite (`npm run test:visual`)
+
+---
+
+## Known Bug Patterns (Lessons Learned)
+
+These bugs were found and fixed during development. Check for them in any new card:
+
+1. **unsafeHTML inside `<svg>`**: Creates HTML-namespace nodes that don't render. Use `unsafeSVG` from `lit/directives/unsafe-svg.js` for SVG content injection.
+2. **`stroke="currentColor"` in injected SVG**: CSS `color` doesn't propagate through `unsafeSVG`. Use explicit `var(--sketch-ink, #2a2a2a)` instead.
+3. **Missing z-index on content**: Content divs must have `position:relative; z-index:1` (or use `.sketch-card-content` class) to appear above the SVG overlay (`z-index:0`).
+4. **Icon default color `var(--sketch-primary)`**: Icons should default to `var(--sketch-ink-muted)` for OFF state, `var(--sketch-active)` for ON.
+5. **Hardcoded `#fff`**: Always use `var(--text-primary-color, #fff)` for dark mode compatibility.
+6. **`overflow: visible` on SVG containers**: Use `overflow: hidden` on graph/chart SVGs to prevent bleeding into adjacent cards.
 
 ---
 
 ## Future — Nice to Have
 
 1. **README Screenshots**: Add card previews, dashboard example, interaction GIF.
-2. **Additional Cards**: Vacuum, History Graph, Area/Room summary, Battery overview.
+2. **Additional Cards**: Vacuum, Battery overview.
 3. **Shared Timer Manager**: Global timer for clock cards to avoid per-card intervals.
+4. **HA MCP Integration Testing**: Use HA MCP server to test cards against real entity states.
 
 ---
 
@@ -241,10 +276,9 @@ All items from the original roadmap (Priorities 1-5) are done:
 - `info.md` — HACS listing description
 - `dist/ha-sketchbook-cards.js` — committed bundle
 
-### To Publish
-1. Create a GitHub Release (tag `v1.3.4`) with `ha-sketchbook-cards.js` attached
-2. Add GitHub topics: `home-assistant`, `hacs`, `lovelace`
-3. Users add `https://github.com/intelligentrascal/Ha-sketch` as custom repo in HACS → Lovelace
+### Auto-Release
+Push to `main` with a version bump in `package.json` → CI creates tag + GitHub Release with bundle attached.
+No manual tag pushing needed.
 
 ### Manual Install
 ```yaml
