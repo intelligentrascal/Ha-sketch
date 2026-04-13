@@ -35,7 +35,7 @@ export class SketchSensorCard extends BaseSketchCard {
       .sensor-graph {
         margin-top: 12px;
         width: 100%;
-        height: 50px;
+        height: clamp(40px, 12vw, 70px);
       }
       .spark-line {
         fill: none;

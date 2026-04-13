@@ -97,7 +97,7 @@ export class SketchProgressCard extends BaseSketchCard {
   private _renderArc(pct: number, seed: number) {
     const cx = 70, cy = 70, r = 56;
     const trackWidth = 8;
-    const arcWidth = 10;
+    const arcWidth = 8;
     const angle = clamp(pct / 100, 0, 1) * 360;
     const color = this._getColor(pct);
 

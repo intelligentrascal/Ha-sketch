@@ -41,7 +41,7 @@ export class SketchLightCard extends BaseSketchCard {
       .brightness-value {
         font-family: var(--sketch-font);
         font-size: 1em;
-        min-width: 40px;
+        min-width: 50px;
         text-align: right;
         color: var(--sketch-ink-muted);
       }

@@ -66,7 +66,7 @@ export class SketchRoomCard extends BaseSketchCard {
         white-space: nowrap;
       }
       .room-sensor ha-icon {
-        --mdc-icon-size: 14px;
+        --mdc-icon-size: 16px;
         color: var(--sketch-ink-muted);
       }
     `,

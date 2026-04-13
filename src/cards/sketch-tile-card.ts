@@ -29,7 +29,7 @@ export class SketchTileCard extends BaseSketchCard {
         flex-shrink: 0;
       }
       .tile-icon.on {
-        color: var(--sketch-active, var(--sketch-success));
+        color: var(--sketch-active, var(--sketch-primary));
       }
       .tile-icon.off {
         color: var(--sketch-ink-muted);
@@ -52,9 +52,9 @@ export class SketchTileCard extends BaseSketchCard {
         flex-shrink: 0;
       }
       .tile-toggle {
-        width: 40px;
-        height: 22px;
-        border-radius: 12px;
+        width: 46px;
+        height: 28px;
+        border-radius: 14px;
         border: none;
         background: var(--sketch-ink-light);
         position: relative;
@@ -69,8 +69,8 @@ export class SketchTileCard extends BaseSketchCard {
         position: absolute;
         top: 2px;
         left: 2px;
-        width: 18px;
-        height: 18px;
+        width: 24px;
+        height: 24px;
         border-radius: 50%;
         background: var(--card-background-color, #fff);
         box-shadow: 0 1px 3px rgba(0,0,0,0.15);
@@ -78,6 +78,9 @@ export class SketchTileCard extends BaseSketchCard {
       }
       .tile-toggle.on .tile-toggle-knob {
         left: 20px;
+      }
+      .tile-toggle:hover {
+        filter: brightness(1.1);
       }
     `,
   ];

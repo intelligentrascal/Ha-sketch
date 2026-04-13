@@ -2,7 +2,7 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
   :host {
     --sketch-bg: var(--ha-card-background, #faf7f0);
     --sketch-ink: var(--primary-text-color, #2a2a2a);
-    --sketch-ink-muted: var(--secondary-text-color, rgba(42, 42, 42, 0.5));
+    --sketch-ink-muted: var(--secondary-text-color, rgba(42, 42, 42, 0.65));
     --sketch-ink-light: var(--divider-color, #e8e0d0);
     --sketch-primary: var(--primary-color, #4a6fa5);
     --sketch-success: var(--label-badge-green, #4caf50);
@@ -10,7 +10,7 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
     --sketch-danger: var(--label-badge-red, #f44336);
     --sketch-border: var(--divider-color, #2a2a2a);
     --sketch-font: 'Caveat', cursive;
-    --sketch-font-body: 'Patrick Hand', 'Caveat', cursive, var(--paper-font-body1_-_font-family, sans-serif);
+    --sketch-font-body: 'Patrick Hand', 'Caveat', cursive, sans-serif;
     --sketch-radius: 12px;
     --sketch-shadow: drop-shadow(3px 4px 0px rgba(0, 0, 0, 0.12))
       drop-shadow(5px 7px 8px rgba(0, 0, 0, 0.08));
@@ -185,30 +185,37 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
     -webkit-appearance: none;
     appearance: none;
     width: 100%;
-    height: 4px;
+    height: 6px;
     background: var(--sketch-ink-light);
-    border-radius: 2px;
+    border-radius: 3px;
     outline: none;
   }
 
   .sketch-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    height: 32px;
     background: var(--sketch-primary);
     border: 2px solid var(--sketch-border);
     border-radius: 50%;
     cursor: pointer;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
   }
 
   .sketch-slider::-moz-range-thumb {
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    height: 32px;
     background: var(--sketch-primary);
     border: 2px solid var(--sketch-border);
     border-radius: 50%;
     cursor: pointer;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  }
+
+  .sketch-slider:focus-visible::-webkit-slider-thumb {
+    outline: 2px solid var(--sketch-primary);
+    outline-offset: 2px;
   }
 
   .sketch-label {
@@ -236,9 +243,9 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
 
   .sketch-divider {
     border: none;
-    border-top: 1.5px dashed var(--sketch-ink-light);
+    border-top: 1.5px dashed var(--sketch-ink-muted);
     margin: 10px 0;
-    opacity: 0.6;
+    opacity: 0.4;
   }
 
   .sketch-grid {
@@ -269,7 +276,23 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
 
   /* Unavailable entity state */
   :host(.unavailable) ha-card {
-    opacity: 0.55;
+    opacity: 0.6;
+  }
+  :host(.unavailable) .sketch-card-content::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 8px,
+      var(--sketch-ink-muted) 8px,
+      var(--sketch-ink-muted) 8.5px
+    );
+    opacity: 0.06;
+    pointer-events: none;
+    border-radius: inherit;
+    z-index: 2;
   }
   :host(.unavailable) .sketch-slider,
   :host(.unavailable) .sketch-btn,
@@ -459,6 +482,7 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
         user-select: none;
         min-height: 80px;
         transition: transform 0.15s ease;
+        will-change: transform;
       }
       .button-wrap.pressing {
         transform: scale(0.96);
@@ -545,7 +569,7 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
       .brightness-value {
         font-family: var(--sketch-font);
         font-size: 1em;
-        min-width: 40px;
+        min-width: 50px;
         text-align: right;
         color: var(--sketch-ink-muted);
       }
@@ -649,13 +673,13 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
         margin: 12px 0;
       }
       .temp-adjust-btn {
-        width: 40px;
-        height: 40px;
+        width: 44px;
+        height: 44px;
         display: flex;
         align-items: center;
         justify-content: center;
         font-family: var(--sketch-font);
-        font-size: 1.4em;
+        font-size: 1.5em;
         font-weight: 700;
         background: transparent;
         border: 2px solid var(--sketch-border);
@@ -665,12 +689,16 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
         transition: background 0.2s;
       }
       .temp-adjust-btn:hover { background: var(--sketch-hover-bg); }
+      .temp-adjust-btn:active { transform: scale(0.95); }
       .target-temp {
         font-family: var(--sketch-font);
         font-size: 1.5em;
         font-weight: 600;
         min-width: 60px;
         text-align: center;
+        background: var(--sketch-hover-bg);
+        padding: 4px 12px;
+        border-radius: var(--sketch-radius, 12px);
       }
       .mode-row {
         display: flex;
@@ -678,6 +706,13 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
         justify-content: center;
         flex-wrap: wrap;
         margin-top: 8px;
+      }
+      .mode-row .sketch-btn {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 0.85em;
       }
     `]}setConfig(e){if(!e.entity)throw new Error("Please define a climate entity");super.setConfig(e)}static getConfigElement(){return document.createElement("sketch-thermostat-card-editor")}static getStubConfig(e){const t=Object.keys(e.states).filter(e=>e.startsWith("climate."));return{entity:t[0]||"climate.example"}}getCardSize(){return 4}_adjustTemp(e){const t=this.getEntity();if(!t)return;const i=t.attributes.target_temp_step||.5,s=t.attributes.temperature||20;this.callService("climate","set_temperature",{entity_id:this._config.entity,temperature:s+e*i})}_setMode(e){this.callService("climate","set_hvac_mode",{entity_id:this._config.entity,hvac_mode:e})}render(){const e=this.getEntity();if(!e)return W`<ha-card>${this.renderSketchBg()}<div class="sketch-card-content"><p class="sketch-name">Climate not found</p></div></ha-card>`;const t=e.attributes.current_temperature??"--",i=e.attributes.temperature??"--",s=e.attributes.unit_of_measurement||"°",o=e.attributes.hvac_action||e.state,n=e.attributes.hvac_modes||[],a=e.state;let r="";"heating"!==o&&"heat"!==a||(r="heating"),"cooling"!==o&&"cool"!==a||(r="cooling");const c=!1!==this._config.show_name,l=!1!==this._config.show_state,h=!1!==this._config.show_icon;return W`
       <ha-card>
@@ -863,7 +898,7 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
       .sensor-graph {
         margin-top: 12px;
         width: 100%;
-        height: 50px;
+        height: clamp(40px, 12vw, 70px);
       }
       .spark-line {
         fill: none;
@@ -1636,7 +1671,7 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
         flex-shrink: 0;
       }
       .tile-icon.on {
-        color: var(--sketch-active, var(--sketch-success));
+        color: var(--sketch-active, var(--sketch-primary));
       }
       .tile-icon.off {
         color: var(--sketch-ink-muted);
@@ -1659,9 +1694,9 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
         flex-shrink: 0;
       }
       .tile-toggle {
-        width: 40px;
-        height: 22px;
-        border-radius: 12px;
+        width: 46px;
+        height: 28px;
+        border-radius: 14px;
         border: none;
         background: var(--sketch-ink-light);
         position: relative;
@@ -1676,8 +1711,8 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
         position: absolute;
         top: 2px;
         left: 2px;
-        width: 18px;
-        height: 18px;
+        width: 24px;
+        height: 24px;
         border-radius: 50%;
         background: var(--card-background-color, #fff);
         box-shadow: 0 1px 3px rgba(0,0,0,0.15);
@@ -1685,6 +1720,9 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
       }
       .tile-toggle.on .tile-toggle-knob {
         left: 20px;
+      }
+      .tile-toggle:hover {
+        filter: brightness(1.1);
       }
     `]}setConfig(e){if(!e.entity)throw new Error("Please define an entity");super.setConfig(e)}static getConfigElement(){return document.createElement("sketch-tile-card-editor")}static getStubConfig(e){return{entity:Object.keys(e.states)[0]||"light.example"}}getCardSize(){return 1}get _tileConfig(){return this._config}_isToggleable(){if(!this._config?.entity)return!1;const e=this._config.entity.split(".")[0];return["light","switch","fan","input_boolean","automation","script","cover","lock"].includes(e)}_handleToggle(e){e.stopPropagation(),this.toggleEntity()}render(){const e=this.getEntity();if(!e)return W`<ha-card>${this.renderSketchBg()}<div class="tile-row" style="position:relative;z-index:1"><span class="tile-name">Not found</span></div></ha-card>`;const t=this._config.icon||$e(e),i=this.getName(),s=ze(e),o=Ae(e.state),n=!0!==this._tileConfig.hide_icon&&!1!==this._config.show_icon,a=!1!==this._config.show_name,r=!1!==this._config.show_state,c=this._isToggleable();return W`
       <ha-card>
@@ -2805,7 +2843,7 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
         white-space: nowrap;
       }
       .room-sensor ha-icon {
-        --mdc-icon-size: 14px;
+        --mdc-icon-size: 16px;
         color: var(--sketch-ink-muted);
       }
     `]}get _roomConfig(){return this._config}setConfig(e){super.setConfig(e)}static getConfigElement(){return document.createElement("sketch-room-card-editor")}static getStubConfig(e){const t=Object.keys(e.states).filter(e=>e.startsWith("binary_sensor."));return{entity:t[0]||"binary_sensor.motion",name:"Room",icon:"mdi:sofa"}}getCardSize(){return 2}get defaultTapAction(){return"more-info"}render(){const e=this.getEntity(),t=!!e&&Ae(e.state),i=this._config.icon||"mdi:home",s=this.getName()||"Room",o=e?t?"Occupied":"Empty":"",n=this._roomConfig.sub_entities||[];return W`
@@ -2995,7 +3033,7 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
             points="${n.join(" ")}"
             fill="none"
             stroke="${s}"
-            stroke-width="${10}"
+            stroke-width="${8}"
             stroke-linecap="round"
             stroke-linejoin="round"
             opacity="0.8"
@@ -3434,4 +3472,4 @@ function e(e,t,i,s){var o,n=arguments.length,a=n<3?t:null===s?s=Object.getOwnPro
           </div>
         </div>
       </ha-card>
-    `}};e([ge()],Qt.prototype,"_expanded",void 0),Qt=e([de("sketch-tog-card")],Qt),window.customCards=window.customCards||[],window.customCards.push({type:"sketch-entity-card",name:"Sketch Entity Card",description:"Hand-drawn style entity state display with icon, name, and state badge",preview:!0},{type:"sketch-button-card",name:"Sketch Button Card",description:"Sketchbook-style button for toggling entities or triggering actions",preview:!0},{type:"sketch-light-card",name:"Sketch Light Card",description:"Light control card with brightness slider in hand-drawn aesthetic",preview:!0},{type:"sketch-thermostat-card",name:"Sketch Thermostat Card",description:"Climate control card with temperature display and HVAC mode selection",preview:!0},{type:"sketch-weather-card",name:"Sketch Weather Card",description:"Current weather conditions and forecast in sketchbook style",preview:!0},{type:"sketch-sensor-card",name:"Sketch Sensor Card",description:"Sensor value display with sparkline graph in hand-drawn look",preview:!0},{type:"sketch-media-player-card",name:"Sketch Media Player Card",description:"Media player controls with artwork display in sketch aesthetic",preview:!0},{type:"sketch-cover-card",name:"Sketch Cover Card",description:"Blinds/cover control with position slider in hand-drawn style",preview:!0},{type:"sketch-alarm-panel-card",name:"Sketch Alarm Panel Card",description:"Alarm system keypad with arm/disarm controls in sketchbook design",preview:!0},{type:"sketch-clock-card",name:"Sketch Clock Card",description:"Analog and digital clock with date display (no entity required)",preview:!0},{type:"sketch-chip-card",name:"Sketch Chip Card",description:"Compact pills for quick actions, scene triggers, and status indicators",preview:!0},{type:"sketch-person-card",name:"Sketch Person Card",description:"Person presence card with avatar, location, and device battery",preview:!0},{type:"sketch-tile-card",name:"Sketch Tile Card",description:"Ultra-compact single-line entity row with toggle for maximum density",preview:!0},{type:"sketch-camera-card",name:"Sketch Camera Card",description:"Camera snapshot display with refresh and fullscreen controls",preview:!0},{type:"sketch-popup-card",name:"Sketch Pop-up Card",description:"Hash-triggered modal overlay for organizing cards in slide-up panels",preview:!1},{type:"sketch-horizontal-buttons-stack",name:"Sketch Horizontal Buttons Stack",description:"Sticky footer navigation bar with scrollable room/view buttons",preview:!0},{type:"sketch-sub-button-card",name:"Sketch Sub-Button Card",description:"Entity card with expandable secondary action button grid",preview:!0},{type:"sketch-separator-card",name:"Sketch Separator Card",description:"Hand-drawn wavy line divider with optional label for organizing cards",preview:!0},{type:"sketch-fan-card",name:"Sketch Fan Card",description:"Fan speed control with spinning icon animation",preview:!0},{type:"sketch-lock-card",name:"Sketch Lock Card",description:"Lock/unlock controls with status indicator",preview:!0},{type:"sketch-number-card",name:"Sketch Number Card",description:"Input number or number entity with value slider",preview:!0},{type:"sketch-template-card",name:"Sketch Template Card",description:"Dynamic content card with Jinja2 templates for text, icons, and colors",preview:!0},{type:"sketch-history-graph-card",name:"Sketch History Graph Card",description:"Mini graph with color thresholds, configurable time range, and fill modes",preview:!0},{type:"sketch-room-card",name:"Sketch Room Card",description:"Room summary with occupancy indicator and sensor readouts",preview:!0},{type:"sketch-select-card",name:"Sketch Select Card",description:"Dropdown picker for input_select and select entities",preview:!0},{type:"sketch-progress-card",name:"Sketch Progress Card",description:"Radial progress ring with hand-drawn wobble for goals and tracking",preview:!0},{type:"sketch-timeline-card",name:"Sketch Timeline Card",description:"Hand-drawn activity journal showing recent entity events",preview:!0},{type:"sketch-tog-card",name:"Sketch TOG Card",description:"Baby sleep TOG recommendation with temperature strip and clothing guide",preview:!0});console.info("%c SKETCH-CARDS %c v1.4.5 ","background:#faf7f0;color:#2a2a2a;font-weight:bold;font-family:cursive;padding:2px 6px;border:1px solid #2a2a2a;border-radius:2px;","background:#2a2a2a;color:#faf7f0;font-weight:bold;padding:2px 6px;border-radius:2px;");
+    `}};e([ge()],Qt.prototype,"_expanded",void 0),Qt=e([de("sketch-tog-card")],Qt),window.customCards=window.customCards||[],window.customCards.push({type:"sketch-entity-card",name:"Sketch Entity Card",description:"Hand-drawn style entity state display with icon, name, and state badge",preview:!0},{type:"sketch-button-card",name:"Sketch Button Card",description:"Sketchbook-style button for toggling entities or triggering actions",preview:!0},{type:"sketch-light-card",name:"Sketch Light Card",description:"Light control card with brightness slider in hand-drawn aesthetic",preview:!0},{type:"sketch-thermostat-card",name:"Sketch Thermostat Card",description:"Climate control card with temperature display and HVAC mode selection",preview:!0},{type:"sketch-weather-card",name:"Sketch Weather Card",description:"Current weather conditions and forecast in sketchbook style",preview:!0},{type:"sketch-sensor-card",name:"Sketch Sensor Card",description:"Sensor value display with sparkline graph in hand-drawn look",preview:!0},{type:"sketch-media-player-card",name:"Sketch Media Player Card",description:"Media player controls with artwork display in sketch aesthetic",preview:!0},{type:"sketch-cover-card",name:"Sketch Cover Card",description:"Blinds/cover control with position slider in hand-drawn style",preview:!0},{type:"sketch-alarm-panel-card",name:"Sketch Alarm Panel Card",description:"Alarm system keypad with arm/disarm controls in sketchbook design",preview:!0},{type:"sketch-clock-card",name:"Sketch Clock Card",description:"Analog and digital clock with date display (no entity required)",preview:!0},{type:"sketch-chip-card",name:"Sketch Chip Card",description:"Compact pills for quick actions, scene triggers, and status indicators",preview:!0},{type:"sketch-person-card",name:"Sketch Person Card",description:"Person presence card with avatar, location, and device battery",preview:!0},{type:"sketch-tile-card",name:"Sketch Tile Card",description:"Ultra-compact single-line entity row with toggle for maximum density",preview:!0},{type:"sketch-camera-card",name:"Sketch Camera Card",description:"Camera snapshot display with refresh and fullscreen controls",preview:!0},{type:"sketch-popup-card",name:"Sketch Pop-up Card",description:"Hash-triggered modal overlay for organizing cards in slide-up panels",preview:!1},{type:"sketch-horizontal-buttons-stack",name:"Sketch Horizontal Buttons Stack",description:"Sticky footer navigation bar with scrollable room/view buttons",preview:!0},{type:"sketch-sub-button-card",name:"Sketch Sub-Button Card",description:"Entity card with expandable secondary action button grid",preview:!0},{type:"sketch-separator-card",name:"Sketch Separator Card",description:"Hand-drawn wavy line divider with optional label for organizing cards",preview:!0},{type:"sketch-fan-card",name:"Sketch Fan Card",description:"Fan speed control with spinning icon animation",preview:!0},{type:"sketch-lock-card",name:"Sketch Lock Card",description:"Lock/unlock controls with status indicator",preview:!0},{type:"sketch-number-card",name:"Sketch Number Card",description:"Input number or number entity with value slider",preview:!0},{type:"sketch-template-card",name:"Sketch Template Card",description:"Dynamic content card with Jinja2 templates for text, icons, and colors",preview:!0},{type:"sketch-history-graph-card",name:"Sketch History Graph Card",description:"Mini graph with color thresholds, configurable time range, and fill modes",preview:!0},{type:"sketch-room-card",name:"Sketch Room Card",description:"Room summary with occupancy indicator and sensor readouts",preview:!0},{type:"sketch-select-card",name:"Sketch Select Card",description:"Dropdown picker for input_select and select entities",preview:!0},{type:"sketch-progress-card",name:"Sketch Progress Card",description:"Radial progress ring with hand-drawn wobble for goals and tracking",preview:!0},{type:"sketch-timeline-card",name:"Sketch Timeline Card",description:"Hand-drawn activity journal showing recent entity events",preview:!0},{type:"sketch-tog-card",name:"Sketch TOG Card",description:"Baby sleep TOG recommendation with temperature strip and clothing guide",preview:!0});console.info("%c SKETCH-CARDS %c v1.4.6 ","background:#faf7f0;color:#2a2a2a;font-weight:bold;font-family:cursive;padding:2px 6px;border:1px solid #2a2a2a;border-radius:2px;","background:#2a2a2a;color:#faf7f0;font-weight:bold;padding:2px 6px;border-radius:2px;");

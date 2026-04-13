@@ -46,13 +46,13 @@ export class SketchThermostatCard extends BaseSketchCard {
         margin: 12px 0;
       }
       .temp-adjust-btn {
-        width: 40px;
-        height: 40px;
+        width: 44px;
+        height: 44px;
         display: flex;
         align-items: center;
         justify-content: center;
         font-family: var(--sketch-font);
-        font-size: 1.4em;
+        font-size: 1.5em;
         font-weight: 700;
         background: transparent;
         border: 2px solid var(--sketch-border);
@@ -62,12 +62,16 @@ export class SketchThermostatCard extends BaseSketchCard {
         transition: background 0.2s;
       }
       .temp-adjust-btn:hover { background: var(--sketch-hover-bg); }
+      .temp-adjust-btn:active { transform: scale(0.95); }
       .target-temp {
         font-family: var(--sketch-font);
         font-size: 1.5em;
         font-weight: 600;
         min-width: 60px;
         text-align: center;
+        background: var(--sketch-hover-bg);
+        padding: 4px 12px;
+        border-radius: var(--sketch-radius, 12px);
       }
       .mode-row {
         display: flex;
@@ -75,6 +79,13 @@ export class SketchThermostatCard extends BaseSketchCard {
         justify-content: center;
         flex-wrap: wrap;
         margin-top: 8px;
+      }
+      .mode-row .sketch-btn {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 0.85em;
       }
     `,
   ];

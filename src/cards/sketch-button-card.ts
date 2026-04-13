@@ -22,6 +22,7 @@ export class SketchButtonCard extends BaseSketchCard {
         user-select: none;
         min-height: 80px;
         transition: transform 0.15s ease;
+        will-change: transform;
       }
       .button-wrap.pressing {
         transform: scale(0.96);
