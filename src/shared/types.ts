@@ -257,3 +257,24 @@ export interface TogCardConfig extends CardConfig {
   temperature_entity: string;
   room_select_entity?: string;
 }
+
+export interface StepBattleCardConfig {
+  type: string;
+  name?: string;
+  player1_name?: string;
+  player1_entity: string;
+  player1_picture?: string;
+  player2_name?: string;
+  player2_entity: string;
+  player2_picture?: string;
+  goal?: number;
+  /* appearance */
+  color?: string;
+  card_background?: string;
+  border_color?: string;
+  card_rotation?: string;
+  corner_radius?: number;
+  show_border?: boolean;
+  show_texture?: boolean;
+  variant?: 'paper' | 'notebook' | 'sticky';
+}

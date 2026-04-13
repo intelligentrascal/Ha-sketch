@@ -114,6 +114,14 @@ export abstract class BaseSketchEditor extends LitElement {
       /* TOG card */
       temperature_entity: 'Temperature Sensor',
       room_select_entity: 'Room Selector (input_select)',
+      /* Step Battle card */
+      player1_name: 'Player 1 Name',
+      player1_entity: 'Player 1 Step Sensor',
+      player1_picture: 'Player 1 Picture URL',
+      player2_name: 'Player 2 Name',
+      player2_entity: 'Player 2 Step Sensor',
+      player2_picture: 'Player 2 Picture URL',
+      goal: 'Step Goal',
     };
     return labels[schema.name] || schema.name;
   };

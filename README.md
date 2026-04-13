@@ -34,6 +34,7 @@ Hand-drawn, sketchbook-style custom cards for Home Assistant dashboards. Inspire
 | **Progress Card** | `sketch-progress-card` | Radial progress ring with hand-drawn wobble |
 | **Timeline Card** | `sketch-timeline-card` | Hand-drawn activity journal of recent entity events |
 | **TOG Card** | `sketch-tog-card` | Baby sleep TOG recommendation with clothing illustrations |
+| **Step Battle Card** | `sketch-step-battle-card` | Fitness competition with VS layout, progress bars, 7-day chart |
 
 ## Design
 
@@ -367,6 +368,17 @@ type: custom:sketch-tog-card
 temperature_entity: sensor.bedroom_temperature
 room_select_entity: input_select.baby_sleep_room
 name: Baby Sleep Guide
+```
+
+### Step Battle Card
+```yaml
+type: custom:sketch-step-battle-card
+player1_name: Player 1
+player1_entity: sensor.player1_daily_steps
+player2_name: Player 2
+player2_entity: sensor.player2_daily_steps
+goal: 10000
+name: Step Battle
 ```
 
 ## Configuration Options
