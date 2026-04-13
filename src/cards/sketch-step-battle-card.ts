@@ -80,13 +80,14 @@ export class SketchStepBattleCard extends LitElement {
         text-transform: uppercase;
         color: var(--sketch-ink-muted);
         text-align: center;
-        margin-bottom: 12px;
+        margin-bottom: 8px;
       }
       .vs-section {
         display: flex;
-        align-items: center;
-        gap: 8px;
-        margin-bottom: 16px;
+        align-items: flex-start;
+        justify-content: center;
+        gap: 4px;
+        margin-bottom: 10px;
       }
       .player {
         flex: 1;
@@ -94,36 +95,52 @@ export class SketchStepBattleCard extends LitElement {
         flex-direction: column;
         align-items: center;
         text-align: center;
-        position: relative;
-      }
-      .player.leader {
-        filter: drop-shadow(0 0 8px var(--player-color));
+        padding-top: 24px;
       }
       .player-avatar-wrap {
         position: relative;
-        width: 56px;
-        height: 56px;
+        width: 64px;
+        height: 64px;
         margin-bottom: 6px;
       }
       .player-avatar {
-        width: 48px;
-        height: 48px;
+        width: 52px;
+        height: 52px;
         border-radius: 50%;
         object-fit: cover;
         position: absolute;
-        top: 4px;
-        left: 4px;
+        top: 6px;
+        left: 6px;
+        z-index: 2;
       }
       .player-avatar-border {
         position: absolute;
         inset: 0;
+        z-index: 1;
+      }
+      .player-avatar-fallback {
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        position: absolute;
+        top: 6px;
+        left: 6px;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .player-avatar-fallback ha-icon {
+        --mdc-icon-size: 24px;
+        color: var(--sketch-ink-muted);
       }
       .player-trophy {
         position: absolute;
-        top: -18px;
+        top: -28px;
         left: 50%;
         transform: translateX(-50%);
-        animation: sketch-wiggle 2s ease-in-out infinite;
+        z-index: 3;
+        animation: sketch-wiggle 2.5s ease-in-out infinite;
       }
       @keyframes sketch-wiggle {
         0%, 100% { rotate: -4deg; }
@@ -139,60 +156,97 @@ export class SketchStepBattleCard extends LitElement {
         font-family: var(--sketch-font);
         font-size: 1.8em;
         font-weight: 700;
-        line-height: 1;
+        line-height: 1.1;
         margin-top: 2px;
       }
       .player-pct {
         font-family: var(--sketch-font);
-        font-size: 0.75em;
+        font-size: 0.7em;
         color: var(--sketch-ink-muted);
-        margin-top: 2px;
+        margin-top: 1px;
       }
       .vs-divider {
         display: flex;
         flex-direction: column;
         align-items: center;
         flex-shrink: 0;
+        padding-top: 36px;
         gap: 2px;
       }
       .vs-text {
         font-family: var(--sketch-font);
-        font-size: 1.6em;
+        font-size: 1.4em;
         font-weight: 700;
         color: var(--sketch-ink-muted);
-        opacity: 0.5;
+        opacity: 0.4;
       }
+      /* ── Progress bars ── */
       .progress-section {
-        margin: 8px 0;
+        margin: 4px 0;
       }
-      .progress-svg {
-        width: 100%;
-        height: 36px;
-        overflow: visible;
+      .bar-row {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin: 4px 0;
       }
+      .bar-label {
+        font-family: var(--sketch-font);
+        font-size: 0.7em;
+        color: var(--sketch-ink-muted);
+        min-width: 48px;
+        text-align: right;
+      }
+      .bar-track {
+        flex: 1;
+        height: 10px;
+        border-radius: 5px;
+        background: var(--sketch-ink-light);
+        overflow: hidden;
+        position: relative;
+      }
+      .bar-fill {
+        height: 100%;
+        border-radius: 5px;
+        transition: width 0.5s ease;
+      }
+      .bar-pct {
+        font-family: var(--sketch-font);
+        font-size: 0.65em;
+        color: var(--sketch-ink-muted);
+        min-width: 30px;
+      }
+      /* ── Lead text ── */
       .lead-text {
         font-family: var(--sketch-font);
         font-size: 0.9em;
         font-style: italic;
         color: var(--sketch-ink-muted);
         text-align: center;
-        margin: 8px 0 4px;
+        margin: 6px 0 2px;
       }
       .lead-text .lead-value {
         font-weight: 700;
         font-style: normal;
       }
+      .goal-text {
+        text-align: center;
+        font-family: var(--sketch-font);
+        font-size: 0.7em;
+        color: var(--sketch-ink-muted);
+      }
+      /* ── Chart ── */
       .chart-section {
-        margin-top: 12px;
+        margin-top: 8px;
         border-top: 1px dashed var(--sketch-ink-light);
-        padding-top: 10px;
+        padding-top: 8px;
       }
       .chart-title {
         font-family: var(--sketch-font);
-        font-size: 0.75em;
+        font-size: 0.7em;
         color: var(--sketch-ink-muted);
         text-align: center;
-        margin-bottom: 6px;
+        margin-bottom: 4px;
         letter-spacing: 0.1em;
         text-transform: uppercase;
       }
@@ -434,59 +488,55 @@ export class SketchStepBattleCard extends LitElement {
 
           <div class="vs-section">
             <!-- Player 1 -->
-            <div class="player ${p1Leads ? 'leader' : ''}" style="--player-color: ${p1Color}">
+            <div class="player">
               <div class="player-avatar-wrap">
                 ${p1Leads ? html`<div class="player-trophy">${unsafeHTML(trophySvg(p1Color))}</div>` : nothing}
-                <svg class="player-avatar-border" viewBox="0 0 56 56">${unsafeHTML(wobblyCircle(28, 28, 24, seed, p1Color))}</svg>
+                <svg class="player-avatar-border" viewBox="0 0 64 64">${unsafeHTML(wobblyCircle(32, 32, 28, seed, p1Color))}</svg>
                 ${p1Pic
                   ? html`<img class="player-avatar" src="${p1Pic}" alt="${p1Name}"/>`
-                  : html`<div class="player-avatar" style="background:${p1Color};opacity:0.2;border-radius:50%"></div>`}
+                  : html`<div class="player-avatar-fallback" style="background:${p1Color};opacity:0.15"><ha-icon icon="mdi:account"></ha-icon></div>`}
               </div>
               <span class="player-name">${p1Name}</span>
               <span class="player-steps" style="color: ${p1Color}">${p1Steps.toLocaleString()}</span>
-              <span class="player-pct">${Math.round(p1Pct)}% of goal</span>
+              <span class="player-pct">${Math.round(p1Pct)}%</span>
             </div>
 
             <!-- VS -->
             <div class="vs-divider">
-              <svg width="2" height="40" viewBox="0 0 2 40">
-                ${[0, 4, 8, 12, 16, 20, 24, 28, 32, 36].map((y) =>
-                  svg`<line x1="${1 + wr(seed,y)*0.3}" y1="${y}" x2="${1 + wr(seed,y+1)*0.3}" y2="${y+3}" stroke="var(--sketch-ink-muted)" stroke-width="1" opacity="0.3" stroke-linecap="round"/>`
-                )}
-              </svg>
               <span class="vs-text">VS</span>
-              <svg width="2" height="40" viewBox="0 0 2 40">
-                ${[0, 4, 8, 12, 16, 20, 24, 28, 32, 36].map((y) =>
-                  svg`<line x1="${1 + wr(seed+10,y)*0.3}" y1="${y}" x2="${1 + wr(seed+10,y+1)*0.3}" y2="${y+3}" stroke="var(--sketch-ink-muted)" stroke-width="1" opacity="0.3" stroke-linecap="round"/>`
-                )}
-              </svg>
             </div>
 
             <!-- Player 2 -->
-            <div class="player ${p2Leads ? 'leader' : ''}" style="--player-color: ${p2Color}">
+            <div class="player">
               <div class="player-avatar-wrap">
                 ${p2Leads ? html`<div class="player-trophy">${unsafeHTML(trophySvg(p2Color))}</div>` : nothing}
-                <svg class="player-avatar-border" viewBox="0 0 56 56">${unsafeHTML(wobblyCircle(28, 28, 24, seed + 100, p2Color))}</svg>
+                <svg class="player-avatar-border" viewBox="0 0 64 64">${unsafeHTML(wobblyCircle(32, 32, 28, seed + 100, p2Color))}</svg>
                 ${p2Pic
                   ? html`<img class="player-avatar" src="${p2Pic}" alt="${p2Name}"/>`
-                  : html`<div class="player-avatar" style="background:${p2Color};opacity:0.2;border-radius:50%"></div>`}
+                  : html`<div class="player-avatar-fallback" style="background:${p2Color};opacity:0.15"><ha-icon icon="mdi:account"></ha-icon></div>`}
               </div>
               <span class="player-name">${p2Name}</span>
               <span class="player-steps" style="color: ${p2Color}">${p2Steps.toLocaleString()}</span>
-              <span class="player-pct">${Math.round(p2Pct)}% of goal</span>
+              <span class="player-pct">${Math.round(p2Pct)}%</span>
             </div>
           </div>
 
-          <!-- Progress bars -->
+          <!-- Progress bars (CSS, not SVG) -->
           <div class="progress-section">
-            <svg class="progress-svg" viewBox="0 0 300 36">
-              <text x="2" y="8" font-family="var(--sketch-font)" font-size="7" fill="var(--sketch-ink-muted)">${p1Name}</text>
-              ${unsafeHTML(sketchProgressBar(0, 11, 300, 8, p1Pct, p1Color, seed + 200))}
-              <text x="2" y="28" font-family="var(--sketch-font)" font-size="7" fill="var(--sketch-ink-muted)">${p2Name}</text>
-              ${unsafeHTML(sketchProgressBar(0, 30, 300, 8, p2Pct, p2Color, seed + 300))}
-              <!-- Goal line -->
-              <line x1="300" y1="9" x2="300" y2="40" stroke="var(--sketch-ink-muted)" stroke-width="0.8" stroke-dasharray="2 2" opacity="0.4"/>
-            </svg>
+            <div class="bar-row">
+              <span class="bar-label">${p1Name}</span>
+              <div class="bar-track">
+                <div class="bar-fill" style="width: ${p1Pct}%; background: ${p1Color}; opacity: 0.7"></div>
+              </div>
+              <span class="bar-pct">${Math.round(p1Pct)}%</span>
+            </div>
+            <div class="bar-row">
+              <span class="bar-label">${p2Name}</span>
+              <div class="bar-track">
+                <div class="bar-fill" style="width: ${p2Pct}%; background: ${p2Color}; opacity: 0.7"></div>
+              </div>
+              <span class="bar-pct">${Math.round(p2Pct)}%</span>
+            </div>
           </div>
 
           <!-- Lead text -->
@@ -495,11 +545,7 @@ export class SketchStepBattleCard extends LitElement {
               ? html`<span>Tied! Keep pushing!</span>`
               : html`<span class="lead-value" style="color: ${p1Leads ? p1Color : p2Color}">${p1Leads ? p1Name : p2Name}</span> leads by <span class="lead-value">${lead.toLocaleString()}</span> steps`}
           </div>
-
-          <!-- Goal info -->
-          <div style="text-align:center;font-family:var(--sketch-font);font-size:0.7em;color:var(--sketch-ink-muted);margin-top:2px">
-            Goal: ${goal.toLocaleString()} steps
-          </div>
+          <div class="goal-text">Goal: ${goal.toLocaleString()} steps</div>
 
           <!-- 7-day chart -->
           ${this._renderChart()}
