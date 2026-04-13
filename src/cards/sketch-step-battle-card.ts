@@ -60,6 +60,7 @@ export class SketchStepBattleCard extends LitElement {
   @property({ attribute: false }) public hass!: HomeAssistant;
   @state() private _config!: StepBattleCardConfig;
   @state() private _history1: number[] = [];
+  @state() private _historyLoaded = false;
   @state() private _history2: number[] = [];
   private _fetchTimer?: ReturnType<typeof setInterval>;
 
@@ -343,26 +344,42 @@ export class SketchStepBattleCard extends LitElement {
           significant_changes_only: false,
         });
 
-        // Result format: { "sensor.xxx": [{s: "1234", lu: 1234567890.123}, ...] }
-        const entries = result?.[entity];
+        // Result can be: { "sensor.xxx": [...] } or [...] directly
+        let entries: any[] | null = null;
+        if (Array.isArray(result)) {
+          // Some HA versions return an array of arrays
+          entries = result[0] || [];
+        } else if (result && typeof result === 'object') {
+          // Standard format: keyed by entity_id
+          entries = result[entity] || null;
+          // If not found by exact key, try first key
+          if (!entries) {
+            const keys = Object.keys(result);
+            if (keys.length > 0) entries = result[keys[0]];
+          }
+        }
+
         if (entries?.length) {
           const byDay = new Map<string, number>();
           for (const entry of entries) {
-            // lu = last_updated as unix float timestamp
             let ts: Date;
             if (typeof entry.lu === 'number') {
               ts = new Date(entry.lu * 1000);
             } else if (entry.last_updated) {
               ts = new Date(entry.last_updated);
+            } else if (entry.last_changed) {
+              ts = new Date(entry.last_changed);
             } else {
               continue;
             }
-            const dayKey = `${ts.getFullYear()}-${ts.getMonth()}-${ts.getDate()}`;
+            // Zero-padded day key for correct lexicographic sort
+            const dayKey = `${ts.getFullYear()}-${String(ts.getMonth() + 1).padStart(2, '0')}-${String(ts.getDate()).padStart(2, '0')}`;
             const val = parseFloat(String(entry.s ?? entry.state ?? '0')) || 0;
-            byDay.set(dayKey, Math.max(byDay.get(dayKey) || 0, val));
+            if (val > 0) {
+              byDay.set(dayKey, Math.max(byDay.get(dayKey) || 0, val));
+            }
           }
           if (byDay.size > 0) {
-            // Sort by date key and take last 7
             const sorted = Array.from(byDay.entries())
               .sort(([a], [b]) => a.localeCompare(b))
               .map(([_, v]) => v)
@@ -372,7 +389,7 @@ export class SketchStepBattleCard extends LitElement {
           }
         }
       } catch (_e) {
-        // history/history_during_period not available, try statistics
+        console.warn('Ha-sketch: history/history_during_period failed for', entity, _e);
       }
 
       // Fallback: recorder/statistics_during_period
@@ -389,8 +406,11 @@ export class SketchStepBattleCard extends LitElement {
         if (stats?.length) {
           setter(stats.map((s: any) => s.max ?? s.sum ?? s.state ?? s.mean ?? 0));
         }
-      } catch (_e) { /* no statistics available */ }
+      } catch (_e) {
+        console.warn('Ha-sketch: statistics failed for', entity, _e);
+      }
     }
+    this._historyLoaded = true;
     this.requestUpdate();
   }
 
@@ -439,7 +459,7 @@ export class SketchStepBattleCard extends LitElement {
         <div class="chart-section">
           <div class="chart-title">7-day history</div>
           <div style="text-align:center;font-family:var(--sketch-font);font-size:0.8em;color:var(--sketch-ink-muted);font-style:italic;padding:12px 0">
-            History data loading...
+            ${this._historyLoaded ? 'No history data available' : 'Loading history...'}
           </div>
         </div>
       `;
