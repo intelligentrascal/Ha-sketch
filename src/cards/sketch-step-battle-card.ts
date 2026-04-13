@@ -329,7 +329,53 @@ export class SketchStepBattleCard extends LitElement {
       [this._config.player1_entity, (d: number[]) => { this._history1 = d; }],
       [this._config.player2_entity, (d: number[]) => { this._history2 = d; }],
     ] as [string, (d: number[]) => void][]) {
-      // Method 1: Try statistics API
+
+      // Use hass.callWS with history/history_during_period
+      // This is the same API that HA's built-in history-graph card uses
+      try {
+        const result = await this.hass.callWS({
+          type: 'history/history_during_period',
+          start_time: start.toISOString(),
+          end_time: end.toISOString(),
+          entity_ids: [entity],
+          minimal_response: true,
+          no_attributes: true,
+          significant_changes_only: false,
+        });
+
+        // Result format: { "sensor.xxx": [{s: "1234", lu: 1234567890.123}, ...] }
+        const entries = result?.[entity];
+        if (entries?.length) {
+          const byDay = new Map<string, number>();
+          for (const entry of entries) {
+            // lu = last_updated as unix float timestamp
+            let ts: Date;
+            if (typeof entry.lu === 'number') {
+              ts = new Date(entry.lu * 1000);
+            } else if (entry.last_updated) {
+              ts = new Date(entry.last_updated);
+            } else {
+              continue;
+            }
+            const dayKey = `${ts.getFullYear()}-${ts.getMonth()}-${ts.getDate()}`;
+            const val = parseFloat(String(entry.s ?? entry.state ?? '0')) || 0;
+            byDay.set(dayKey, Math.max(byDay.get(dayKey) || 0, val));
+          }
+          if (byDay.size > 0) {
+            // Sort by date key and take last 7
+            const sorted = Array.from(byDay.entries())
+              .sort(([a], [b]) => a.localeCompare(b))
+              .map(([_, v]) => v)
+              .slice(-7);
+            setter(sorted);
+            continue;
+          }
+        }
+      } catch (_e) {
+        // history/history_during_period not available, try statistics
+      }
+
+      // Fallback: recorder/statistics_during_period
       try {
         const result = await this.hass.callWS({
           type: 'recorder/statistics_during_period',
@@ -339,69 +385,11 @@ export class SketchStepBattleCard extends LitElement {
           period: 'day',
           types: ['max', 'sum', 'state', 'mean'],
         });
-        const stats = result[entity];
+        const stats = result?.[entity];
         if (stats?.length) {
           setter(stats.map((s: any) => s.max ?? s.sum ?? s.state ?? s.mean ?? 0));
-          continue;
         }
-      } catch (_e) { /* try next method */ }
-
-      // Method 2: Use fetch() to call the REST history API directly
-      try {
-        const auth = (this.hass as any).auth;
-        const token = auth?.data?.access_token || auth?.accessToken || '';
-        const hassUrl = auth?.data?.hassUrl || '';
-        const baseUrl = hassUrl || (typeof location !== 'undefined' ? location.origin : '');
-        const url = `${baseUrl}/api/history/period/${start.toISOString()}?filter_entity_id=${entity}&end_time=${end.toISOString()}&minimal_response&no_attributes`;
-
-        const resp = await fetch(url, {
-          headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
-        });
-        if (resp.ok) {
-          const data = await resp.json();
-          if (data?.[0]?.length) {
-            // Group by day and take max per day
-            const byDay = new Map<string, number>();
-            data[0].forEach((s: any) => {
-              const ts = s.lu || s.last_updated || s.last_changed;
-              if (!ts) return;
-              const day = new Date(ts).toDateString();
-              const val = parseFloat(s.s ?? s.state) || 0;
-              byDay.set(day, Math.max(byDay.get(day) || 0, val));
-            });
-            if (byDay.size > 0) {
-              setter(Array.from(byDay.values()).slice(-7));
-              continue;
-            }
-          }
-        }
-      } catch (_e2) { /* try next method */ }
-
-      // Method 3: WebSocket history
-      try {
-        const result = await this.hass.callWS({
-          type: 'history/history_during_period',
-          start_time: start.toISOString(),
-          end_time: end.toISOString(),
-          entity_ids: [entity],
-          minimal_response: true,
-          no_attributes: true,
-        });
-        const entityData = result?.[entity];
-        if (entityData?.length) {
-          const byDay = new Map<string, number>();
-          entityData.forEach((s: any) => {
-            const ts = s.lu || s.last_updated;
-            if (!ts) return;
-            const day = new Date(ts * 1000).toDateString(); // lu is unix timestamp
-            const val = parseFloat(s.s ?? s.state) || 0;
-            byDay.set(day, Math.max(byDay.get(day) || 0, val));
-          });
-          if (byDay.size > 0) {
-            setter(Array.from(byDay.values()).slice(-7));
-          }
-        }
-      } catch (_e3) { /* all methods failed */ }
+      } catch (_e) { /* no statistics available */ }
     }
     this.requestUpdate();
   }
