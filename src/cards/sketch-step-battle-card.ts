@@ -198,7 +198,7 @@ export class SketchStepBattleCard extends LitElement {
       }
       .chart-svg {
         width: 100%;
-        height: 60px;
+        height: 80px;
         overflow: hidden;
       }
       .chart-labels {
@@ -241,8 +241,8 @@ export class SketchStepBattleCard extends LitElement {
     };
   }
 
-  getCardSize() { return 6; }
-  getLayoutOptions() { return { grid_columns: 4, grid_rows: 6 }; }
+  getCardSize() { return 7; }
+  getLayoutOptions() { return { grid_columns: 4, grid_rows: 7 }; }
 
   connectedCallback() {
     super.connectedCallback();
@@ -276,21 +276,55 @@ export class SketchStepBattleCard extends LitElement {
       [this._config.player2_entity, (d: number[]) => { this._history2 = d; }],
     ] as [string, (d: number[]) => void][]) {
       try {
+        // Try statistics API with multiple types
         const result = await this.hass.callWS({
           type: 'recorder/statistics_during_period',
           start_time: start.toISOString(),
           end_time: end.toISOString(),
           statistic_ids: [entity],
           period: 'day',
-          types: ['max'],
+          types: ['max', 'sum', 'state', 'mean'],
         });
         const stats = result[entity];
         if (stats?.length) {
-          setter(stats.map((s: any) => s.max ?? 0));
+          setter(stats.map((s: any) => s.max ?? s.sum ?? s.state ?? s.mean ?? 0));
+          continue;
         }
-      } catch (_e) { /* no history */ }
+      } catch (_e) { /* try fallback */ }
+
+      // Fallback: history/period API
+      try {
+        const resp = await (this.hass as any).callApi?.('GET',
+          `history/period/${start.toISOString()}?filter_entity_id=${entity}&end_time=${end.toISOString()}&minimal_response&no_attributes`
+        );
+        if (resp?.[0]?.length) {
+          // Group by day and take max per day
+          const byDay = new Map<string, number>();
+          resp[0].forEach((s: any) => {
+            const day = new Date(s.lu || s.last_updated).toDateString();
+            const val = parseFloat(s.s || s.state) || 0;
+            byDay.set(day, Math.max(byDay.get(day) || 0, val));
+          });
+          setter(Array.from(byDay.values()).slice(-7));
+        }
+      } catch (_e2) { /* no history available */ }
     }
     this.requestUpdate();
+  }
+
+  private _findPersonPicture(name?: string): string {
+    if (!name || !this.hass) return '';
+    // Search person entities for matching name
+    const lowerName = name.toLowerCase();
+    for (const [id, entity] of Object.entries(this.hass.states)) {
+      if (id.startsWith('person.') && entity.attributes?.entity_picture) {
+        const friendlyName = (entity.attributes.friendly_name || '').toLowerCase();
+        if (friendlyName.includes(lowerName) || id.includes(lowerName)) {
+          return entity.attributes.entity_picture;
+        }
+      }
+    }
+    return '';
   }
 
   private _renderSketchBg() {
@@ -310,11 +344,19 @@ export class SketchStepBattleCard extends LitElement {
   }
 
   private _renderChart() {
-    if (!this._history1.length && !this._history2.length) return nothing;
-
-    const w = 280, h = 50, pad = 4;
+    const w = 280, h = 60, pad = 4;
     const all = [...this._history1, ...this._history2].filter((v) => v > 0);
-    if (!all.length) return nothing;
+
+    if (!all.length) {
+      return html`
+        <div class="chart-section">
+          <div class="chart-title">7-day history</div>
+          <div style="text-align:center;font-family:var(--sketch-font);font-size:0.8em;color:var(--sketch-ink-muted);font-style:italic;padding:12px 0">
+            History data loading...
+          </div>
+        </div>
+      `;
+    }
     const maxVal = Math.max(...all, 1);
     const p1Color = 'var(--sketch-primary, #4a6fa5)';
     const p2Color = 'var(--sketch-danger, #f44336)';
@@ -377,6 +419,10 @@ export class SketchStepBattleCard extends LitElement {
     const p1Color = 'var(--sketch-primary, #4a6fa5)';
     const p2Color = 'var(--sketch-danger, #f44336)';
 
+    // Auto-detect avatar from person entities or config
+    const p1Pic = this._config.player1_picture || this._findPersonPicture(this._config.player1_name);
+    const p2Pic = this._config.player2_picture || this._findPersonPicture(this._config.player2_name);
+
     const name = this._config.name || 'Step Battle';
     const seed = 555;
 
@@ -392,8 +438,8 @@ export class SketchStepBattleCard extends LitElement {
               <div class="player-avatar-wrap">
                 ${p1Leads ? html`<div class="player-trophy">${unsafeHTML(trophySvg(p1Color))}</div>` : nothing}
                 <svg class="player-avatar-border" viewBox="0 0 56 56">${unsafeHTML(wobblyCircle(28, 28, 24, seed, p1Color))}</svg>
-                ${this._config.player1_picture
-                  ? html`<img class="player-avatar" src="${this._config.player1_picture}" alt="${p1Name}"/>`
+                ${p1Pic
+                  ? html`<img class="player-avatar" src="${p1Pic}" alt="${p1Name}"/>`
                   : html`<div class="player-avatar" style="background:${p1Color};opacity:0.2;border-radius:50%"></div>`}
               </div>
               <span class="player-name">${p1Name}</span>
@@ -421,8 +467,8 @@ export class SketchStepBattleCard extends LitElement {
               <div class="player-avatar-wrap">
                 ${p2Leads ? html`<div class="player-trophy">${unsafeHTML(trophySvg(p2Color))}</div>` : nothing}
                 <svg class="player-avatar-border" viewBox="0 0 56 56">${unsafeHTML(wobblyCircle(28, 28, 24, seed + 100, p2Color))}</svg>
-                ${this._config.player2_picture
-                  ? html`<img class="player-avatar" src="${this._config.player2_picture}" alt="${p2Name}"/>`
+                ${p2Pic
+                  ? html`<img class="player-avatar" src="${p2Pic}" alt="${p2Name}"/>`
                   : html`<div class="player-avatar" style="background:${p2Color};opacity:0.2;border-radius:50%"></div>`}
               </div>
               <span class="player-name">${p2Name}</span>

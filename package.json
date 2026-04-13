@@ -1,6 +1,6 @@
 {
   "name": "ha-sketchbook-cards",
-  "version": "1.4.7",
+  "version": "1.4.8",
   "description": "Hand-drawn sketchbook-style custom cards for Home Assistant dashboards",
   "main": "dist/ha-sketchbook-cards.js",
   "scripts": {
