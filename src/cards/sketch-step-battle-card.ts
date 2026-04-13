@@ -329,8 +329,8 @@ export class SketchStepBattleCard extends LitElement {
       [this._config.player1_entity, (d: number[]) => { this._history1 = d; }],
       [this._config.player2_entity, (d: number[]) => { this._history2 = d; }],
     ] as [string, (d: number[]) => void][]) {
+      // Method 1: Try statistics API
       try {
-        // Try statistics API with multiple types
         const result = await this.hass.callWS({
           type: 'recorder/statistics_during_period',
           start_time: start.toISOString(),
@@ -344,24 +344,64 @@ export class SketchStepBattleCard extends LitElement {
           setter(stats.map((s: any) => s.max ?? s.sum ?? s.state ?? s.mean ?? 0));
           continue;
         }
-      } catch (_e) { /* try fallback */ }
+      } catch (_e) { /* try next method */ }
 
-      // Fallback: history/period API
+      // Method 2: Use fetch() to call the REST history API directly
       try {
-        const resp = await (this.hass as any).callApi?.('GET',
-          `history/period/${start.toISOString()}?filter_entity_id=${entity}&end_time=${end.toISOString()}&minimal_response&no_attributes`
-        );
-        if (resp?.[0]?.length) {
-          // Group by day and take max per day
+        const auth = (this.hass as any).auth;
+        const token = auth?.data?.access_token || auth?.accessToken || '';
+        const hassUrl = auth?.data?.hassUrl || '';
+        const baseUrl = hassUrl || (typeof location !== 'undefined' ? location.origin : '');
+        const url = `${baseUrl}/api/history/period/${start.toISOString()}?filter_entity_id=${entity}&end_time=${end.toISOString()}&minimal_response&no_attributes`;
+
+        const resp = await fetch(url, {
+          headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+        });
+        if (resp.ok) {
+          const data = await resp.json();
+          if (data?.[0]?.length) {
+            // Group by day and take max per day
+            const byDay = new Map<string, number>();
+            data[0].forEach((s: any) => {
+              const ts = s.lu || s.last_updated || s.last_changed;
+              if (!ts) return;
+              const day = new Date(ts).toDateString();
+              const val = parseFloat(s.s ?? s.state) || 0;
+              byDay.set(day, Math.max(byDay.get(day) || 0, val));
+            });
+            if (byDay.size > 0) {
+              setter(Array.from(byDay.values()).slice(-7));
+              continue;
+            }
+          }
+        }
+      } catch (_e2) { /* try next method */ }
+
+      // Method 3: WebSocket history
+      try {
+        const result = await this.hass.callWS({
+          type: 'history/history_during_period',
+          start_time: start.toISOString(),
+          end_time: end.toISOString(),
+          entity_ids: [entity],
+          minimal_response: true,
+          no_attributes: true,
+        });
+        const entityData = result?.[entity];
+        if (entityData?.length) {
           const byDay = new Map<string, number>();
-          resp[0].forEach((s: any) => {
-            const day = new Date(s.lu || s.last_updated).toDateString();
-            const val = parseFloat(s.s || s.state) || 0;
+          entityData.forEach((s: any) => {
+            const ts = s.lu || s.last_updated;
+            if (!ts) return;
+            const day = new Date(ts * 1000).toDateString(); // lu is unix timestamp
+            const val = parseFloat(s.s ?? s.state) || 0;
             byDay.set(day, Math.max(byDay.get(day) || 0, val));
           });
-          setter(Array.from(byDay.values()).slice(-7));
+          if (byDay.size > 0) {
+            setter(Array.from(byDay.values()).slice(-7));
+          }
         }
-      } catch (_e2) { /* no history available */ }
+      } catch (_e3) { /* all methods failed */ }
     }
     this.requestUpdate();
   }
