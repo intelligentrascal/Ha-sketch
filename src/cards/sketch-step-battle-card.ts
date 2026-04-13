@@ -347,17 +347,19 @@ export class SketchStepBattleCard extends LitElement {
         // Result can be: { "sensor.xxx": [...] } or [...] directly
         let entries: any[] | null = null;
         if (Array.isArray(result)) {
-          // Some HA versions return an array of arrays
           entries = result[0] || [];
         } else if (result && typeof result === 'object') {
-          // Standard format: keyed by entity_id
           entries = result[entity] || null;
-          // If not found by exact key, try first key
           if (!entries) {
             const keys = Object.keys(result);
-            if (keys.length > 0) entries = result[keys[0]];
+            if (keys.length > 0) {
+              console.info('Ha-sketch: history keys:', keys, 'looking for:', entity);
+              entries = result[keys[0]];
+            }
           }
         }
+
+        console.info(`Ha-sketch: history for ${entity}:`, entries?.length || 0, 'entries, sample:', entries?.[0], entries?.[entries?.length - 1]);
 
         if (entries?.length) {
           const byDay = new Map<string, number>();
@@ -379,11 +381,13 @@ export class SketchStepBattleCard extends LitElement {
               byDay.set(dayKey, Math.max(byDay.get(dayKey) || 0, val));
             }
           }
+          console.info(`Ha-sketch: ${entity} grouped to ${byDay.size} days:`, Object.fromEntries(byDay));
           if (byDay.size > 0) {
             const sorted = Array.from(byDay.entries())
               .sort(([a], [b]) => a.localeCompare(b))
               .map(([_, v]) => v)
               .slice(-7);
+            console.info(`Ha-sketch: ${entity} final chart data:`, sorted);
             setter(sorted);
             continue;
           }
