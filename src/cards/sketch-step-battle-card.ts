@@ -366,9 +366,14 @@ export class SketchStepBattleCard extends LitElement {
     this.requestUpdate();
   }
 
-  private _findPersonPicture(name?: string): string {
+  private _getPlayerPicture(personEntityId?: string, picOverride?: string, name?: string): string {
+    if (picOverride) return picOverride;
+    // Direct person entity lookup (most reliable)
+    if (personEntityId && this.hass?.states[personEntityId]) {
+      return this.hass.states[personEntityId].attributes?.entity_picture || '';
+    }
+    // Fallback: search by name
     if (!name || !this.hass) return '';
-    // Search person entities for matching name
     const lowerName = name.toLowerCase();
     for (const [id, entity] of Object.entries(this.hass.states)) {
       if (id.startsWith('person.') && entity.attributes?.entity_picture) {
@@ -474,8 +479,8 @@ export class SketchStepBattleCard extends LitElement {
     const p2Color = 'var(--sketch-danger, #f44336)';
 
     // Auto-detect avatar from person entities or config
-    const p1Pic = this._config.player1_picture || this._findPersonPicture(this._config.player1_name);
-    const p2Pic = this._config.player2_picture || this._findPersonPicture(this._config.player2_name);
+    const p1Pic = this._getPlayerPicture((this._config as any).player1_person, this._config.player1_picture, p1Name);
+    const p2Pic = this._getPlayerPicture((this._config as any).player2_person, this._config.player2_picture, p2Name);
 
     const name = this._config.name || 'Step Battle';
     const seed = 555;

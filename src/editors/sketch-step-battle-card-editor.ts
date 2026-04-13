@@ -17,6 +17,7 @@ export class SketchStepBattleCardEditor extends BaseSketchEditor {
           { name: 'player1_entity', selector: { entity: { domain: 'sensor' } } },
         ],
       },
+      { name: 'player1_person', selector: { entity: { domain: 'person' } } },
       {
         type: 'grid',
         name: '',
@@ -25,6 +26,7 @@ export class SketchStepBattleCardEditor extends BaseSketchEditor {
           { name: 'player2_entity', selector: { entity: { domain: 'sensor' } } },
         ],
       },
+      { name: 'player2_person', selector: { entity: { domain: 'person' } } },
       {
         name: 'goal',
         selector: { number: { min: 1000, max: 100000, step: 1000, mode: 'box' } },

@@ -117,10 +117,12 @@ export abstract class BaseSketchEditor extends LitElement {
       /* Step Battle card */
       player1_name: 'Player 1 Name',
       player1_entity: 'Player 1 Step Sensor',
-      player1_picture: 'Player 1 Picture URL',
+      player1_person: 'Player 1 Person (for avatar)',
+      player1_picture: 'Player 1 Picture URL (override)',
       player2_name: 'Player 2 Name',
       player2_entity: 'Player 2 Step Sensor',
-      player2_picture: 'Player 2 Picture URL',
+      player2_person: 'Player 2 Person (for avatar)',
+      player2_picture: 'Player 2 Picture URL (override)',
       goal: 'Step Goal',
     };
     return labels[schema.name] || schema.name;

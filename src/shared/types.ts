@@ -263,9 +263,11 @@ export interface StepBattleCardConfig {
   name?: string;
   player1_name?: string;
   player1_entity: string;
+  player1_person?: string;
   player1_picture?: string;
   player2_name?: string;
   player2_entity: string;
+  player2_person?: string;
   player2_picture?: string;
   goal?: number;
   /* appearance */
