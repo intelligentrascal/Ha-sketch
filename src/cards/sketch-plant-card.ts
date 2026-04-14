@@ -399,29 +399,43 @@ export class SketchPlantCard extends BaseSketchCard {
     return (this._config.entity || '').replace('plant.', '');
   }
 
+  // Olen Plant integration uses different entity ID names than the status attribute keys
+  // moisture → soil_moisture, humidity → air_humidity, others match
+  private _entityMetricName(metric: string): string[] {
+    switch (metric) {
+      case 'moisture': return ['soil_moisture', 'moisture'];
+      case 'humidity': return ['air_humidity', 'humidity'];
+      default: return [metric];
+    }
+  }
+
   private _getThreshold(metric: string, bound: 'min' | 'max'): number | null {
     const slug = this._getSlug();
-    const entityId = `number.${slug}_${bound}_${metric}`;
-    const entity = this.hass?.states[entityId];
-    if (entity && entity.state !== 'unavailable' && entity.state !== 'unknown') {
-      return parseFloat(entity.state);
+    for (const name of this._entityMetricName(metric)) {
+      const entityId = `number.${slug}_${bound}_${name}`;
+      const entity = this.hass?.states[entityId];
+      if (entity && entity.state !== 'unavailable' && entity.state !== 'unknown') {
+        return parseFloat(entity.state);
+      }
     }
     return null;
   }
 
   private _getSensorValue(metric: string): { value: number; unit: string } | null {
     const slug = this._getSlug();
-    // Try common patterns for sensor entity IDs
-    const patterns = [
-      `sensor.${slug}_${metric}`,
-      `sensor.${slug}_soil_${metric}`,
-    ];
-    for (const id of patterns) {
-      const entity = this.hass?.states[id];
-      if (entity && entity.state !== 'unavailable' && entity.state !== 'unknown') {
-        const val = parseFloat(entity.state);
-        if (!isNaN(val)) {
-          return { value: val, unit: entity.attributes?.unit_of_measurement || '' };
+    // Try all naming patterns (Olen Plant uses soil_moisture, air_humidity)
+    const names = this._entityMetricName(metric);
+    for (const name of names) {
+      const patterns = [
+        `sensor.${slug}_${name}`,
+      ];
+      for (const id of patterns) {
+        const entity = this.hass?.states[id];
+        if (entity && entity.state !== 'unavailable' && entity.state !== 'unknown') {
+          const val = parseFloat(entity.state);
+          if (!isNaN(val)) {
+            return { value: val, unit: entity.attributes?.unit_of_measurement || '' };
+          }
         }
       }
     }
