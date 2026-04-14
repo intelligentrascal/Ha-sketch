@@ -64,36 +64,41 @@ function potSvg(seed: number, moisturePct: number): string {
 
 /* ── Water droplet doodle ── */
 function waterDropSvg(x: number, y: number, seed: number): string {
-  return `<path d="M ${x} ${y-4} C ${x-2} ${y} ${x-3} ${y+3} ${x} ${y+4} C ${x+3} ${y+3} ${x+2} ${y} ${x} ${y-4} Z" fill="none" stroke="var(--sketch-primary, #4a6fa5)" stroke-width="1" opacity="0.5"/>`;
+  return `<path d="M ${x} ${y-6} C ${x-3} ${y} ${x-4} ${y+4} ${x} ${y+6} C ${x+4} ${y+4} ${x+3} ${y} ${x} ${y-6} Z" fill="color-mix(in srgb, var(--sketch-primary, #4a6fa5) 15%, transparent)" stroke="var(--sketch-primary, #4a6fa5)" stroke-width="1.2" opacity="0.7"/>`;
 }
 
 /* ── Status icon doodles ── */
 function snowflakeSvg(x: number, y: number): string {
-  let s = '';
+  let s = `<circle cx="${x}" cy="${y}" r="1.5" fill="var(--sketch-primary, #4a6fa5)" opacity="0.4"/>`;
   for (let a = 0; a < 6; a++) {
     const rad = (a * 60) * Math.PI / 180;
-    const ex = x + Math.cos(rad) * 6;
-    const ey = y + Math.sin(rad) * 6;
-    s += `<line x1="${x}" y1="${y}" x2="${ex.toFixed(1)}" y2="${ey.toFixed(1)}" stroke="var(--sketch-primary, #4a6fa5)" stroke-width="0.8" opacity="0.6" stroke-linecap="round"/>`;
+    const ex = x + Math.cos(rad) * 8;
+    const ey = y + Math.sin(rad) * 8;
+    s += `<line x1="${x}" y1="${y}" x2="${ex.toFixed(1)}" y2="${ey.toFixed(1)}" stroke="var(--sketch-primary, #4a6fa5)" stroke-width="1.2" opacity="0.7" stroke-linecap="round"/>`;
+    // Small cross at each tip
+    const cx1 = x + Math.cos(rad) * 5.5;
+    const cy1 = y + Math.sin(rad) * 5.5;
+    const perpRad = rad + Math.PI / 2;
+    s += `<line x1="${(cx1 - Math.cos(perpRad) * 2).toFixed(1)}" y1="${(cy1 - Math.sin(perpRad) * 2).toFixed(1)}" x2="${(cx1 + Math.cos(perpRad) * 2).toFixed(1)}" y2="${(cy1 + Math.sin(perpRad) * 2).toFixed(1)}" stroke="var(--sketch-primary, #4a6fa5)" stroke-width="0.8" opacity="0.5" stroke-linecap="round"/>`;
   }
   return s;
 }
 
 function sunSvg(x: number, y: number): string {
-  let s = `<circle cx="${x}" cy="${y}" r="3" fill="none" stroke="var(--sketch-warning, #ff9800)" stroke-width="1" opacity="0.6"/>`;
+  let s = `<circle cx="${x}" cy="${y}" r="4" fill="color-mix(in srgb, var(--sketch-warning, #ff9800) 15%, transparent)" stroke="var(--sketch-warning, #ff9800)" stroke-width="1.2" opacity="0.7"/>`;
   for (let a = 0; a < 8; a++) {
     const rad = (a * 45) * Math.PI / 180;
-    const sx = x + Math.cos(rad) * 5;
-    const sy = y + Math.sin(rad) * 5;
-    const ex = x + Math.cos(rad) * 7;
-    const ey = y + Math.sin(rad) * 7;
-    s += `<line x1="${sx.toFixed(1)}" y1="${sy.toFixed(1)}" x2="${ex.toFixed(1)}" y2="${ey.toFixed(1)}" stroke="var(--sketch-warning, #ff9800)" stroke-width="0.7" opacity="0.5" stroke-linecap="round"/>`;
+    const sx = x + Math.cos(rad) * 6;
+    const sy = y + Math.sin(rad) * 6;
+    const ex = x + Math.cos(rad) * 9;
+    const ey = y + Math.sin(rad) * 9;
+    s += `<line x1="${sx.toFixed(1)}" y1="${sy.toFixed(1)}" x2="${ex.toFixed(1)}" y2="${ey.toFixed(1)}" stroke="var(--sketch-warning, #ff9800)" stroke-width="1" opacity="0.6" stroke-linecap="round"/>`;
   }
   return s;
 }
 
 function cloudSvg(x: number, y: number): string {
-  return `<path d="M ${x-6} ${y+2} C ${x-6} ${y-2} ${x-3} ${y-4} ${x} ${y-3} C ${x+2} ${y-5} ${x+5} ${y-3} ${x+6} ${y} C ${x+7} ${y+2} ${x+5} ${y+3} ${x-5} ${y+3} Z" fill="none" stroke="var(--sketch-ink-muted)" stroke-width="0.8" opacity="0.5"/>`;
+  return `<path d="M ${x-8} ${y+3} C ${x-8} ${y-2} ${x-4} ${y-5} ${x} ${y-4} C ${x+3} ${y-7} ${x+7} ${y-4} ${x+8} ${y} C ${x+9} ${y+3} ${x+6} ${y+4} ${x-7} ${y+4} Z" fill="color-mix(in srgb, var(--sketch-ink-muted) 10%, transparent)" stroke="var(--sketch-ink-muted)" stroke-width="1" opacity="0.6"/>`;
 }
 
 /* ── Snake Plant SVG ── */
@@ -103,8 +108,9 @@ function snakePlantSvg(health: PlantHealth, seed: number): string {
   const strokeColor = health.level === 'thriving' ? 'var(--sketch-success, #4caf50)' :
     health.level === 'stressed' ? 'var(--sketch-warning, #ff9800)' : 'var(--sketch-danger, #f44336)';
   const leafOpacity = health.lightLow ? '0.4' : '0.8';
-  const spread = health.level === 'thriving' ? 6 : health.level === 'stressed' ? 14 : 25;
-  const droop = health.moistureLow ? 8 : 0;
+  const spread = health.level === 'thriving' ? 6 : health.level === 'stressed' ? 18 : 30;
+  const droop = health.moistureLow ? 18 : health.level === 'stressed' ? 6 : 0;
+  const heightScale = health.level === 'critical' ? 0.75 : health.level === 'stressed' ? 0.9 : 1;
 
   const leaves = [
     { h: 65, angle: -spread * 2 },
@@ -118,7 +124,7 @@ function snakePlantSvg(health: PlantHealth, seed: number): string {
   leaves.forEach((leaf, i) => {
     const cx = 50 + w(seed, i * 10) * 2;
     const baseY = 98;
-    const tipY = baseY - leaf.h + droop;
+    const tipY = baseY - leaf.h * heightScale + droop;
     const angleRad = (leaf.angle + w(seed, i * 10 + 5) * 2) * Math.PI / 180;
     const tipX = cx + Math.sin(angleRad) * leaf.h * 0.4;
     const bw = 3 + w(seed, i * 10 + 1) * 0.5;
@@ -146,7 +152,8 @@ function zzPlantSvg(health: PlantHealth, seed: number): string {
   const strokeColor = health.level === 'thriving' ? 'var(--sketch-success, #4caf50)' :
     health.level === 'stressed' ? 'var(--sketch-warning, #ff9800)' : 'var(--sketch-danger, #f44336)';
   const leafOpacity = health.lightLow ? '0.4' : '0.8';
-  const archUp = health.level === 'thriving' ? -40 : health.level === 'stressed' ? -20 : 10;
+  const archUp = health.level === 'thriving' ? -40 : health.level === 'stressed' ? -10 : 20;
+  const stemScale = health.level === 'critical' ? 0.7 : health.level === 'stressed' ? 0.85 : 1;
 
   const stems = [
     { angle: -25, h: 60 },
@@ -160,8 +167,8 @@ function zzPlantSvg(health: PlantHealth, seed: number): string {
     const baseX = 50 + w(seed, si * 20) * 3;
     const baseY = 98;
     const tipAngleRad = (stem.angle + w(seed, si * 20 + 1) * 3) * Math.PI / 180;
-    const tipX = baseX + Math.sin(tipAngleRad) * stem.h * 0.5;
-    const tipY = baseY - stem.h;
+    const tipX = baseX + Math.sin(tipAngleRad) * stem.h * stemScale * 0.5;
+    const tipY = baseY - stem.h * stemScale;
     const cpX = (baseX + tipX) / 2 + Math.sin(tipAngleRad) * 15;
     const cpY = baseY + archUp + w(seed, si * 20 + 2) * 5;
 
@@ -195,8 +202,8 @@ function rubberPlantSvg(health: PlantHealth, seed: number): string {
   const strokeColor = health.level === 'thriving' ? 'var(--sketch-success, #4caf50)' :
     health.level === 'stressed' ? 'var(--sketch-warning, #ff9800)' : 'var(--sketch-danger, #f44336)';
   const leafOpacity = health.lightLow ? '0.4' : '0.8';
-  const leafAngle = health.level === 'thriving' ? -20 : health.level === 'stressed' ? 0 : 20;
-  const visibleLeaves = health.level === 'critical' ? 4 : health.level === 'stressed' ? 5 : 6;
+  const leafAngle = health.level === 'thriving' ? -20 : health.level === 'stressed' ? 10 : 35;
+  const visibleLeaves = health.level === 'critical' ? 3 : health.level === 'stressed' ? 5 : 6;
 
   // Trunk
   let svg = `<path d="M ${50+w(seed,0)*0.5} ${98} Q ${49+w(seed,1)*0.8} ${65} ${50+w(seed,2)*0.5} ${30}" fill="none" stroke="${ink}" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>`;
@@ -306,12 +313,42 @@ export class SketchPlantCard extends BaseSketchCard {
       }
       .problem-banner {
         font-family: var(--sketch-font);
-        font-size: 0.8em;
-        font-style: italic;
+        font-size: 0.85em;
+        font-weight: 600;
         color: var(--sketch-danger, #f44336);
-        margin-top: 6px;
-        padding-top: 4px;
-        border-top: 1px dashed var(--sketch-ink-light);
+        margin-top: 8px;
+        padding: 6px 8px;
+        background: color-mix(in srgb, var(--sketch-danger, #f44336) 8%, transparent);
+        border-radius: 6px;
+        border-left: 3px solid var(--sketch-danger, #f44336);
+        line-height: 1.4;
+      }
+      .name-row {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .health-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        font-size: 0.65em;
+        flex-shrink: 0;
+      }
+      .health-badge.warn {
+        border: 1.5px solid var(--sketch-warning, #ff9800);
+        color: var(--sketch-warning, #ff9800);
+      }
+      .health-badge.crit {
+        border: 1.5px solid var(--sketch-danger, #f44336);
+        color: var(--sketch-danger, #f44336);
+        animation: sketch-state-pulse 2s ease-in-out infinite;
+      }
+      .sensor-row.out-of-range .sensor-value {
+        color: var(--sketch-danger, #f44336);
       }
       .status-icons {
         position: absolute;
@@ -392,10 +429,11 @@ export class SketchPlantCard extends BaseSketchCard {
     const moisturePct = moisture ? clamp(moisture.value, 0, 100) : 50;
 
     let extras = '';
-    // Water droplets when moisture low
+    // Water droplets when moisture low — positioned prominently near leaves
     if (health.moistureLow) {
-      extras += waterDropSvg(35 + wr(seed, 200) * 3, 95, seed);
-      extras += waterDropSvg(65 + wr(seed, 201) * 3, 92, seed + 10);
+      extras += waterDropSvg(30 + wr(seed, 200) * 2, 60, seed);
+      extras += waterDropSvg(70 + wr(seed, 201) * 2, 55, seed + 10);
+      extras += waterDropSvg(50 + wr(seed, 202) * 3, 45, seed + 20);
     }
     // Waterlogged soil line when moisture high
     if (health.moistureHigh) {
@@ -445,12 +483,21 @@ export class SketchPlantCard extends BaseSketchCard {
       const min = this._getThreshold(m.key, 'min');
       const max = this._getThreshold(m.key, 'max');
       let pct: number | null = null;
+      let inRange = true;
       if (min !== null && max !== null && max > min) {
         pct = clamp(((sensor.value - min) / (max - min)) * 100, 0, 100);
+        inRange = sensor.value >= min && sensor.value <= max;
+      } else if (min !== null) {
+        inRange = sensor.value >= min;
+      } else if (max !== null) {
+        inRange = sensor.value <= max;
       }
-      const color = health.level === 'thriving' ? 'var(--sketch-success, #4caf50)' :
-        health.level === 'stressed' ? 'var(--sketch-warning, #ff9800)' : 'var(--sketch-danger, #f44336)';
-      return { icon: m.icon, value: `${sensor.value}${sensor.unit}`, pct, color };
+      // Per-sensor color: green if in range, red if out
+      const color = inRange ? 'var(--sketch-success, #4caf50)' : 'var(--sketch-danger, #f44336)';
+      // Round to 1 decimal, add space before unit
+      const rounded = Number.isInteger(sensor.value) ? String(sensor.value) : sensor.value.toFixed(1);
+      const unit = sensor.unit ? ` ${sensor.unit}` : '';
+      return { icon: m.icon, value: `${rounded}${unit}`, pct, color, inRange };
     }).filter(Boolean);
 
     return html`
@@ -464,11 +511,15 @@ export class SketchPlantCard extends BaseSketchCard {
               </svg>
             </div>
             <div class="plant-info-col">
-              <div class="plant-name">${name}</div>
+              <div class="name-row">
+                <div class="plant-name">${name}</div>
+                ${health.level === 'stressed' ? html`<span class="health-badge warn" title="${health.problems.join(', ')}">!</span>` : nothing}
+                ${health.level === 'critical' ? html`<span class="health-badge crit" title="${health.problems.join(', ')}">!!</span>` : nothing}
+              </div>
               ${showSpecies && species ? html`<div class="plant-species">${species}</div>` : nothing}
 
               ${sensorRows.map((row: any) => html`
-                <div class="sensor-row">
+                <div class="sensor-row ${row.inRange ? '' : 'out-of-range'}">
                   <span class="sensor-icon">${row.icon}</span>
                   <span class="sensor-value">${row.value}</span>
                   ${showGauges && row.pct !== null ? html`
@@ -481,7 +532,7 @@ export class SketchPlantCard extends BaseSketchCard {
 
               ${health.problems.length > 0 ? html`
                 <div class="problem-banner">
-                  ⚠ ${health.problems.join(' · ')}
+                  ${health.problems.join(' · ')}
                 </div>
               ` : nothing}
             </div>
