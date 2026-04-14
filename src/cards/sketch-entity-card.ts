@@ -22,9 +22,13 @@ export class SketchEntityCard extends BaseSketchCard {
         display: flex;
         align-items: center;
         justify-content: center;
-        border: 1.5px dashed var(--sketch-ink-light);
-        border-radius: 50%;
         flex-shrink: 0;
+      }
+      .entity-icon-wrap ha-icon {
+        color: var(--sketch-ink-muted);
+      }
+      .entity-icon-wrap.on ha-icon {
+        color: var(--sketch-active, var(--sketch-primary));
       }
       .entity-info {
         flex: 1;
@@ -64,7 +68,7 @@ export class SketchEntityCard extends BaseSketchCard {
   render() {
     const entity = this.getEntity();
     if (!entity) {
-      return html`<ha-card><div class="sketch-card-content"><p class="sketch-name">Entity not found</p></div></ha-card>`;
+      return html`<ha-card>${this.renderSketchBg()}<div class="sketch-card-content"><p class="sketch-name">Entity not found</p></div></ha-card>`;
     }
 
     const icon = this._config.icon || stateIcon(entity);
@@ -77,12 +81,12 @@ export class SketchEntityCard extends BaseSketchCard {
 
     return html`
       <ha-card>
-        ${this.renderSketchBg()}
+        ${this.renderSketchBg(400, 200, isOn)}
         <div class="sketch-card-content">
           <div class="entity-row" role="button" tabindex="0" aria-label="${this.getName()}" @keydown=${this.handleKeyDown} @pointerdown=${this.handlePointerDown} @pointerup=${this.handlePointerUp} @pointercancel=${this.handlePointerCancel}>
             ${showIcon
               ? html`
-                  <div class="entity-icon-wrap">
+                  <div class="entity-icon-wrap ${isOn ? 'on' : ''}">
                     <ha-icon class="sketch-icon" .icon=${icon}></ha-icon>
                   </div>
                 `

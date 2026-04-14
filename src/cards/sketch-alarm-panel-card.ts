@@ -42,7 +42,7 @@ export class SketchAlarmPanelCard extends BaseSketchCard {
         background: var(--sketch-danger);
         animation: pulse-alarm 0.5s ease-in-out infinite alternate;
       }
-      .alarm-icon-wrap.triggered ha-icon { color: #fff; }
+      .alarm-icon-wrap.triggered ha-icon { color: var(--text-primary-color, #fff); }
       @keyframes pulse-alarm {
         from { opacity: 0.7; }
         to { opacity: 1; }
@@ -151,7 +151,7 @@ export class SketchAlarmPanelCard extends BaseSketchCard {
   render() {
     const entity = this.getEntity();
     if (!entity) {
-      return html`<ha-card><div class="sketch-card-content"><p class="sketch-name">Alarm not found</p></div></ha-card>`;
+      return html`<ha-card>${this.renderSketchBg()}<div class="sketch-card-content"><p class="sketch-name">Alarm not found</p></div></ha-card>`;
     }
 
     const alarmState = entity.state;
@@ -173,7 +173,7 @@ export class SketchAlarmPanelCard extends BaseSketchCard {
 
     return html`
       <ha-card>
-        ${this.renderSketchBg()}
+        ${this.renderSketchBg(400, 200, isArmed || isTriggered)}
         <div class="sketch-card-content">
           <div class="alarm-header" role="button" tabindex="0" aria-label="${this.getName()}" @keydown=${this.handleKeyDown} @pointerdown=${this.handlePointerDown} @pointerup=${this.handlePointerUp} @pointercancel=${this.handlePointerCancel}>
             ${showIcon

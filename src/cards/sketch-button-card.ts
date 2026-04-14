@@ -22,6 +22,7 @@ export class SketchButtonCard extends BaseSketchCard {
         user-select: none;
         min-height: 80px;
         transition: transform 0.15s ease;
+        will-change: transform;
       }
       .button-wrap.pressing {
         transform: scale(0.96);
@@ -33,17 +34,13 @@ export class SketchButtonCard extends BaseSketchCard {
         align-items: center;
         justify-content: center;
         margin-bottom: 8px;
-        border: 2px dashed var(--sketch-ink-light);
-        border-radius: 50%;
-        transition: background 0.2s ease, border-color 0.2s ease;
       }
-      .button-icon-wrap.active {
-        background: var(--sketch-primary);
-        border-color: var(--sketch-primary);
-        border-style: solid;
+      .button-icon-wrap ha-icon {
+        color: var(--sketch-ink-muted);
+        transition: color 0.2s ease;
       }
       .button-icon-wrap.active ha-icon {
-        color: #fff;
+        color: var(--sketch-active, var(--sketch-primary));
       }
       .button-label {
         font-family: var(--sketch-font);
@@ -107,7 +104,7 @@ export class SketchButtonCard extends BaseSketchCard {
 
     return html`
       <ha-card>
-        ${this.renderSketchBg()}
+        ${this.renderSketchBg(400, 200, !!isActive)}
         <div
           class="sketch-card-content button-wrap ${this._pressing ? 'pressing' : ''}"
           role="button"

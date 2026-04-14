@@ -29,8 +29,6 @@ export class SketchMediaPlayerCard extends BaseSketchCard {
         display: flex;
         align-items: center;
         justify-content: center;
-        border: 2px dashed var(--sketch-ink-light);
-        border-radius: 2px;
         flex-shrink: 0;
       }
       .media-info {
@@ -136,7 +134,7 @@ export class SketchMediaPlayerCard extends BaseSketchCard {
   render() {
     const entity = this.getEntity();
     if (!entity) {
-      return html`<ha-card><div class="sketch-card-content"><p class="sketch-name">Media Player not found</p></div></ha-card>`;
+      return html`<ha-card>${this.renderSketchBg()}<div class="sketch-card-content"><p class="sketch-name">Media Player not found</p></div></ha-card>`;
     }
 
     const title = entity.attributes.media_title || 'Nothing playing';
@@ -153,7 +151,7 @@ export class SketchMediaPlayerCard extends BaseSketchCard {
 
     return html`
       <ha-card>
-        ${this.renderSketchBg()}
+        ${this.renderSketchBg(400, 200, isPlaying)}
         <div class="sketch-card-content">
           ${showName ? html`<p class="sketch-name">${this.getName()}</p>` : nothing}
           <div class="media-layout" role="button" tabindex="0" aria-label="${this.getName()}" @keydown=${this.handleKeyDown} @pointerdown=${this.handlePointerDown} @pointerup=${this.handlePointerUp} @pointercancel=${this.handlePointerCancel}>

@@ -22,14 +22,13 @@ export class SketchFanCard extends BaseSketchCard {
         display: flex;
         align-items: center;
         justify-content: center;
-        border: 2px dashed var(--sketch-ink-light);
-        border-radius: 50%;
-        transition: all 0.3s ease;
       }
-      .fan-icon-wrap.on {
-        border-color: var(--sketch-active);
-        border-style: solid;
-        background: rgba(74, 111, 165, 0.1);
+      .fan-icon-wrap ha-icon {
+        color: var(--sketch-ink-muted);
+        transition: color 0.2s ease;
+      }
+      .fan-icon-wrap.on ha-icon {
+        color: var(--sketch-active, var(--sketch-primary));
       }
       .fan-icon-wrap.on ha-icon {
         color: var(--sketch-active);
@@ -91,7 +90,7 @@ export class SketchFanCard extends BaseSketchCard {
   render() {
     const entity = this.getEntity();
     if (!entity) {
-      return html`<ha-card><div class="sketch-card-content"><p class="sketch-name">Fan not found</p></div></ha-card>`;
+      return html`<ha-card>${this.renderSketchBg()}<div class="sketch-card-content"><p class="sketch-name">Fan not found</p></div></ha-card>`;
     }
 
     const isOn = isEntityActive(entity.state);
@@ -104,7 +103,7 @@ export class SketchFanCard extends BaseSketchCard {
 
     return html`
       <ha-card>
-        ${this.renderSketchBg()}
+        ${this.renderSketchBg(400, 200, isOn)}
         <div class="sketch-card-content">
           <div class="fan-header" role="button" tabindex="0" aria-label="${this.getName()}" @keydown=${this.handleKeyDown} @pointerdown=${this.handlePointerDown} @pointerup=${this.handlePointerUp} @pointercancel=${this.handlePointerCancel}>
             ${showIcon

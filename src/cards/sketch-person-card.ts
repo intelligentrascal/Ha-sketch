@@ -29,12 +29,10 @@ export class SketchPersonCard extends BaseSketchCard {
         width: 56px;
         height: 56px;
         border-radius: 50%;
-        border: 2.5px dashed var(--sketch-ink-light);
         display: flex;
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
-        background: var(--sketch-bg);
       }
       .person-avatar-placeholder ha-icon {
         --mdc-icon-size: 28px;
@@ -130,7 +128,7 @@ export class SketchPersonCard extends BaseSketchCard {
   render() {
     const entity = this.getEntity();
     if (!entity) {
-      return html`<ha-card><div class="sketch-card-content"><p class="sketch-name">Person not found</p></div></ha-card>`;
+      return html`<ha-card>${this.renderSketchBg()}<div class="sketch-card-content"><p class="sketch-name">Person not found</p></div></ha-card>`;
     }
 
     const name = this.getName();
@@ -159,7 +157,7 @@ export class SketchPersonCard extends BaseSketchCard {
 
     return html`
       <ha-card>
-        ${this.renderSketchBg()}
+        ${this.renderSketchBg(400, 200, isHome)}
         <div class="sketch-card-content">
           <div class="person-row" role="button" tabindex="0" aria-label="${this.getName()}" @keydown=${this.handleKeyDown} @pointerdown=${this.handlePointerDown} @pointerup=${this.handlePointerUp} @pointercancel=${this.handlePointerCancel}>
             ${showIcon

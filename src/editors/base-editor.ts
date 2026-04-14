@@ -75,6 +75,7 @@ export abstract class BaseSketchEditor extends LitElement {
       hide_icon: 'Hide Icon',
       states: 'Alarm States',
       mode: 'Display Mode',
+      time_format: 'Time Format',
       show_date: 'Show Date',
       show_seconds: 'Show Seconds',
       hash: 'Hash (e.g. kitchen)',
@@ -87,9 +88,46 @@ export abstract class BaseSketchEditor extends LitElement {
       card_background: 'Card Background',
       border_color: 'Border Color',
       card_rotation: 'Rotation (e.g. -1deg, 0deg)',
+      corner_radius: 'Corner Roundness',
       show_border: 'Show Border',
       show_texture: 'Show Paper Texture',
       variant: 'Card Style',
+      /* Template card */
+      primary: 'Primary Text (template)',
+      secondary: 'Secondary Text (template)',
+      icon_color: 'Icon Color',
+      layout: 'Layout',
+      multiline_secondary: 'Multiline Secondary',
+      badge_icon: 'Badge Icon',
+      badge_color: 'Badge Color',
+      /* History graph card */
+      hours_to_show: 'Hours to Show',
+      line_width: 'Line Width',
+      fill: 'Fill Mode',
+      show_labels: 'Show Labels',
+      /* Room card */
+      sub_entities: 'Sub-Entities',
+      /* Progress card */
+      max: 'Maximum Value',
+      /* Timeline card */
+      max_entries: 'Max Entries',
+      /* TOG card */
+      temperature_entity: 'Temperature Sensor',
+      room_select_entity: 'Room Selector (input_select)',
+      /* Step Battle card */
+      player1_name: 'Player 1 Name',
+      player1_entity: 'Player 1 Step Sensor',
+      player1_person: 'Player 1 Person (for avatar)',
+      player1_picture: 'Player 1 Picture URL (override)',
+      player2_name: 'Player 2 Name',
+      player2_entity: 'Player 2 Step Sensor',
+      player2_person: 'Player 2 Person (for avatar)',
+      player2_picture: 'Player 2 Picture URL (override)',
+      goal: 'Step Goal',
+      /* Plant card */
+      plant_type: 'Plant Type',
+      show_species: 'Show Species Name',
+      show_gauges: 'Show Sensor Gauges',
     };
     return labels[schema.name] || schema.name;
   };
@@ -169,6 +207,18 @@ export function appearanceSchema(): any[] {
           },
         },
         { name: 'card_rotation', selector: { text: {} } },
+        {
+          name: 'corner_radius',
+          selector: {
+            number: {
+              min: 0,
+              max: 30,
+              step: 1,
+              mode: 'slider',
+              unit_of_measurement: 'px',
+            },
+          },
+        },
         { name: 'show_border', selector: { boolean: {} } },
         { name: 'show_texture', selector: { boolean: {} } },
       ],

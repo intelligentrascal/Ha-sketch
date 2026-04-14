@@ -63,10 +63,10 @@ export class SketchChipCard extends LitElement {
       }
       .chip ha-icon {
         --mdc-icon-size: 18px;
-        color: var(--sketch-primary, #4a6fa5);
+        color: var(--sketch-ink-muted);
       }
       .chip.on ha-icon {
-        color: var(--sketch-success, #4caf50);
+        color: var(--sketch-active, var(--sketch-success));
       }
       .chip-label {
         max-width: 100px;

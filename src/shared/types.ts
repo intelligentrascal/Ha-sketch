@@ -44,6 +44,7 @@ export interface CardConfig {
   card_background?: string;
   border_color?: string;
   card_rotation?: string;
+  corner_radius?: number;
   show_border?: boolean;
   show_texture?: boolean;
   variant?: 'paper' | 'notebook' | 'sticky';
@@ -93,8 +94,18 @@ export interface ClockCardConfig {
   type: string;
   name?: string;
   mode?: 'analog' | 'digital' | 'both';
+  time_format?: '12h' | '24h';
   show_date?: boolean;
   show_seconds?: boolean;
+  /* appearance */
+  color?: string;
+  card_background?: string;
+  border_color?: string;
+  card_rotation?: string;
+  corner_radius?: number;
+  show_border?: boolean;
+  show_texture?: boolean;
+  variant?: 'paper' | 'notebook' | 'sticky';
 }
 
 export interface ChipCardConfig {
@@ -180,4 +191,98 @@ export interface SeparatorCardConfig {
   type: string;
   name?: string;
   icon?: string;
+}
+
+/* ── New cards ── */
+
+export interface TemplateCardConfig extends CardConfig {
+  primary?: string;
+  secondary?: string;
+  icon_color?: string;
+  badge_icon?: string;
+  badge_color?: string;
+  layout?: 'horizontal' | 'vertical';
+  multiline_secondary?: boolean;
+}
+
+export interface HistoryGraphCardConfig {
+  type: string;
+  name?: string;
+  entities: string[];
+  hours_to_show?: number;
+  color_thresholds?: Array<{ value: number; color: string }>;
+  fill?: 'fade' | 'solid' | 'none';
+  line_width?: number;
+  show_labels?: boolean;
+  /* appearance */
+  color?: string;
+  card_background?: string;
+  border_color?: string;
+  card_rotation?: string;
+  corner_radius?: number;
+  show_border?: boolean;
+  show_texture?: boolean;
+  variant?: 'paper' | 'notebook' | 'sticky';
+}
+
+export interface RoomCardConfig extends CardConfig {
+  sub_entities?: Array<{ entity: string; icon?: string }>;
+}
+
+export interface SelectCardConfig extends CardConfig {}
+
+export interface ProgressCardConfig extends CardConfig {
+  max?: number;
+  color_thresholds?: Array<{ value: number; color: string }>;
+}
+
+export interface TimelineCardConfig {
+  type: string;
+  name?: string;
+  entities: string[];
+  hours_to_show?: number;
+  max_entries?: number;
+  /* appearance */
+  color?: string;
+  card_background?: string;
+  border_color?: string;
+  card_rotation?: string;
+  corner_radius?: number;
+  show_border?: boolean;
+  show_texture?: boolean;
+  variant?: 'paper' | 'notebook' | 'sticky';
+}
+
+export interface TogCardConfig extends CardConfig {
+  temperature_entity: string;
+  room_select_entity?: string;
+}
+
+export interface StepBattleCardConfig {
+  type: string;
+  name?: string;
+  player1_name?: string;
+  player1_entity: string;
+  player1_person?: string;
+  player1_picture?: string;
+  player2_name?: string;
+  player2_entity: string;
+  player2_person?: string;
+  player2_picture?: string;
+  goal?: number;
+  /* appearance */
+  color?: string;
+  card_background?: string;
+  border_color?: string;
+  card_rotation?: string;
+  corner_radius?: number;
+  show_border?: boolean;
+  show_texture?: boolean;
+  variant?: 'paper' | 'notebook' | 'sticky';
+}
+
+export interface PlantCardConfig extends CardConfig {
+  plant_type: 'snake_plant' | 'zz_plant' | 'rubber_plant' | 'cactus' | 'pothos';
+  show_species?: boolean;
+  show_gauges?: boolean;
 }

@@ -24,14 +24,14 @@ export class SketchSubButtonCard extends BaseSketchCard {
         display: flex;
         align-items: center;
         justify-content: center;
-        border: 1.5px dashed var(--sketch-ink-light);
-        border-radius: 50%;
         flex-shrink: 0;
       }
-      .primary-icon-wrap.on {
-        border-color: var(--sketch-primary);
-        border-style: solid;
-        background: rgba(74, 111, 165, 0.1);
+      .primary-icon-wrap ha-icon {
+        color: var(--sketch-ink-muted);
+        transition: color 0.2s ease;
+      }
+      .primary-icon-wrap.on ha-icon {
+        color: var(--sketch-active, var(--sketch-primary));
       }
       .expand-chevron {
         --mdc-icon-size: 20px;
@@ -85,15 +85,15 @@ export class SketchSubButtonCard extends BaseSketchCard {
       }
       .sub-btn.active {
         background: var(--sketch-primary);
-        color: #fff;
+        color: var(--text-primary-color, #fff);
         border-color: var(--sketch-primary);
       }
       .sub-btn.active ha-icon {
-        color: #fff;
+        color: var(--text-primary-color, #fff);
       }
       .sub-btn ha-icon {
         --mdc-icon-size: 18px;
-        color: var(--sketch-primary);
+        color: var(--sketch-ink-muted);
         flex-shrink: 0;
       }
       .sub-btn-info {
@@ -222,7 +222,7 @@ export class SketchSubButtonCard extends BaseSketchCard {
   render() {
     const entity = this.getEntity();
     if (!entity) {
-      return html`<ha-card><div class="sketch-card-content"><p class="sketch-name">Entity not found</p></div></ha-card>`;
+      return html`<ha-card>${this.renderSketchBg()}<div class="sketch-card-content"><p class="sketch-name">Entity not found</p></div></ha-card>`;
     }
 
     const icon = this._config.icon || stateIcon(entity);
@@ -236,7 +236,7 @@ export class SketchSubButtonCard extends BaseSketchCard {
 
     return html`
       <ha-card>
-        ${this.renderSketchBg()}
+        ${this.renderSketchBg(400, 200, isOn)}
         <div class="sketch-card-content">
           <div class="primary-row" role="button" tabindex="0" aria-label="${this.getName()}" @keydown=${this.handleKeyDown} @click=${collapsible ? this._toggleExpand : undefined} @pointerdown=${collapsible ? undefined : this.handlePointerDown} @pointerup=${collapsible ? undefined : this.handlePointerUp} @pointercancel=${collapsible ? undefined : this.handlePointerCancel}>
             ${showIcon

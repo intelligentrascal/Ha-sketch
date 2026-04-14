@@ -27,17 +27,29 @@ Hand-drawn, sketchbook-style custom cards for Home Assistant dashboards. Inspire
 | **Fan Card** | `sketch-fan-card` | Fan speed control with on/off toggle |
 | **Lock Card** | `sketch-lock-card` | Lock/unlock with optional keypad |
 | **Number Card** | `sketch-number-card` | Input number/slider for adjustable values |
+| **Template Card** | `sketch-template-card` | Dynamic content with Jinja2 templates for text, icons, colors |
+| **History Graph Card** | `sketch-history-graph-card` | Mini graph with color thresholds and configurable time range |
+| **Room Card** | `sketch-room-card` | Room summary with occupancy and sensor readouts |
+| **Select Card** | `sketch-select-card` | Dropdown picker for input_select and select entities |
+| **Progress Card** | `sketch-progress-card` | Radial progress ring with hand-drawn wobble |
+| **Timeline Card** | `sketch-timeline-card` | Hand-drawn activity journal of recent entity events |
+| **TOG Card** | `sketch-tog-card` | Baby sleep TOG recommendation with clothing illustrations |
+| **Step Battle Card** | `sketch-step-battle-card` | Fitness competition with VS layout, progress bars, 7-day chart |
+| **Plant Card** | `sketch-plant-card` | Living plant illustration with health indicators and sensor gauges |
 
 ## Design
 
 All cards feature the sketchbook-ui aesthetic:
 - **Caveat + Patrick Hand** handwriting fonts
-- **SVG hand-drawn borders** — wobbly double-stroke borders with unique wobble per entity (seeded PRNG)
+- **SVG hand-drawn borders** — wobbly double-stroke rounded borders with unique wobble per entity (seeded PRNG)
+- **Configurable rounded corners** — SVG borders use quadratic bezier curves with adjustable radius (0–30px via editor slider or YAML)
 - **Paper texture** — feTurbulence noise grain overlay for a real paper feel
 - **Corner doodles** — cross mark (top-left) and circle sketch (bottom-right) on every card
 - **Paper fold** — subtle folded corner detail (top-right)
+- **Clean icons** — icons render without borders or backgrounds, state indicated by color change
 - **Rotation + drop-shadows** — slight tilt with stacked shadows for depth
 - **Hover lift** — cards lift and rotate on hover with stronger shadows
+- **Active state tint** — cards with entities that are on/active get a subtle watercolor wash of the accent color on the paper background, with colored SVG borders
 - **Dark mode support** — auto-detects `hass.themes.darkMode` and adjusts shadow depth and colors
 - **Card variants** — paper (default), notebook (ruled lines + red margin), sticky note (tape strip)
 - Fully respects HA theme variables (`--ha-card-background`, `--primary-text-color`, etc.)
@@ -278,6 +290,107 @@ entity: input_number.volume
 show_slider: true
 ```
 
+### Template Card (Jinja2)
+```yaml
+type: custom:sketch-template-card
+primary: "{% if now().hour < 12 %}Good morning{% else %}Good evening{% endif %}"
+secondary: "{{ now().strftime('%A, %B %-d') }}"
+icon: mdi:home
+icon_color: "{% if now().hour < 6 %}deep-purple{% else %}amber{% endif %}"
+layout: horizontal
+multiline_secondary: true
+```
+
+### History Graph Card
+```yaml
+type: custom:sketch-history-graph-card
+name: Temperature
+entities:
+  - sensor.living_room_temperature
+hours_to_show: 24
+fill: fade
+color_thresholds:
+  - value: 18
+    color: "#42A5F5"
+  - value: 22
+    color: "#66BB6A"
+  - value: 26
+    color: "#FFA726"
+```
+
+### Room Card
+```yaml
+type: custom:sketch-room-card
+entity: binary_sensor.living_room_occupancy
+name: Living Room
+icon: mdi:sofa
+tap_action:
+  action: navigate
+  navigation_path: "#living-room"
+sub_entities:
+  - entity: sensor.living_room_temperature
+    icon: mdi:thermometer
+  - entity: sensor.living_room_humidity
+    icon: mdi:water-percent
+```
+
+### Select Card
+```yaml
+type: custom:sketch-select-card
+entity: input_select.baby_sleep_room
+name: Sleep Room
+```
+
+### Progress Card
+```yaml
+type: custom:sketch-progress-card
+entity: sensor.daily_steps
+name: Steps Today
+max: 10000
+icon: mdi:walk
+```
+
+### Timeline Card
+```yaml
+type: custom:sketch-timeline-card
+name: Recent Activity
+entities:
+  - binary_sensor.front_door
+  - light.living_room
+  - switch.coffee_machine
+hours_to_show: 4
+max_entries: 8
+variant: notebook
+```
+
+### TOG Card (Baby Sleep)
+```yaml
+type: custom:sketch-tog-card
+temperature_entity: sensor.bedroom_temperature
+room_select_entity: input_select.baby_sleep_room
+name: Baby Sleep Guide
+```
+
+### Plant Card
+```yaml
+type: custom:sketch-plant-card
+entity: plant.snake_plant
+plant_type: snake_plant
+show_species: true
+show_gauges: true
+```
+
+### Step Battle Card
+```yaml
+type: custom:sketch-step-battle-card
+player1_name: Player 1
+player1_entity: sensor.player1_daily_steps
+player2_name: Player 2
+player2_entity: sensor.player2_daily_steps
+goal: 10000
+name: Step Battle
+```
+
 ## Configuration Options
 
 ### Common Options (all entity cards)
@@ -302,6 +415,7 @@ show_slider: true
 | `card_background` | string | theme card bg | Card background color |
 | `border_color` | string | theme text | SVG border stroke color |
 | `card_rotation` | string | `-0.5deg` | Card tilt (e.g. `0deg`, `-1deg`) |
+| `corner_radius` | number | `14` | Corner roundness (0 = sharp, 30 = very round) |
 | `show_border` | boolean | `true` | Show hand-drawn SVG borders |
 | `show_texture` | boolean | `true` | Show paper grain noise texture |
 | `variant` | string | `paper` | Card style: `paper`, `notebook`, or `sticky` |
@@ -333,7 +447,7 @@ card_mod:
       --sketch-border-color: #888;         /* custom border color */
       --sketch-card-bg: #f0f0f0;           /* custom background */
       --sketch-corner-opacity: 0;          /* hide corner marks */
-      --sketch-radius: 8px;                /* rounder corners */
+      --sketch-radius: 16px;               /* rounder corners */
     }
 ```
 
@@ -346,7 +460,7 @@ Card borders are drawn via SVG (not CSS borders), so `show_border` in the card c
 | `--sketch-card-rotate` | `-0.5deg` | Card rotation. Set `0deg` for straight cards |
 | `--sketch-card-bg` | theme card bg | Card background fill color (SVG) |
 | `--sketch-border-color` | theme text | SVG border stroke color |
-| `--sketch-radius` | `2px` | Border radius for inner elements |
+| `--sketch-radius` | `12px` | Border radius for inner elements |
 | `--sketch-ink` | theme text | Primary text color |
 | `--sketch-ink-muted` | theme secondary | Muted text color |
 | `--sketch-primary` | theme primary | Accent color (icons, sliders, active states) |

@@ -20,14 +20,16 @@ export class SketchTileCard extends BaseSketchCard {
         padding: 10px 14px;
         cursor: pointer;
         min-height: 36px;
+        position: relative;
+        z-index: 1;
       }
       .tile-icon {
         --mdc-icon-size: 22px;
-        color: var(--sketch-primary);
+        color: var(--sketch-ink-muted);
         flex-shrink: 0;
       }
       .tile-icon.on {
-        color: var(--sketch-success);
+        color: var(--sketch-active, var(--sketch-primary));
       }
       .tile-icon.off {
         color: var(--sketch-ink-muted);
@@ -50,10 +52,10 @@ export class SketchTileCard extends BaseSketchCard {
         flex-shrink: 0;
       }
       .tile-toggle {
-        width: 38px;
-        height: 20px;
-        border-radius: 10px;
-        border: 1.5px solid var(--sketch-border);
+        width: 46px;
+        height: 28px;
+        border-radius: 14px;
+        border: none;
         background: var(--sketch-ink-light);
         position: relative;
         cursor: pointer;
@@ -62,22 +64,23 @@ export class SketchTileCard extends BaseSketchCard {
       }
       .tile-toggle.on {
         background: var(--sketch-primary);
-        border-color: var(--sketch-primary);
       }
       .tile-toggle-knob {
         position: absolute;
-        top: 1px;
-        left: 1px;
-        width: 16px;
-        height: 16px;
+        top: 2px;
+        left: 2px;
+        width: 24px;
+        height: 24px;
         border-radius: 50%;
-        background: #fff;
-        border: 1px solid var(--sketch-ink-light);
+        background: var(--card-background-color, #fff);
+        box-shadow: 0 1px 3px rgba(0,0,0,0.15);
         transition: left 0.2s ease;
       }
       .tile-toggle.on .tile-toggle-knob {
-        left: 17px;
-        border-color: var(--sketch-primary);
+        left: 20px;
+      }
+      .tile-toggle:hover {
+        filter: brightness(1.1);
       }
     `,
   ];
@@ -118,7 +121,7 @@ export class SketchTileCard extends BaseSketchCard {
   render() {
     const entity = this.getEntity();
     if (!entity) {
-      return html`<ha-card><div class="tile-row"><span class="tile-name">Not found</span></div></ha-card>`;
+      return html`<ha-card>${this.renderSketchBg()}<div class="tile-row" style="position:relative;z-index:1"><span class="tile-name">Not found</span></div></ha-card>`;
     }
 
     const icon = this._config.icon || stateIcon(entity);
@@ -132,7 +135,7 @@ export class SketchTileCard extends BaseSketchCard {
 
     return html`
       <ha-card>
-        ${this.renderSketchBg()}
+        ${this.renderSketchBg(400, 200, isOn)}
         <div class="tile-row" role="button" tabindex="0" aria-label="${this.getName()}" @keydown=${this.handleKeyDown} @pointerdown=${this.handlePointerDown} @pointerup=${this.handlePointerUp} @pointercancel=${this.handlePointerCancel}>
           ${showIcon
             ? html`<ha-icon class="tile-icon ${isOn ? 'on' : 'off'}" .icon=${icon}></ha-icon>`

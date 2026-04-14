@@ -106,10 +106,11 @@ export class SketchHorizontalButtonsStack extends LitElement {
         background: var(--sketch-primary, #4a6fa5);
       }
       .nav-btn.active .nav-icon-wrap ha-icon {
-        color: #fff;
+        color: var(--text-primary-color, #fff);
       }
       .nav-icon-wrap ha-icon {
         --mdc-icon-size: 20px;
+        color: var(--sketch-ink-muted);
       }
       .nav-label {
         font-family: var(--sketch-font, 'Caveat', cursive);

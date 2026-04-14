@@ -21,20 +21,12 @@ export class SketchThermostatCard extends BaseSketchCard {
         display: flex;
         align-items: center;
         justify-content: center;
-        border: 2px dashed var(--sketch-ink-light);
-        border-radius: 50%;
       }
-      .thermo-icon-wrap.heating {
-        border-color: var(--sketch-danger);
-        border-style: solid;
-        background: rgba(244, 67, 54, 0.1);
+      .thermo-icon-wrap ha-icon {
+        color: var(--sketch-ink-muted);
+        transition: color 0.2s ease;
       }
       .thermo-icon-wrap.heating ha-icon { color: var(--sketch-danger); }
-      .thermo-icon-wrap.cooling {
-        border-color: var(--sketch-primary);
-        border-style: solid;
-        background: rgba(74, 111, 165, 0.1);
-      }
       .thermo-icon-wrap.cooling ha-icon { color: var(--sketch-primary); }
       .thermo-temp-display {
         text-align: center;
@@ -54,13 +46,13 @@ export class SketchThermostatCard extends BaseSketchCard {
         margin: 12px 0;
       }
       .temp-adjust-btn {
-        width: 40px;
-        height: 40px;
+        width: 44px;
+        height: 44px;
         display: flex;
         align-items: center;
         justify-content: center;
         font-family: var(--sketch-font);
-        font-size: 1.4em;
+        font-size: 1.5em;
         font-weight: 700;
         background: transparent;
         border: 2px solid var(--sketch-border);
@@ -70,12 +62,16 @@ export class SketchThermostatCard extends BaseSketchCard {
         transition: background 0.2s;
       }
       .temp-adjust-btn:hover { background: var(--sketch-hover-bg); }
+      .temp-adjust-btn:active { transform: scale(0.95); }
       .target-temp {
         font-family: var(--sketch-font);
         font-size: 1.5em;
         font-weight: 600;
         min-width: 60px;
         text-align: center;
+        background: var(--sketch-hover-bg);
+        padding: 4px 12px;
+        border-radius: var(--sketch-radius, 12px);
       }
       .mode-row {
         display: flex;
@@ -83,6 +79,13 @@ export class SketchThermostatCard extends BaseSketchCard {
         justify-content: center;
         flex-wrap: wrap;
         margin-top: 8px;
+      }
+      .mode-row .sketch-btn {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 0.85em;
       }
     `,
   ];
@@ -126,7 +129,7 @@ export class SketchThermostatCard extends BaseSketchCard {
   render() {
     const entity = this.getEntity();
     if (!entity) {
-      return html`<ha-card><div class="sketch-card-content"><p class="sketch-name">Climate not found</p></div></ha-card>`;
+      return html`<ha-card>${this.renderSketchBg()}<div class="sketch-card-content"><p class="sketch-name">Climate not found</p></div></ha-card>`;
     }
 
     const currentTemp = entity.attributes.current_temperature ?? '--';
@@ -146,7 +149,7 @@ export class SketchThermostatCard extends BaseSketchCard {
 
     return html`
       <ha-card>
-        ${this.renderSketchBg()}
+        ${this.renderSketchBg(400, 200, !!actionClass)}
         <div class="sketch-card-content">
           <div class="thermo-header" role="button" tabindex="0" aria-label="${this.getName()}" @keydown=${this.handleKeyDown} @pointerdown=${this.handlePointerDown} @pointerup=${this.handlePointerUp} @pointercancel=${this.handlePointerCancel}>
             ${showIcon

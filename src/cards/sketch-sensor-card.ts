@@ -25,8 +25,6 @@ export class SketchSensorCard extends BaseSketchCard {
         display: flex;
         align-items: center;
         justify-content: center;
-        border: 1.5px dashed var(--sketch-ink-light);
-        border-radius: 50%;
         flex-shrink: 0;
       }
       .sensor-value-row {
@@ -37,7 +35,7 @@ export class SketchSensorCard extends BaseSketchCard {
       .sensor-graph {
         margin-top: 12px;
         width: 100%;
-        height: 50px;
+        height: clamp(40px, 12vw, 70px);
       }
       .spark-line {
         fill: none;
@@ -173,7 +171,7 @@ export class SketchSensorCard extends BaseSketchCard {
   render() {
     const entity = this.getEntity();
     if (!entity) {
-      return html`<ha-card><div class="sketch-card-content"><p class="sketch-name">Sensor not found</p></div></ha-card>`;
+      return html`<ha-card>${this.renderSketchBg()}<div class="sketch-card-content"><p class="sketch-name">Sensor not found</p></div></ha-card>`;
     }
 
     const icon = this._config.icon || stateIcon(entity);

@@ -4,7 +4,7 @@ export const sharedStyles = css`
   :host {
     --sketch-bg: var(--ha-card-background, #faf7f0);
     --sketch-ink: var(--primary-text-color, #2a2a2a);
-    --sketch-ink-muted: var(--secondary-text-color, rgba(42, 42, 42, 0.5));
+    --sketch-ink-muted: var(--secondary-text-color, rgba(42, 42, 42, 0.65));
     --sketch-ink-light: var(--divider-color, #e8e0d0);
     --sketch-primary: var(--primary-color, #4a6fa5);
     --sketch-success: var(--label-badge-green, #4caf50);
@@ -12,8 +12,8 @@ export const sharedStyles = css`
     --sketch-danger: var(--label-badge-red, #f44336);
     --sketch-border: var(--divider-color, #2a2a2a);
     --sketch-font: 'Caveat', cursive;
-    --sketch-font-body: 'Patrick Hand', 'Caveat', cursive, var(--paper-font-body1_-_font-family, sans-serif);
-    --sketch-radius: 2px;
+    --sketch-font-body: 'Patrick Hand', 'Caveat', cursive, sans-serif;
+    --sketch-radius: 12px;
     --sketch-shadow: drop-shadow(3px 4px 0px rgba(0, 0, 0, 0.12))
       drop-shadow(5px 7px 8px rgba(0, 0, 0, 0.08));
     --sketch-shadow-hover: drop-shadow(4px 5px 0px rgba(0, 0, 0, 0.15))
@@ -115,7 +115,6 @@ export const sharedStyles = css`
 
   .sketch-icon {
     --mdc-icon-size: var(--sketch-icon-md);
-    color: var(--sketch-primary);
   }
 
   /* Keyboard focus visible indicator */
@@ -188,30 +187,37 @@ export const sharedStyles = css`
     -webkit-appearance: none;
     appearance: none;
     width: 100%;
-    height: 4px;
+    height: 6px;
     background: var(--sketch-ink-light);
-    border-radius: 2px;
+    border-radius: 3px;
     outline: none;
   }
 
   .sketch-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    height: 32px;
     background: var(--sketch-primary);
     border: 2px solid var(--sketch-border);
     border-radius: 50%;
     cursor: pointer;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
   }
 
   .sketch-slider::-moz-range-thumb {
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    height: 32px;
     background: var(--sketch-primary);
     border: 2px solid var(--sketch-border);
     border-radius: 50%;
     cursor: pointer;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  }
+
+  .sketch-slider:focus-visible::-webkit-slider-thumb {
+    outline: 2px solid var(--sketch-primary);
+    outline-offset: 2px;
   }
 
   .sketch-label {
@@ -239,9 +245,9 @@ export const sharedStyles = css`
 
   .sketch-divider {
     border: none;
-    border-top: 1.5px dashed var(--sketch-ink-light);
+    border-top: 1.5px dashed var(--sketch-ink-muted);
     margin: 10px 0;
-    opacity: 0.6;
+    opacity: 0.4;
   }
 
   .sketch-grid {
@@ -272,7 +278,23 @@ export const sharedStyles = css`
 
   /* Unavailable entity state */
   :host(.unavailable) ha-card {
-    opacity: 0.55;
+    opacity: 0.6;
+  }
+  :host(.unavailable) .sketch-card-content::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 8px,
+      var(--sketch-ink-muted) 8px,
+      var(--sketch-ink-muted) 8.5px
+    );
+    opacity: 0.06;
+    pointer-events: none;
+    border-radius: inherit;
+    z-index: 2;
   }
   :host(.unavailable) .sketch-slider,
   :host(.unavailable) .sketch-btn,

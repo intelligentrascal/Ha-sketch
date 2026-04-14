@@ -16,8 +16,9 @@ export class SketchCameraCard extends BaseSketchCard {
     css`
       .camera-wrap {
         position: relative;
+        z-index: 1;
         overflow: hidden;
-        border-radius: var(--sketch-radius, 2px);
+        border-radius: var(--sketch-radius, 12px);
       }
       .camera-img {
         width: 100%;
@@ -56,7 +57,7 @@ export class SketchCameraCard extends BaseSketchCard {
         font-family: var(--sketch-font);
         font-size: 1.1em;
         font-weight: 600;
-        color: #fff;
+        color: var(--text-primary-color, #fff);
         text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
       }
       .camera-state {
@@ -170,7 +171,7 @@ export class SketchCameraCard extends BaseSketchCard {
   render() {
     const entity = this.getEntity();
     if (!entity) {
-      return html`<ha-card><div class="sketch-card-content"><p class="sketch-name">Camera not found</p></div></ha-card>`;
+      return html`<ha-card>${this.renderSketchBg()}<div class="sketch-card-content"><p class="sketch-name">Camera not found</p></div></ha-card>`;
     }
 
     const name = this.getName();
