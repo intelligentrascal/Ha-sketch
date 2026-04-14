@@ -83,7 +83,7 @@
 **Ha-Sketch** is a collection of 30 hand-drawn, sketchbook-style custom cards for Home Assistant dashboards. Inspired by [sketchbook-ui](https://github.com/SarthakRawat-1/sketchbook-ui).
 
 - **Repo**: `intelligentrascal/Ha-sketch` (GitHub)
-- **Version**: 1.4.18
+- **Version**: 1.4.19
 - **Bundle**: `dist/ha-sketchbook-cards.js` (~150 KB, single ES module)
 - **Tech**: Lit 3 + TypeScript, bundled with Rollup, HACS-ready
 

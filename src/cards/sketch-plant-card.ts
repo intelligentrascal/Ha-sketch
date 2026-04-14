@@ -29,9 +29,11 @@ interface PlantHealth {
 function getPlantHealth(entity: any): PlantHealth {
   const attrs = entity?.attributes || {};
   const problems: string[] = [];
+
+  // Check individual _status attributes (Olen Plant uses 'ok', 'low', 'high', 'problem')
   const check = (key: string, label: string) => {
-    const val = attrs[key];
-    if (val === 'low') problems.push(`${label} low`);
+    const val = (attrs[key] || '').toString().toLowerCase();
+    if (val === 'low' || val === 'problem') problems.push(`${label} low`);
     if (val === 'high') problems.push(`${label} high`);
     return val;
   };
@@ -41,12 +43,24 @@ function getPlantHealth(entity: any): PlantHealth {
   const conductivity = check('conductivity_status', 'Conductivity');
   check('humidity_status', 'Humidity');
 
+  // Also check the plant entity's own state — 'problem' means something is wrong
+  const entityState = (entity?.state || '').toString().toLowerCase();
+  const hasProblemState = entityState === 'problem';
+
+  // If the entity says 'problem' but we found no specific issues, add generic
+  if (hasProblemState && problems.length === 0) {
+    problems.push('Needs attention');
+  }
+
   const level: HealthLevel = problems.length === 0 ? 'thriving' : problems.length === 1 ? 'stressed' : 'critical';
   return {
     level, problems,
-    moistureLow: moisture === 'low', moistureHigh: moisture === 'high',
-    tempLow: temp === 'low', tempHigh: temp === 'high',
-    lightLow: light === 'low', conductivityLow: conductivity === 'low',
+    moistureLow: moisture === 'low' || moisture === 'problem',
+    moistureHigh: moisture === 'high',
+    tempLow: temp === 'low' || temp === 'problem',
+    tempHigh: temp === 'high',
+    lightLow: light === 'low' || light === 'problem',
+    conductivityLow: conductivity === 'low' || conductivity === 'problem',
   };
 }
 
@@ -477,13 +491,41 @@ export class SketchPlantCard extends BaseSketchCard {
       { key: 'humidity', icon: '💨', label: 'Humidity' },
     ];
 
+    // Fallback ranges when threshold entities don't exist
+    const defaultRanges: Record<string, [number, number]> = {
+      moisture: [15, 65],
+      temperature: [10, 35],
+      illuminance: [500, 30000],
+      conductivity: [100, 2000],
+      humidity: [30, 70],
+    };
+
+    // Status attribute key mapping for per-sensor health check
+    const statusKeys: Record<string, string> = {
+      moisture: 'moisture_status',
+      temperature: 'temperature_status',
+      illuminance: 'illuminance_status',
+      conductivity: 'conductivity_status',
+      humidity: 'humidity_status',
+    };
+
+    const plantAttrs = entity?.attributes || {};
+
     const sensorRows = metrics.map((m) => {
       const sensor = this._getSensorValue(m.key);
       if (!sensor) return null;
-      const min = this._getThreshold(m.key, 'min');
-      const max = this._getThreshold(m.key, 'max');
+
+      let min = this._getThreshold(m.key, 'min');
+      let max = this._getThreshold(m.key, 'max');
+
+      // Use default ranges as fallback
+      if (min === null && max === null && defaultRanges[m.key]) {
+        [min, max] = defaultRanges[m.key];
+      }
+
       let pct: number | null = null;
       let inRange = true;
+
       if (min !== null && max !== null && max > min) {
         pct = clamp(((sensor.value - min) / (max - min)) * 100, 0, 100);
         inRange = sensor.value >= min && sensor.value <= max;
@@ -492,6 +534,18 @@ export class SketchPlantCard extends BaseSketchCard {
       } else if (max !== null) {
         inRange = sensor.value <= max;
       }
+
+      // Override with _status attribute if available (most reliable source)
+      const statusAttr = statusKeys[m.key];
+      if (statusAttr && plantAttrs[statusAttr]) {
+        const statusVal = (plantAttrs[statusAttr] || '').toString().toLowerCase();
+        if (statusVal === 'low' || statusVal === 'high' || statusVal === 'problem') {
+          inRange = false;
+        } else if (statusVal === 'ok') {
+          inRange = true;
+        }
+      }
+
       // Per-sensor color: green if in range, red if out
       const color = inRange ? 'var(--sketch-success, #4caf50)' : 'var(--sketch-danger, #f44336)';
       // Round to 1 decimal, add space before unit
