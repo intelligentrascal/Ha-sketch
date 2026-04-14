@@ -7,6 +7,43 @@
 - **CLAUDE.md**: Developer context — architecture, design system details, file inventory, version, completed features.
 - When adding/removing cards, features, config options, or visual changes: update both files in the same commit.
 
+## Available Skills, MCPs & Tools
+
+### Home Assistant Best Practices Skill
+**Invoke**: `/home-assistant-best-practices` or when the user asks to check HA patterns
+**Use when**:
+- Verifying any HA API call (WebSocket types, REST endpoints, service calls)
+- Choosing between template sensors vs built-in helpers
+- Writing dashboard YAML or card configurations
+- Checking if a custom card pattern follows HA conventions
+- Validating entity_id vs device_id usage
+- Before using any HA API in card code (callWS, callService, render_template, etc.)
+
+**References available**: `references/dashboard-guide.md` (cards, CSS, HACS), `references/device-control.md` (service calls), `references/automation-patterns.md`, `references/template-guidelines.md`
+
+### Home Assistant MCP Server
+**Config**: `.mcp.json` (gitignored, local only)
+**Provides**: Direct access to HA entities, states, services, history via MCP tools (`mcp__homeassistant__*`)
+**Use when**:
+- Testing cards against real entity states
+- Querying available entities to verify config examples
+- Calling services to test card interactions
+- Fetching entity history to debug chart/graph cards
+**Note**: Only works when Claude Code runs locally on the same network as HA. Does NOT work from the cloud sandbox (egress proxy blocks it).
+
+### Puppeteer Visual Test Suite
+**Run**: `npm run test:visual` (requires `.env` with HA_URL and HA_TOKEN)
+**Use when**: User asks to test all cards visually, or after major changes
+**What it does**: Loads all 29 cards in headless Chrome, checks SVG rendering, text visibility, icon presence, interaction tests, screenshots each card.
+**Note**: Must be run on user's local machine, not from cloud sandbox.
+
+### When to use what (decision tree):
+1. **User asks "does this work with HA?"** → Use `/home-assistant-best-practices` skill
+2. **User asks to test against real HA** → Suggest `npm run test:visual` locally, or use HA MCP if available
+3. **Building new cards that call HA APIs** → Check skill references FIRST, then implement
+4. **Debugging card rendering** → Add console.warn logging, ask user to check browser devtools
+5. **User says "use the HA skill"** → Invoke `/home-assistant-best-practices`
+
 ---
 
 ## What This Is
