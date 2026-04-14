@@ -1,6 +1,7 @@
 import { html, css, svg, nothing, LitElement } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import { unsafeSVG } from 'lit/directives/unsafe-svg.js';
 import { sharedStyles } from '../shared/styles';
 import { renderSketchOverlay } from '../shared/sketch-svg';
 import { applyAppearance, clamp } from '../shared/utils';
@@ -352,14 +353,9 @@ export class SketchStepBattleCard extends LitElement {
           entries = result[entity] || null;
           if (!entries) {
             const keys = Object.keys(result);
-            if (keys.length > 0) {
-              console.info('Ha-sketch: history keys:', keys, 'looking for:', entity);
-              entries = result[keys[0]];
-            }
+            if (keys.length > 0) entries = result[keys[0]];
           }
         }
-
-        console.info(`Ha-sketch: history for ${entity}:`, entries?.length || 0, 'entries, sample:', entries?.[0], entries?.[entries?.length - 1]);
 
         if (entries?.length) {
           const byDay = new Map<string, number>();
@@ -381,13 +377,11 @@ export class SketchStepBattleCard extends LitElement {
               byDay.set(dayKey, Math.max(byDay.get(dayKey) || 0, val));
             }
           }
-          console.info(`Ha-sketch: ${entity} grouped to ${byDay.size} days:`, Object.fromEntries(byDay));
           if (byDay.size > 0) {
             const sorted = Array.from(byDay.entries())
               .sort(([a], [b]) => a.localeCompare(b))
               .map(([_, v]) => v)
               .slice(-7);
-            console.info(`Ha-sketch: ${entity} final chart data:`, sorted);
             setter(sorted);
             continue;
           }
@@ -496,8 +490,8 @@ export class SketchStepBattleCard extends LitElement {
       <div class="chart-section">
         <div class="chart-title">7-day history</div>
         <svg class="chart-svg" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
-          ${unsafeHTML(makeLine(this._history1, p1Color, 0))}
-          ${unsafeHTML(makeLine(this._history2, p2Color, 50))}
+          ${unsafeSVG(makeLine(this._history1, p1Color, 0))}
+          ${unsafeSVG(makeLine(this._history2, p2Color, 50))}
         </svg>
         <div class="chart-labels">
           ${dayLabels.map((d) => html`<span>${d}</span>`)}
