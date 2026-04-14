@@ -395,15 +395,39 @@ show_gauges: true
 
 **Sensor selection:** By default, the card auto-detects which sensors are configured on the plant entity (by checking which `_status` attributes are present). You can override this with the `sensors` list to show only specific sensors. Problems are only flagged for sensors in the active list.
 
-**Health indicators:** When a sensor is out of range:
-- Gauge bar turns **red** (green when healthy)
-- Sensor value text turns **red**
-- Warning badge **(!)** appears next to the plant name (stressed) or **(!!)** with pulse (critical)
-- Problem summary banner shows at the bottom
-- Plant SVG visually droops, loses leaves, or changes color
-- Status doodles appear: water drops (dry), snowflake (cold), sun (hot), cloud (low light)
+**Sensor icons & units:**
 
-**Threshold auto-discovery:** Sensor thresholds are auto-discovered from `number.<plant_slug>_min_soil_moisture`, `number.<plant_slug>_max_temperature`, etc. (matches Olen's Plant integration naming). Fallback default ranges used when threshold entities don't exist.
+| Sensor | Icon | Unit | Entity pattern |
+|--------|------|------|----------------|
+| Moisture | 💧 | % | `sensor.<slug>_soil_moisture` |
+| Temperature | 🌡 | °C | `sensor.<slug>_temperature` |
+| Illuminance | ☀ | lx | `sensor.<slug>_illuminance` |
+| Conductivity | 🧪 | µS/cm | `sensor.<slug>_conductivity` |
+| Humidity | 💨 | % | `sensor.<slug>_air_humidity` |
+
+**Health indicators:**
+
+| Indicator | Thriving (OK) | Stressed (1 issue) | Critical (2+ issues) |
+|-----------|---------------|--------------------|-----------------------|
+| **Plant SVG color** | Green (`--sketch-success`) | Orange (`--sketch-warning`) | Red (`--sketch-danger`) |
+| **Name badge** | None | **(!)** circle | **(!!)** pulsing circle |
+| **Gauge bar** | Green fill | Red fill (per sensor) | Red fill (per sensor) |
+| **Sensor value text** | Normal | Red for out-of-range sensors | Red for out-of-range sensors |
+| **Problem banner** | Hidden | Shows issue (e.g. "Moisture low") | Shows all issues |
+| **Paper tint** | Active accent wash | None | None |
+
+**SVG plant reactions:**
+
+| Condition | Snake Plant | ZZ Plant | Rubber Plant |
+|-----------|------------|----------|--------------|
+| **Moisture low** | Leaves droop 18px, 3 water drop doodles near leaves | Stems arch outward | Leaves angle down 35° |
+| **Low light** | Leaf opacity 40%, cloud doodle above | Leaf opacity 40%, cloud doodle | Leaf opacity 40%, cloud doodle |
+| **Cold** | Snowflake doodle (left side) | Snowflake doodle | Snowflake doodle |
+| **Hot** | Sun doodle (right side) | Sun doodle | Sun doodle |
+| **Stressed** | Leaves spread wider (18°) | Stems shorter (85%), arch flatter | Only 5 leaves, slight droop |
+| **Critical** | Leaves spread wide (30°), 75% height | Stems 70% height, arch outward | Only 3 leaves, 35° droop |
+
+**Threshold auto-discovery:** Sensor thresholds are auto-discovered from `number.<slug>_min_soil_moisture`, `number.<slug>_max_temperature`, etc. (matches Olen's Plant integration naming). When threshold entities don't exist, fallback ranges are used: moisture 15–65%, temperature 10–35°C, illuminance 500–30,000 lx, conductivity 100–2,000 µS/cm, humidity 30–70%.
 
 ### Step Battle Card
 ```yaml
