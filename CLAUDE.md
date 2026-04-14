@@ -2,10 +2,14 @@
 
 ## Rules
 
-- **Always update documentation**: Every code change MUST include corresponding updates to `README.md` and `CLAUDE.md`. Never skip documentation — it is a mandatory part of every commit.
+- **Always update documentation**: Every code change MUST include corresponding updates to `README.md`, `CLAUDE.md`, and `info.md`. Never skip documentation — it is a mandatory part of every commit.
 - **README.md**: User-facing docs — card list, config options, CSS vars, design description, troubleshooting.
 - **CLAUDE.md**: Developer context — architecture, design system details, file inventory, version, completed features.
-- When adding/removing cards, features, config options, or visual changes: update both files in the same commit.
+- **info.md**: HACS listing description — card count, feature highlights, card list by category.
+- When adding/removing cards, features, config options, or visual changes: update all three files in the same commit.
+- **Always push to `main`**: After committing, always merge to `main` and push. The auto-release CI only triggers on pushes to `main`. Feature branch pushes do NOT create releases. HACS will not see updates until a GitHub Release exists. The workflow: commit → merge to main → `git push origin main` → CI creates `vX.Y.Z` release → HACS sees it.
+- **Version bump checklist**: When bumping versions, update ALL three locations: `package.json` (`version`), `src/index.ts` (`VERSION`), `CLAUDE.md` (`Version`). Then rebuild (`npm run build`) so the dist bundle includes the new version. Forgetting any of these causes version mismatches.
+- **Visual tests**: When adding or modifying cards, always update `tests/visual-test.js` (add card checks + deep tests) and `tests/test-dashboard.yaml` (add card YAML). Keep card counts accurate in comments.
 
 ## Available Skills, MCPs & Tools
 
