@@ -376,6 +376,9 @@ name: Baby Sleep Guide
 type: custom:sketch-plant-card
 entity: plant.snake_plant
 plant_type: snake_plant
+sensors:
+  - moisture
+  - temperature
 show_species: true
 show_gauges: true
 ```
@@ -386,10 +389,13 @@ show_gauges: true
 |--------|------|---------|-------------|
 | `entity` | string | **required** | Plant entity ID (`plant.*`) |
 | `plant_type` | string | **required** | `snake_plant`, `zz_plant`, or `rubber_plant` |
+| `sensors` | string[] | auto-detect | Which sensors to show: `moisture`, `temperature`, `illuminance`, `conductivity`, `humidity`. Empty = auto-detect from plant entity |
 | `show_species` | boolean | `true` | Show species name (italic, from entity attributes) |
 | `show_gauges` | boolean | `true` | Show sensor gauge bars alongside values |
 
-**Health indicators:** The card auto-detects plant problems from `moisture_status`, `temperature_status`, `illuminance_status`, `conductivity_status`, and `humidity_status` attributes (from Olen's Plant integration). When a sensor is out of range:
+**Sensor selection:** By default, the card auto-detects which sensors are configured on the plant entity (by checking which `_status` attributes are present). You can override this with the `sensors` list to show only specific sensors. Problems are only flagged for sensors in the active list.
+
+**Health indicators:** When a sensor is out of range:
 - Gauge bar turns **red** (green when healthy)
 - Sensor value text turns **red**
 - Warning badge **(!)** appears next to the plant name (stressed) or **(!!)** with pulse (critical)
@@ -397,7 +403,7 @@ show_gauges: true
 - Plant SVG visually droops, loses leaves, or changes color
 - Status doodles appear: water drops (dry), snowflake (cold), sun (hot), cloud (low light)
 
-**Threshold auto-discovery:** Sensor thresholds (min/max for each metric) are auto-discovered from `number.<plant_slug>_min_<metric>` and `number.<plant_slug>_max_<metric>` entities.
+**Threshold auto-discovery:** Sensor thresholds are auto-discovered from `number.<plant_slug>_min_soil_moisture`, `number.<plant_slug>_max_temperature`, etc. (matches Olen's Plant integration naming). Fallback default ranges used when threshold entities don't exist.
 
 ### Step Battle Card
 ```yaml

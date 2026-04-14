@@ -1,5 +1,5 @@
 import { customElement } from 'lit/decorators.js';
-import { BaseSketchEditor, entitySchema, appearanceSchema } from './base-editor';
+import { BaseSketchEditor, appearanceSchema } from './base-editor';
 
 @customElement('sketch-plant-card-editor')
 export class SketchPlantCardEditor extends BaseSketchEditor {
@@ -22,6 +22,22 @@ export class SketchPlantCardEditor extends BaseSketchEditor {
               { value: 'pothos', label: 'Pothos / Trailing (coming soon)' },
             ],
             mode: 'dropdown',
+          },
+        },
+      },
+      {
+        name: 'sensors',
+        selector: {
+          select: {
+            multiple: true,
+            options: [
+              { value: 'moisture', label: 'Soil Moisture' },
+              { value: 'temperature', label: 'Temperature' },
+              { value: 'illuminance', label: 'Light (Illuminance)' },
+              { value: 'conductivity', label: 'Soil Conductivity' },
+              { value: 'humidity', label: 'Air Humidity' },
+            ],
+            mode: 'list',
           },
         },
       },

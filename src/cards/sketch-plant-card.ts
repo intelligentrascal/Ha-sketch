@@ -26,22 +26,50 @@ interface PlantHealth {
   conductivityLow: boolean;
 }
 
-function getPlantHealth(entity: any): PlantHealth {
+// Status attribute key for each metric
+const STATUS_ATTR_MAP: Record<string, string> = {
+  moisture: 'moisture_status',
+  temperature: 'temperature_status',
+  illuminance: 'illuminance_status',
+  conductivity: 'conductivity_status',
+  humidity: 'humidity_status',
+};
+
+// Determine which sensors are actually configured on this plant entity
+// by checking which _status attributes are non-null
+function getConfiguredSensors(entity: any): string[] {
+  const attrs = entity?.attributes || {};
+  const configured: string[] = [];
+  for (const [metric, attrKey] of Object.entries(STATUS_ATTR_MAP)) {
+    const val = attrs[attrKey];
+    // Olen Plant sets attribute to null/undefined when sensor is not connected
+    if (val !== null && val !== undefined && val !== '') {
+      configured.push(metric);
+    }
+  }
+  return configured;
+}
+
+function getPlantHealth(entity: any, activeSensors: string[]): PlantHealth {
   const attrs = entity?.attributes || {};
   const problems: string[] = [];
+  const activeSet = new Set(activeSensors);
 
-  // Check individual _status attributes (Olen Plant uses 'ok', 'low', 'high', 'problem')
-  const check = (key: string, label: string) => {
-    const val = (attrs[key] || '').toString().toLowerCase();
+  // Only check status for sensors that are active (configured + selected)
+  const check = (metric: string, label: string) => {
+    const attrKey = STATUS_ATTR_MAP[metric];
+    if (!attrKey || !activeSet.has(metric)) return '';
+    const val = (attrs[attrKey] || '').toString().toLowerCase();
     if (val === 'low' || val === 'problem') problems.push(`${label} low`);
     if (val === 'high') problems.push(`${label} high`);
     return val;
   };
-  const moisture = check('moisture_status', 'Moisture');
-  const temp = check('temperature_status', 'Temperature');
-  const light = check('illuminance_status', 'Light');
-  const conductivity = check('conductivity_status', 'Conductivity');
-  check('humidity_status', 'Humidity');
+
+  const moisture = check('moisture', 'Moisture');
+  const temp = check('temperature', 'Temperature');
+  const light = check('illuminance', 'Light');
+  const conductivity = check('conductivity', 'Conductivity');
+  check('humidity', 'Humidity');
 
   // Also check the plant entity's own state — 'problem' means something is wrong
   const entityState = (entity?.state || '').toString().toLowerCase();
@@ -482,7 +510,12 @@ export class SketchPlantCard extends BaseSketchCard {
       return html`<ha-card>${this.renderSketchBg()}<div class="sketch-card-content"><p class="sketch-name">Plant not found</p></div></ha-card>`;
     }
 
-    const health = getPlantHealth(entity);
+    // Determine active sensors: user-selected > auto-detect from plant entity
+    const configuredSensors = getConfiguredSensors(entity);
+    const userSensors = this._plantConfig.sensors;
+    const activeSensors = (userSensors && userSensors.length > 0) ? userSensors : configuredSensors;
+
+    const health = getPlantHealth(entity, activeSensors);
     const isHealthy = health.level === 'thriving';
     const name = this.getName();
     const species = entity.attributes?.species || '';
@@ -496,14 +529,15 @@ export class SketchPlantCard extends BaseSketchCard {
     }
     seed = Math.abs(seed);
 
-    // Build sensor rows
-    const metrics = [
+    // Build sensor rows — only show active sensors
+    const allMetrics = [
       { key: 'moisture', icon: '💧', label: 'Moisture' },
       { key: 'temperature', icon: '🌡', label: 'Temp' },
       { key: 'illuminance', icon: '☀', label: 'Light' },
       { key: 'conductivity', icon: '🧪', label: 'Soil EC' },
       { key: 'humidity', icon: '💨', label: 'Humidity' },
     ];
+    const metrics = allMetrics.filter((m) => activeSensors.includes(m.key));
 
     // Fallback ranges when threshold entities don't exist
     const defaultRanges: Record<string, [number, number]> = {

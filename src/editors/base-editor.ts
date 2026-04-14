@@ -126,6 +126,7 @@ export abstract class BaseSketchEditor extends LitElement {
       goal: 'Step Goal',
       /* Plant card */
       plant_type: 'Plant Type',
+      sensors: 'Sensors to Display (empty = auto-detect from plant)',
       show_species: 'Show Species Name',
       show_gauges: 'Show Sensor Gauges',
     };
