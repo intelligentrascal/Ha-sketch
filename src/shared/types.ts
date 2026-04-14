@@ -258,6 +258,12 @@ export interface TogCardConfig extends CardConfig {
   room_select_entity?: string;
 }
 
+export interface PlantCardConfig extends CardConfig {
+  plant_type: 'snake_plant' | 'zz_plant' | 'rubber_plant' | 'cactus' | 'pothos';
+  show_species?: boolean;
+  show_gauges?: boolean;
+}
+
 export interface StepBattleCardConfig {
   type: string;
   name?: string;

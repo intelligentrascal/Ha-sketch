@@ -124,6 +124,10 @@ export abstract class BaseSketchEditor extends LitElement {
       player2_person: 'Player 2 Person (for avatar)',
       player2_picture: 'Player 2 Picture URL (override)',
       goal: 'Step Goal',
+      /* Plant card */
+      plant_type: 'Plant Type',
+      show_species: 'Show Species Name',
+      show_gauges: 'Show Threshold Gauges',
     };
     return labels[schema.name] || schema.name;
   };
