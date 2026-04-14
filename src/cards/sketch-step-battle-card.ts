@@ -462,7 +462,8 @@ export class SketchStepBattleCard extends LitElement {
         </div>
       `;
     }
-    const maxVal = Math.max(...all, 1);
+    const maxVal = Math.max(...all, this._config?.goal || 10000, 1);
+    const goal = this._config?.goal || 10000;
     const p1Color = 'var(--sketch-primary, #4a6fa5)';
     const p2Color = 'var(--sketch-danger, #f44336)';
     const seed = 333;
@@ -474,24 +475,62 @@ export class SketchStepBattleCard extends LitElement {
         const y = pad + (1 - v / maxVal) * (h - pad * 2) + wr(seed + seedOffset, i) * 1.5;
         return `${x.toFixed(1)},${y.toFixed(1)}`;
       });
-      const fillPoints = [...points, `${pad + (w - pad * 2)},${h}`, `${pad},${h}`];
-      return `<polyline points="${fillPoints.join(' ')}" fill="${color}" opacity="0.08"/>
+      const fillPoints = [...points, `${(pad + (w - pad * 2)).toFixed(1)},${h}`, `${pad},${h}`];
+      return `<polyline points="${fillPoints.join(' ')}" fill="${color}" opacity="0.1"/>
         <polyline points="${points.join(' ')}" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>`;
     };
 
-    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    const today = new Date().getDay();
+    // Goal reached markers — hand-drawn star at data points where steps >= goal
+    const makeGoalMarkers = (data: number[], color: string, seedOffset: number) => {
+      if (!data.length) return '';
+      let markers = '';
+      data.forEach((v, i) => {
+        if (v >= goal) {
+          const x = pad + (i / Math.max(data.length - 1, 1)) * (w - pad * 2);
+          const y = pad + (1 - v / maxVal) * (h - pad * 2);
+          // Hand-drawn star: 5 points with slight wobble
+          const starR = 4;
+          let starPath = '';
+          for (let p = 0; p < 10; p++) {
+            const angle = (p * 36 - 90) * Math.PI / 180;
+            const r = p % 2 === 0 ? starR : starR * 0.4;
+            const sx = x + r * Math.cos(angle) + wr(seed + seedOffset + 500, p) * 0.5;
+            const sy = y + r * Math.sin(angle) + wr(seed + seedOffset + 600, p) * 0.5;
+            starPath += (p === 0 ? 'M' : 'L') + ` ${sx.toFixed(1)} ${sy.toFixed(1)} `;
+          }
+          starPath += 'Z';
+          markers += `<path d="${starPath}" fill="${color}" stroke="${color}" stroke-width="0.5" opacity="0.9"/>`;
+        }
+      });
+      return markers;
+    };
+
+    // Goal line Y position
+    const goalY = pad + (1 - goal / maxVal) * (h - pad * 2);
+
+    // Day labels — getDay() returns 0=Sun,1=Mon,...6=Sat
+    // Data is sorted chronologically: oldest first, today last
+    // So labels should be: today-6, today-5, ..., today
+    const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const todayIdx = new Date().getDay();
     const dayLabels: string[] = [];
     for (let i = 6; i >= 0; i--) {
-      dayLabels.push(days[(today - i + 7) % 7]);
+      dayLabels.push(dayNames[(todayIdx - i + 7) % 7]);
     }
 
     return html`
       <div class="chart-section">
         <div class="chart-title">7-day history</div>
         <svg class="chart-svg" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+          <!-- Goal line -->
+          ${unsafeSVG(`<line x1="${pad}" y1="${goalY.toFixed(1)}" x2="${w - pad}" y2="${goalY.toFixed(1)}" stroke="var(--sketch-ink-muted, rgba(42,42,42,0.65))" stroke-width="0.8" stroke-dasharray="4 3" opacity="0.5"/>`)}
+          ${unsafeSVG(`<text x="${w - pad}" y="${(goalY - 2).toFixed(1)}" text-anchor="end" font-family="var(--sketch-font, Caveat)" font-size="5" fill="var(--sketch-ink-muted, rgba(42,42,42,0.65))" opacity="0.6">goal</text>`)}
+          <!-- Chart lines -->
           ${unsafeSVG(makeLine(this._history1, p1Color, 0))}
           ${unsafeSVG(makeLine(this._history2, p2Color, 50))}
+          <!-- Goal reached stars -->
+          ${unsafeSVG(makeGoalMarkers(this._history1, p1Color, 0))}
+          ${unsafeSVG(makeGoalMarkers(this._history2, p2Color, 50))}
         </svg>
         <div class="chart-labels">
           ${dayLabels.map((d) => html`<span>${d}</span>`)}
