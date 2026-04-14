@@ -1,7 +1,7 @@
 /**
  * Ha-sketch Puppeteer Visual + Interaction Test Suite
  *
- * Tests all 28 cards against a real Home Assistant instance.
+ * Tests all 30 cards against a real Home Assistant instance.
  * Run: npm run test:visual
  *
  * Prerequisites:
@@ -64,6 +64,8 @@ const CARD_TESTS = [
   { tag: 'sketch-progress-card', checks: ['has-svg-bg', 'has-progress-ring'] },
   { tag: 'sketch-timeline-card', checks: ['has-svg-bg', 'has-timeline-or-empty'] },
   { tag: 'sketch-tog-card', checks: ['has-svg-bg', 'has-tog-strip', 'has-clothing-svg', 'tog-deep-test'] },
+  { tag: 'sketch-step-battle-card', checks: ['has-svg-bg', 'has-text', 'has-battle-players', 'has-battle-chart'] },
+  { tag: 'sketch-plant-card', checks: ['has-svg-bg', 'has-plant-svg', 'has-sensor-gauges', 'plant-health-test'] },
 ];
 
 // ── Main ────────────────────────────────────────────────────
@@ -292,6 +294,102 @@ const CARD_TESTS = [
               results.push(expandBtn ? 'expand-btn:YES' : 'expand-btn:NO');
 
               const allPass = !results.some((r) => r.endsWith(':NO') || r.endsWith(':MISSING'));
+              return { pass: allPass, detail: results.join(' | ') };
+            }
+            case 'has-battle-players': {
+              // Step Battle: check both player sections exist
+              const players = sr.querySelectorAll('.player-col');
+              const vs = sr.querySelector('.vs-divider') || sr.textContent.includes('VS');
+              const names = sr.querySelectorAll('.player-name');
+              const steps = sr.querySelectorAll('.step-count');
+              return {
+                pass: players.length >= 2 && names.length >= 2,
+                detail: `${players.length} players, ${names.length} names, ${steps.length} step counts, VS: ${!!vs}`,
+              };
+            }
+            case 'has-battle-chart': {
+              // Step Battle: check 7-day chart area exists
+              const chartSvg = sr.querySelector('.chart-svg') || sr.querySelector('.history-chart svg');
+              const polylines = chartSvg ? chartSvg.querySelectorAll('polyline') : [];
+              const dayLabels = sr.querySelectorAll('.day-label');
+              const hasSomeChart = !!(chartSvg || dayLabels.length > 0);
+              return {
+                pass: hasSomeChart,
+                detail: chartSvg ? `Chart SVG: ${polylines.length} polylines, ${dayLabels.length} day labels` : 'Chart area present (may lack data)',
+              };
+            }
+            case 'has-plant-svg': {
+              // Plant Card: check the inline plant SVG illustration
+              const plantSvg = sr.querySelector('.plant-svg');
+              if (!plantSvg) return { pass: false, detail: 'No .plant-svg element' };
+              const paths = plantSvg.querySelectorAll('path');
+              const lines = plantSvg.querySelectorAll('line');
+              return {
+                pass: paths.length > 3,
+                detail: `Plant SVG: ${paths.length} paths, ${lines.length} lines`,
+              };
+            }
+            case 'has-sensor-gauges': {
+              // Plant Card: check sensor gauge bars
+              const rows = sr.querySelectorAll('.sensor-row');
+              const gauges = sr.querySelectorAll('.sensor-gauge');
+              const fills = sr.querySelectorAll('.sensor-gauge-fill');
+              return {
+                pass: rows.length > 0,
+                detail: `${rows.length} sensor rows, ${gauges.length} gauges, ${fills.length} fills`,
+              };
+            }
+            case 'plant-health-test': {
+              // Deep Plant Card test: health badge, per-sensor coloring, problem banner
+              const results = [];
+
+              // 1. Check plant name exists
+              const name = sr.querySelector('.plant-name');
+              results.push(name ? `name:${name.textContent.trim().substring(0, 20)}` : 'name:MISSING');
+
+              // 2. Check species
+              const species = sr.querySelector('.plant-species');
+              results.push(species ? `species:${species.textContent.trim().substring(0, 30)}` : 'species:none');
+
+              // 3. Check health badge (only present when plant has problems)
+              const warnBadge = sr.querySelector('.health-badge.warn');
+              const critBadge = sr.querySelector('.health-badge.crit');
+              results.push(warnBadge ? 'health:WARN' : critBadge ? 'health:CRITICAL' : 'health:OK');
+
+              // 4. Check sensor values are properly rounded (no excessive decimals)
+              const sensorValues = sr.querySelectorAll('.sensor-value');
+              let hasLongDecimals = false;
+              sensorValues.forEach((sv) => {
+                const text = sv.textContent.trim();
+                // Check if any value has more than 2 decimal places
+                const match = text.match(/\.\d{3,}/);
+                if (match) hasLongDecimals = true;
+              });
+              results.push(hasLongDecimals ? 'rounding:FAIL' : `rounding:OK(${sensorValues.length}vals)`);
+
+              // 5. Check per-sensor color coding (red vs green gauge fills)
+              const fills = sr.querySelectorAll('.sensor-gauge-fill');
+              const colors = new Set();
+              fills.forEach((f) => {
+                const bg = f.style.background || f.style.backgroundColor;
+                if (bg) colors.add(bg.includes('4caf50') || bg.includes('success') ? 'green' : 'red');
+              });
+              results.push(`gauge-colors:${[...colors].join('+') || 'none'}`);
+
+              // 6. Check out-of-range sensor rows
+              const outOfRange = sr.querySelectorAll('.sensor-row.out-of-range');
+              results.push(`out-of-range:${outOfRange.length}`);
+
+              // 7. Check problem banner
+              const banner = sr.querySelector('.problem-banner');
+              results.push(banner ? `problems:${banner.textContent.trim().substring(0, 40)}` : 'problems:none');
+
+              // 8. Check SVG status doodles (water drops, snowflake, sun, cloud)
+              const plantSvg = sr.querySelector('.plant-svg');
+              const allPaths = plantSvg ? plantSvg.querySelectorAll('path') : [];
+              results.push(`svg-paths:${allPaths.length}`);
+
+              const allPass = !hasLongDecimals && !!name;
               return { pass: allPass, detail: results.join(' | ') };
             }
             case 'click-action': {

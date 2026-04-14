@@ -380,6 +380,25 @@ show_species: true
 show_gauges: true
 ```
 
+**Plant Card Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `entity` | string | **required** | Plant entity ID (`plant.*`) |
+| `plant_type` | string | **required** | `snake_plant`, `zz_plant`, or `rubber_plant` |
+| `show_species` | boolean | `true` | Show species name (italic, from entity attributes) |
+| `show_gauges` | boolean | `true` | Show sensor gauge bars alongside values |
+
+**Health indicators:** The card auto-detects plant problems from `moisture_status`, `temperature_status`, `illuminance_status`, `conductivity_status`, and `humidity_status` attributes (from Olen's Plant integration). When a sensor is out of range:
+- Gauge bar turns **red** (green when healthy)
+- Sensor value text turns **red**
+- Warning badge **(!)** appears next to the plant name (stressed) or **(!!)** with pulse (critical)
+- Problem summary banner shows at the bottom
+- Plant SVG visually droops, loses leaves, or changes color
+- Status doodles appear: water drops (dry), snowflake (cold), sun (hot), cloud (low light)
+
+**Threshold auto-discovery:** Sensor thresholds (min/max for each metric) are auto-discovered from `number.<plant_slug>_min_<metric>` and `number.<plant_slug>_max_<metric>` entities.
+
 ### Step Battle Card
 ```yaml
 type: custom:sketch-step-battle-card

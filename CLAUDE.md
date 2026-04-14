@@ -34,7 +34,7 @@
 ### Puppeteer Visual Test Suite
 **Run**: `npm run test:visual` (requires `.env` with HA_URL and HA_TOKEN)
 **Use when**: User asks to test all cards visually, or after major changes
-**What it does**: Loads all 29 cards in headless Chrome, checks SVG rendering, text visibility, icon presence, interaction tests, screenshots each card.
+**What it does**: Loads all 30 cards in headless Chrome, checks SVG rendering, text visibility, icon presence, interaction tests, screenshots each card.
 **Note**: Must be run on user's local machine, not from cloud sandbox.
 
 ### Superpowers Framework (Claude Code Plugin)

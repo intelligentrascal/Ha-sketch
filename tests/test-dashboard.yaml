@@ -1,4 +1,4 @@
-# Ha-sketch Test Dashboard — All 28 Cards
+# Ha-sketch Test Dashboard — All 30 Cards
 #
 # Install: In HA, go to Settings > Dashboards > Add Dashboard
 #   Title: Sketch Test
@@ -221,6 +221,44 @@ views:
             temperature_entity: sensor.i_9psl_temperature
             room_select_entity: input_select.baby_sleep_room
             name: Baby Sleep Guide
+
+      # ── Step Battle & Plant Cards ───────────────────────
+      - title: ""
+        cards:
+          - type: custom:sketch-separator-card
+            name: Competition & Nature
+            icon: mdi:trophy
+
+          - type: custom:sketch-step-battle-card
+            player1_name: Rahil
+            player1_entity: sensor.v2515_daily_steps
+            player1_person: person.rahil
+            player2_name: Aminaz
+            player2_entity: sensor.aminazs_iphone_17_pro_max_steps
+            player2_person: person.aminaz
+            goal: 10000
+            name: Step Battle
+
+          - type: custom:sketch-plant-card
+            entity: plant.snakeplant
+            plant_type: snake_plant
+            name: Snake Plant
+            show_species: true
+            show_gauges: true
+
+          - type: custom:sketch-plant-card
+            entity: plant.rubbertree
+            plant_type: rubber_plant
+            name: Rubber Tree
+            show_species: true
+            show_gauges: true
+
+          - type: custom:sketch-plant-card
+            entity: plant.ziziplant
+            plant_type: zz_plant
+            name: ZZ Plant
+            show_species: true
+            show_gauges: true
 
       # ── Variant & Corner Radius Tests ────────────────────
       - title: ""
