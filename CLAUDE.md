@@ -48,10 +48,10 @@
 
 ## What This Is
 
-**Ha-Sketch** is a collection of 29 hand-drawn, sketchbook-style custom cards for Home Assistant dashboards. Inspired by [sketchbook-ui](https://github.com/SarthakRawat-1/sketchbook-ui).
+**Ha-Sketch** is a collection of 30 hand-drawn, sketchbook-style custom cards for Home Assistant dashboards. Inspired by [sketchbook-ui](https://github.com/SarthakRawat-1/sketchbook-ui).
 
 - **Repo**: `intelligentrascal/Ha-sketch` (GitHub)
-- **Version**: 1.4.16
+- **Version**: 1.4.17
 - **Bundle**: `dist/ha-sketchbook-cards.js` (~150 KB, single ES module)
 - **Tech**: Lit 3 + TypeScript, bundled with Rollup, HACS-ready
 
@@ -99,10 +99,11 @@ src/
 │   ├── sketch-progress-card.ts
 │   ├── sketch-timeline-card.ts
 │   ├── sketch-tog-card.ts
-│   └── sketch-step-battle-card.ts
+│   ├── sketch-step-battle-card.ts
+│   └── sketch-plant-card.ts
 ├── editors/
 │   ├── base-editor.ts              # Shared ha-form editor base (entitySchema, appearanceSchema)
-│   └── sketch-*-card-editor.ts     # 29 card editors (one per card)
+│   └── sketch-*-card-editor.ts     # 30 card editors (one per card)
 dist/
 └── ha-sketchbook-cards.js          # Built bundle (committed for HACS)
 tests/
@@ -229,6 +230,7 @@ When an entity is on/active, the SVG overlay renders:
 | Timeline | `sketch-timeline-card` | Activity journal from HA logbook API, fading opacity for older events, default notebook variant |
 | TOG | `sketch-tog-card` | Baby sleep TOG recommendation: temperature gradient strip, inline SVG clothing illustrations (unsafeSVG), built-in room selector, collapsible all-options reference, color-coded risk levels |
 | Step Battle | `sketch-step-battle-card` | Fitness competition: VS layout with hand-drawn avatars/trophy, progress bars, lead indicator, 7-day history chart overlay |
+| Plant | `sketch-plant-card` | Living plant illustration: species-accurate SVG (snake plant, ZZ, rubber), health-driven posture/drooping, sensor gauges with auto-discovered thresholds, status icons |
 
 ---
 

@@ -280,3 +280,9 @@ export interface StepBattleCardConfig {
   show_texture?: boolean;
   variant?: 'paper' | 'notebook' | 'sticky';
 }
+
+export interface PlantCardConfig extends CardConfig {
+  plant_type: 'snake_plant' | 'zz_plant' | 'rubber_plant' | 'cactus' | 'pothos';
+  show_species?: boolean;
+  show_gauges?: boolean;
+}

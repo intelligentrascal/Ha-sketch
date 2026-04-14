@@ -29,6 +29,7 @@ import './cards/sketch-progress-card';
 import './cards/sketch-timeline-card';
 import './cards/sketch-tog-card';
 import './cards/sketch-step-battle-card';
+import './cards/sketch-plant-card';
 
 declare global {
   interface Window {
@@ -211,10 +212,16 @@ window.customCards.push(
     name: 'Sketch Step Battle Card',
     description: 'Fitness competition card with VS layout, progress bars, and 7-day history',
     preview: true,
+  },
+  {
+    type: 'sketch-plant-card',
+    name: 'Sketch Plant Card',
+    description: 'Living plant illustration with species-accurate SVG, health indicators, and sensor gauges',
+    preview: true,
   }
 );
 
-const VERSION = '1.4.16';
+const VERSION = '1.4.17';
 console.info(
   `%c SKETCH-CARDS %c v${VERSION} `,
   'background:#faf7f0;color:#2a2a2a;font-weight:bold;font-family:cursive;padding:2px 6px;border:1px solid #2a2a2a;border-radius:2px;',

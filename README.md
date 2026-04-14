@@ -35,6 +35,7 @@ Hand-drawn, sketchbook-style custom cards for Home Assistant dashboards. Inspire
 | **Timeline Card** | `sketch-timeline-card` | Hand-drawn activity journal of recent entity events |
 | **TOG Card** | `sketch-tog-card` | Baby sleep TOG recommendation with clothing illustrations |
 | **Step Battle Card** | `sketch-step-battle-card` | Fitness competition with VS layout, progress bars, 7-day chart |
+| **Plant Card** | `sketch-plant-card` | Living plant illustration with health indicators and sensor gauges |
 
 ## Design
 
@@ -368,6 +369,15 @@ type: custom:sketch-tog-card
 temperature_entity: sensor.bedroom_temperature
 room_select_entity: input_select.baby_sleep_room
 name: Baby Sleep Guide
+```
+
+### Plant Card
+```yaml
+type: custom:sketch-plant-card
+entity: plant.snake_plant
+plant_type: snake_plant
+show_species: true
+show_gauges: true
 ```
 
 ### Step Battle Card

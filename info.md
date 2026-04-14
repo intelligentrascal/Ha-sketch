@@ -1,6 +1,6 @@
 ## HA Sketchbook Cards
 
-A collection of **29** hand-drawn, sketchbook-style custom cards for Home Assistant dashboards.
+A collection of **30** hand-drawn, sketchbook-style custom cards for Home Assistant dashboards.
 
 Inspired by [sketchbook-ui](https://github.com/SarthakRawat-1/sketchbook-ui), these cards bring a unique notebook aesthetic to your smart home dashboard with:
 
@@ -36,5 +36,6 @@ Fan, Lock, Number
 - **Timeline Card** — Activity journal from HA logbook
 - **TOG Card** — Baby sleep recommendation with clothing illustrations
 - **Step Battle Card** — Fitness competition with VS layout, progress bars, 7-day chart
+- **Plant Card** — Living plant illustration with species-accurate SVG, health indicators
 
 All cards integrate with Home Assistant themes, support card-mod styling, and respect your dashboard color settings.
